@@ -212,8 +212,8 @@ export default function QueryPanel({ loggedStudent }) {
                     fontWeight: '600',
                     padding: '3px 8px',
                     borderRadius: '12px',
-                    backgroundColor: item.status === 'Resolved' ? '#dcfce7' : item.status === 'In Progress' ? '#fef3c7' : '#f1f5f9',
-                    color: item.status === 'Resolved' ? '#15803d' : item.status === 'In Progress' ? '#b45309' : '#475569'
+                    backgroundColor: item.status === 'Resolved' ? '#dcfce7' : item.status === 'Letter Given' ? '#fef3c7' : '#f1f5f9',
+                    color: item.status === 'Resolved' ? '#15803d' : item.status === 'Letter Given' ? '#b45309' : '#475569'
                   }}>
                     {item.status}
                   </span>

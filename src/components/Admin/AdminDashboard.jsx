@@ -419,7 +419,7 @@ export default function AdminDashboard({
                         style={{ padding: '4px 8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', background: 'white' }}
                       >
                         <option value="Submitted">Submitted</option>
-                        <option value="In Progress">In Progress</option>
+                        <option value="Letter Given">Letter Given</option>
                         <option value="Resolved">Resolved</option>
                       </select>
                     </div>
