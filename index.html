@@ -238,7 +238,7 @@
       border-radius: 20px;
       padding: 32px;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
       position: relative;
     }
@@ -246,7 +246,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .modal-header h2 {
       color: #0f172a;
@@ -280,6 +280,14 @@
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
       outline: none;
       border-color: #0d9488;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .full-width {
+      grid-column: 1 / -1;
     }
     .login-btn, .btn-primary, .btn-secondary, .btn-danger, .btn-edit, .btn-light {
       border: none;
@@ -315,15 +323,6 @@
     }
     .btn-light:hover {
       background: #e2e8f0;
-    }
-    .demo-box {
-      margin-top: 18px;
-      background: #f0fdf4;
-      border-left: 4px solid #10b981;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      color: #065f46;
     }
     .status-badge {
       display: inline-flex;
@@ -560,10 +559,53 @@
       padding: 16px;
       border: 1px solid #e2e8f0;
       border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      background: #fff;
     }
     .row-actions {
       display: flex;
       gap: 8px;
+    }
+    .publish-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .publish-banner-text {
+      font-size: 14px;
+      color: #1e40af;
+      font-weight: 500;
+    }
+    .publish-banner-text strong {
+      color: #1e3a8a;
+    }
+    .help-box {
+      margin-top: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.5;
+    }
+    .help-box a {
+      color: #0d9488;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .help-box a:hover {
+      text-decoration: underline;
     }
     @media (max-width: 900px) {
       .portal-layout { flex-direction: column; }
@@ -571,113 +613,226 @@
       .topbar { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px 24px; }
       .content { padding: 20px; }
       .landing-contact-banner { flex-direction: column; align-items: flex-start; }
+      .event-item { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
   </style>
 </head>
 <body>
   <div id="app"></div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
+  <!-- React & Babel CDNs -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <script type="text/babel">
-    // Firebase Configuration Placeholder
-    // Replace these placeholder values with your Firebase Project Configuration
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
-
-    const isFirebaseConfigured = typeof firebase !== 'undefined' && firebaseConfig && firebaseConfig.apiKey !== "YOUR_API_KEY";
-    let db, auth;
-    if (isFirebaseConfigured) {
-      firebase.initializeApp(firebaseConfig);
-      db = firebase.firestore();
-      auth = firebase.auth();
-    }
-
-    const STORAGE_KEYS = {
-      events: 'cusat_events_v2',
-      hostels: 'cusat_hostels_v2',
-      pgs: 'cusat_pgs_v2',
-      foodSpots: 'cusat_foodspots_v2',
-      restaurants: 'cusat_restaurants_v2',
-      amenities: 'cusat_amenities_v2',
-      clubs: 'cusat_clubs_v2'
-    };
-
+    // <!--EVENTS_START-->
     const defaultEvents = [
-      { title: 'B.Tech Semester Registration', date: '2026-07-01', type: 'academic' },
-      { title: 'Internal Examination Begins', date: '2026-08-08', type: 'exam' },
-      { title: 'Onam Vacation Begins', date: '2026-09-01', type: 'holiday' }
-    ];
-
-    const defaultHostels = [
-      { name: 'CUSAT Boys Hostel', location: 'Inside Campus', fees: '₹4500/month', food: 'Mess available', contact: '+91-9991112221', rooms: 'Double sharing', gmapsLink: '' },
-      { name: 'CUSAT Girls Hostel', location: 'Inside Campus', fees: '₹5000/month', food: 'Mess available', contact: '+91-9991112222', rooms: 'Double sharing', gmapsLink: '' }
-    ];
-
-    const defaultPGs = [
-      { name: 'Ameen PG', location: 'Kalamassery', rent: '₹6500/month', food: 'Included', contact: '+91-9991112233', rooms: 'Single/Double', gmapsLink: '' },
-      { name: 'Green Nest Ladies PG', location: 'South Kalamassery', rent: '₹7000/month', food: 'Included', contact: '+91-9991112244', rooms: 'Double', gmapsLink: '' }
-    ];
-
-    const defaultFoodSpots = [
-      { name: 'Campus Canteen', location: 'Near Main Block', specialty: 'Meals, tea, snacks', timing: '8 AM - 6 PM', gmapsLink: '' },
-      { name: 'Evening Snack Point', location: 'Hostel Road', specialty: 'Chai, puffs, sandwiches', timing: '4 PM - 10 PM', gmapsLink: '' }
-    ];
-
-    const defaultRestaurants = [
-      { name: 'Burger Hub', location: 'Kalamassery Junction', cuisine: 'Fast food', contact: '+91-8880001111', gmapsLink: '' },
-      { name: 'Malabar Kitchen', location: 'Near Metro Station', cuisine: 'Kerala meals', contact: '+91-8880002222', gmapsLink: '' }
-    ];
-
-    const defaultAmenities = [
-      { name: 'Medical Store', location: 'University Road', details: 'Open till 10 PM', gmapsLink: '' },
-      { name: 'Laundry Service', location: 'Hostel Side Gate', details: 'Pickup available', gmapsLink: '' },
-      { name: 'Stationery Shop', location: 'Campus Entrance', details: 'Printout and photocopy available', gmapsLink: '' }
-    ];
-
-    const defaultClubs = [
-      { name: 'CUSAT IEEE Student Branch', location: 'School of Engineering', contact: '+91-9876543210', services: 'Technical workshops, seminars, project mentoring', gmapsLink: '' },
-      { name: 'CUSAT Arts Club', location: 'University Auditorium', contact: '+91-9876543211', services: 'Cultural events, music, dance and drama coaching', gmapsLink: '' }
-    ];
-
-    const loadData = (key, fallback) => {
-      try {
-        const raw = localStorage.getItem(key);
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
+      {
+        "title": "B.Tech Semester Registration",
+        "date": "2026-07-01",
+        "type": "academic"
+      },
+      {
+        "title": "Internal Examination Begins",
+        "date": "2026-08-08",
+        "type": "exam"
+      },
+      {
+        "title": "Onam Vacation Begins",
+        "date": "2026-09-01",
+        "type": "holiday"
       }
+    ];
+    // <!--EVENTS_END-->
+
+    // <!--HOSTELS_START-->
+    const defaultHostels = [
+      {
+        "name": "CUSAT Boys Hostel",
+        "location": "Inside Campus",
+        "fees": "₹4500/month",
+        "food": "Mess available",
+        "contact": "+91-9991112221",
+        "rooms": "Double sharing",
+        "gmapsLink": ""
+      },
+      {
+        "name": "CUSAT Girls Hostel",
+        "location": "Inside Campus",
+        "fees": "₹5000/month",
+        "food": "Mess available",
+        "contact": "+91-9991112222",
+        "rooms": "Double sharing",
+        "gmapsLink": ""
+      }
+    ];
+    // <!--HOSTELS_END-->
+
+    // <!--PGS_START-->
+    const defaultPGs = [
+      {
+        "name": "Ameen PG",
+        "location": "Kalamassery",
+        "rent": "₹6500/month",
+        "food": "Included",
+        "contact": "+91-9991112233",
+        "rooms": "Single/Double",
+        "gmapsLink": ""
+      },
+      {
+        "name": "Green Nest Ladies PG",
+        "location": "South Kalamassery",
+        "rent": "₹7000/month",
+        "food": "Included",
+        "contact": "+91-9991112244",
+        "rooms": "Double",
+        "gmapsLink": ""
+      }
+    ];
+    // <!--PGS_END-->
+
+    // <!--FOODSPOTS_START-->
+    const defaultFoodSpots = [
+      {
+        "name": "Campus Canteen",
+        "location": "Near Main Block",
+        "specialty": "Meals, tea, snacks",
+        "timing": "8 AM - 6 PM",
+        "gmapsLink": ""
+      },
+      {
+        "name": "Evening Snack Point",
+        "location": "Hostel Road",
+        "specialty": "Chai, puffs, sandwiches",
+        "timing": "4 PM - 10 PM",
+        "gmapsLink": ""
+      }
+    ];
+    // <!--FOODSPOTS_END-->
+
+    // <!--RESTAURANTS_START-->
+    const defaultRestaurants = [
+      {
+        "name": "Burger Hub",
+        "location": "Kalamassery Junction",
+        "cuisine": "Fast food",
+        "contact": "+91-8880001111",
+        "gmapsLink": ""
+      },
+      {
+        "name": "Malabar Kitchen",
+        "location": "Near Metro Station",
+        "cuisine": "Kerala meals",
+        "contact": "+91-8880002222",
+        "gmapsLink": ""
+      }
+    ];
+    // <!--RESTAURANTS_END-->
+
+    // <!--AMENITIES_START-->
+    const defaultAmenities = [
+      {
+        "name": "Medical Store",
+        "location": "University Road",
+        "details": "Open till 10 PM",
+        "gmapsLink": ""
+      },
+      {
+        "name": "Laundry Service",
+        "location": "Hostel Side Gate",
+        "details": "Pickup available",
+        "gmapsLink": ""
+      },
+      {
+        "name": "Stationery Shop",
+        "location": "Campus Entrance",
+        "details": "Printout and photocopy available",
+        "gmapsLink": ""
+      }
+    ];
+    // <!--AMENITIES_END-->
+
+    // <!--CLUBS_START-->
+    const defaultClubs = [
+      {
+        "name": "CUSAT IEEE Student Branch",
+        "location": "School of Engineering",
+        "contact": "+91-9876543210",
+        "services": "Technical workshops, seminars, project mentoring",
+        "gmapsLink": ""
+      },
+      {
+        "name": "CUSAT Arts Club",
+        "location": "University Auditorium",
+        "contact": "+91-9876543211",
+        "services": "Cultural events, music, dance and drama coaching",
+        "gmapsLink": ""
+      }
+    ];
+    // <!--CLUBS_END-->
+
+    const sanitizeUrl = (url) => {
+      if (!url) return '';
+      const trimmed = url.trim();
+      if (trimmed.toLowerCase().startsWith('javascript:') || trimmed.toLowerCase().startsWith('data:')) {
+        return '#';
+      }
+      return trimmed;
+    };
+
+    // Helper functions for safe base64 UTF-8 conversion in browser
+    const encodeBase64Utf8 = (str) => {
+      const bytes = new TextEncoder().encode(str);
+      let binary = '';
+      const len = bytes.byteLength;
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    };
+
+    const decodeBase64Utf8 = (base64) => {
+      const binaryString = atob(base64.replace(/\s/g, ''));
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return new TextDecoder().decode(bytes);
+    };
+
+    const replaceSection = (text, start, end, replacement) => {
+      const startIdx = text.indexOf(start);
+      const endIdx = text.indexOf(end, startIdx);
+      if (startIdx === -1 || endIdx === -1) {
+        throw new Error(`Markers not found in HTML source structure: ${start} to ${end}`);
+      }
+      return text.substring(0, startIdx + start.length) + "\n" + replacement + "\n" + text.substring(endIdx);
     };
 
     const CUSATPortal = () => {
       const [userRole, setUserRole] = React.useState('user');
       const [showAuthModal, setShowAuthModal] = React.useState(false);
-      const [loginEmail, setLoginEmail] = React.useState('');
-      const [loginPassword, setLoginPassword] = React.useState('');
+      
+      // Git Auth Creds (In-Memory/Session)
+      const [gitOwner, setGitOwner] = React.useState(() => sessionStorage.getItem('git_owner') || '');
+      const [gitRepo, setGitRepo] = React.useState(() => sessionStorage.getItem('git_repo') || '');
+      const [gitPat, setGitPat] = React.useState(() => sessionStorage.getItem('git_pat') || '');
+      
       const [activeModule, setActiveModule] = React.useState('home');
       const [adminSection, setAdminSection] = React.useState('calendar');
 
-      const [academicEvents, setAcademicEvents] = React.useState(() => loadData(STORAGE_KEYS.events, defaultEvents));
-      const [hostels, setHostels] = React.useState(() => loadData(STORAGE_KEYS.hostels, defaultHostels));
-      const [pgs, setPgs] = React.useState(() => loadData(STORAGE_KEYS.pgs, defaultPGs));
-      const [foodSpots, setFoodSpots] = React.useState(() => loadData(STORAGE_KEYS.foodSpots, defaultFoodSpots));
-      const [restaurants, setRestaurants] = React.useState(() => loadData(STORAGE_KEYS.restaurants, defaultRestaurants));
-      const [amenities, setAmenities] = React.useState(() => loadData(STORAGE_KEYS.amenities, defaultAmenities));
-      const [clubs, setClubs] = React.useState(() => loadData(STORAGE_KEYS.clubs, defaultClubs));
+      // Local React States representing current data
+      const [academicEvents, setAcademicEvents] = React.useState(defaultEvents);
+      const [hostels, setHostels] = React.useState(defaultHostels);
+      const [pgs, setPgs] = React.useState(defaultPGs);
+      const [foodSpots, setFoodSpots] = React.useState(defaultFoodSpots);
+      const [restaurants, setRestaurants] = React.useState(defaultRestaurants);
+      const [amenities, setAmenities] = React.useState(defaultAmenities);
+      const [clubs, setClubs] = React.useState(defaultClubs);
 
+      // Add/Edit Form States
       const [newEvent, setNewEvent] = React.useState({ title: '', date: '', type: 'academic' });
       const [newHostel, setNewHostel] = React.useState({ name: '', location: '', fees: '', food: '', contact: '', rooms: '', gmapsLink: '' });
       const [newPG, setNewPG] = React.useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '' });
@@ -687,7 +842,13 @@
       const [newClub, setNewClub] = React.useState({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
 
       const [editIndex, setEditIndex] = React.useState(null);
+      const [unsavedChanges, setUnsavedChanges] = React.useState(false);
+      
+      // Git Publishing API States
+      const [isPublishing, setIsPublishing] = React.useState(false);
+      const [publishingStatus, setPublishingStatus] = React.useState('');
 
+      // Search and Filter States
       const [hostelSearch, setHostelSearch] = React.useState('');
       const [pgSearch, setPgSearch] = React.useState('');
       const [pgFoodFilter, setPgFoodFilter] = React.useState('all');
@@ -697,6 +858,13 @@
       const [restaurantCuisineFilter, setRestaurantCuisineFilter] = React.useState('all');
       const [amenitySearch, setAmenitySearch] = React.useState('');
       const [clubSearch, setClubSearch] = React.useState('');
+
+      // Auto-login on mount if session data is present
+      React.useEffect(() => {
+        if (gitOwner && gitRepo && gitPat) {
+          setUserRole('admin');
+        }
+      }, []);
 
       const contacts = {
         hostelOffice: {
@@ -713,184 +881,130 @@
         }
       };
 
-      const getCollectionName = (type) => {
-        if (type === 'calendar') return 'events';
-        if (type === 'hostels') return 'hostels';
-        if (type === 'pgs') return 'pgs';
-        if (type === 'food') return 'foodSpots';
-        if (type === 'restaurants') return 'restaurants';
-        if (type === 'amenities') return 'amenities';
-        if (type === 'clubs') return 'clubs';
-        return type;
-      };
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(academicEvents));
-        }
-      }, [academicEvents]);
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.hostels, JSON.stringify(hostels));
-        }
-      }, [hostels]);
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.pgs, JSON.stringify(pgs));
-        }
-      }, [pgs]);
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.foodSpots, JSON.stringify(foodSpots));
-        }
-      }, [foodSpots]);
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.restaurants, JSON.stringify(restaurants));
-        }
-      }, [restaurants]);
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.amenities, JSON.stringify(amenities));
-        }
-      }, [amenities]);
-
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) {
-          localStorage.setItem(STORAGE_KEYS.clubs, JSON.stringify(clubs));
-        }
-      }, [clubs]);
-
-      // Firebase Auth Listener
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) return;
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-          if (user && user.email === 'admin@cusat.ac.in') {
-            setUserRole('admin');
-          } else {
-            setUserRole('user');
-          }
-        });
-        return unsubscribe;
-      }, []);
-
-      // Firebase Firestore Synchronization
-      React.useEffect(() => {
-        if (!isFirebaseConfigured) return;
-
-        const syncCollection = (colName, setter, fallbackData) => {
-          return db.collection(colName).onSnapshot((snapshot) => {
-            if (snapshot.empty) {
-              fallbackData.forEach((item) => {
-                db.collection(colName).add(item).catch(err => {
-                  console.warn("Could not seed default data in Firestore: " + err.message);
-                });
-              });
-            } else {
-              const items = [];
-              snapshot.forEach((doc) => {
-                items.push({ id: doc.id, ...doc.data() });
-              });
-              setter(items);
-            }
-          }, (err) => {
-            console.error("Firestore sync error for " + colName, err);
-          });
-        };
-
-        const unsubEvents = syncCollection('events', setAcademicEvents, defaultEvents);
-        const unsubHostels = syncCollection('hostels', setHostels, defaultHostels);
-        const unsubPgs = syncCollection('pgs', setPgs, defaultPGs);
-        const unsubFood = syncCollection('foodSpots', setFoodSpots, defaultFoodSpots);
-        const unsubRestaurants = syncCollection('restaurants', setRestaurants, defaultRestaurants);
-        const unsubAmenities = syncCollection('amenities', setAmenities, defaultAmenities);
-        const unsubClubs = syncCollection('clubs', setClubs, defaultClubs);
-
-        return () => {
-          unsubEvents();
-          unsubHostels();
-          unsubPgs();
-          unsubFood();
-          unsubRestaurants();
-          unsubAmenities();
-          unsubClubs();
-        };
-      }, []);
-
-      const validateEmail = (email) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      };
-
-      const hashPassword = async (password) => {
-        const utf8 = new TextEncoder().encode(password);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      };
-
-      const sanitizeUrl = (url) => {
-        if (!url) return '';
-        const trimmed = url.trim();
-        if (trimmed.toLowerCase().startsWith('javascript:') || trimmed.toLowerCase().startsWith('data:')) {
-          return '#';
-        }
-        return trimmed;
-      };
-
       const handleLogin = async (e) => {
         e.preventDefault();
 
-        if (!validateEmail(loginEmail)) {
-          alert('Please enter a valid email address.');
+        if (!gitOwner.trim() || !gitRepo.trim() || !gitPat.trim()) {
+          alert('Please fill out all credentials.');
           return;
         }
 
-        if (isFirebaseConfigured) {
-          try {
-            await auth.signInWithEmailAndPassword(loginEmail, loginPassword);
-            setUserRole('admin');
-            setLoginEmail('');
-            setLoginPassword('');
-            setShowAuthModal(false);
-            alert('Welcome back, Admin!');
-          } catch (err) {
-            alert('Login failed: ' + err.message);
-          }
-        } else {
-          const ADMIN_HASH = 'fa7b21940de28d0410c12e0899d5e87a204391ec2292c3a305e9fc554e83d0c7';
-          const hashedInput = await hashPassword(loginPassword);
+        setIsPublishing(true);
+        setPublishingStatus('Verifying access token with GitHub API...');
 
-          if (loginEmail.toLowerCase() === 'admin@cusat.ac.in' && hashedInput === ADMIN_HASH) {
-            setUserRole('admin');
-            setLoginEmail('');
-            setLoginPassword('');
-            setShowAuthModal(false);
-            alert('Welcome back, Admin! (Local Mode)');
-          } else {
-            alert('Incorrect Admin credentials. Hint: admin@cusat.ac.in / CUSAT@admin2026');
+        try {
+          const res = await fetch(`https://api.github.com/repos/${gitOwner.trim()}/${gitRepo.trim()}/contents/index.html`, {
+            headers: {
+              'Authorization': `token ${gitPat.trim()}`,
+              'Accept': 'application/vnd.github.v3+json'
+            }
+          });
+
+          if (!res.ok) {
+            throw new Error(`GitHub responded with status: ${res.status}`);
           }
+
+          // Save credentials in session storage for refreshing
+          sessionStorage.setItem('git_owner', gitOwner.trim());
+          sessionStorage.setItem('git_repo', gitRepo.trim());
+          sessionStorage.setItem('git_pat', gitPat.trim());
+
+          setUserRole('admin');
+          setShowAuthModal(false);
+          alert('Authenticated successfully! Admin Access unlocked.');
+        } catch (err) {
+          alert(`Authentication failed: ${err.message}. Please check your credentials and token permissions.`);
+        } finally {
+          setIsPublishing(false);
+          setPublishingStatus('');
         }
       };
 
-      const logout = async () => {
-        if (isFirebaseConfigured) {
-          try {
-            await auth.signOut();
-          } catch (err) {
-            console.error("Sign out error", err);
-          }
-        }
+      const logout = () => {
+        sessionStorage.clear();
+        setGitOwner('');
+        setGitRepo('');
+        setGitPat('');
         setUserRole('user');
-        setLoginEmail('');
-        setLoginPassword('');
         setActiveModule('home');
-        setAdminSection('calendar');
-        setEditIndex(null);
+        setUnsavedChanges(false);
+        alert('Logged out. Admin session cleared.');
+      };
+
+      const publishToGitHub = async () => {
+        if (!gitOwner || !gitRepo || !gitPat) {
+          alert('Missing GitHub credentials. Please re-login.');
+          logout();
+          return;
+        }
+
+        setIsPublishing(true);
+        setPublishingStatus('Fetching latest file content from GitHub...');
+
+        try {
+          // 1. Fetch current index.html content & SHA to avoid overwriting newer commits
+          const fetchUrl = `https://api.github.com/repos/${gitOwner}/${gitRepo}/contents/index.html`;
+          const getRes = await fetch(fetchUrl, {
+            headers: {
+              'Authorization': `token ${gitPat}`,
+              'Accept': 'application/vnd.github.v3+json',
+              'Cache-Control': 'no-cache'
+            }
+          });
+
+          if (!getRes.ok) {
+            throw new Error(`Could not fetch index.html from repository: ${getRes.statusText}`);
+          }
+
+          const gitFile = await getRes.json();
+          const fileSha = gitFile.sha;
+          const htmlContent = decodeBase64Utf8(gitFile.content);
+
+          setPublishingStatus('Formatting updated data and updating source code...');
+
+          // 2. Perform text replacements using markers
+          let updatedHtml = htmlContent;
+          updatedHtml = replaceSection(updatedHtml, '// <!--EVENTS_START-->', '// <!--EVENTS_END-->', `    const defaultEvents = ${JSON.stringify(academicEvents, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--HOSTELS_START-->', '// <!--HOSTELS_END-->', `    const defaultHostels = ${JSON.stringify(hostels, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--PGS_START-->', '// <!--PGS_END-->', `    const defaultPGs = ${JSON.stringify(pgs, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--FOODSPOTS_START-->', '// <!--FOODSPOTS_END-->', `    const defaultFoodSpots = ${JSON.stringify(foodSpots, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--RESTAURANTS_START-->', '// <!--RESTAURANTS_END-->', `    const defaultRestaurants = ${JSON.stringify(restaurants, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `    const defaultAmenities = ${JSON.stringify(amenities, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--CLUBS_START-->', '// <!--CLUBS_END-->', `    const defaultClubs = ${JSON.stringify(clubs, null, 2)};`);
+
+          setPublishingStatus('Submitting commit to GitHub...');
+
+          // 3. Encode to base64
+          const base64Content = encodeBase64Utf8(updatedHtml);
+
+          // 4. PUT updated file to GitHub
+          const putRes = await fetch(fetchUrl, {
+            method: 'PUT',
+            headers: {
+              'Authorization': `token ${gitPat}`,
+              'Content-Type': 'application/json',
+              'Accept': 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify({
+              message: 'Update campus listings via Admin Portal UI',
+              content: base64Content,
+              sha: fileSha
+            })
+          });
+
+          if (!putRes.ok) {
+            const errDetails = await putRes.json();
+            throw new Error(`GitHub Commit Rejected: ${errDetails.message || putRes.statusText}`);
+          }
+
+          setUnsavedChanges(false);
+          alert('Success! Changes committed to your repository. GitHub Pages will build and deploy the update in 1-2 minutes.');
+        } catch (err) {
+          alert(`Publishing failed: ${err.message}`);
+        } finally {
+          setIsPublishing(false);
+          setPublishingStatus('');
+        }
       };
 
       const resetFormByType = (type) => {
@@ -903,70 +1017,35 @@
         if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
       };
 
-      const addOrUpdateItem = async (type) => {
+      const addOrUpdateItem = (type) => {
         const config = {
-          calendar: {
-            value: newEvent, setValue: setNewEvent, list: academicEvents, setList: setAcademicEvents,
-            required: ['title', 'date']
-          },
-          hostels: {
-            value: newHostel, setValue: setNewHostel, list: hostels, setList: setHostels,
-            required: ['name', 'location', 'contact']
-          },
-          pgs: {
-            value: newPG, setValue: setNewPG, list: pgs, setList: setPgs,
-            required: ['name', 'location', 'contact']
-          },
-          food: {
-            value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots,
-            required: ['name', 'location']
-          },
-          restaurants: {
-            value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants,
-            required: ['name', 'location']
-          },
-          amenities: {
-            value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities,
-            required: ['name', 'location']
-          },
-          clubs: {
-            value: newClub, setValue: setNewClub, list: clubs, setList: setClubs,
-            required: ['name', 'location']
-          }
+          calendar: { value: newEvent, setValue: setNewEvent, list: academicEvents, setList: setAcademicEvents, required: ['title', 'date'] },
+          hostels: { value: newHostel, setValue: setNewHostel, list: hostels, setList: setHostels, required: ['name', 'location', 'contact'] },
+          pgs: { value: newPG, setValue: setNewPG, list: pgs, setList: setPgs, required: ['name', 'location', 'contact'] },
+          food: { value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots, required: ['name', 'location'] },
+          restaurants: { value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants, required: ['name', 'location'] },
+          amenities: { value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities, required: ['name', 'location'] },
+          clubs: { value: newClub, setValue: setNewClub, list: clubs, setList: setClubs, required: ['name', 'location'] }
         };
 
         const current = config[type];
-        const hasAll = current.required.every(field => current.value[field] && current.value[field].trim() !== '');
+        const hasAll = current.required.every(field => current.value[field] && current.value[field].toString().trim() !== '');
+        
         if (!hasAll) {
-          alert('Please fill all required fields');
+          alert('Please fill out all required fields.');
           return;
         }
 
-        if (isFirebaseConfigured) {
-          const colName = getCollectionName(type);
-          try {
-            if (editIndex !== null) {
-              const itemId = current.list[editIndex].id;
-              const { id, ...dataToSave } = current.value;
-              await db.collection(colName).doc(itemId).set(dataToSave);
-            } else {
-              await db.collection(colName).add(current.value);
-            }
-          } catch (err) {
-            alert("Database Error: " + err.message);
-            return;
-          }
+        if (editIndex !== null) {
+          const updated = current.list.map((item, idx) => idx === editIndex ? current.value : item);
+          current.setList(updated);
         } else {
-          if (editIndex !== null) {
-            const updated = current.list.map((item, idx) => idx === editIndex ? current.value : item);
-            current.setList(updated);
-          } else {
-            current.setList([...current.list, current.value]);
-          }
+          current.setList([...current.list, current.value]);
         }
 
         resetFormByType(type);
         setEditIndex(null);
+        setUnsavedChanges(true);
       };
 
       const handleEdit = (type, index, item) => {
@@ -981,19 +1060,9 @@
         if (type === 'clubs') setNewClub(item);
       };
 
-      const handleDelete = async (setter, list, index, type) => {
-        if (isFirebaseConfigured) {
-          const colName = getCollectionName(type);
-          try {
-            const itemId = list[index].id;
-            await db.collection(colName).doc(itemId).delete();
-          } catch (err) {
-            alert("Database Error: " + err.message);
-            return;
-          }
-        } else {
-          setter(list.filter((_, i) => i !== index));
-        }
+      const handleDelete = (setter, list, index) => {
+        setter(list.filter((_, i) => i !== index));
+        setUnsavedChanges(true);
         if (editIndex === index) setEditIndex(null);
       };
 
@@ -1024,7 +1093,7 @@
       );
 
       const parseRent = (rent) => {
-        const num = parseInt((rent || '').replace(/[^\d]/g, ''), 10);
+        const num = parseInt((rent || '').toString().replace(/[^\d]/g, ''), 10);
         return isNaN(num) ? null : num;
       };
 
@@ -1130,12 +1199,12 @@
             </div>
 
             {userRole === 'user' ? (
-              <button className="auth-btn" onClick={() => { setShowAuthModal(true); }}>
-                <i className="ti ti-lock"></i> Admin Login
+              <button className="auth-btn" onClick={() => setShowAuthModal(true)}>
+                <i className="ti ti-lock"></i> Admin Access
               </button>
             ) : (
               <button className="auth-btn logout" onClick={logout}>
-                <i className="ti ti-logout"></i> Logout
+                <i className="ti ti-logout"></i> Exit Admin
               </button>
             )}
 
@@ -1162,12 +1231,35 @@
               <div className="status-box">
                 <span className={`status-badge ${userRole}`}>
                   <i className={`ti ${userRole === 'admin' ? 'ti-shield-check' : 'ti-eye'}`}></i>
-                  {userRole === 'admin' ? 'Admin' : 'Guest Viewer'}
+                  {userRole === 'admin' ? 'Admin Mode (GitHub)' : 'Guest Viewer'}
                 </span>
               </div>
             </div>
 
             <div className="content">
+              {/* Publishing Loading Banner */}
+              {isPublishing && (
+                <div className="publish-banner" style={{ background: '#fef3c7', borderColor: '#fde68a' }}>
+                  <div className="publish-banner-text" style={{ color: '#92400e' }}>
+                    <i className="ti ti-loader" style={{ display: 'inline-block', animation: 'spin 1s linear infinite', marginRight: '8px' }}></i>
+                    <strong>Processing:</strong> {publishingStatus}
+                  </div>
+                </div>
+              )}
+
+              {/* Unsaved Changes Banner */}
+              {unsavedChanges && !isPublishing && (
+                <div className="publish-banner">
+                  <div className="publish-banner-text">
+                    <i className="ti ti-alert-circle" style={{ marginRight: '8px', fontSize: '16px' }}></i>
+                    <strong>Unsaved Edits:</strong> You have made changes locally. Click publish to deploy them to GitHub Pages.
+                  </div>
+                  <button className="btn-secondary" style={{ padding: '8px 16px', fontSize: '13px' }} onClick={publishToGitHub}>
+                    <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> Save & Publish
+                  </button>
+                </div>
+              )}
+
               <div key={activeModule} className="fade-in-section">
               {activeModule === 'home' && (
                 <div>
@@ -1505,7 +1597,13 @@
 
               {activeModule === 'admin' && userRole === 'admin' && (
                 <div className="card">
-                  <h2>Admin Panel</h2>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e2e8f0', paddingBottom: '16px' }}>
+                    <h2>Admin Control Dashboard</h2>
+                    <button className="btn-secondary" onClick={publishToGitHub} disabled={isPublishing}>
+                      <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> 
+                      {isPublishing ? 'Publishing...' : 'Save & Publish to GitHub'}
+                    </button>
+                  </div>
  
                   <div className="admin-tabs">
                     {[
@@ -1532,11 +1630,11 @@
                       <h3>{editIndex !== null ? 'Edit Academic Event' : 'Add Academic Event'}</h3>
                       <div className="form-grid">
                         <div className="form-group">
-                          <label>Event Title</label>
+                          <label>Event Title *</label>
                           <input value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
                         </div>
                         <div className="form-group">
-                          <label>Date</label>
+                          <label>Date *</label>
                           <input type="date" value={newEvent.date} onChange={(e) => setNewEvent({...newEvent, date: e.target.value})} />
                         </div>
                         <div className="form-group">
@@ -1563,24 +1661,24 @@
                           </div>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('calendar', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setAcademicEvents, academicEvents, idx, 'calendar')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setAcademicEvents, academicEvents, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
                     </div>
                   )}
- 
+  
                   {adminSection === 'hostels' && (
                     <div className="card">
                       <h3>{editIndex !== null ? 'Edit Hostel' : 'Add Hostel'}</h3>
                       <div className="form-grid">
-                        <div className="form-group"><label>Name</label><input value={newHostel.name} onChange={(e) => setNewHostel({...newHostel, name: e.target.value})} /></div>
-                        <div className="form-group"><label>Location</label><input value={newHostel.location} onChange={(e) => setNewHostel({...newHostel, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Name *</label><input value={newHostel.name} onChange={(e) => setNewHostel({...newHostel, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location *</label><input value={newHostel.location} onChange={(e) => setNewHostel({...newHostel, location: e.target.value})} /></div>
                         <div className="form-group"><label>Fees</label><input value={newHostel.fees} onChange={(e) => setNewHostel({...newHostel, fees: e.target.value})} /></div>
                         <div className="form-group"><label>Food</label><input value={newHostel.food} onChange={(e) => setNewHostel({...newHostel, food: e.target.value})} /></div>
-                        <div className="form-group"><label>Contact</label><input value={newHostel.contact} onChange={(e) => setNewHostel({...newHostel, contact: e.target.value})} /></div>
+                        <div className="form-group"><label>Contact *</label><input value={newHostel.contact} onChange={(e) => setNewHostel({...newHostel, contact: e.target.value})} /></div>
                         <div className="form-group"><label>Rooms</label><input value={newHostel.rooms} onChange={(e) => setNewHostel({...newHostel, rooms: e.target.value})} /></div>
-                        <div className="form-group"><label>Google Maps Link</label><input value={newHostel.gmapsLink || ''} onChange={(e) => setNewHostel({...newHostel, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newHostel.gmapsLink || ''} onChange={(e) => setNewHostel({...newHostel, gmapsLink: e.target.value})} placeholder="https://maps.app.goo.gl/..." /></div>
                         <div className="form-group full-width row-actions">
                           <button className="btn-primary" onClick={() => addOrUpdateItem('hostels')}>
                             {editIndex !== null ? 'Update Hostel' : 'Add Hostel'}
@@ -1594,7 +1692,7 @@
                           <span>{item.name}</span>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('hostels', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setHostels, hostels, idx, 'hostels')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setHostels, hostels, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
@@ -1605,13 +1703,13 @@
                     <div className="card">
                       <h3>{editIndex !== null ? 'Edit PG' : 'Add PG'}</h3>
                       <div className="form-grid">
-                        <div className="form-group"><label>Name</label><input value={newPG.name} onChange={(e) => setNewPG({...newPG, name: e.target.value})} /></div>
-                        <div className="form-group"><label>Location</label><input value={newPG.location} onChange={(e) => setNewPG({...newPG, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Name *</label><input value={newPG.name} onChange={(e) => setNewPG({...newPG, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location *</label><input value={newPG.location} onChange={(e) => setNewPG({...newPG, location: e.target.value})} /></div>
                         <div className="form-group"><label>Rent</label><input value={newPG.rent} onChange={(e) => setNewPG({...newPG, rent: e.target.value})} /></div>
                         <div className="form-group"><label>Food</label><input value={newPG.food} onChange={(e) => setNewPG({...newPG, food: e.target.value})} /></div>
-                        <div className="form-group"><label>Contact</label><input value={newPG.contact} onChange={(e) => setNewPG({...newPG, contact: e.target.value})} /></div>
+                        <div className="form-group"><label>Contact *</label><input value={newPG.contact} onChange={(e) => setNewPG({...newPG, contact: e.target.value})} /></div>
                         <div className="form-group"><label>Rooms</label><input value={newPG.rooms} onChange={(e) => setNewPG({...newPG, rooms: e.target.value})} /></div>
-                        <div className="form-group"><label>Google Maps Link</label><input value={newPG.gmapsLink || ''} onChange={(e) => setNewPG({...newPG, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newPG.gmapsLink || ''} onChange={(e) => setNewPG({...newPG, gmapsLink: e.target.value})} placeholder="https://maps.app.goo.gl/..." /></div>
                         <div className="form-group full-width row-actions">
                           <button className="btn-primary" onClick={() => addOrUpdateItem('pgs')}>
                             {editIndex !== null ? 'Update PG' : 'Add PG'}
@@ -1625,7 +1723,7 @@
                           <span>{item.name}</span>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('pgs', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setPgs, pgs, idx, 'pgs')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setPgs, pgs, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
@@ -1636,11 +1734,11 @@
                     <div className="card">
                       <h3>{editIndex !== null ? 'Edit Tea Spot' : 'Add Tea Spot'}</h3>
                       <div className="form-grid">
-                        <div className="form-group"><label>Name</label><input value={newFoodSpot.name} onChange={(e) => setNewFoodSpot({...newFoodSpot, name: e.target.value})} /></div>
-                        <div className="form-group"><label>Location</label><input value={newFoodSpot.location} onChange={(e) => setNewFoodSpot({...newFoodSpot, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Name *</label><input value={newFoodSpot.name} onChange={(e) => setNewFoodSpot({...newFoodSpot, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location *</label><input value={newFoodSpot.location} onChange={(e) => setNewFoodSpot({...newFoodSpot, location: e.target.value})} /></div>
                         <div className="form-group"><label>Specialty</label><input value={newFoodSpot.specialty} onChange={(e) => setNewFoodSpot({...newFoodSpot, specialty: e.target.value})} /></div>
                         <div className="form-group"><label>Timing</label><input value={newFoodSpot.timing} onChange={(e) => setNewFoodSpot({...newFoodSpot, timing: e.target.value})} /></div>
-                        <div className="form-group"><label>Google Maps Link</label><input value={newFoodSpot.gmapsLink || ''} onChange={(e) => setNewFoodSpot({...newFoodSpot, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newFoodSpot.gmapsLink || ''} onChange={(e) => setNewFoodSpot({...newFoodSpot, gmapsLink: e.target.value})} placeholder="https://maps.app.goo.gl/..." /></div>
                         <div className="form-group full-width row-actions">
                           <button className="btn-primary" onClick={() => addOrUpdateItem('food')}>
                             {editIndex !== null ? 'Update Tea Spot' : 'Add Tea Spot'}
@@ -1654,7 +1752,7 @@
                           <span>{item.name}</span>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('food', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setFoodSpots, foodSpots, idx, 'food')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setFoodSpots, foodSpots, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
@@ -1665,11 +1763,11 @@
                     <div className="card">
                       <h3>{editIndex !== null ? 'Edit Restaurant' : 'Add Restaurant'}</h3>
                       <div className="form-grid">
-                        <div className="form-group"><label>Name</label><input value={newRestaurant.name} onChange={(e) => setNewRestaurant({...newRestaurant, name: e.target.value})} /></div>
-                        <div className="form-group"><label>Location</label><input value={newRestaurant.location} onChange={(e) => setNewRestaurant({...newRestaurant, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Name *</label><input value={newRestaurant.name} onChange={(e) => setNewRestaurant({...newRestaurant, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location *</label><input value={newRestaurant.location} onChange={(e) => setNewRestaurant({...newRestaurant, location: e.target.value})} /></div>
                         <div className="form-group"><label>Cuisine</label><input value={newRestaurant.cuisine} onChange={(e) => setNewRestaurant({...newRestaurant, cuisine: e.target.value})} /></div>
                         <div className="form-group"><label>Contact</label><input value={newRestaurant.contact} onChange={(e) => setNewRestaurant({...newRestaurant, contact: e.target.value})} /></div>
-                        <div className="form-group"><label>Google Maps Link</label><input value={newRestaurant.gmapsLink || ''} onChange={(e) => setNewRestaurant({...newRestaurant, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newRestaurant.gmapsLink || ''} onChange={(e) => setNewRestaurant({...newRestaurant, gmapsLink: e.target.value})} placeholder="https://maps.app.goo.gl/..." /></div>
                         <div className="form-group full-width row-actions">
                           <button className="btn-primary" onClick={() => addOrUpdateItem('restaurants')}>
                             {editIndex !== null ? 'Update Restaurant' : 'Add Restaurant'}
@@ -1683,7 +1781,7 @@
                           <span>{item.name}</span>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('restaurants', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setRestaurants, restaurants, idx, 'restaurants')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setRestaurants, restaurants, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
@@ -1694,9 +1792,9 @@
                     <div className="card">
                       <h3>{editIndex !== null ? 'Edit Amenity' : 'Add Amenity'}</h3>
                       <div className="form-grid">
-                        <div className="form-group"><label>Name</label><input value={newAmenity.name} onChange={(e) => setNewAmenity({...newAmenity, name: e.target.value})} /></div>
-                        <div className="form-group"><label>Location</label><input value={newAmenity.location} onChange={(e) => setNewAmenity({...newAmenity, location: e.target.value})} /></div>
-                        <div className="form-group"><label>Google Maps Link</label><input value={newAmenity.gmapsLink || ''} onChange={(e) => setNewAmenity({...newAmenity, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group"><label>Name *</label><input value={newAmenity.name} onChange={(e) => setNewAmenity({...newAmenity, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location *</label><input value={newAmenity.location} onChange={(e) => setNewAmenity({...newAmenity, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newAmenity.gmapsLink || ''} onChange={(e) => setNewAmenity({...newAmenity, gmapsLink: e.target.value})} placeholder="https://maps.app.goo.gl/..." /></div>
                         <div className="form-group full-width"><label>Details</label><textarea value={newAmenity.details} onChange={(e) => setNewAmenity({...newAmenity, details: e.target.value})}></textarea></div>
                         <div className="form-group full-width row-actions">
                           <button className="btn-primary" onClick={() => addOrUpdateItem('amenities')}>
@@ -1711,7 +1809,7 @@
                           <span>{item.name}</span>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('amenities', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setAmenities, amenities, idx, 'amenities')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setAmenities, amenities, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
@@ -1722,11 +1820,11 @@
                     <div className="card">
                       <h3>{editIndex !== null ? 'Edit Club' : 'Add Club'}</h3>
                       <div className="form-grid">
-                        <div className="form-group"><label>Name</label><input value={newClub.name} onChange={(e) => setNewClub({...newClub, name: e.target.value})} /></div>
-                        <div className="form-group"><label>Location</label><input value={newClub.location} onChange={(e) => setNewClub({...newClub, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Name *</label><input value={newClub.name} onChange={(e) => setNewClub({...newClub, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location *</label><input value={newClub.location} onChange={(e) => setNewClub({...newClub, location: e.target.value})} /></div>
                         <div className="form-group"><label>Contact</label><input value={newClub.contact} onChange={(e) => setNewClub({...newClub, contact: e.target.value})} /></div>
                         <div className="form-group"><label>Services Provided</label><input value={newClub.services} onChange={(e) => setNewClub({...newClub, services: e.target.value})} /></div>
-                        <div className="form-group"><label>Google Maps Link</label><input value={newClub.gmapsLink || ''} onChange={(e) => setNewClub({...newClub, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newClub.gmapsLink || ''} onChange={(e) => setNewClub({...newClub, gmapsLink: e.target.value})} placeholder="https://maps.app.goo.gl/..." /></div>
                         <div className="form-group full-width row-actions">
                           <button className="btn-primary" onClick={() => addOrUpdateItem('clubs')}>
                             {editIndex !== null ? 'Update Club' : 'Add Club'}
@@ -1740,7 +1838,7 @@
                           <span>{item.name}</span>
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('clubs', idx, item)}>Edit</button>
-                            <button className="btn-danger" onClick={() => handleDelete(setClubs, clubs, idx, 'clubs')}>Delete</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setClubs, clubs, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
@@ -1756,41 +1854,59 @@
             <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
               <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
-                  <h2>Admin Login</h2>
+                  <h2>GitHub Admin Connection</h2>
                   <button className="close-btn" onClick={() => setShowAuthModal(false)}>&times;</button>
                 </div>
 
                 <form onSubmit={handleLogin}>
                   <div className="form-group">
-                    <label>Admin Email</label>
+                    <label>GitHub Username (Owner)</label>
                     <input
-                      type="email"
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                      placeholder="admin@cusat.ac.in"
+                      type="text"
+                      value={gitOwner}
+                      onChange={(e) => setGitOwner(e.target.value)}
+                      placeholder="GitHub username"
                       required
                     />
                   </div>
 
                   <div className="form-group">
-                    <label>Password</label>
+                    <label>Repository Name</label>
                     <input
-                      type="password"
-                      value={loginPassword}
-                      onChange={(e) => setLoginPassword(e.target.value)}
-                      placeholder="••••••"
+                      type="text"
+                      value={gitRepo}
+                      onChange={(e) => setGitRepo(e.target.value)}
+                      placeholder="Repository name"
                       required
                     />
                   </div>
 
-                  <button type="submit" className="login-btn">
-                    Login as Admin
+                  <div className="form-group">
+                    <label>Personal Access Token (PAT)</label>
+                    <input
+                      type="password"
+                      value={gitPat}
+                      onChange={(e) => setGitPat(e.target.value)}
+                      placeholder="github_pat_..."
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="login-btn" style={{ width: '100%' }} disabled={isPublishing}>
+                    {isPublishing ? 'Verifying...' : 'Unlock Admin Panel'}
                   </button>
 
-                  <div className="demo-box" style={{ marginTop: '12px' }}>
-                    <strong>Debug Hint:</strong>
-                    <div style={{ marginTop: '4px' }}>• <strong>Admin Email:</strong> admin@cusat.ac.in</div>
-                    <div>• <strong>Admin Password:</strong> CUSAT@admin2026</div>
+                  <div className="help-box">
+                    <strong>Setup Instructions:</strong>
+                    <p style={{ marginTop: '4px' }}>
+                      To manage data, you need a Personal Access Token with write permissions.
+                      <br />
+                      1. Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub Developer Settings</a>.
+                      <br />
+                      2. Generate a token (Classic) with the <strong>repo (contents write)</strong> scope.
+                      <br />
+                      3. Enter it here to access the editor. Credentials are kept safely in-session only.
+                    </p>
                   </div>
                 </form>
               </div>
