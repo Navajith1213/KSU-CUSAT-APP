@@ -75,9 +75,15 @@ export default function QueryPanel({ loggedStudent }) {
         if (error) throw error;
       } else {
         // Mock fallback to LocalStorage
+        // 1. Save to student-specific history
         const mockHistory = JSON.parse(localStorage.getItem(`mock_queries_${studentEmail}`) || '[]');
         const updatedHistory = [newQuery, ...mockHistory];
         localStorage.setItem(`mock_queries_${studentEmail}`, JSON.stringify(updatedHistory));
+
+        // 2. Save to global history for Admin Dashboard to read
+        const mockAllHistory = JSON.parse(localStorage.getItem('mock_all_queries') || '[]');
+        const updatedAllHistory = [newQuery, ...mockAllHistory];
+        localStorage.setItem('mock_all_queries', JSON.stringify(updatedAllHistory));
       }
 
       // 2. Dispatch Email via EmailJS
