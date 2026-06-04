@@ -167,7 +167,7 @@ export default function AuthModal({
                 style={{ flex: 1, padding: '10px 0', textAlign: 'center' }}
                 onClick={() => { setActiveTab('admin'); setErrorMsg(''); setIsSignUp(false); }}
               >
-                Campus Admin
+                Admin
               </button>
             </div>
 
