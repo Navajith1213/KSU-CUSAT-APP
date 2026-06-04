@@ -69,7 +69,11 @@ export default function App() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!gitOwner.trim() || !gitRepo.trim() || !gitPat.trim()) {
+    const owner = gitOwner.trim();
+    const repo = gitRepo.trim();
+    const pat = gitPat.trim();
+
+    if (!owner || !repo || !pat) {
       alert('Please fill out all credentials.');
       return;
     }
@@ -80,10 +84,10 @@ export default function App() {
     try {
       // Fetch contents of the default data file to verify credentials and repo validity
       const res = await fetch(
-        `https://api.github.com/repos/${gitOwner.trim()}/${gitRepo.trim()}/contents/src/data/defaultData.js`,
+        `https://api.github.com/repos/${owner}/${repo}/contents/src/data/defaultData.js`,
         {
           headers: {
-            Authorization: `token ${gitPat.trim()}`,
+            Authorization: `token ${pat}`,
             Accept: 'application/vnd.github.v3+json'
           }
         }
@@ -93,9 +97,13 @@ export default function App() {
         throw new Error(`GitHub responded with status: ${res.status}`);
       }
 
-      sessionStorage.setItem('git_owner', gitOwner.trim());
-      sessionStorage.setItem('git_repo', gitRepo.trim());
-      sessionStorage.setItem('git_pat', gitPat.trim());
+      sessionStorage.setItem('git_owner', owner);
+      sessionStorage.setItem('git_repo', repo);
+      sessionStorage.setItem('git_pat', pat);
+
+      setGitOwner(owner);
+      setGitRepo(repo);
+      setGitPat(pat);
 
       setUserRole('admin');
       setShowAuthModal(false);
@@ -120,7 +128,11 @@ export default function App() {
   };
 
   const publishToGitHub = async () => {
-    if (!gitOwner || !gitRepo || !gitPat) {
+    const owner = gitOwner.trim();
+    const repo = gitRepo.trim();
+    const pat = gitPat.trim();
+
+    if (!owner || !repo || !pat) {
       alert('Missing GitHub credentials. Please re-login.');
       logout();
       return;
@@ -131,10 +143,10 @@ export default function App() {
 
     try {
       // 1. Fetch current defaultData.js contents
-      const fetchUrl = `https://api.github.com/repos/${gitOwner}/${gitRepo}/contents/src/data/defaultData.js`;
+      const fetchUrl = `https://api.github.com/repos/${owner}/${repo}/contents/src/data/defaultData.js`;
       const getRes = await fetch(fetchUrl, {
         headers: {
-          Authorization: `token ${gitPat}`,
+          Authorization: `token ${pat}`,
           Accept: 'application/vnd.github.v3+json',
           'Cache-Control': 'no-cache'
         }
@@ -170,7 +182,7 @@ export default function App() {
       const putRes = await fetch(fetchUrl, {
         method: 'PUT',
         headers: {
-          Authorization: `token ${gitPat}`,
+          Authorization: `token ${pat}`,
           'Content-Type': 'application/json',
           Accept: 'application/vnd.github.v3+json'
         },
