@@ -205,7 +205,7 @@ export default function Home({
               </p>
             </div>
             <button className="preview-btn-text" style={{ fontSize: '13px' }}>
-              Explore Module <i className="ti ti-arrow-right"></i>
+              Explore <i className="ti ti-arrow-right"></i>
             </button>
           </div>
         ))}
