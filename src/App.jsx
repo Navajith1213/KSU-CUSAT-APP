@@ -141,29 +141,46 @@ export default function App() {
     setIsPublishing(true);
     setPublishingStatus('Fetching latest file content from GitHub...');
 
+    let fileSha = '';
+    let dataContent = '';
+
+    const fetchUrl = `https://api.github.com/repos/${owner}/${repo}/contents/src/data/defaultData.js`;
+
     try {
       // 1. Fetch current defaultData.js contents
-      const fetchUrl = `https://api.github.com/repos/${owner}/${repo}/contents/src/data/defaultData.js`;
-      const getRes = await fetch(fetchUrl, {
-        headers: {
-          Authorization: `token ${pat}`,
-          Accept: 'application/vnd.github.v3+json',
-          'Cache-Control': 'no-cache'
-        }
-      });
+      console.log('Fetching file from GitHub API:', fetchUrl);
+      let getRes;
+      try {
+        getRes = await fetch(fetchUrl, {
+          headers: {
+            Authorization: `token ${pat}`,
+            Accept: 'application/vnd.github.v3+json'
+          }
+        });
+      } catch (fetchErr) {
+        throw new Error(`[GET download phase] Network/CORS error: ${fetchErr.message}`);
+      }
 
       if (!getRes.ok) {
-        throw new Error(`Could not fetch defaultData.js from repository: ${getRes.statusText}`);
+        throw new Error(`[GET download phase] GitHub responded with status: ${getRes.status} ${getRes.statusText}`);
       }
 
       const gitFile = await getRes.json();
-      const fileSha = gitFile.sha;
-      const dataContent = decodeBase64Utf8(gitFile.content);
+      fileSha = gitFile.sha;
+      dataContent = decodeBase64Utf8(gitFile.content);
+    } catch (getErr) {
+      setIsPublishing(false);
+      setPublishingStatus('');
+      alert(`Publishing failed: ${getErr.message}`);
+      return;
+    }
 
-      setPublishingStatus('Formatting updated data and updating source code...');
+    setPublishingStatus('Formatting updated data and updating source code...');
 
+    let updatedData = '';
+    try {
       // 2. Perform text replacements using comments markers
-      let updatedData = dataContent;
+      updatedData = dataContent;
       updatedData = replaceSection(updatedData, '// <!--EVENTS_START-->', '// <!--EVENTS_END-->', `export const defaultEvents = ${JSON.stringify(academicEvents, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--HOSTELS_START-->', '// <!--HOSTELS_END-->', `export const defaultHostels = ${JSON.stringify(hostels, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--PGS_START-->', '// <!--PGS_END-->', `export const defaultPGs = ${JSON.stringify(pgs, null, 2)};`);
@@ -172,36 +189,53 @@ export default function App() {
       updatedData = replaceSection(updatedData, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `export const defaultAmenities = ${JSON.stringify(amenities, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--CLUBS_START-->', '// <!--CLUBS_END-->', `export const defaultClubs = ${JSON.stringify(clubs, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--CONTACTS_START-->', '// <!--CONTACTS_END-->', `export const defaultContacts = ${JSON.stringify(contacts, null, 2)};`);
+    } catch (replaceErr) {
+      setIsPublishing(false);
+      setPublishingStatus('');
+      alert(`Publishing failed (marker replacement): ${replaceErr.message}`);
+      return;
+    }
 
-      setPublishingStatus('Submitting commit to GitHub...');
+    setPublishingStatus('Submitting commit to GitHub...');
 
+    try {
       // 3. Encode updated file content to base64
       const base64Content = encodeBase64Utf8(updatedData);
 
       // 4. PUT updated file to GitHub
-      const putRes = await fetch(fetchUrl, {
-        method: 'PUT',
-        headers: {
-          Authorization: `token ${pat}`,
-          'Content-Type': 'application/json',
-          Accept: 'application/vnd.github.v3+json'
-        },
-        body: JSON.stringify({
-          message: 'Update campus listings via Admin Portal UI',
-          content: base64Content,
-          sha: fileSha
-        })
-      });
+      console.log('Sending PUT request to commit changes to GitHub API:', fetchUrl);
+      let putRes;
+      try {
+        putRes = await fetch(fetchUrl, {
+          method: 'PUT',
+          headers: {
+            Authorization: `token ${pat}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/vnd.github.v3+json'
+          },
+          body: JSON.stringify({
+            message: 'Update campus listings via Admin Portal UI',
+            content: base64Content,
+            sha: fileSha
+          })
+        });
+      } catch (putFetchErr) {
+        throw new Error(`[PUT upload phase] Network/CORS error: ${putFetchErr.message}`);
+      }
 
       if (!putRes.ok) {
-        const errDetails = await putRes.json();
-        throw new Error(`GitHub Commit Rejected: ${errDetails.message || putRes.statusText}`);
+        let errText = putRes.statusText;
+        try {
+          const errDetails = await putRes.json();
+          errText = errDetails.message || errText;
+        } catch (_) {}
+        throw new Error(`[PUT upload phase] GitHub Commit Rejected: ${errText} (status: ${putRes.status})`);
       }
 
       setUnsavedChanges(false);
       alert('Success! Changes committed to your repository. GitHub Pages will build and deploy the update in 1-2 minutes.');
-    } catch (err) {
-      alert(`Publishing failed: ${err.message}`);
+    } catch (putErr) {
+      alert(`Publishing failed: ${putErr.message}`);
     } finally {
       setIsPublishing(false);
       setPublishingStatus('');
