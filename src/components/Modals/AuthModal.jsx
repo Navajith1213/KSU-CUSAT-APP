@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
 
 export default function AuthModal({
@@ -24,6 +24,24 @@ export default function AuthModal({
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [isAdminAuthPassed, setIsAdminAuthPassed] = useState(false);
+
+  // Secret admin access: triple-click Student Portal within 5 seconds
+  const clickTimestamps = useRef([]);
+  const handleStudentTabClick = () => {
+    const now = Date.now();
+    clickTimestamps.current.push(now);
+    // Keep only clicks within the last 5 seconds
+    clickTimestamps.current = clickTimestamps.current.filter(t => now - t < 5000);
+    if (clickTimestamps.current.length >= 3) {
+      clickTimestamps.current = [];
+      setActiveTab('admin');
+      setErrorMsg('');
+      setIsSignUp(false);
+    } else {
+      setActiveTab('student');
+      setErrorMsg('');
+    }
+  };
 
   const handleStudentSignUp = async (e) => {
     e.preventDefault();
@@ -151,23 +169,15 @@ export default function AuthModal({
 
         {!isAdminAuthPassed ? (
           <div>
-            {/* Header Tabs */}
+            {/* Header Tab — Admin access hidden behind triple-click */}
             <div className="admin-tabs" style={{ marginBottom: '18px' }}>
               <button
                 type="button"
                 className={`admin-tab-btn ${activeTab === 'student' ? 'active' : ''}`}
-                style={{ flex: 1, padding: '10px 0', textAlign: 'center' }}
-                onClick={() => { setActiveTab('student'); setErrorMsg(''); }}
+                style={{ width: '100%', padding: '10px 0', textAlign: 'center' }}
+                onClick={handleStudentTabClick}
               >
-                Student Portal
-              </button>
-              <button
-                type="button"
-                className={`admin-tab-btn ${activeTab === 'admin' ? 'active' : ''}`}
-                style={{ flex: 1, padding: '10px 0', textAlign: 'center' }}
-                onClick={() => { setActiveTab('admin'); setErrorMsg(''); setIsSignUp(false); }}
-              >
-                Admin
+                {activeTab === 'admin' ? 'Admin Login' : 'Student Portal'}
               </button>
             </div>
 
