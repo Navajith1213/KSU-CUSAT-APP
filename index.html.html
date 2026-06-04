@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CUSAT Smart Student Portal - Student utility portal for Kalamassery, Kochi campus support, accommodation, food spots and essentials." />
+  <title>CUSAT Smart Student Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    h1, h2, h3, .hero-title, .brand-box h2 {
+      font-family: 'Outfit', sans-serif;
+    }
+    body {
+      background: #f8fafc;
+      color: #0f172a;
+      min-height: 100vh;
+    }
+    .portal-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+    .sidebar {
+      width: 280px;
+      background: #0f172a;
+      color: white;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .brand-box {
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .brand-box h2 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #38bdf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .brand-box p {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+    .menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .menu-btn {
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .menu-btn:hover {
+      background: rgba(255,255,255,0.03);
+      color: white;
+    }
+    .menu-btn.active {
+      background: linear-gradient(135deg, #1e3a8a, #0d9488);
+      color: white;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+    }
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+    .topbar {
+      background: white;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .topbar h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .topbar p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .status-box {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .content {
+      padding: 32px;
+      flex: 1;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+    }
+    .card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .item-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 20px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+    }
+    .item-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+      border-color: #cbd5e1;
+    }
+    .item-card h3 {
+      color: #1e3a8a;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .item-card p {
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #475569;
+      line-height: 1.5;
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .filter-bar input, .filter-bar select {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      background: white;
+      transition: border 0.2s;
+    }
+    .filter-bar input:focus, .filter-bar select:focus {
+      outline: none;
+      border-color: #0d9488;
+    }
+    .auth-btn {
+      background: linear-gradient(135deg, #0d9488, #0f766e);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+      margin-top: auto;
+    }
+    .auth-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(13, 148, 136, 0.25);
+    }
+    .auth-btn.logout {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+    }
+    .auth-btn.logout:hover {
+      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.25);
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(4px);
+    }
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      position: relative;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .modal-header h2 {
+      color: #0f172a;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .close-btn {
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #94a3b8;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: #0d9488;
+    }
+    .login-btn, .btn-primary, .btn-secondary, .btn-danger, .btn-edit, .btn-light {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .login-btn, .btn-primary {
+      background: #0f172a;
+      color: white;
+    }
+    .login-btn:hover, .btn-primary:hover {
+      background: #1e293b;
+    }
+    .btn-secondary {
+      background: #0d9488;
+      color: white;
+    }
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+    .btn-edit {
+      background: #f59e0b;
+      color: white;
+    }
+    .btn-light {
+      background: #f1f5f9;
+      color: #334155;
+    }
+    .btn-light:hover {
+      background: #e2e8f0;
+    }
+    .demo-box {
+      margin-top: 18px;
+      background: #f0fdf4;
+      border-left: 4px solid #10b981;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #065f46;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .status-badge.user {
+      background: #f0fdfa;
+      color: #0d9488;
+    }
+    .status-badge.admin {
+      background: #fffbeb;
+      color: #d97706;
+    }
+    .fade-in-section {
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-section {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.05), rgba(13, 148, 136, 0.05));
+      border: 1px solid rgba(13, 148, 136, 0.08);
+      border-radius: 20px;
+      padding: 48px 32px;
+      text-align: center;
+      margin-bottom: 32px;
+      box-shadow: inset 0 0 12px rgba(255,255,255,0.8);
+    }
+    .hero-title {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #1e3a8a, #0d9488);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    .hero-subtitle {
+      font-size: 16px;
+      color: #475569;
+      max-width: 650px;
+      margin: 0 auto 28px auto;
+      line-height: 1.6;
+    }
+    .quick-stats {
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      flex-wrap: wrap;
+    }
+    .stat-item {
+      min-width: 120px;
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01);
+    }
+    .stat-val {
+      font-size: 24px;
+      font-weight: 800;
+      color: #0d9488;
+    }
+    .stat-lbl {
+      font-size: 11px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .preview-card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 260px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01);
+    }
+    .preview-card:hover {
+      transform: translateY(-4px);
+      border-color: #0d9488;
+      box-shadow: 0 12px 24px rgba(13, 148, 136, 0.08);
+    }
+    .preview-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .preview-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(13, 148, 136, 0.08);
+      color: #0d9488;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: all 0.2s;
+    }
+    .preview-card:hover .preview-icon-box {
+      background: #0d9488;
+      color: white;
+    }
+    .preview-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .preview-content {
+      font-size: 14px;
+      color: #475569;
+      flex-grow: 1;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .preview-list-small {
+      margin-top: 10px;
+      list-style: none;
+    }
+    .preview-list-small li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #475569;
+      padding: 6px 0;
+      border-bottom: 1px dashed #f1f5f9;
+    }
+    .preview-list-small li:last-child {
+      border-bottom: none;
+    }
+    .preview-list-small li i {
+      color: #0d9488;
+    }
+    .preview-btn-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e3a8a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      margin-top: auto;
+    }
+    .preview-btn-text i {
+      transition: transform 0.2s;
+    }
+    .preview-card:hover .preview-btn-text i {
+      transform: translateX(4px);
+    }
+    .landing-contact-banner {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.01);
+    }
+    .landing-contact-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e3a8a;
+    }
+    .landing-contact-info p {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .maps-btn {
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #1e3a8a;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 14px;
+      background: #f8fafc;
+      transition: all 0.2s;
+      align-self: flex-start;
+    }
+    .maps-btn:hover {
+      background: #eff6ff;
+      border-color: #1e3a8a;
+      transform: translateY(-1px);
+    }
+    .admin-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .admin-tab-btn {
+      background: white;
+      border: 1px solid #e2e8f0;
+      color: #64748b;
+      font-weight: 600;
+    }
+    .admin-tab-btn.active {
+      background: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+    .event-item {
+      padding: 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+    }
+    .row-actions {
+      display: flex;
+      gap: 8px;
+    }
+    @media (max-width: 900px) {
+      .portal-layout { flex-direction: column; }
+      .sidebar { width: 100%; height: auto; position: static; }
+      .topbar { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px 24px; }
+      .content { padding: 20px; }
+      .landing-contact-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    // Firebase Configuration Placeholder
+    // Replace these placeholder values with your Firebase Project Configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const isFirebaseConfigured = typeof firebase !== 'undefined' && firebaseConfig && firebaseConfig.apiKey !== "YOUR_API_KEY";
+    let db, auth;
+    if (isFirebaseConfigured) {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      auth = firebase.auth();
+    }
+
+    const STORAGE_KEYS = {
+      events: 'cusat_events_v2',
+      hostels: 'cusat_hostels_v2',
+      pgs: 'cusat_pgs_v2',
+      foodSpots: 'cusat_foodspots_v2',
+      restaurants: 'cusat_restaurants_v2',
+      amenities: 'cusat_amenities_v2',
+      clubs: 'cusat_clubs_v2'
+    };
+
+    const defaultEvents = [
+      { title: 'B.Tech Semester Registration', date: '2026-07-01', type: 'academic' },
+      { title: 'Internal Examination Begins', date: '2026-08-08', type: 'exam' },
+      { title: 'Onam Vacation Begins', date: '2026-09-01', type: 'holiday' }
+    ];
+
+    const defaultHostels = [
+      { name: 'CUSAT Boys Hostel', location: 'Inside Campus', fees: '₹4500/month', food: 'Mess available', contact: '+91-9991112221', rooms: 'Double sharing', gmapsLink: '' },
+      { name: 'CUSAT Girls Hostel', location: 'Inside Campus', fees: '₹5000/month', food: 'Mess available', contact: '+91-9991112222', rooms: 'Double sharing', gmapsLink: '' }
+    ];
+
+    const defaultPGs = [
+      { name: 'Ameen PG', location: 'Kalamassery', rent: '₹6500/month', food: 'Included', contact: '+91-9991112233', rooms: 'Single/Double', gmapsLink: '' },
+      { name: 'Green Nest Ladies PG', location: 'South Kalamassery', rent: '₹7000/month', food: 'Included', contact: '+91-9991112244', rooms: 'Double', gmapsLink: '' }
+    ];
+
+    const defaultFoodSpots = [
+      { name: 'Campus Canteen', location: 'Near Main Block', specialty: 'Meals, tea, snacks', timing: '8 AM - 6 PM', gmapsLink: '' },
+      { name: 'Evening Snack Point', location: 'Hostel Road', specialty: 'Chai, puffs, sandwiches', timing: '4 PM - 10 PM', gmapsLink: '' }
+    ];
+
+    const defaultRestaurants = [
+      { name: 'Burger Hub', location: 'Kalamassery Junction', cuisine: 'Fast food', contact: '+91-8880001111', gmapsLink: '' },
+      { name: 'Malabar Kitchen', location: 'Near Metro Station', cuisine: 'Kerala meals', contact: '+91-8880002222', gmapsLink: '' }
+    ];
+
+    const defaultAmenities = [
+      { name: 'Medical Store', location: 'University Road', details: 'Open till 10 PM', gmapsLink: '' },
+      { name: 'Laundry Service', location: 'Hostel Side Gate', details: 'Pickup available', gmapsLink: '' },
+      { name: 'Stationery Shop', location: 'Campus Entrance', details: 'Printout and photocopy available', gmapsLink: '' }
+    ];
+
+    const defaultClubs = [
+      { name: 'CUSAT IEEE Student Branch', location: 'School of Engineering', contact: '+91-9876543210', services: 'Technical workshops, seminars, project mentoring', gmapsLink: '' },
+      { name: 'CUSAT Arts Club', location: 'University Auditorium', contact: '+91-9876543211', services: 'Cultural events, music, dance and drama coaching', gmapsLink: '' }
+    ];
+
+    const loadData = (key, fallback) => {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    };
+
+    const CUSATPortal = () => {
+      const [userRole, setUserRole] = React.useState('user');
+      const [showAuthModal, setShowAuthModal] = React.useState(false);
+      const [loginEmail, setLoginEmail] = React.useState('');
+      const [loginPassword, setLoginPassword] = React.useState('');
+      const [activeModule, setActiveModule] = React.useState('home');
+      const [adminSection, setAdminSection] = React.useState('calendar');
+
+      const [academicEvents, setAcademicEvents] = React.useState(() => loadData(STORAGE_KEYS.events, defaultEvents));
+      const [hostels, setHostels] = React.useState(() => loadData(STORAGE_KEYS.hostels, defaultHostels));
+      const [pgs, setPgs] = React.useState(() => loadData(STORAGE_KEYS.pgs, defaultPGs));
+      const [foodSpots, setFoodSpots] = React.useState(() => loadData(STORAGE_KEYS.foodSpots, defaultFoodSpots));
+      const [restaurants, setRestaurants] = React.useState(() => loadData(STORAGE_KEYS.restaurants, defaultRestaurants));
+      const [amenities, setAmenities] = React.useState(() => loadData(STORAGE_KEYS.amenities, defaultAmenities));
+      const [clubs, setClubs] = React.useState(() => loadData(STORAGE_KEYS.clubs, defaultClubs));
+
+      const [newEvent, setNewEvent] = React.useState({ title: '', date: '', type: 'academic' });
+      const [newHostel, setNewHostel] = React.useState({ name: '', location: '', fees: '', food: '', contact: '', rooms: '', gmapsLink: '' });
+      const [newPG, setNewPG] = React.useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '' });
+      const [newFoodSpot, setNewFoodSpot] = React.useState({ name: '', location: '', specialty: '', timing: '', gmapsLink: '' });
+      const [newRestaurant, setNewRestaurant] = React.useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
+      const [newAmenity, setNewAmenity] = React.useState({ name: '', location: '', details: '', gmapsLink: '' });
+      const [newClub, setNewClub] = React.useState({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
+
+      const [editIndex, setEditIndex] = React.useState(null);
+
+      const [hostelSearch, setHostelSearch] = React.useState('');
+      const [pgSearch, setPgSearch] = React.useState('');
+      const [pgFoodFilter, setPgFoodFilter] = React.useState('all');
+      const [pgRentFilter, setPgRentFilter] = React.useState('all');
+      const [foodSearch, setFoodSearch] = React.useState('');
+      const [restaurantSearch, setRestaurantSearch] = React.useState('');
+      const [restaurantCuisineFilter, setRestaurantCuisineFilter] = React.useState('all');
+      const [amenitySearch, setAmenitySearch] = React.useState('');
+      const [clubSearch, setClubSearch] = React.useState('');
+
+      const contacts = {
+        hostelOffice: {
+          name: 'CUSAT Hostel Office',
+          phone: '+91-484-2576817',
+          email: 'hostels@cusat.ac.in',
+          address: 'Hostel Complex, CUSAT, Kalamassery, Kochi'
+        },
+        adminOffice: {
+          name: 'CUSAT Administration Office',
+          phone: '+91-484-2576800',
+          email: 'admin@cusat.ac.in',
+          address: 'Administrative Building, CUSAT, Kalamassery, Kochi'
+        }
+      };
+
+      const getCollectionName = (type) => {
+        if (type === 'calendar') return 'events';
+        if (type === 'hostels') return 'hostels';
+        if (type === 'pgs') return 'pgs';
+        if (type === 'food') return 'foodSpots';
+        if (type === 'restaurants') return 'restaurants';
+        if (type === 'amenities') return 'amenities';
+        if (type === 'clubs') return 'clubs';
+        return type;
+      };
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(academicEvents));
+        }
+      }, [academicEvents]);
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.hostels, JSON.stringify(hostels));
+        }
+      }, [hostels]);
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.pgs, JSON.stringify(pgs));
+        }
+      }, [pgs]);
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.foodSpots, JSON.stringify(foodSpots));
+        }
+      }, [foodSpots]);
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.restaurants, JSON.stringify(restaurants));
+        }
+      }, [restaurants]);
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.amenities, JSON.stringify(amenities));
+        }
+      }, [amenities]);
+
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) {
+          localStorage.setItem(STORAGE_KEYS.clubs, JSON.stringify(clubs));
+        }
+      }, [clubs]);
+
+      // Firebase Auth Listener
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) return;
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user && user.email === 'admin@cusat.ac.in') {
+            setUserRole('admin');
+          } else {
+            setUserRole('user');
+          }
+        });
+        return unsubscribe;
+      }, []);
+
+      // Firebase Firestore Synchronization
+      React.useEffect(() => {
+        if (!isFirebaseConfigured) return;
+
+        const syncCollection = (colName, setter, fallbackData) => {
+          return db.collection(colName).onSnapshot((snapshot) => {
+            if (snapshot.empty) {
+              fallbackData.forEach((item) => {
+                db.collection(colName).add(item).catch(err => {
+                  console.warn("Could not seed default data in Firestore: " + err.message);
+                });
+              });
+            } else {
+              const items = [];
+              snapshot.forEach((doc) => {
+                items.push({ id: doc.id, ...doc.data() });
+              });
+              setter(items);
+            }
+          }, (err) => {
+            console.error("Firestore sync error for " + colName, err);
+          });
+        };
+
+        const unsubEvents = syncCollection('events', setAcademicEvents, defaultEvents);
+        const unsubHostels = syncCollection('hostels', setHostels, defaultHostels);
+        const unsubPgs = syncCollection('pgs', setPgs, defaultPGs);
+        const unsubFood = syncCollection('foodSpots', setFoodSpots, defaultFoodSpots);
+        const unsubRestaurants = syncCollection('restaurants', setRestaurants, defaultRestaurants);
+        const unsubAmenities = syncCollection('amenities', setAmenities, defaultAmenities);
+        const unsubClubs = syncCollection('clubs', setClubs, defaultClubs);
+
+        return () => {
+          unsubEvents();
+          unsubHostels();
+          unsubPgs();
+          unsubFood();
+          unsubRestaurants();
+          unsubAmenities();
+          unsubClubs();
+        };
+      }, []);
+
+      const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      };
+
+      const hashPassword = async (password) => {
+        const utf8 = new TextEncoder().encode(password);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', utf8);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      };
+
+      const sanitizeUrl = (url) => {
+        if (!url) return '';
+        const trimmed = url.trim();
+        if (trimmed.toLowerCase().startsWith('javascript:') || trimmed.toLowerCase().startsWith('data:')) {
+          return '#';
+        }
+        return trimmed;
+      };
+
+      const handleLogin = async (e) => {
+        e.preventDefault();
+
+        if (!validateEmail(loginEmail)) {
+          alert('Please enter a valid email address.');
+          return;
+        }
+
+        if (isFirebaseConfigured) {
+          try {
+            await auth.signInWithEmailAndPassword(loginEmail, loginPassword);
+            setUserRole('admin');
+            setLoginEmail('');
+            setLoginPassword('');
+            setShowAuthModal(false);
+            alert('Welcome back, Admin!');
+          } catch (err) {
+            alert('Login failed: ' + err.message);
+          }
+        } else {
+          const ADMIN_HASH = 'fa7b21940de28d0410c12e0899d5e87a204391ec2292c3a305e9fc554e83d0c7';
+          const hashedInput = await hashPassword(loginPassword);
+
+          if (loginEmail.toLowerCase() === 'admin@cusat.ac.in' && hashedInput === ADMIN_HASH) {
+            setUserRole('admin');
+            setLoginEmail('');
+            setLoginPassword('');
+            setShowAuthModal(false);
+            alert('Welcome back, Admin! (Local Mode)');
+          } else {
+            alert('Incorrect Admin credentials. Hint: admin@cusat.ac.in / CUSAT@admin2026');
+          }
+        }
+      };
+
+      const logout = async () => {
+        if (isFirebaseConfigured) {
+          try {
+            await auth.signOut();
+          } catch (err) {
+            console.error("Sign out error", err);
+          }
+        }
+        setUserRole('user');
+        setLoginEmail('');
+        setLoginPassword('');
+        setActiveModule('home');
+        setAdminSection('calendar');
+        setEditIndex(null);
+      };
+
+      const resetFormByType = (type) => {
+        if (type === 'calendar') setNewEvent({ title: '', date: '', type: 'academic' });
+        if (type === 'hostels') setNewHostel({ name: '', location: '', fees: '', food: '', contact: '', rooms: '', gmapsLink: '' });
+        if (type === 'pgs') setNewPG({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '' });
+        if (type === 'food') setNewFoodSpot({ name: '', location: '', specialty: '', timing: '', gmapsLink: '' });
+        if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
+        if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', gmapsLink: '' });
+        if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
+      };
+
+      const addOrUpdateItem = async (type) => {
+        const config = {
+          calendar: {
+            value: newEvent, setValue: setNewEvent, list: academicEvents, setList: setAcademicEvents,
+            required: ['title', 'date']
+          },
+          hostels: {
+            value: newHostel, setValue: setNewHostel, list: hostels, setList: setHostels,
+            required: ['name', 'location', 'contact']
+          },
+          pgs: {
+            value: newPG, setValue: setNewPG, list: pgs, setList: setPgs,
+            required: ['name', 'location', 'contact']
+          },
+          food: {
+            value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots,
+            required: ['name', 'location']
+          },
+          restaurants: {
+            value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants,
+            required: ['name', 'location']
+          },
+          amenities: {
+            value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities,
+            required: ['name', 'location']
+          },
+          clubs: {
+            value: newClub, setValue: setNewClub, list: clubs, setList: setClubs,
+            required: ['name', 'location']
+          }
+        };
+
+        const current = config[type];
+        const hasAll = current.required.every(field => current.value[field] && current.value[field].trim() !== '');
+        if (!hasAll) {
+          alert('Please fill all required fields');
+          return;
+        }
+
+        if (isFirebaseConfigured) {
+          const colName = getCollectionName(type);
+          try {
+            if (editIndex !== null) {
+              const itemId = current.list[editIndex].id;
+              const { id, ...dataToSave } = current.value;
+              await db.collection(colName).doc(itemId).set(dataToSave);
+            } else {
+              await db.collection(colName).add(current.value);
+            }
+          } catch (err) {
+            alert("Database Error: " + err.message);
+            return;
+          }
+        } else {
+          if (editIndex !== null) {
+            const updated = current.list.map((item, idx) => idx === editIndex ? current.value : item);
+            current.setList(updated);
+          } else {
+            current.setList([...current.list, current.value]);
+          }
+        }
+
+        resetFormByType(type);
+        setEditIndex(null);
+      };
+
+      const handleEdit = (type, index, item) => {
+        setAdminSection(type);
+        setEditIndex(index);
+        if (type === 'calendar') setNewEvent(item);
+        if (type === 'hostels') setNewHostel(item);
+        if (type === 'pgs') setNewPG(item);
+        if (type === 'food') setNewFoodSpot(item);
+        if (type === 'restaurants') setNewRestaurant(item);
+        if (type === 'amenities') setNewAmenity(item);
+        if (type === 'clubs') setNewClub(item);
+      };
+
+      const handleDelete = async (setter, list, index, type) => {
+        if (isFirebaseConfigured) {
+          const colName = getCollectionName(type);
+          try {
+            const itemId = list[index].id;
+            await db.collection(colName).doc(itemId).delete();
+          } catch (err) {
+            alert("Database Error: " + err.message);
+            return;
+          }
+        } else {
+          setter(list.filter((_, i) => i !== index));
+        }
+        if (editIndex === index) setEditIndex(null);
+      };
+
+      const cancelEdit = (type) => {
+        setEditIndex(null);
+        resetFormByType(type);
+      };
+
+      const menuItems = [
+        { id: 'home', label: 'Home', icon: 'ti-home' },
+        { id: 'calendar', label: 'Academic Calendar', icon: 'ti-calendar' },
+        { id: 'contacts', label: 'Contacts', icon: 'ti-phone' },
+        { id: 'hostels', label: 'Hostels', icon: 'ti-building-community' },
+        { id: 'pgs', label: 'PGs', icon: 'ti-bed' },
+        { id: 'food', label: 'Tea Spots', icon: 'ti-coffee' },
+        { id: 'restaurants', label: 'Restaurants', icon: 'ti-tools-kitchen-2' },
+        { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
+        { id: 'clubs', label: 'Campus Clubs', icon: 'ti-users' },
+        ...(userRole === 'admin' ? [{ id: 'admin', label: 'Admin Panel', icon: 'ti-settings' }] : [])
+      ];
+
+      const contains = (value, search) => (value || '').toLowerCase().includes(search.toLowerCase());
+
+      const filteredHostels = hostels.filter(item =>
+        contains(item.name, hostelSearch) ||
+        contains(item.location, hostelSearch) ||
+        contains(item.food, hostelSearch)
+      );
+
+      const parseRent = (rent) => {
+        const num = parseInt((rent || '').replace(/[^\d]/g, ''), 10);
+        return isNaN(num) ? null : num;
+      };
+
+      const filteredPGs = pgs.filter(item => {
+        const textMatch =
+          contains(item.name, pgSearch) ||
+          contains(item.location, pgSearch) ||
+          contains(item.food, pgSearch) ||
+          contains(item.rooms, pgSearch);
+
+        const foodMatch =
+          pgFoodFilter === 'all' ? true :
+          pgFoodFilter === 'included' ? contains(item.food, 'included') || contains(item.food, 'mess') :
+          pgFoodFilter === 'not-included' ? !contains(item.food, 'included') && !contains(item.food, 'mess') :
+          true;
+
+        const rent = parseRent(item.rent);
+        const rentMatch =
+          pgRentFilter === 'all' ? true :
+          pgRentFilter === 'below6000' ? rent !== null && rent < 6000 :
+          pgRentFilter === '6000to8000' ? rent !== null && rent >= 6000 && rent <= 8000 :
+          pgRentFilter === 'above8000' ? rent !== null && rent > 8000 :
+          true;
+
+        return textMatch && foodMatch && rentMatch;
+      });
+
+      const filteredFoodSpots = foodSpots.filter(item =>
+        contains(item.name, foodSearch) ||
+        contains(item.location, foodSearch) ||
+        contains(item.specialty, foodSearch)
+      );
+
+      const filteredRestaurants = restaurants.filter(item => {
+        const textMatch =
+          contains(item.name, restaurantSearch) ||
+          contains(item.location, restaurantSearch) ||
+          contains(item.cuisine, restaurantSearch);
+
+        const cuisineMatch =
+          restaurantCuisineFilter === 'all' ? true :
+          contains(item.cuisine, restaurantCuisineFilter);
+
+        return textMatch && cuisineMatch;
+      });
+
+      const filteredAmenities = amenities.filter(item =>
+        contains(item.name, amenitySearch) ||
+        contains(item.location, amenitySearch) ||
+        contains(item.details, amenitySearch)
+      );
+
+      const filteredClubs = clubs.filter(item =>
+        contains(item.name, clubSearch) ||
+        contains(item.location, clubSearch) ||
+        contains(item.services, clubSearch)
+      );
+
+      const FIELD_LABELS = {
+        location: 'Location',
+        fees: 'Fees',
+        food: 'Food / Mess',
+        contact: 'Contact Info',
+        rooms: 'Room Type',
+        rent: 'Rent',
+        specialty: 'Specialty',
+        timing: 'Timing',
+        cuisine: 'Cuisine',
+        details: 'Details',
+        services: 'Services Provided'
+      };
+
+      const renderCards = (items, fields) => (
+        <div className="grid">
+          {items.length ? items.map((item, idx) => {
+            const mapsQuery = encodeURIComponent(`${item.name || item.title} ${item.location || ''} CUSAT Kalamassery Kochi`);
+            const mapsUrl = item.gmapsLink && item.gmapsLink.trim() !== '' ? sanitizeUrl(item.gmapsLink) : `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+            return (
+              <div className="item-card" key={idx}>
+                <div>
+                  <h3>{item.name || item.title}</h3>
+                  {fields.map((field, i) => item[field] ? (
+                    <p key={i}><strong>{FIELD_LABELS[field] || (field.charAt(0).toUpperCase() + field.slice(1))}:</strong> {item[field]}</p>
+                  ) : null)}
+                </div>
+                {item.location && (
+                  <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn">
+                    <i className="ti ti-map-2"></i> Navigate on Maps
+                  </a>
+                )}
+              </div>
+            );
+          }) : <p>No matching results found.</p>}
+        </div>
+      );
+
+      return (
+        <div className="portal-layout">
+          <aside className="sidebar">
+            <div className="brand-box">
+              <h2>CUSAT</h2>
+              <p>Kochi Student Utility Portal</p>
+            </div>
+
+            {userRole === 'user' ? (
+              <button className="auth-btn" onClick={() => { setShowAuthModal(true); }}>
+                <i className="ti ti-lock"></i> Admin Login
+              </button>
+            ) : (
+              <button className="auth-btn logout" onClick={logout}>
+                <i className="ti ti-logout"></i> Logout
+              </button>
+            )}
+
+            <div className="menu-list">
+              {menuItems.map(item => (
+                <button
+                  key={item.id}
+                  className={`menu-btn ${activeModule === item.id ? 'active' : ''}`}
+                  onClick={() => setActiveModule(item.id)}
+                >
+                  <i className={`ti ${item.icon}`}></i>
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </aside>
+
+          <div className="main-area">
+            <div className="topbar">
+              <div>
+                <h1>CUSAT Smart Student Portal</h1>
+                <p>Kalamassery, Kochi - campus support, accommodation and nearby essentials</p>
+              </div>
+              <div className="status-box">
+                <span className={`status-badge ${userRole}`}>
+                  <i className={`ti ${userRole === 'admin' ? 'ti-shield-check' : 'ti-eye'}`}></i>
+                  {userRole === 'admin' ? 'Admin' : 'Guest Viewer'}
+                </span>
+              </div>
+            </div>
+
+            <div className="content">
+              <div key={activeModule} className="fade-in-section">
+              {activeModule === 'home' && (
+                <div>
+                  {/* Hero Section */}
+                  <div className="hero-section">
+                    <h2 className="hero-title">CUSAT Student Portal</h2>
+                    <p className="hero-subtitle">
+                      Your ultimate campus assistant for staying, dining, and navigating Kochi University. Find local hostels, PG accommodations, dining spots, and key campus contacts.
+                    </p>
+                    <div className="quick-stats">
+                      <div className="stat-item">
+                        <div className="stat-val">{academicEvents.length}</div>
+                        <div className="stat-lbl">Calendar Events</div>
+                      </div>
+                      <div className="stat-item">
+                        <div className="stat-val">{hostels.length + pgs.length}</div>
+                        <div className="stat-lbl">Accommodations</div>
+                      </div>
+                      <div className="stat-item">
+                        <div className="stat-val">{foodSpots.length + restaurants.length}</div>
+                        <div className="stat-lbl">Tea & Dining</div>
+                      </div>
+                      <div className="stat-item">
+                        <div className="stat-val">{amenities.length}</div>
+                        <div className="stat-lbl">Campus Services</div>
+                      </div>
+                      <div className="stat-item">
+                        <div className="stat-val">{clubs.length}</div>
+                        <div className="stat-lbl">Clubs Active</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Modules Preview Grid */}
+                  <div className="preview-grid">
+                    {/* Academic Calendar Card */}
+                    <div className="preview-card" onClick={() => setActiveModule('calendar')}>
+                      <div>
+                        <div className="preview-header">
+                          <div className="preview-icon-box">
+                            <i className="ti ti-calendar"></i>
+                          </div>
+                          <h3 className="preview-title">Academic Calendar</h3>
+                        </div>
+                        <div className="preview-content">
+                          Stay updated with upcoming registrations, examinations, and university holidays.
+                          <ul className="preview-list-small">
+                            {academicEvents.slice(0, 2).map((e, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-circle-chevron-right"></i>
+                                <span>{e.title} ({e.date})</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <button className="preview-btn-text">
+                        Open Calendar <i className="ti ti-arrow-right"></i>
+                      </button>
+                    </div>
+
+                    {/* Accommodation Card */}
+                    <div className="preview-card" onClick={() => setActiveModule('hostels')}>
+                      <div>
+                        <div className="preview-header">
+                          <div className="preview-icon-box">
+                            <i className="ti ti-home"></i>
+                          </div>
+                          <h3 className="preview-title">Stays & Hostels</h3>
+                        </div>
+                        <div className="preview-content">
+                          Browse verified university hostels and Paying Guest (PG) listings near Kalamassery.
+                          <ul className="preview-list-small">
+                            {hostels.slice(0, 1).map((h, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-building-community"></i>
+                                <span>{h.name} - {h.fees}</span>
+                              </li>
+                            ))}
+                            {pgs.slice(0, 1).map((p, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-bed"></i>
+                                <span>{p.name} - {p.rent}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <button className="preview-btn-text" onClick={(e) => { e.stopPropagation(); setActiveModule('hostels'); }}>
+                        Explore Stays <i className="ti ti-arrow-right"></i>
+                      </button>
+                    </div>
+
+                    {/* Tea Spot & Restaurant Card */}
+                    <div className="preview-card" onClick={() => setActiveModule('food')}>
+                      <div>
+                        <div className="preview-header">
+                          <div className="preview-icon-box">
+                            <i className="ti ti-coffee"></i>
+                          </div>
+                          <h3 className="preview-title">Tea Spots</h3>
+                        </div>
+                        <div className="preview-content">
+                          Discover local tea shops, campus canteens, and snack joints around the university.
+                          <ul className="preview-list-small">
+                            {foodSpots.slice(0, 1).map((f, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-cookie"></i>
+                                <span>{f.name} ({f.timing})</span>
+                              </li>
+                            ))}
+                            {restaurants.slice(0, 1).map((r, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-tools-kitchen-2"></i>
+                                <span>{r.name} - {r.cuisine}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <button className="preview-btn-text" onClick={(e) => { e.stopPropagation(); setActiveModule('food'); }}>
+                        Explore Tea Spots <i className="ti ti-arrow-right"></i>
+                      </button>
+                    </div>
+
+                    {/* Amenities Card */}
+                    <div className="preview-card" onClick={() => setActiveModule('amenities')}>
+                      <div>
+                        <div className="preview-header">
+                          <div className="preview-icon-box">
+                            <i className="ti ti-map-pin"></i>
+                          </div>
+                          <h3 className="preview-title">Campus Amenities</h3>
+                        </div>
+                        <div className="preview-content">
+                          Locate critical facilities like medical stores, photocopying centers, and laundry services.
+                          <ul className="preview-list-small">
+                            {amenities.slice(0, 2).map((a, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-info-circle"></i>
+                                <span>{a.name} - {a.location}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <button className="preview-btn-text">
+                        View Utilities <i className="ti ti-arrow-right"></i>
+                      </button>
+                    </div>
+
+                    {/* Clubs Card */}
+                    <div className="preview-card" onClick={() => setActiveModule('clubs')}>
+                      <div>
+                        <div className="preview-header">
+                          <div className="preview-icon-box">
+                            <i className="ti ti-users"></i>
+                          </div>
+                          <h3 className="preview-title">Campus Clubs</h3>
+                        </div>
+                        <div className="preview-content">
+                          Explore technical, cultural, and activity clubs active on the CUSAT campus.
+                          <ul className="preview-list-small">
+                            {clubs.slice(0, 2).map((c, idx) => (
+                              <li key={idx}>
+                                <i className="ti ti-trophy"></i>
+                                <span>{c.name} - {c.location}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                      <button className="preview-btn-text">
+                        Explore Clubs <i className="ti ti-arrow-right"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Contact Summary Banner */}
+                  <div className="landing-contact-banner">
+                    <div className="landing-contact-info">
+                      <h3>Need Immediate Assistance?</h3>
+                      <p>Access direct office phone numbers, email addresses, and locations instantly.</p>
+                    </div>
+                    <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }} onClick={() => setActiveModule('contacts')}>
+                      <i className="ti ti-phone"></i> Contact Directory
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {activeModule === 'calendar' && (
+                <div className="card">
+                  <h2>Academic Calendar</h2>
+                  {academicEvents.map((event, idx) => (
+                    <div key={idx} className="event-item">
+                      <div>
+                        <p><strong>{event.title}</strong></p>
+                        <p className="small-text">{event.date} | {event.type}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeModule === 'contacts' && (
+                <div className="grid">
+                  <div className="item-card">
+                    <h3>{contacts.hostelOffice.name}</h3>
+                    <p><strong>Phone:</strong> {contacts.hostelOffice.phone}</p>
+                    <p><strong>Email:</strong> {contacts.hostelOffice.email}</p>
+                    <p><strong>Address:</strong> {contacts.hostelOffice.address}</p>
+                  </div>
+                  <div className="item-card">
+                    <h3>{contacts.adminOffice.name}</h3>
+                    <p><strong>Phone:</strong> {contacts.adminOffice.phone}</p>
+                    <p><strong>Email:</strong> {contacts.adminOffice.email}</p>
+                    <p><strong>Address:</strong> {contacts.adminOffice.address}</p>
+                  </div>
+                </div>
+              )}
+
+              {activeModule === 'hostels' && (
+                <div className="card">
+                  <div className="module-header">
+                    <h2>Hostels</h2>
+                  </div>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search by hostel, location, or food"
+                      value={hostelSearch}
+                      onChange={(e) => setHostelSearch(e.target.value)}
+                    />
+                  </div>
+                  {renderCards(filteredHostels, ['location', 'fees', 'food', 'contact', 'rooms'])}
+                </div>
+              )}
+
+              {activeModule === 'pgs' && (
+                <div className="card">
+                  <div className="module-header">
+                    <h2>Paying Guest (PG) Options</h2>
+                  </div>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search PG by name, location, food, or room type"
+                      value={pgSearch}
+                      onChange={(e) => setPgSearch(e.target.value)}
+                    />
+                    <select value={pgFoodFilter} onChange={(e) => setPgFoodFilter(e.target.value)}>
+                      <option value="all">All food options</option>
+                      <option value="included">Food included / mess</option>
+                      <option value="not-included">No food included</option>
+                    </select>
+                    <select value={pgRentFilter} onChange={(e) => setPgRentFilter(e.target.value)}>
+                      <option value="all">All rent ranges</option>
+                      <option value="below6000">Below 6000</option>
+                      <option value="6000to8000">6000 to 8000</option>
+                      <option value="above8000">Above 8000</option>
+                    </select>
+                  </div>
+                  {renderCards(filteredPGs, ['location', 'rent', 'food', 'contact', 'rooms'])}
+                </div>
+              )}
+
+              {activeModule === 'food' && (
+                <div className="card">
+                  <h2>Tea Spots</h2>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search tea spots by name, location, or specialty"
+                      value={foodSearch}
+                      onChange={(e) => setFoodSearch(e.target.value)}
+                    />
+                  </div>
+                  {renderCards(filteredFoodSpots, ['location', 'specialty', 'timing'])}
+                </div>
+              )}
+
+              {activeModule === 'restaurants' && (
+                <div className="card">
+                  <h2>Restaurants</h2>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search restaurants by name, location, or cuisine"
+                      value={restaurantSearch}
+                      onChange={(e) => setRestaurantSearch(e.target.value)}
+                    />
+                    <select value={restaurantCuisineFilter} onChange={(e) => setRestaurantCuisineFilter(e.target.value)}>
+                      <option value="all">All cuisines</option>
+                      <option value="kerala">Kerala</option>
+                      <option value="fast">Fast food</option>
+                      <option value="arabic">Arabic</option>
+                      <option value="chinese">Chinese</option>
+                      <option value="veg">Veg</option>
+                    </select>
+                  </div>
+                  {renderCards(filteredRestaurants, ['location', 'cuisine', 'contact'])}
+                </div>
+              )}
+
+              {activeModule === 'amenities' && (
+                <div className="card">
+                  <h2>Amenities</h2>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search amenities by name, location, or details"
+                      value={amenitySearch}
+                      onChange={(e) => setAmenitySearch(e.target.value)}
+                    />
+                  </div>
+                  {renderCards(filteredAmenities, ['location', 'details'])}
+                </div>
+              )}
+
+              {activeModule === 'clubs' && (
+                <div className="card">
+                  <h2>Campus Clubs</h2>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search clubs by name, location, or services..."
+                      value={clubSearch}
+                      onChange={(e) => setClubSearch(e.target.value)}
+                    />
+                  </div>
+                  {renderCards(filteredClubs, ['location', 'contact', 'services'])}
+                </div>
+              )}
+
+              {activeModule === 'admin' && userRole === 'admin' && (
+                <div className="card">
+                  <h2>Admin Panel</h2>
+ 
+                  <div className="admin-tabs">
+                    {[
+                      ['calendar', 'Calendar'],
+                      ['hostels', 'Hostels'],
+                      ['pgs', 'PGs'],
+                      ['food', 'Tea Spots'],
+                      ['restaurants', 'Restaurants'],
+                      ['amenities', 'Amenities'],
+                      ['clubs', 'Clubs']
+                    ].map(([id, label]) => (
+                      <button
+                        key={id}
+                        className={`admin-tab-btn ${adminSection === id ? 'active' : ''}`}
+                        onClick={() => { setAdminSection(id); setEditIndex(null); resetFormByType(id); }}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+ 
+                  {adminSection === 'calendar' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Academic Event' : 'Add Academic Event'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group">
+                          <label>Event Title</label>
+                          <input value={newEvent.title} onChange={(e) => setNewEvent({...newEvent, title: e.target.value})} />
+                        </div>
+                        <div className="form-group">
+                          <label>Date</label>
+                          <input type="date" value={newEvent.date} onChange={(e) => setNewEvent({...newEvent, date: e.target.value})} />
+                        </div>
+                        <div className="form-group">
+                          <label>Type</label>
+                          <select value={newEvent.type} onChange={(e) => setNewEvent({...newEvent, type: e.target.value})}>
+                            <option value="academic">Academic</option>
+                            <option value="exam">Exam</option>
+                            <option value="holiday">Holiday</option>
+                          </select>
+                        </div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('calendar')}>
+                            {editIndex !== null ? 'Update Event' : 'Add Event'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('calendar')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {academicEvents.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <div>
+                            <strong>{item.title}</strong>
+                            <p className="small-text">{item.date} | {item.type}</p>
+                          </div>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('calendar', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setAcademicEvents, academicEvents, idx, 'calendar')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+ 
+                  {adminSection === 'hostels' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Hostel' : 'Add Hostel'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name</label><input value={newHostel.name} onChange={(e) => setNewHostel({...newHostel, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location</label><input value={newHostel.location} onChange={(e) => setNewHostel({...newHostel, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Fees</label><input value={newHostel.fees} onChange={(e) => setNewHostel({...newHostel, fees: e.target.value})} /></div>
+                        <div className="form-group"><label>Food</label><input value={newHostel.food} onChange={(e) => setNewHostel({...newHostel, food: e.target.value})} /></div>
+                        <div className="form-group"><label>Contact</label><input value={newHostel.contact} onChange={(e) => setNewHostel({...newHostel, contact: e.target.value})} /></div>
+                        <div className="form-group"><label>Rooms</label><input value={newHostel.rooms} onChange={(e) => setNewHostel({...newHostel, rooms: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newHostel.gmapsLink || ''} onChange={(e) => setNewHostel({...newHostel, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('hostels')}>
+                            {editIndex !== null ? 'Update Hostel' : 'Add Hostel'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('hostels')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {hostels.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('hostels', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setHostels, hostels, idx, 'hostels')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+ 
+                  {adminSection === 'pgs' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit PG' : 'Add PG'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name</label><input value={newPG.name} onChange={(e) => setNewPG({...newPG, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location</label><input value={newPG.location} onChange={(e) => setNewPG({...newPG, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Rent</label><input value={newPG.rent} onChange={(e) => setNewPG({...newPG, rent: e.target.value})} /></div>
+                        <div className="form-group"><label>Food</label><input value={newPG.food} onChange={(e) => setNewPG({...newPG, food: e.target.value})} /></div>
+                        <div className="form-group"><label>Contact</label><input value={newPG.contact} onChange={(e) => setNewPG({...newPG, contact: e.target.value})} /></div>
+                        <div className="form-group"><label>Rooms</label><input value={newPG.rooms} onChange={(e) => setNewPG({...newPG, rooms: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newPG.gmapsLink || ''} onChange={(e) => setNewPG({...newPG, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('pgs')}>
+                            {editIndex !== null ? 'Update PG' : 'Add PG'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('pgs')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {pgs.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('pgs', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setPgs, pgs, idx, 'pgs')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+ 
+                  {adminSection === 'food' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Tea Spot' : 'Add Tea Spot'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name</label><input value={newFoodSpot.name} onChange={(e) => setNewFoodSpot({...newFoodSpot, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location</label><input value={newFoodSpot.location} onChange={(e) => setNewFoodSpot({...newFoodSpot, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Specialty</label><input value={newFoodSpot.specialty} onChange={(e) => setNewFoodSpot({...newFoodSpot, specialty: e.target.value})} /></div>
+                        <div className="form-group"><label>Timing</label><input value={newFoodSpot.timing} onChange={(e) => setNewFoodSpot({...newFoodSpot, timing: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newFoodSpot.gmapsLink || ''} onChange={(e) => setNewFoodSpot({...newFoodSpot, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('food')}>
+                            {editIndex !== null ? 'Update Tea Spot' : 'Add Tea Spot'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('food')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {foodSpots.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('food', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setFoodSpots, foodSpots, idx, 'food')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+ 
+                  {adminSection === 'restaurants' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Restaurant' : 'Add Restaurant'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name</label><input value={newRestaurant.name} onChange={(e) => setNewRestaurant({...newRestaurant, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location</label><input value={newRestaurant.location} onChange={(e) => setNewRestaurant({...newRestaurant, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Cuisine</label><input value={newRestaurant.cuisine} onChange={(e) => setNewRestaurant({...newRestaurant, cuisine: e.target.value})} /></div>
+                        <div className="form-group"><label>Contact</label><input value={newRestaurant.contact} onChange={(e) => setNewRestaurant({...newRestaurant, contact: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newRestaurant.gmapsLink || ''} onChange={(e) => setNewRestaurant({...newRestaurant, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('restaurants')}>
+                            {editIndex !== null ? 'Update Restaurant' : 'Add Restaurant'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('restaurants')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {restaurants.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('restaurants', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setRestaurants, restaurants, idx, 'restaurants')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+ 
+                  {adminSection === 'amenities' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Amenity' : 'Add Amenity'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name</label><input value={newAmenity.name} onChange={(e) => setNewAmenity({...newAmenity, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location</label><input value={newAmenity.location} onChange={(e) => setNewAmenity({...newAmenity, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newAmenity.gmapsLink || ''} onChange={(e) => setNewAmenity({...newAmenity, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group full-width"><label>Details</label><textarea value={newAmenity.details} onChange={(e) => setNewAmenity({...newAmenity, details: e.target.value})}></textarea></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('amenities')}>
+                            {editIndex !== null ? 'Update Amenity' : 'Add Amenity'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('amenities')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {amenities.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('amenities', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setAmenities, amenities, idx, 'amenities')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+ 
+                  {adminSection === 'clubs' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Club' : 'Add Club'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name</label><input value={newClub.name} onChange={(e) => setNewClub({...newClub, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Location</label><input value={newClub.location} onChange={(e) => setNewClub({...newClub, location: e.target.value})} /></div>
+                        <div className="form-group"><label>Contact</label><input value={newClub.contact} onChange={(e) => setNewClub({...newClub, contact: e.target.value})} /></div>
+                        <div className="form-group"><label>Services Provided</label><input value={newClub.services} onChange={(e) => setNewClub({...newClub, services: e.target.value})} /></div>
+                        <div className="form-group"><label>Google Maps Link</label><input value={newClub.gmapsLink || ''} onChange={(e) => setNewClub({...newClub, gmapsLink: e.target.value})} placeholder="https://goo.gl/maps/..." /></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('clubs')}>
+                            {editIndex !== null ? 'Update Club' : 'Add Club'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('clubs')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {clubs.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('clubs', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setClubs, clubs, idx, 'clubs')}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              </div>
+            </div>
+          </div>
+
+          {showAuthModal && (
+            <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                  <h2>Admin Login</h2>
+                  <button className="close-btn" onClick={() => setShowAuthModal(false)}>&times;</button>
+                </div>
+
+                <form onSubmit={handleLogin}>
+                  <div className="form-group">
+                    <label>Admin Email</label>
+                    <input
+                      type="email"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="admin@cusat.ac.in"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
+                      placeholder="••••••"
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="login-btn">
+                    Login as Admin
+                  </button>
+
+                  <div className="demo-box" style={{ marginTop: '12px' }}>
+                    <strong>Debug Hint:</strong>
+                    <div style={{ marginTop: '4px' }}>• <strong>Admin Email:</strong> admin@cusat.ac.in</div>
+                    <div>• <strong>Admin Password:</strong> CUSAT@admin2026</div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('app'));
+    root.render(<CUSATPortal />);
+  </script>
+</body>
+</html>
