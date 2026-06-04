@@ -9,7 +9,8 @@ export default function Home({
   restaurants,
   amenities,
   clubs,
-  setActiveModule
+  setActiveModule,
+  setShowAuthModal
 }) {
   const [loggedStudent, setLoggedStudent] = useState(null);
   const [queryCount, setQueryCount] = useState(0);
@@ -159,8 +160,8 @@ export default function Home({
               and track their status.
             </p>
           </div>
-          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'l' }))}>
-            <i className="ti ti-login"></i> Log In to File Inquiries <span className="kbd-badge" style={{ marginLeft: '6px', borderBottomColor: '#64748b', color: '#334155' }}>L</span>
+          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setShowAuthModal(true)}>
+            <i className="ti ti-login"></i> Log In to File Inquiries
           </button>
         </div>
       )}
@@ -177,12 +178,12 @@ export default function Home({
             </p>
           </div>
           <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setActiveModule('queries')}>
-            <i className="ti ti-mail"></i> File Complaint <span className="kbd-badge" style={{ marginLeft: '6px', borderBottomColor: '#64748b', color: '#334155' }}>Q</span>
+            <i className="ti ti-mail"></i> File Complaint
           </button>
         </div>
       )}
 
-      {/* Feature Grid with Key Badges */}
+      {/* Feature Grid */}
       <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#0f172a', marginBottom: '18px', letterSpacing: '-0.02em' }}>
         Portal Features & Resources
       </h2>
@@ -191,14 +192,13 @@ export default function Home({
         {features.map((feat) => (
           <div className="preview-card" key={feat.id} onClick={() => setActiveModule(feat.id)}>
             <div>
-              <div className="preview-header" style={{ justifyContent: 'space-between' }}>
+              <div className="preview-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
                   <div className="preview-icon-box">
                     <i className={`ti ${feat.icon}`}></i>
                   </div>
                   <h3 className="preview-title" style={{ fontSize: '16px' }}>{feat.title}</h3>
                 </div>
-                <span className="kbd-badge" title={`Press '${feat.key}' shortcut key`}>{feat.key}</span>
               </div>
               <p className="preview-content" style={{ fontSize: '13.5px', marginTop: '4px' }}>
                 {feat.description}
@@ -209,14 +209,6 @@ export default function Home({
             </button>
           </div>
         ))}
-      </div>
-
-      {/* Keyboard Helper Alert panel */}
-      <div className="shortcut-helper-panel">
-        <i className="ti ti-keyboard" style={{ fontSize: '24px', color: '#15803d' }}></i>
-        <div>
-          <strong>Power User Feature:</strong> You can navigate the portal using your keyboard shortcuts! Press any key shown inside the <span className="kbd-badge" style={{ borderBottomColor: '#b45309', color: '#b45309' }}>Key</span> badges to switch tabs instantly.
-        </div>
       </div>
     </div>
   );

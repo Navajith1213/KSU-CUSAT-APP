@@ -85,47 +85,7 @@ export default function App() {
     }
   }, [gitOwner, gitRepo, gitPat]);
 
-  // Global keyboard shortcuts listener
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      // Ignore shortcuts when typing inside form elements
-      if (
-        document.activeElement && 
-        (document.activeElement.tagName === 'INPUT' ||
-         document.activeElement.tagName === 'TEXTAREA' ||
-         document.activeElement.tagName === 'SELECT')
-      ) {
-        return;
-      }
 
-      const key = e.key.toLowerCase();
-      
-      const shortcuts = {
-        h: 'home',
-        c: 'calendar',
-        d: 'contacts',
-        s: 'hostels',
-        p: 'pgs',
-        t: 'food',
-        r: 'restaurants',
-        a: 'amenities',
-        k: 'clubs',
-        q: 'queries'
-      };
-
-      if (shortcuts[key]) {
-        if (key === 'q' && userRole !== 'student') return; // Student only queries view
-        setActiveModule(shortcuts[key]);
-      }
-
-      if (key === 'l' && userRole === 'user') {
-        setShowAuthModal(true);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [userRole]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -397,6 +357,7 @@ export default function App() {
             amenities={amenities}
             clubs={clubs}
             setActiveModule={setActiveModule}
+            setShowAuthModal={setShowAuthModal}
           />
         )}
 
