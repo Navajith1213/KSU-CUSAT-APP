@@ -1,16 +1,6 @@
 // <!--EVENTS_START-->
 export const defaultEvents = [
   {
-    "title": "B.Tech Semester Registration",
-    "date": "2026-07-01",
-    "type": "academic"
-  },
-  {
-    "title": "Internal Examination Begins",
-    "date": "2026-08-08",
-    "type": "exam"
-  },
-  {
     "title": "Onam Vacation Begins",
     "date": "2026-09-01",
     "type": "holiday"
