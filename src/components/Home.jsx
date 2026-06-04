@@ -114,10 +114,10 @@ export default function Home({
           </div>
         ) : (
           <div>
-            <h2 className="hero-title">CUSAT Student Portal</h2>
+            <h2 className="hero-title">Student Portal</h2>
             <p className="hero-subtitle">
-              Your ultimate campus assistant for staying, dining, and navigating Kochi University. Find local hostels,
-              paying guest (PG) accommodations, dining spots, and key campus contacts.
+              Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find local hostels,
+              paying guest (PG) accommodations, tea spots, and key campus contacts.
             </p>
           </div>
         )}
@@ -134,7 +134,7 @@ export default function Home({
           </div>
           <div className="stat-item">
             <div className="stat-val">{foodSpots.length + restaurants.length}</div>
-            <div className="stat-lbl">Dining Spots</div>
+            <div className="stat-lbl">Tea Spots</div>
           </div>
           <div className="stat-item">
             <div className="stat-val">{amenities.length}</div>
@@ -155,7 +155,7 @@ export default function Home({
               File Inquiries and Track complaints
             </h3>
             <p style={{ color: '#475569', fontSize: '14px', lineHeight: '1.5' }}>
-              Log in to your student account to access the Student Union help desk. Submit issues directly to the admins
+              Log in to your student account to access the Kerala Students Union help desk. Submit issues directly to the admins
               and track their status.
             </p>
           </div>

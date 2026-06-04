@@ -6,6 +6,7 @@ import Home from './components/Home';
 import ListingGrid from './components/ListingGrid';
 import ContactList from './components/ContactList';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import AdminQueries from './components/Admin/AdminQueries';
 import QueryPanel from './components/QueryPanel';
 import Navbar from './components/Navbar';
 
@@ -578,6 +579,9 @@ export default function App() {
             publishToGitHub={publishToGitHub}
             isPublishing={isPublishing}
           />
+        )}
+        {activeModule === 'admin-queries' && userRole === 'admin' && (
+          <AdminQueries />
         )}
       </div>
     );

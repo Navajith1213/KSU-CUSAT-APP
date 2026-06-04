@@ -35,76 +35,6 @@ export default function AdminDashboard({
   const [adminSection, setAdminSection] = useState('calendar');
   const [editIndex, setEditIndex] = useState(null);
 
-  // Student queries list state
-  const [adminComplaints, setAdminComplaints] = useState([]);
-  const [loadingQueries, setLoadingQueries] = useState(false);
-
-  const fetchAllComplaints = async () => {
-    setLoadingQueries(true);
-    if (!hasSupabaseConfig) {
-      const allQueries = JSON.parse(localStorage.getItem('mock_all_queries') || '[]');
-      setAdminComplaints(allQueries);
-      setLoadingQueries(false);
-      return;
-    }
-    try {
-      const { data, error } = await supabase
-        .from('complaints')
-        .select('*')
-        .order('created_at', { ascending: false });
-      if (error) throw error;
-      setAdminComplaints(data || []);
-    } catch (err) {
-      console.error('Error fetching complaints from Supabase:', err.message);
-    } finally {
-      setLoadingQueries(false);
-    }
-  };
-
-  React.useEffect(() => {
-    if (adminSection === 'queries') {
-      fetchAllComplaints();
-    }
-  }, [adminSection]);
-
-  const updateComplaintStatus = async (idx, complaintItem, newStatus) => {
-    if (hasSupabaseConfig) {
-      try {
-        const { error } = await supabase
-          .from('complaints')
-          .update({ status: newStatus })
-          .eq('id', complaintItem.id);
-        if (error) throw error;
-        alert('Status updated successfully!');
-        fetchAllComplaints();
-      } catch (err) {
-        alert(`Failed to update status: ${err.message}`);
-      }
-    } else {
-      // Mock update to local storage
-      const allQueries = JSON.parse(localStorage.getItem('mock_all_queries') || '[]');
-      const updatedQueries = allQueries.map((item, i) => {
-        if (i === idx) {
-          return { ...item, status: newStatus };
-        }
-        return item;
-      });
-      localStorage.setItem('mock_all_queries', JSON.stringify(updatedQueries));
-
-      const studentEmail = complaintItem.student_email;
-      const studentQueries = JSON.parse(localStorage.getItem(`mock_queries_${studentEmail}`) || '[]');
-      const updatedStudentQueries = studentQueries.map((item) => {
-        if (item.subject === complaintItem.subject && item.created_at === complaintItem.created_at) {
-          return { ...item, status: newStatus };
-        }
-        return item;
-      });
-      localStorage.setItem(`mock_queries_${studentEmail}`, JSON.stringify(updatedStudentQueries));
-
-      alert('Status updated successfully (Demo Mode)!');
-      fetchAllComplaints();
-    }
-  };
 
   // Re-define form states locally inside the Admin dashboard
   const [newEvent, setNewEvent] = useState({ title: '', date: '', type: 'academic' });
@@ -202,8 +132,7 @@ export default function AdminDashboard({
           ['food', 'Tea Spots'],
           ['restaurants', 'Restaurants'],
           ['amenities', 'Amenities'],
-          ['clubs', 'Clubs'],
-          ['queries', 'Student Queries']
+          ['clubs', 'Clubs']
         ].map(([id, label]) => (
           <button
             key={id}
@@ -394,50 +323,7 @@ export default function AdminDashboard({
         </div>
       )}
 
-      {adminSection === 'queries' && (
-        <div className="card">
-          <h3>Student Filed Queries & Complaints</h3>
-          <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '18px' }}>
-            Read queries filed by students and update their resolution status below.
-          </p>
-          
-          {loadingQueries ? (
-            <p>Loading complaints...</p>
-          ) : adminComplaints.length > 0 ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {adminComplaints.map((item, idx) => (
-                <div key={idx} className="event-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '8px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#0d9488', backgroundColor: '#f0fdfa', padding: '3px 8px', borderRadius: '12px' }}>
-                      {item.category}
-                    </span>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '12px', color: '#64748b' }}>Status:</span>
-                      <select
-                        value={item.status}
-                        onChange={(e) => updateComplaintStatus(idx, item, e.target.value)}
-                        style={{ padding: '4px 8px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', background: 'white' }}
-                      >
-                        <option value="Submitted">Submitted</option>
-                        <option value="Letter Given">Letter Given</option>
-                        <option value="Resolved">Resolved</option>
-                      </select>
-                    </div>
-                  </div>
-                  <h4 style={{ fontSize: '15px', color: '#0f172a', fontWeight: '700' }}>{item.subject}</h4>
-                  <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.4' }}>{item.description}</p>
-                  <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '6px', marginTop: '4px', fontSize: '11px', color: '#94a3b8', display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Filed by: <strong>{item.student_name}</strong> ({item.student_email})</span>
-                    <span>Date: {new Date(item.created_at).toLocaleDateString()}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p style={{ color: '#64748b', padding: '24px', textAlign: 'center' }}>No complaints filed yet.</p>
-          )}
-        </div>
-      )}
+
     </div>
   );
 }

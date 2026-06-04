@@ -17,6 +17,7 @@ export default function Sidebar({
     { id: 'restaurants', label: 'Restaurants', icon: 'ti-tools-kitchen-2' },
     { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
     { id: 'clubs', label: 'Campus Clubs', icon: 'ti-users' },
+    { id: 'admin-queries', label: 'Student Queries', icon: 'ti-mail' },
     { id: 'admin', label: 'Admin Dashboard', icon: 'ti-settings' }
   ];
 
