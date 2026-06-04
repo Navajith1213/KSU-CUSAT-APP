@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 
 export default function Home({
   academicEvents,
@@ -10,14 +11,118 @@ export default function Home({
   clubs,
   setActiveModule
 }) {
+  const [loggedStudent, setLoggedStudent] = useState(null);
+  const [queryCount, setQueryCount] = useState(0);
+
+  // Check student session on mount/focus
+  useEffect(() => {
+    try {
+      const session = sessionStorage.getItem('student_session');
+      if (session) {
+        const student = JSON.parse(session);
+        setLoggedStudent(student);
+
+        // Fetch query count
+        if (hasSupabaseConfig) {
+          supabase
+            .from('complaints')
+            .select('id', { count: 'exact', head: true })
+            .then(({ count, error }) => {
+              if (!error) setQueryCount(count || 0);
+            });
+        } else {
+          const mockHistory = JSON.parse(localStorage.getItem(`mock_queries_${student.email}`) || '[]');
+          setQueryCount(mockHistory.length);
+        }
+      }
+    } catch (_) {}
+  }, []);
+
+  const features = [
+    {
+      id: 'calendar',
+      title: 'Academic Calendar',
+      icon: 'ti-calendar',
+      key: 'C',
+      description: 'Check crucial dates including semester registrations, mid-term examinations, and official university holidays.'
+    },
+    {
+      id: 'contacts',
+      title: 'Contact Directory',
+      icon: 'ti-phone',
+      key: 'D',
+      description: 'Find administrative helpline details, university hostel office contacts, and google map directions instantly.'
+    },
+    {
+      id: 'hostels',
+      title: 'Campus Hostels',
+      icon: 'ti-building-community',
+      key: 'S',
+      description: 'Explore verified student hostel listings inside or around Kalamassery campus, detailing mess options and room rules.'
+    },
+    {
+      id: 'pgs',
+      title: 'Paying Guests (PGs)',
+      icon: 'ti-bed',
+      key: 'P',
+      description: 'Compare double and single sharing PG options, monthly rent ranges, food availability, and contact detail cards.'
+    },
+    {
+      id: 'food',
+      title: 'Evening Tea Spots',
+      icon: 'ti-coffee',
+      key: 'T',
+      description: 'Locate local student canteens, tea joints, and evening fast food outlets around the CUSAT road corridor.'
+    },
+    {
+      id: 'restaurants',
+      title: 'Restaurants',
+      icon: 'ti-tools-kitchen-2',
+      key: 'R',
+      description: 'Browse local lunch tables, biryani counters, arabic kitchens, and vegetarian dining centers near the Metro link.'
+    },
+    {
+      id: 'amenities',
+      title: 'Amenities & Shops',
+      icon: 'ti-map-pin',
+      key: 'A',
+      description: 'Quickly find critical campus amenities such as laundry services, stationery/xerox hubs, and medical stores.'
+    },
+    {
+      id: 'clubs',
+      title: 'Clubs & Arts',
+      icon: 'ti-users',
+      key: 'K',
+      description: 'Get involved in cultural clubs, arts collectives, IEEE student branches, and technical workshops active on campus.'
+    }
+  ];
+
   return (
     <div>
-      {/* Hero Section */}
+      {/* Hero Welcome banner */}
       <div className="hero-section">
-        <h2 className="hero-title">CUSAT Student Portal</h2>
-        <p className="hero-subtitle">
-          Your ultimate campus assistant for staying, dining, and navigating Kochi University. Find local hostels, PG accommodations, dining spots, and key campus contacts.
-        </p>
+        {loggedStudent ? (
+          <div>
+            <h2 className="hero-title" style={{ fontSize: '32px' }}>
+              Welcome back, {loggedStudent.full_name}!
+            </h2>
+            <p className="hero-subtitle">
+              Your student dashboard is active. You have submitted{' '}
+              <strong style={{ color: '#0d9488' }}>{queryCount} support ticket(s)</strong>. Use the sidebar tabs or
+              shortcut keys to search accommodations, check holidays, or file new inquiries.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h2 className="hero-title">CUSAT Student Portal</h2>
+            <p className="hero-subtitle">
+              Your ultimate campus assistant for staying, dining, and navigating Kochi University. Find local hostels,
+              paying guest (PG) accommodations, dining spots, and key campus contacts.
+            </p>
+          </div>
+        )}
+
+        {/* Quick statistics */}
         <div className="quick-stats">
           <div className="stat-item">
             <div className="stat-val">{academicEvents.length}</div>
@@ -25,177 +130,93 @@ export default function Home({
           </div>
           <div className="stat-item">
             <div className="stat-val">{hostels.length + pgs.length}</div>
-            <div className="stat-lbl">Accommodations</div>
+            <div className="stat-lbl">Stays Listed</div>
           </div>
           <div className="stat-item">
             <div className="stat-val">{foodSpots.length + restaurants.length}</div>
-            <div className="stat-lbl">Tea & Dining</div>
+            <div className="stat-lbl">Dining Spots</div>
           </div>
           <div className="stat-item">
             <div className="stat-val">{amenities.length}</div>
-            <div className="stat-lbl">Campus Services</div>
+            <div className="stat-lbl">Amenities</div>
           </div>
           <div className="stat-item">
             <div className="stat-val">{clubs.length}</div>
-            <div className="stat-lbl">Clubs Active</div>
+            <div className="stat-lbl">Clubs</div>
           </div>
         </div>
       </div>
 
-      {/* Modules Preview Grid */}
-      <div className="preview-grid">
-        {/* Academic Calendar Card */}
-        <div className="preview-card" onClick={() => setActiveModule('calendar')}>
-          <div>
-            <div className="preview-header">
-              <div className="preview-icon-box">
-                <i className="ti ti-calendar"></i>
-              </div>
-              <h3 className="preview-title">Academic Calendar</h3>
-            </div>
-            <div className="preview-content">
-              Stay updated with upcoming registrations, examinations, and university holidays.
-              <ul className="preview-list-small">
-                {academicEvents.slice(0, 2).map((e, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-circle-chevron-right"></i>
-                    <span>{e.title} ({e.date})</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+      {/* Guest Call to Action */}
+      {!loggedStudent && (
+        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #f0fdfa, #eff6ff)', border: '1px solid #bfdbfe', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '260px' }}>
+            <h3 style={{ color: '#1e3a8a', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
+              File Inquiries and Track complaints
+            </h3>
+            <p style={{ color: '#475569', fontSize: '14px', lineHeight: '1.5' }}>
+              Log in to your student account to access the Student Union help desk. Submit issues directly to the admins
+              and track their status.
+            </p>
           </div>
-          <button className="preview-btn-text">
-            Open Calendar <i className="ti ti-arrow-right"></i>
+          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'l' }))}>
+            <i className="ti ti-login"></i> Log In to File Inquiries <span className="kbd-badge" style={{ marginLeft: '6px', borderBottomColor: '#64748b', color: '#334155' }}>L</span>
           </button>
         </div>
+      )}
 
-        {/* Accommodation Card */}
-        <div className="preview-card" onClick={() => setActiveModule('hostels')}>
-          <div>
-            <div className="preview-header">
-              <div className="preview-icon-box">
-                <i className="ti ti-home"></i>
-              </div>
-              <h3 className="preview-title">Stays & Hostels</h3>
-            </div>
-            <div className="preview-content">
-              Browse verified university hostels and Paying Guest (PG) listings near Kalamassery.
-              <ul className="preview-list-small">
-                {hostels.slice(0, 1).map((h, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-building-community"></i>
-                    <span>{h.name} - {h.fees}</span>
-                  </li>
-                ))}
-                {pgs.slice(0, 1).map((p, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-bed"></i>
-                    <span>{p.name} - {p.rent}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+      {/* Logged in student shortcut */}
+      {loggedStudent && (
+        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #f0fdfa, #eff6ff)', border: '1px solid #bfdbfe', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '260px' }}>
+            <h3 style={{ color: '#1e3a8a', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
+              Need Help? File a Complaint
+            </h3>
+            <p style={{ color: '#475569', fontSize: '14px', lineHeight: '1.5' }}>
+              File an official request or complaint regarding hostels, dining, or amenities and get a formal response letter back.
+            </p>
           </div>
-          <button className="preview-btn-text" onClick={(e) => { e.stopPropagation(); setActiveModule('hostels'); }}>
-            Explore Stays <i className="ti ti-arrow-right"></i>
+          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setActiveModule('queries')}>
+            <i className="ti ti-mail"></i> File Complaint <span className="kbd-badge" style={{ marginLeft: '6px', borderBottomColor: '#64748b', color: '#334155' }}>Q</span>
           </button>
         </div>
+      )}
 
-        {/* Tea Spot & Restaurant Card */}
-        <div className="preview-card" onClick={() => setActiveModule('food')}>
-          <div>
-            <div className="preview-header">
-              <div className="preview-icon-box">
-                <i className="ti ti-coffee"></i>
+      {/* Feature Grid with Key Badges */}
+      <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#0f172a', marginBottom: '18px', letterSpacing: '-0.02em' }}>
+        Portal Features & Resources
+      </h2>
+      
+      <div className="preview-grid" style={{ marginBottom: '24px' }}>
+        {features.map((feat) => (
+          <div className="preview-card" key={feat.id} onClick={() => setActiveModule(feat.id)}>
+            <div>
+              <div className="preview-header" style={{ justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                  <div className="preview-icon-box">
+                    <i className={`ti ${feat.icon}`}></i>
+                  </div>
+                  <h3 className="preview-title" style={{ fontSize: '16px' }}>{feat.title}</h3>
+                </div>
+                <span className="kbd-badge" title={`Press '${feat.key}' shortcut key`}>{feat.key}</span>
               </div>
-              <h3 className="preview-title">Tea Spots</h3>
+              <p className="preview-content" style={{ fontSize: '13.5px', marginTop: '4px' }}>
+                {feat.description}
+              </p>
             </div>
-            <div className="preview-content">
-              Discover local tea shops, campus canteens, and snack joints around the university.
-              <ul className="preview-list-small">
-                {foodSpots.slice(0, 1).map((f, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-cookie"></i>
-                    <span>{f.name} ({f.timing})</span>
-                  </li>
-                ))}
-                {restaurants.slice(0, 1).map((r, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-tools-kitchen-2"></i>
-                    <span>{r.name} - {r.cuisine}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <button className="preview-btn-text" style={{ fontSize: '13px' }}>
+              Explore Module <i className="ti ti-arrow-right"></i>
+            </button>
           </div>
-          <button className="preview-btn-text" onClick={(e) => { e.stopPropagation(); setActiveModule('food'); }}>
-            Explore Tea Spots <i className="ti ti-arrow-right"></i>
-          </button>
-        </div>
-
-        {/* Amenities Card */}
-        <div className="preview-card" onClick={() => setActiveModule('amenities')}>
-          <div>
-            <div className="preview-header">
-              <div className="preview-icon-box">
-                <i className="ti ti-map-pin"></i>
-              </div>
-              <h3 className="preview-title">Campus Amenities</h3>
-            </div>
-            <div className="preview-content">
-              Locate critical facilities like medical stores, photocopying centers, and laundry services.
-              <ul className="preview-list-small">
-                {amenities.slice(0, 2).map((a, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-info-circle"></i>
-                    <span>{a.name} - {a.location}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <button className="preview-btn-text">
-            View Utilities <i className="ti ti-arrow-right"></i>
-          </button>
-        </div>
-
-        {/* Clubs Card */}
-        <div className="preview-card" onClick={() => setActiveModule('clubs')}>
-          <div>
-            <div className="preview-header">
-              <div className="preview-icon-box">
-                <i className="ti ti-users"></i>
-              </div>
-              <h3 className="preview-title">Campus Clubs</h3>
-            </div>
-            <div className="preview-content">
-              Explore technical, cultural, and activity clubs active on the CUSAT campus.
-              <ul className="preview-list-small">
-                {clubs.slice(0, 2).map((c, idx) => (
-                  <li key={idx}>
-                    <i className="ti ti-trophy"></i>
-                    <span>{c.name} - {c.location}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <button className="preview-btn-text">
-            Explore Clubs <i className="ti ti-arrow-right"></i>
-          </button>
-        </div>
+        ))}
       </div>
 
-      {/* Contact Summary Banner */}
-      <div className="landing-contact-banner">
-        <div className="landing-contact-info">
-          <h3>Need Immediate Assistance?</h3>
-          <p>Access direct office phone numbers, email addresses, and locations instantly.</p>
+      {/* Keyboard Helper Alert panel */}
+      <div className="shortcut-helper-panel">
+        <i className="ti ti-keyboard" style={{ fontSize: '24px', color: '#15803d' }}></i>
+        <div>
+          <strong>Power User Feature:</strong> You can navigate the portal using your keyboard shortcuts! Press any key shown inside the <span className="kbd-badge" style={{ borderBottomColor: '#b45309', color: '#b45309' }}>Key</span> badges to switch tabs instantly.
         </div>
-        <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px' }} onClick={() => setActiveModule('contacts')}>
-          <i className="ti ti-phone"></i> Contact Directory
-        </button>
       </div>
     </div>
   );
