@@ -1,11 +1,5 @@
 // <!--EVENTS_START-->
-export const defaultEvents = [
-  {
-    "title": "Onam Vacation Begins",
-    "date": "2026-09-01",
-    "type": "holiday"
-  }
-];
+export const defaultEvents = [];
 // <!--EVENTS_END-->
 
 // <!--HOSTELS_START-->
