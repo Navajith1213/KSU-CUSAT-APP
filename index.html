@@ -772,6 +772,23 @@
     ];
     // <!--CLUBS_END-->
 
+    // <!--CONTACTS_START-->
+    const defaultContacts = [
+      {
+        "name": "CUSAT Hostel Office",
+        "phone": "+91-484-2576817",
+        "email": "hostels@cusat.ac.in",
+        "address": "Hostel Complex, CUSAT, Kalamassery, Kochi"
+      },
+      {
+        "name": "CUSAT Administration Office",
+        "phone": "+91-484-2576800",
+        "email": "admin@cusat.ac.in",
+        "address": "Administrative Building, CUSAT, Kalamassery, Kochi"
+      }
+    ];
+    // <!--CONTACTS_END-->
+
     const sanitizeUrl = (url) => {
       if (!url) return '';
       const trimmed = url.trim();
@@ -831,6 +848,7 @@
       const [restaurants, setRestaurants] = React.useState(defaultRestaurants);
       const [amenities, setAmenities] = React.useState(defaultAmenities);
       const [clubs, setClubs] = React.useState(defaultClubs);
+      const [contacts, setContacts] = React.useState(defaultContacts);
 
       // Add/Edit Form States
       const [newEvent, setNewEvent] = React.useState({ title: '', date: '', type: 'academic' });
@@ -840,6 +858,7 @@
       const [newRestaurant, setNewRestaurant] = React.useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
       const [newAmenity, setNewAmenity] = React.useState({ name: '', location: '', details: '', gmapsLink: '' });
       const [newClub, setNewClub] = React.useState({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
+      const [newContact, setNewContact] = React.useState({ name: '', phone: '', email: '', address: '' });
 
       const [editIndex, setEditIndex] = React.useState(null);
       const [unsavedChanges, setUnsavedChanges] = React.useState(false);
@@ -858,6 +877,7 @@
       const [restaurantCuisineFilter, setRestaurantCuisineFilter] = React.useState('all');
       const [amenitySearch, setAmenitySearch] = React.useState('');
       const [clubSearch, setClubSearch] = React.useState('');
+      const [contactSearch, setContactSearch] = React.useState('');
 
       // Auto-login on mount if session data is present
       React.useEffect(() => {
@@ -866,20 +886,7 @@
         }
       }, []);
 
-      const contacts = {
-        hostelOffice: {
-          name: 'CUSAT Hostel Office',
-          phone: '+91-484-2576817',
-          email: 'hostels@cusat.ac.in',
-          address: 'Hostel Complex, CUSAT, Kalamassery, Kochi'
-        },
-        adminOffice: {
-          name: 'CUSAT Administration Office',
-          phone: '+91-484-2576800',
-          email: 'admin@cusat.ac.in',
-          address: 'Administrative Building, CUSAT, Kalamassery, Kochi'
-        }
-      };
+
 
       const handleLogin = async (e) => {
         e.preventDefault();
@@ -971,6 +978,7 @@
           updatedHtml = replaceSection(updatedHtml, '// <!--RESTAURANTS_START-->', '// <!--RESTAURANTS_END-->', `    const defaultRestaurants = ${JSON.stringify(restaurants, null, 2)};`);
           updatedHtml = replaceSection(updatedHtml, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `    const defaultAmenities = ${JSON.stringify(amenities, null, 2)};`);
           updatedHtml = replaceSection(updatedHtml, '// <!--CLUBS_START-->', '// <!--CLUBS_END-->', `    const defaultClubs = ${JSON.stringify(clubs, null, 2)};`);
+          updatedHtml = replaceSection(updatedHtml, '// <!--CONTACTS_START-->', '// <!--CONTACTS_END-->', `    const defaultContacts = ${JSON.stringify(contacts, null, 2)};`);
 
           setPublishingStatus('Submitting commit to GitHub...');
 
@@ -1015,6 +1023,7 @@
         if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
         if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', gmapsLink: '' });
         if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
+        if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '' });
       };
 
       const addOrUpdateItem = (type) => {
@@ -1025,7 +1034,8 @@
           food: { value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots, required: ['name', 'location'] },
           restaurants: { value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants, required: ['name', 'location'] },
           amenities: { value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities, required: ['name', 'location'] },
-          clubs: { value: newClub, setValue: setNewClub, list: clubs, setList: setClubs, required: ['name', 'location'] }
+          clubs: { value: newClub, setValue: setNewClub, list: clubs, setList: setClubs, required: ['name', 'location'] },
+          contacts: { value: newContact, setValue: setNewContact, list: contacts, setList: setContacts, required: ['name', 'phone'] }
         };
 
         const current = config[type];
@@ -1058,6 +1068,7 @@
         if (type === 'restaurants') setNewRestaurant(item);
         if (type === 'amenities') setNewAmenity(item);
         if (type === 'clubs') setNewClub(item);
+        if (type === 'contacts') setNewContact(item);
       };
 
       const handleDelete = (setter, list, index) => {
@@ -1150,6 +1161,13 @@
         contains(item.name, clubSearch) ||
         contains(item.location, clubSearch) ||
         contains(item.services, clubSearch)
+      );
+
+      const filteredContacts = contacts.filter(item =>
+        contains(item.name, contactSearch) ||
+        contains(item.phone, contactSearch) ||
+        contains(item.email, contactSearch) ||
+        contains(item.address, contactSearch)
       );
 
       const FIELD_LABELS = {
@@ -1466,18 +1484,27 @@
               )}
 
               {activeModule === 'contacts' && (
-                <div className="grid">
-                  <div className="item-card">
-                    <h3>{contacts.hostelOffice.name}</h3>
-                    <p><strong>Phone:</strong> {contacts.hostelOffice.phone}</p>
-                    <p><strong>Email:</strong> {contacts.hostelOffice.email}</p>
-                    <p><strong>Address:</strong> {contacts.hostelOffice.address}</p>
+                <div className="card">
+                  <div className="module-header">
+                    <h2>Contact Directory</h2>
                   </div>
-                  <div className="item-card">
-                    <h3>{contacts.adminOffice.name}</h3>
-                    <p><strong>Phone:</strong> {contacts.adminOffice.phone}</p>
-                    <p><strong>Email:</strong> {contacts.adminOffice.email}</p>
-                    <p><strong>Address:</strong> {contacts.adminOffice.address}</p>
+                  <div className="filter-bar">
+                    <input
+                      type="text"
+                      placeholder="Search contacts by office name, phone, email, or address..."
+                      value={contactSearch}
+                      onChange={(e) => setContactSearch(e.target.value)}
+                    />
+                  </div>
+                  <div className="grid">
+                    {filteredContacts.length ? filteredContacts.map((contact, idx) => (
+                      <div className="item-card" key={idx}>
+                        <h3>{contact.name}</h3>
+                        <p><strong>Phone:</strong> {contact.phone}</p>
+                        <p><strong>Email:</strong> {contact.email}</p>
+                        <p><strong>Address:</strong> {contact.address}</p>
+                      </div>
+                    )) : <p>No matching contacts found.</p>}
                   </div>
                 </div>
               )}
@@ -1608,6 +1635,7 @@
                   <div className="admin-tabs">
                     {[
                       ['calendar', 'Calendar'],
+                      ['contacts', 'Contacts'],
                       ['hostels', 'Hostels'],
                       ['pgs', 'PGs'],
                       ['food', 'Tea Spots'],
@@ -1662,6 +1690,34 @@
                           <div className="row-actions">
                             <button className="btn-edit" onClick={() => handleEdit('calendar', idx, item)}>Edit</button>
                             <button className="btn-danger" onClick={() => handleDelete(setAcademicEvents, academicEvents, idx)}>Delete</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {adminSection === 'contacts' && (
+                    <div className="card">
+                      <h3>{editIndex !== null ? 'Edit Contact' : 'Add Contact'}</h3>
+                      <div className="form-grid">
+                        <div className="form-group"><label>Name *</label><input value={newContact.name} onChange={(e) => setNewContact({...newContact, name: e.target.value})} /></div>
+                        <div className="form-group"><label>Phone *</label><input value={newContact.phone} onChange={(e) => setNewContact({...newContact, phone: e.target.value})} /></div>
+                        <div className="form-group"><label>Email</label><input value={newContact.email} onChange={(e) => setNewContact({...newContact, email: e.target.value})} /></div>
+                        <div className="form-group full-width"><label>Address</label><textarea value={newContact.address} onChange={(e) => setNewContact({...newContact, address: e.target.value})}></textarea></div>
+                        <div className="form-group full-width row-actions">
+                          <button className="btn-primary" onClick={() => addOrUpdateItem('contacts')}>
+                            {editIndex !== null ? 'Update Contact' : 'Add Contact'}
+                          </button>
+                          {editIndex !== null && <button className="btn-light" onClick={() => cancelEdit('contacts')}>Cancel Edit</button>}
+                        </div>
+                      </div>
+                      <br />
+                      {contacts.map((item, idx) => (
+                        <div className="event-item" key={idx}>
+                          <span>{item.name}</span>
+                          <div className="row-actions">
+                            <button className="btn-edit" onClick={() => handleEdit('contacts', idx, item)}>Edit</button>
+                            <button className="btn-danger" onClick={() => handleDelete(setContacts, contacts, idx)}>Delete</button>
                           </div>
                         </div>
                       ))}
