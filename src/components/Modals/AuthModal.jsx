@@ -188,12 +188,12 @@ export default function AuthModal({
                 )}
 
                 <div className="form-group">
-                  <label>CUSAT Email *</label>
+                  <label>Email Address *</label>
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="student@cusat.ac.in"
+                    placeholder="yourname@gmail.com"
                     required
                   />
                 </div>
