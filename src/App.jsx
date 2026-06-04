@@ -7,6 +7,7 @@ import ListingGrid from './components/ListingGrid';
 import ContactList from './components/ContactList';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import QueryPanel from './components/QueryPanel';
+import Navbar from './components/Navbar';
 
 import {
   defaultEvents,
@@ -382,252 +383,330 @@ export default function App() {
       contains(item.services, clubSearch)
   );
 
-  return (
-    <div className="portal-layout">
-      <Sidebar
-        userRole={userRole}
-        activeModule={activeModule}
-        setActiveModule={setActiveModule}
-        setShowAuthModal={setShowAuthModal}
-        logout={logout}
-        loggedStudent={loggedStudent}
-      />
+  const renderModuleContent = () => {
+    return (
+      <div key={activeModule} className="fade-in-section">
+        {activeModule === 'home' && (
+          <Home
+            academicEvents={academicEvents}
+            hostels={hostels}
+            pgs={pgs}
+            foodSpots={foodSpots}
+            restaurants={restaurants}
+            amenities={amenities}
+            clubs={clubs}
+            setActiveModule={setActiveModule}
+          />
+        )}
 
-      <div className="main-area">
-        <Topbar userRole={userRole} />
-
-        <div className="content">
-          {/* Publishing Loading Banner */}
-          {isPublishing && (
-            <div className="publish-banner" style={{ background: '#fef3c7', borderColor: '#fde68a' }}>
-              <div className="publish-banner-text" style={{ color: '#92400e' }}>
-                <i
-                  className="ti ti-loader"
-                  style={{
-                    display: 'inline-block',
-                    animation: 'spin 1s linear infinite',
-                    marginRight: '8px'
-                  }}
-                ></i>
-                <strong>Processing:</strong> {publishingStatus}
+        {activeModule === 'calendar' && (
+          <div className="card">
+            <h2>Academic Calendar</h2>
+            {academicEvents.map((event, idx) => (
+              <div key={idx} className="event-item">
+                <div>
+                  <p>
+                    <strong>{event.title}</strong>
+                  </p>
+                  <p className="small-text">
+                    {event.date} | {event.type}
+                  </p>
+                </div>
               </div>
+            ))}
+          </div>
+        )}
+
+        {activeModule === 'contacts' && (
+          <ContactList contacts={contacts} />
+        )}
+
+        {activeModule === 'hostels' && (
+          <div className="card">
+            <div className="module-header">
+              <h2>Hostels</h2>
             </div>
-          )}
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search by hostel, location, or food"
+                value={hostelSearch}
+                onChange={(e) => setHostelSearch(e.target.value)}
+              />
+            </div>
+            <ListingGrid
+              items={filteredHostels}
+              fields={['location', 'fees', 'food', 'contact', 'rooms']}
+            />
+          </div>
+        )}
 
-          {/* Unsaved Changes Banner */}
-          {unsavedChanges && !isPublishing && (
-            <div className="publish-banner">
-              <div className="publish-banner-text">
-                <i className="ti ti-alert-circle" style={{ marginRight: '8px', fontSize: '16px' }}></i>
-                <strong>Unsaved Edits:</strong> You have made changes locally. Click publish to deploy them to GitHub Pages.
-              </div>
-              <button
-                className="btn-secondary"
-                style={{ padding: '8px 16px', fontSize: '13px' }}
-                onClick={publishToGitHub}
+        {activeModule === 'pgs' && (
+          <div className="card">
+            <div className="module-header">
+              <h2>Paying Guest (PG) Options</h2>
+            </div>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search PG by name, location, food, or room type"
+                value={pgSearch}
+                onChange={(e) => setPgSearch(e.target.value)}
+              />
+              <select value={pgFoodFilter} onChange={(e) => setPgFoodFilter(e.target.value)}>
+                <option value="all">All food options</option>
+                <option value="included">Food included / mess</option>
+                <option value="not-included">No food included</option>
+              </select>
+              <select value={pgRentFilter} onChange={(e) => setPgRentFilter(e.target.value)}>
+                <option value="all">All rent ranges</option>
+                <option value="below6000">Below 6000</option>
+                <option value="6000to8000">6000 to 8000</option>
+                <option value="above8000">Above 8000</option>
+              </select>
+            </div>
+            <ListingGrid
+              items={filteredPGs}
+              fields={['location', 'rent', 'food', 'contact', 'rooms']}
+            />
+          </div>
+        )}
+
+        {activeModule === 'food' && (
+          <div className="card">
+            <h2>Tea Spots</h2>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search tea spots by name, location, or specialty"
+                value={foodSearch}
+                onChange={(e) => setFoodSearch(e.target.value)}
+              />
+            </div>
+            <ListingGrid
+              items={filteredFoodSpots}
+              fields={['location', 'specialty', 'timing']}
+            />
+          </div>
+        )}
+
+        {activeModule === 'restaurants' && (
+          <div className="card">
+            <h2>Restaurants</h2>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search restaurants by name, location, or cuisine"
+                value={restaurantSearch}
+                onChange={(e) => setRestaurantSearch(e.target.value)}
+              />
+              <select
+                value={restaurantCuisineFilter}
+                onChange={(e) => setRestaurantCuisineFilter(e.target.value)}
               >
-                <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> Save & Publish
-              </button>
+                <option value="all">All cuisines</option>
+                <option value="kerala">Kerala</option>
+                <option value="fast">Fast food</option>
+                <option value="arabic">Arabic</option>
+                <option value="chinese">Chinese</option>
+                <option value="veg">Veg</option>
+              </select>
             </div>
-          )}
+            <ListingGrid
+              items={filteredRestaurants}
+              fields={['location', 'cuisine', 'contact']}
+            />
+          </div>
+        )}
 
-          <div key={activeModule} className="fade-in-section">
-            {activeModule === 'home' && (
-              <Home
-                academicEvents={academicEvents}
-                hostels={hostels}
-                pgs={pgs}
-                foodSpots={foodSpots}
-                restaurants={restaurants}
-                amenities={amenities}
-                clubs={clubs}
-                setActiveModule={setActiveModule}
+        {activeModule === 'amenities' && (
+          <div className="card">
+            <h2>Amenities</h2>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search amenities by name, location, or details"
+                value={amenitySearch}
+                onChange={(e) => setAmenitySearch(e.target.value)}
               />
-            )}
+            </div>
+            <ListingGrid items={filteredAmenities} fields={['location', 'details']} />
+          </div>
+        )}
 
-            {activeModule === 'calendar' && (
-              <div className="card">
-                <h2>Academic Calendar</h2>
-                {academicEvents.map((event, idx) => (
-                  <div key={idx} className="event-item">
-                    <div>
-                      <p>
-                        <strong>{event.title}</strong>
-                      </p>
-                      <p className="small-text">
-                        {event.date} | {event.type}
-                      </p>
-                    </div>
+        {activeModule === 'clubs' && (
+          <div className="card">
+            <h2>Campus Clubs</h2>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search clubs by name, location, or services..."
+                value={clubSearch}
+                onChange={(e) => setClubSearch(e.target.value)}
+              />
+            </div>
+            <ListingGrid
+              items={filteredClubs}
+              fields={['location', 'contact', 'services']}
+            />
+          </div>
+        )}
+
+        {activeModule === 'queries' && userRole === 'student' && (
+          <QueryPanel loggedStudent={loggedStudent} />
+        )}
+
+        {activeModule === 'admin' && userRole === 'admin' && (
+          <AdminDashboard
+            academicEvents={academicEvents}
+            setAcademicEvents={setAcademicEvents}
+            contacts={contacts}
+            setContacts={setContacts}
+            hostels={hostels}
+            setHostels={setHostels}
+            pgs={pgs}
+            setPgs={setPgs}
+            foodSpots={foodSpots}
+            setFoodSpots={setFoodSpots}
+            restaurants={restaurants}
+            setRestaurants={setRestaurants}
+            amenities={amenities}
+            setAmenities={setAmenities}
+            clubs={clubs}
+            setClubs={setClubs}
+            setUnsavedChanges={setUnsavedChanges}
+            publishToGitHub={publishToGitHub}
+            isPublishing={isPublishing}
+          />
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <>
+      {userRole === 'admin' ? (
+        <div className="portal-layout">
+          <Sidebar
+            userRole={userRole}
+            activeModule={activeModule}
+            setActiveModule={setActiveModule}
+            logout={logout}
+          />
+
+          <div className="main-area">
+            <Topbar userRole={userRole} />
+
+            <div className="content">
+              {/* Publishing Loading Banner */}
+              {isPublishing && (
+                <div className="publish-banner" style={{ background: '#fef3c7', borderColor: '#fde68a' }}>
+                  <div className="publish-banner-text" style={{ color: '#92400e' }}>
+                    <i
+                      className="ti ti-loader"
+                      style={{
+                        display: 'inline-block',
+                        animation: 'spin 1s linear infinite',
+                        marginRight: '8px'
+                      }}
+                    ></i>
+                    <strong>Processing:</strong> {publishingStatus}
                   </div>
-                ))}
-              </div>
-            )}
-
-            {activeModule === 'contacts' && (
-              <ContactList contacts={contacts} />
-            )}
-
-            {activeModule === 'hostels' && (
-              <div className="card">
-                <div className="module-header">
-                  <h2>Hostels</h2>
                 </div>
-                <div className="filter-bar">
-                  <input
-                    type="text"
-                    placeholder="Search by hostel, location, or food"
-                    value={hostelSearch}
-                    onChange={(e) => setHostelSearch(e.target.value)}
-                  />
-                </div>
-                <ListingGrid
-                  items={filteredHostels}
-                  fields={['location', 'fees', 'food', 'contact', 'rooms']}
-                />
-              </div>
-            )}
+              )}
 
-            {activeModule === 'pgs' && (
-              <div className="card">
-                <div className="module-header">
-                  <h2>Paying Guest (PG) Options</h2>
-                </div>
-                <div className="filter-bar">
-                  <input
-                    type="text"
-                    placeholder="Search PG by name, location, food, or room type"
-                    value={pgSearch}
-                    onChange={(e) => setPgSearch(e.target.value)}
-                  />
-                  <select value={pgFoodFilter} onChange={(e) => setPgFoodFilter(e.target.value)}>
-                    <option value="all">All food options</option>
-                    <option value="included">Food included / mess</option>
-                    <option value="not-included">No food included</option>
-                  </select>
-                  <select value={pgRentFilter} onChange={(e) => setPgRentFilter(e.target.value)}>
-                    <option value="all">All rent ranges</option>
-                    <option value="below6000">Below 6000</option>
-                    <option value="6000to8000">6000 to 8000</option>
-                    <option value="above8000">Above 8000</option>
-                  </select>
-                </div>
-                <ListingGrid
-                  items={filteredPGs}
-                  fields={['location', 'rent', 'food', 'contact', 'rooms']}
-                />
-              </div>
-            )}
-
-            {activeModule === 'food' && (
-              <div className="card">
-                <h2>Tea Spots</h2>
-                <div className="filter-bar">
-                  <input
-                    type="text"
-                    placeholder="Search tea spots by name, location, or specialty"
-                    value={foodSearch}
-                    onChange={(e) => setFoodSearch(e.target.value)}
-                  />
-                </div>
-                <ListingGrid
-                  items={filteredFoodSpots}
-                  fields={['location', 'specialty', 'timing']}
-                />
-              </div>
-            )}
-
-            {activeModule === 'restaurants' && (
-              <div className="card">
-                <h2>Restaurants</h2>
-                <div className="filter-bar">
-                  <input
-                    type="text"
-                    placeholder="Search restaurants by name, location, or cuisine"
-                    value={restaurantSearch}
-                    onChange={(e) => setRestaurantSearch(e.target.value)}
-                  />
-                  <select
-                    value={restaurantCuisineFilter}
-                    onChange={(e) => setRestaurantCuisineFilter(e.target.value)}
+              {/* Unsaved Changes Banner */}
+              {unsavedChanges && !isPublishing && (
+                <div className="publish-banner">
+                  <div className="publish-banner-text">
+                    <i className="ti ti-alert-circle" style={{ marginRight: '8px', fontSize: '16px' }}></i>
+                    <strong>Unsaved Edits:</strong> You have made changes locally. Click publish to deploy them to GitHub Pages.
+                  </div>
+                  <button
+                    className="btn-secondary"
+                    style={{ padding: '8px 16px', fontSize: '13px' }}
+                    onClick={publishToGitHub}
                   >
-                    <option value="all">All cuisines</option>
-                    <option value="kerala">Kerala</option>
-                    <option value="fast">Fast food</option>
-                    <option value="arabic">Arabic</option>
-                    <option value="chinese">Chinese</option>
-                    <option value="veg">Veg</option>
-                  </select>
+                    <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> Save & Publish
+                  </button>
                 </div>
-                <ListingGrid
-                  items={filteredRestaurants}
-                  fields={['location', 'cuisine', 'contact']}
-                />
-              </div>
-            )}
+              )}
 
-            {activeModule === 'amenities' && (
-              <div className="card">
-                <h2>Amenities</h2>
-                <div className="filter-bar">
-                  <input
-                    type="text"
-                    placeholder="Search amenities by name, location, or details"
-                    value={amenitySearch}
-                    onChange={(e) => setAmenitySearch(e.target.value)}
-                  />
-                </div>
-                <ListingGrid items={filteredAmenities} fields={['location', 'details']} />
-              </div>
-            )}
-
-            {activeModule === 'clubs' && (
-              <div className="card">
-                <h2>Campus Clubs</h2>
-                <div className="filter-bar">
-                  <input
-                    type="text"
-                    placeholder="Search clubs by name, location, or services..."
-                    value={clubSearch}
-                    onChange={(e) => setClubSearch(e.target.value)}
-                  />
-                </div>
-                <ListingGrid
-                  items={filteredClubs}
-                  fields={['location', 'contact', 'services']}
-                />
-              </div>
-            )}
-
-            {activeModule === 'queries' && userRole === 'student' && (
-              <QueryPanel loggedStudent={loggedStudent} />
-            )}
-
-            {activeModule === 'admin' && userRole === 'admin' && (
-              <AdminDashboard
-                academicEvents={academicEvents}
-                setAcademicEvents={setAcademicEvents}
-                contacts={contacts}
-                setContacts={setContacts}
-                hostels={hostels}
-                setHostels={setHostels}
-                pgs={pgs}
-                setPgs={setPgs}
-                foodSpots={foodSpots}
-                setFoodSpots={setFoodSpots}
-                restaurants={restaurants}
-                setRestaurants={setRestaurants}
-                amenities={amenities}
-                setAmenities={setAmenities}
-                clubs={clubs}
-                setClubs={setClubs}
-                setUnsavedChanges={setUnsavedChanges}
-                publishToGitHub={publishToGitHub}
-                isPublishing={isPublishing}
-              />
-            )}
+              {renderModuleContent()}
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="website-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar
+            userRole={userRole}
+            activeModule={activeModule}
+            setActiveModule={setActiveModule}
+            setShowAuthModal={setShowAuthModal}
+            logout={logout}
+            loggedStudent={loggedStudent}
+          />
+
+          <main className="content website-content">
+            {renderModuleContent()}
+          </main>
+
+          <footer className="footer">
+            <div className="footer-container">
+              <div className="footer-brand">
+                <h3>CUSAT Portal</h3>
+                <p>Your ultimate campus assistant for staying, dining, and navigating Cochin University of Science and Technology.</p>
+              </div>
+              <div className="footer-links">
+                <h4>Quick Links</h4>
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                  <li>
+                    <button
+                      onClick={() => setActiveModule('home')}
+                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                    >
+                      Home
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setActiveModule('calendar')}
+                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                    >
+                      Calendar
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setActiveModule('contacts')}
+                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                    >
+                      Contacts
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setActiveModule('hostels')}
+                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                    >
+                      Hostels
+                    </button>
+                  </li>
+                </ul>
+              </div>
+              <div className="footer-contact">
+                <h4>Contact Info</h4>
+                <p><i className="ti ti-mail" style={{ marginRight: '8px' }}></i> support@cusat.ac.in</p>
+                <p><i className="ti ti-phone" style={{ marginRight: '8px' }}></i> +91 484 2577290</p>
+                <p><i className="ti ti-map-pin" style={{ marginRight: '8px' }}></i> Kalamassery, Kochi, Kerala</p>
+              </div>
+            </div>
+            <div className="footer-bottom">
+              &copy; {new Date().getFullYear()} Cochin University of Science and Technology. All rights reserved.
+            </div>
+          </footer>
+        </div>
+      )}
 
       {showAuthModal && (
         <AuthModal
@@ -644,6 +723,6 @@ export default function App() {
           setShowAuthModal={setShowAuthModal}
         />
       )}
-    </div>
+    </>
   );
 }

@@ -4,12 +4,11 @@ export default function Sidebar({
   userRole,
   activeModule,
   setActiveModule,
-  setShowAuthModal,
-  logout,
-  loggedStudent
+  logout
 }) {
+  // The Admin sidebar menu items are identical to the original admin dashboard sidebar
   const menuItems = [
-    { id: 'home', label: 'Home', icon: 'ti-home' },
+    { id: 'home', label: 'Back to Site', icon: 'ti-arrow-left' },
     { id: 'calendar', label: 'Academic Calendar', icon: 'ti-calendar' },
     { id: 'contacts', label: 'Contacts', icon: 'ti-phone' },
     { id: 'hostels', label: 'Hostels', icon: 'ti-building-community' },
@@ -18,15 +17,14 @@ export default function Sidebar({
     { id: 'restaurants', label: 'Restaurants', icon: 'ti-tools-kitchen-2' },
     { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
     { id: 'clubs', label: 'Campus Clubs', icon: 'ti-users' },
-    ...(userRole === 'student' ? [{ id: 'queries', label: 'My Queries', icon: 'ti-mail' }] : []),
-    ...(userRole === 'admin' ? [{ id: 'admin', label: 'Admin Panel', icon: 'ti-settings' }] : [])
+    { id: 'admin', label: 'Admin Dashboard', icon: 'ti-settings' }
   ];
 
   return (
     <aside className="sidebar">
       <div className="brand-box">
-        <h2>CUSAT</h2>
-        <p>Kochi Student Utility Portal</p>
+        <h2>CUSAT Admin</h2>
+        <p>Repository Manager Panel</p>
       </div>
 
       <div className="menu-list">
@@ -42,25 +40,10 @@ export default function Sidebar({
         ))}
       </div>
 
-      <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {userRole === 'student' && loggedStudent && (
-          <div style={{ padding: '10px 14px', borderRadius: '10px', background: 'rgba(255,255,255,0.03)', fontSize: '13px' }}>
-            <span style={{ color: '#94a3b8', fontSize: '11px', display: 'block', textTransform: 'uppercase' }}>Logged in as</span>
-            <strong style={{ color: 'white', display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {loggedStudent.full_name}
-            </strong>
-          </div>
-        )}
-
-        {userRole === 'user' ? (
-          <button className="auth-btn" onClick={() => setShowAuthModal(true)}>
-            <i className="ti ti-login"></i> Log In / Access
-          </button>
-        ) : (
-          <button className="auth-btn logout" onClick={logout}>
-            <i className="ti ti-logout"></i> {userRole === 'admin' ? 'Exit Admin' : 'Log Out'}
-          </button>
-        )}
+      <div style={{ marginTop: 'auto' }}>
+        <button className="auth-btn logout" style={{ width: '100%' }} onClick={logout}>
+          <i className="ti ti-logout"></i> Exit Admin
+        </button>
       </div>
     </aside>
   );

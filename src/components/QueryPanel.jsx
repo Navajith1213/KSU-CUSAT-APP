@@ -128,7 +128,7 @@ export default function QueryPanel({ loggedStudent }) {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '24px' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
       
       {/* Complaint Filing Form */}
       <div className="card" style={{ alignSelf: 'start' }}>
