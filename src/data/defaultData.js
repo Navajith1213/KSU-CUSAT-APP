@@ -131,12 +131,6 @@ export const defaultClubs = [
 // <!--CONTACTS_START-->
 export const defaultContacts = [
   {
-    "name": "CUSAT Hostel Office",
-    "phone": "+91-484-2576817",
-    "email": "hostels@cusat.ac.in",
-    "address": "Hostel Complex, CUSAT, Kalamassery, Kochi"
-  },
-  {
     "name": "CUSAT Administration Office",
     "phone": "+91-484-2576800",
     "email": "admin@cusat.ac.in",
