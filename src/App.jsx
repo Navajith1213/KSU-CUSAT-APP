@@ -6,6 +6,7 @@ import Home from './components/Home';
 import ListingGrid from './components/ListingGrid';
 import ContactList from './components/ContactList';
 import AdminDashboard from './components/Admin/AdminDashboard';
+import QueryPanel from './components/QueryPanel';
 
 import {
   defaultEvents,
@@ -27,6 +28,16 @@ import {
 export default function App() {
   const [userRole, setUserRole] = useState('user');
   const [showAuthModal, setShowAuthModal] = useState(false);
+
+  // Student session state
+  const [loggedStudent, setLoggedStudent] = useState(() => {
+    try {
+      const session = sessionStorage.getItem('student_session');
+      return session ? JSON.parse(session) : null;
+    } catch (_) {
+      return null;
+    }
+  });
 
   // Git credentials in memory or session storage
   const [gitOwner, setGitOwner] = useState(() => sessionStorage.getItem('git_owner') || '');
@@ -60,12 +71,17 @@ export default function App() {
   const [amenitySearch, setAmenitySearch] = useState('');
   const [clubSearch, setClubSearch] = useState('');
 
-  // Auto admin login on mount if session keys exist
+  // Auto login on mount if session keys exist
   useEffect(() => {
     if (gitOwner && gitRepo && gitPat) {
       setUserRole('admin');
+    } else {
+      const session = sessionStorage.getItem('student_session');
+      if (session) {
+        setUserRole('student');
+      }
     }
-  }, []);
+  }, [gitOwner, gitRepo, gitPat]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -121,10 +137,11 @@ export default function App() {
     setGitOwner('');
     setGitRepo('');
     setGitPat('');
+    setLoggedStudent(null);
     setUserRole('user');
     setActiveModule('home');
     setUnsavedChanges(false);
-    alert('Logged out. Admin session cleared.');
+    alert('Logged out successfully.');
   };
 
   const publishToGitHub = async () => {
@@ -331,6 +348,7 @@ export default function App() {
         setActiveModule={setActiveModule}
         setShowAuthModal={setShowAuthModal}
         logout={logout}
+        loggedStudent={loggedStudent}
       />
 
       <div className="main-area">
@@ -538,6 +556,10 @@ export default function App() {
               </div>
             )}
 
+            {activeModule === 'queries' && userRole === 'student' && (
+              <QueryPanel loggedStudent={loggedStudent} />
+            )}
+
             {activeModule === 'admin' && userRole === 'admin' && (
               <AdminDashboard
                 academicEvents={academicEvents}
@@ -574,7 +596,9 @@ export default function App() {
           gitPat={gitPat}
           setGitPat={setGitPat}
           isPublishing={isPublishing}
-          handleLogin={handleLogin}
+          handleGitConnect={handleLogin}
+          setUserRole={setUserRole}
+          setLoggedStudent={setLoggedStudent}
           setShowAuthModal={setShowAuthModal}
         />
       )}

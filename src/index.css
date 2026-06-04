@@ -383,6 +383,11 @@ body {
   color: #d97706;
 }
 
+.status-badge.student {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
 .fade-in-section {
   animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
