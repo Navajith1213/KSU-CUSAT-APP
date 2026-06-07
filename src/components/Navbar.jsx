@@ -30,33 +30,18 @@ export default function Navbar({
 
   return (
     <header className="navbar">
-      <div className="navbar-container">
-        {/* Brand Logo */}
+      {/* Top Row: Brand + Auth */}
+      <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
           <h2>CUSAT Portal</h2>
         </a>
 
-        {/* Desktop Menu links */}
-        <nav className="navbar-menu">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              className={`navbar-link ${activeModule === item.id ? 'active' : ''}`}
-              onClick={() => handleNavClick(item.id)}
-            >
-              <i className={`ti ${item.icon}`} style={{ marginRight: '6px', fontSize: '15px' }}></i>
-              {item.label}
-            </button>
-          ))}
-
-          {/* User badge / login button */}
+        <div className="navbar-actions">
           {userRole === 'student' && loggedStudent && (
-            <div style={{ marginLeft: '12px', fontSize: '13px', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span className="status-badge student" style={{ padding: '6px 12px' }}>
-                <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
-                {loggedStudent.full_name.split(' ')[0]}
-              </span>
-            </div>
+            <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>
+              <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
+              {loggedStudent.full_name.split(' ')[0]}
+            </span>
           )}
 
           {userRole === 'user' ? (
@@ -68,12 +53,28 @@ export default function Navbar({
               <i className="ti ti-logout"></i> Logout
             </button>
           )}
-        </nav>
 
-        {/* Hamburger Menu Toggle (Mobile only) */}
-        <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
-          <i className={isOpen ? 'ti ti-x' : 'ti ti-menu-2'}></i>
-        </button>
+          {/* Hamburger Menu Toggle (Mobile only) */}
+          <button className="hamburger-btn" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu">
+            <i className={isOpen ? 'ti ti-x' : 'ti ti-menu-2'}></i>
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom Row: Navigation Links */}
+      <div className="navbar-container">
+        <nav className="navbar-menu">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              className={`navbar-link ${activeModule === item.id ? 'active' : ''}`}
+              onClick={() => handleNavClick(item.id)}
+            >
+              <i className={`ti ${item.icon}`} style={{ fontSize: '15px' }}></i>
+              {item.label}
+            </button>
+          ))}
+        </nav>
       </div>
 
       {/* Backdrop overlay for mobile menu drawer */}

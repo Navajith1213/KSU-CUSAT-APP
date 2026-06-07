@@ -743,20 +743,34 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid #e2e8f0;
-  padding: 14px 0;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
+
+.navbar-top {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 24px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 24px 12px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.navbar-container::-webkit-scrollbar {
+  display: none;
 }
 
 .navbar-logo {
@@ -775,23 +789,34 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   list-style: none;
+  white-space: nowrap;
 }
 
 .navbar-link {
   background: transparent;
   color: #475569;
   border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-size: 14px;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 13.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .navbar-link:hover {
@@ -800,8 +825,9 @@ body {
 }
 
 .navbar-link.active {
-  background: #f1f5f9;
+  background: linear-gradient(135deg, #f0fdfa, #e0f2fe);
   color: #0d9488;
+  box-shadow: 0 1px 4px rgba(13, 148, 136, 0.08);
 }
 
 .navbar-btn {
@@ -809,12 +835,13 @@ body {
   color: white;
   border: none;
   border-radius: 20px;
-  padding: 8px 18px;
+  padding: 8px 20px;
   font-size: 13.5px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
   box-shadow: 0 4px 10px rgba(13, 148, 136, 0.15);
+  white-space: nowrap;
 }
 
 .navbar-btn:hover {
@@ -981,6 +1008,9 @@ body {
 /* Mobile Media Queries */
 @media (max-width: 768px) {
   .navbar-menu {
+    display: none;
+  }
+  .navbar-container {
     display: none;
   }
   .hamburger-btn {

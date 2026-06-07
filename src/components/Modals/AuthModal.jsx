@@ -145,12 +145,12 @@ export default function AuthModal({
     e.preventDefault();
     if (!hasSupabaseConfig) {
       // Mock admin login fallback
-      if (email === 'admin@cusat.ac.in' && password === 'admin123') {
+      if (email === 'navajith1122@gmail.com' && password === 'admin123') {
         setIsAdminAuthPassed(true);
         alert('Admin Email & Password verified (Demo Mode)! Please enter your Git repo settings next.');
       } else {
         alert(
-          'Supabase is not configured yet.\n\nTo try out the Admin section right away:\nUse Email: admin@cusat.ac.in\nUse Password: admin123'
+          'Supabase is not configured yet.\n\nTo try out the Admin section right away:\nUse Email: navajith1122@gmail.com\nUse Password: admin123'
         );
       }
       return;
@@ -164,7 +164,7 @@ export default function AuthModal({
       });
       if (error) throw error;
 
-      if (data.user.email === 'admin@cusat.ac.in') {
+      if (data.user.email === 'navajith1122@gmail.com') {
         setIsAdminAuthPassed(true);
         alert('Admin email verified! Please enter your Git repo settings next.');
       } else {
@@ -280,7 +280,7 @@ export default function AuthModal({
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="admin@cusat.ac.in"
+                    placeholder="navajith1122@gmail.com"
                     required
                   />
                 </div>

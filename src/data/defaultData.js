@@ -133,7 +133,7 @@ export const defaultContacts = [
   {
     "name": "CUSAT Administration Office",
     "phone": "+91-484-2576800",
-    "email": "admin@cusat.ac.in",
+    "email": "navajith1122@gmail.com",
     "address": "Administrative Building, CUSAT, Kalamassery, Kochi"
   }
 ];
