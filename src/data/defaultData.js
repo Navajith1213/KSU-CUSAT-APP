@@ -30,6 +30,42 @@ export const defaultBoysPGs = [
     "contact": "9846097149",
     "rooms": "",
     "gmapsLink": "https://maps.app.goo.gl/TUfX5aJNpvvQBCXp6"
+  },
+  {
+    "name": "Usman's Hostel",
+    "location": "Pipeline Road, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "9995115025",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/jwZp8Ac3kAxxgDHV6"
+  },
+  {
+    "name": "Olive Homes (Multiple)",
+    "location": "Hidayath Nagar, near SOE Campus, behind Chembu Bakers, North Kalamassery, Kalamassery, Kochi, Kerala 683503",
+    "rent": "",
+    "food": "",
+    "contact": "9995100665",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/HJEfFVXHfd4LHP358"
+  },
+  {
+    "name": "Machanickal Apartments",
+    "location": "Vidya Nagar Colony, Thrikkakara, Edappally, Ernakulam, Kochi, Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "9388475590",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/chDCQoMdHmSVAQuv6"
+  },
+  {
+    "name": "Ashiyana Boy's Hostel",
+    "location": "University Road, near CUSAT P.O, near St. John's Church, Vidya Nagar Colony, Thrikkakara, Kalamassery, Kochi, Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "8714799817",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/hGwDRqRzfeLrtkAS7"
   }
 ];
 // <!--BOYSPGS_END-->
