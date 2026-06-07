@@ -6,7 +6,7 @@ export const defaultEvents = [];
 export const defaultBoysPGs = [
   {
     "name": "Zakiya's Men's Hostel",
-    "location": "Puthuvayil Rd, near Kunjalimarakkar Engineering College, South Kalamassery, Kalamassery, Kochi, Kerala 682022 Annex: University Road, Alfiya Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 683503",
+    "location": "University Road, Alfiya Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 683503",
     "rent": "",
     "food": "",
     "contact": "9447664058",
