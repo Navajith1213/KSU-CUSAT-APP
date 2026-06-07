@@ -5,22 +5,31 @@ export const defaultEvents = [];
 // <!--BOYSPGS_START-->
 export const defaultBoysPGs = [
   {
-    "name": "Ameen PG (Boys)",
-    "location": "Kalamassery",
-    "rent": "₹6500/month",
-    "food": "Included",
-    "contact": "+91-9991112233",
-    "rooms": "Single/Double",
-    "gmapsLink": ""
+    "name": "Zakiya's Men's Hostel",
+    "location": "Puthuvayil Rd, near Kunjalimarakkar Engineering College, South Kalamassery, Kalamassery, Kochi, Kerala 682022 Annex: University Road, Alfiya Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 683503",
+    "rent": "",
+    "food": "",
+    "contact": "9447664058",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/NQuZVaykD3jnUep76"
   },
   {
-    "name": "CUSAT Boys Hostel",
-    "location": "Inside Campus",
-    "rent": "₹4500/month",
-    "food": "Mess available",
-    "contact": "+91-9991112221",
-    "rooms": "Double sharing",
-    "gmapsLink": ""
+    "name": "Opal Homes Hostel",
+    "location": "Pipeline Rd, behind Cochin University Post Office, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "8281063499",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/sLF2BkbLYi9Mc8zF7"
+  },
+  {
+    "name": "Sreepadam Men's Hostel",
+    "location": "Puthuvayil Shereefa Ln, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "9846097149",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/TUfX5aJNpvvQBCXp6"
   }
 ];
 // <!--BOYSPGS_END-->
