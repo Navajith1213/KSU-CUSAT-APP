@@ -577,7 +577,19 @@ export default function App() {
           <footer className="footer">
             <div className="footer-container">
               <div className="footer-brand">
-                <h3>CUSAT Portal</h3>
+                <img 
+                  src="/logo.png" 
+                  alt="CUSAT Portal" 
+                  style={{ 
+                    height: '32px', 
+                    objectFit: 'contain', 
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)', 
+                    padding: '4px 10px', 
+                    borderRadius: '8px',
+                    marginBottom: '12px',
+                    display: 'inline-block' 
+                  }} 
+                />
                 <p>Your ultimate campus assistant for staying, dining, and navigating Cochin University of Science and Technology.</p>
               </div>
               <div className="footer-links">

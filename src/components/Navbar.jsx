@@ -33,7 +33,7 @@ export default function Navbar({
       {/* Top Row: Brand + Auth */}
       <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
-          <h2>CUSAT Portal</h2>
+          <img src="/logo.png" alt="CUSAT Portal" style={{ height: '32px', objectFit: 'contain', display: 'block' }} />
         </a>
 
         <div className="navbar-actions">

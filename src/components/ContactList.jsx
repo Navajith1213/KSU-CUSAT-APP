@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { sanitizeUrl } from '../utils/gitUtils';
 
 export default function ContactList({ contacts }) {
   const [contactSearch, setContactSearch] = useState('');
@@ -15,25 +16,35 @@ export default function ContactList({ contacts }) {
   return (
     <div className="card">
       <div className="module-header">
-        <h2>Contact Directory</h2>
+        <h2>Campus Contact & Department Directory</h2>
       </div>
       <div className="filter-bar">
         <input
           type="text"
-          placeholder="Search contacts by office name, phone, email, or address..."
+          placeholder="Search by department name, phone, email, or location..."
           value={contactSearch}
           onChange={(e) => setContactSearch(e.target.value)}
         />
       </div>
       <div className="grid">
-        {filteredContacts.length ? filteredContacts.map((contact, idx) => (
-          <div className="item-card" key={idx}>
-            <h3>{contact.name}</h3>
-            <p><strong>Phone:</strong> {contact.phone}</p>
-            <p><strong>Email:</strong> {contact.email}</p>
-            <p><strong>Address:</strong> {contact.address}</p>
-          </div>
-        )) : <p>No matching contacts found.</p>}
+        {filteredContacts.length ? filteredContacts.map((contact, idx) => {
+          const mapsQuery = encodeURIComponent(`${contact.name} CUSAT Kalamassery Kochi`);
+          const mapsUrl = contact.gmapsLink && contact.gmapsLink.trim() !== '' ? sanitizeUrl(contact.gmapsLink) : `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+
+          return (
+            <div className="item-card" key={idx}>
+              <div>
+                <h3>{contact.name}</h3>
+                {contact.phone && <p><strong>Office Phone:</strong> {contact.phone}</p>}
+                {contact.email && <p><strong>Email Address:</strong> {contact.email}</p>}
+                {contact.address && <p><strong>Location/Address:</strong> {contact.address}</p>}
+              </div>
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ marginTop: '12px' }}>
+                <i className="ti ti-map-2"></i> View on Maps
+              </a>
+            </div>
+          );
+        }) : <p>No matching contacts found.</p>}
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ export default function AdminDashboard({
   const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
   const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', gmapsLink: '' });
   const [newClub, setNewClub] = useState({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
-  const [newContact, setNewContact] = useState({ name: '', phone: '', email: '', address: '' });
+  const [newContact, setNewContact] = useState({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
  
   const resetFormByType = (type) => {
     if (type === 'calendar') setNewEvent({ title: '', date: '', type: 'academic' });
@@ -53,7 +53,7 @@ export default function AdminDashboard({
     if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
     if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', gmapsLink: '' });
     if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
-    if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '' });
+    if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
   };
 
   const addOrUpdateItem = (type) => {

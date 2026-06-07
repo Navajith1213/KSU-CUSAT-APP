@@ -35,23 +35,47 @@ export function CalendarForm({ value, onChange, onSubmit, onCancel, isEdit }) {
 export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
     <div className="card">
-      <h3>{isEdit ? 'Edit Contact' : 'Add Contact'}</h3>
+      <h3>{isEdit ? 'Edit Department Contact' : 'Add Department Contact'}</h3>
       <div className="form-grid">
         <div className="form-group">
-          <label>Name *</label>
-          <input value={value.name} onChange={(e) => onChange({ ...value, name: e.target.value })} />
+          <label>Department / Office Name *</label>
+          <input 
+            value={value.name || ''} 
+            onChange={(e) => onChange({ ...value, name: e.target.value })} 
+            placeholder="e.g. Department of Computer Science"
+          />
         </div>
         <div className="form-group">
-          <label>Phone *</label>
-          <input value={value.phone} onChange={(e) => onChange({ ...value, phone: e.target.value })} />
+          <label>Department Office Number *</label>
+          <input 
+            value={value.phone || ''} 
+            onChange={(e) => onChange({ ...value, phone: e.target.value })} 
+            placeholder="e.g. +91-484-2576800"
+          />
         </div>
         <div className="form-group">
-          <label>Email</label>
-          <input value={value.email} onChange={(e) => onChange({ ...value, email: e.target.value })} />
+          <label>Email Address</label>
+          <input 
+            value={value.email || ''} 
+            onChange={(e) => onChange({ ...value, email: e.target.value })} 
+            placeholder="e.g. cs@cusat.ac.in"
+          />
+        </div>
+        <div className="form-group">
+          <label>Google Maps Link</label>
+          <input 
+            value={value.gmapsLink || ''} 
+            onChange={(e) => onChange({ ...value, gmapsLink: e.target.value })} 
+            placeholder="https://maps.app.goo.gl/..."
+          />
         </div>
         <div className="form-group full-width">
-          <label>Address</label>
-          <textarea value={value.address} onChange={(e) => onChange({ ...value, address: e.target.value })}></textarea>
+          <label>Address / Location details</label>
+          <textarea 
+            value={value.address || ''} 
+            onChange={(e) => onChange({ ...value, address: e.target.value })}
+            placeholder="e.g. Phase 2 Building, University Road"
+          ></textarea>
         </div>
         <div className="form-group full-width row-actions">
           <button className="btn-primary" onClick={onSubmit}>
