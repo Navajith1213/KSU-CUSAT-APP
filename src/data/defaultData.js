@@ -11,7 +11,13 @@ export const defaultBoysPGs = [
     "food": "",
     "contact": "9447664058",
     "rooms": "",
-    "gmapsLink": "https://maps.app.goo.gl/NQuZVaykD3jnUep76"
+    "gmapsLink": "https://maps.app.goo.gl/NQuZVaykD3jnUep76",
+    "rates": [
+      {
+        "type": "Single",
+        "rent": "5000"
+      }
+    ]
   },
   {
     "name": "Opal Homes Hostel",
