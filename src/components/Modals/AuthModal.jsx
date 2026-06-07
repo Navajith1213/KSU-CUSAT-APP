@@ -23,6 +23,7 @@ export default function AuthModal({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
   const [isAdminAuthPassed, setIsAdminAuthPassed] = useState(false);
 
   // Secret admin access: triple-click Student Portal within 5 seconds
@@ -49,6 +50,15 @@ export default function AuthModal({
       alert('Supabase is not configured yet. Sign up works after setting keys in the .env file.');
       return;
     }
+
+    // Mobile number validation (Indian Mobile number standard: 10 digits starting with 6, 7, 8 or 9)
+    const trimmedPhone = phone.trim();
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(trimmedPhone)) {
+      setErrorMsg('Invalid Mobile Number: Must be a 10-digit number starting with 6, 7, 8, or 9.');
+      return;
+    }
+
     setIsLoading(true);
     setErrorMsg('');
     try {
@@ -57,7 +67,8 @@ export default function AuthModal({
         password,
         options: {
           data: {
-            full_name: fullName
+            full_name: fullName,
+            phone_number: trimmedPhone
           }
         }
       });
@@ -65,6 +76,7 @@ export default function AuthModal({
       alert('Registration successful! You can now log in.');
       setIsSignUp(false);
       setPassword('');
+      setPhone('');
     } catch (err) {
       setErrorMsg(err.message);
     } finally {
@@ -77,7 +89,11 @@ export default function AuthModal({
     if (!hasSupabaseConfig) {
       // Mock student login fallback for testing if Supabase isn't configured yet
       if (email === 'student@cusat.ac.in' && password === 'student123') {
-        const mockStudent = { email: 'student@cusat.ac.in', full_name: 'Demo Student' };
+        const mockStudent = { 
+          email: 'student@cusat.ac.in', 
+          full_name: 'Demo Student',
+          phone_number: '9876543210'
+        };
         setLoggedStudent(mockStudent);
         setUserRole('student');
         sessionStorage.setItem('student_session', JSON.stringify(mockStudent));
@@ -102,6 +118,7 @@ export default function AuthModal({
       const studentData = {
         email: data.user.email,
         full_name: data.user.user_metadata?.full_name || 'CUSAT Student',
+        phone_number: data.user.user_metadata?.phone_number || '',
         id: data.user.id
       };
 
@@ -209,16 +226,33 @@ export default function AuthModal({
               /* Student signup or login form */
               <form onSubmit={isSignUp ? handleStudentSignUp : handleStudentLogin}>
                 {isSignUp && (
-                  <div className="form-group">
-                    <label>Full Name *</label>
-                    <input
-                      type="text"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Enter your name"
-                      required
-                    />
-                  </div>
+                  <>
+                    <div className="form-group">
+                      <label>Full Name *</label>
+                      <input
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Enter your name"
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Mobile Number *</label>
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                        placeholder="10-digit mobile number"
+                        pattern="[6-9][0-9]{9}"
+                        maxLength={10}
+                        required
+                      />
+                      <small style={{ color: '#64748b', fontSize: '11px', marginTop: '4px', display: 'block' }}>
+                        Must be exactly 10 digits starting with 6, 7, 8, or 9 (Indian standard).
+                      </small>
+                    </div>
+                  </>
                 )}
 
                 <div className="form-group">
@@ -260,12 +294,12 @@ export default function AuthModal({
                   </p>
                 )}
 
-                <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: '#64748b' }}>
+                 <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: '#64748b' }}>
                   {isSignUp ? 'Already have an account?' : "Don't have an account yet?"}{' '}
                   <button
                     type="button"
                     style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}
-                    onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); }}
+                    onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); setPhone(''); }}
                   >
                     {isSignUp ? 'Log In' : 'Sign Up'}
                   </button>

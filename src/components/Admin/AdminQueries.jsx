@@ -106,7 +106,7 @@ export default function AdminQueries() {
                 </div>
               </div>
               <h4 style={{ fontSize: '15px', color: '#0f172a', fontWeight: '700' }}>{item.subject}</h4>
-              <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: '1.5' }}>{item.description}</p>
+              <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{item.description}</p>
               <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '8px', marginTop: '4px', fontSize: '12px', color: '#94a3b8', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                 <span>Filed by: <strong>{item.student_name}</strong> ({item.student_email})</span>
                 <span>Date: {new Date(item.created_at).toLocaleDateString()}</span>

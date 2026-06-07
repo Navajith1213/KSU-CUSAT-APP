@@ -57,12 +57,16 @@ export default function QueryPanel({ loggedStudent }) {
     setIsSubmitting(true);
 
     try {
+      const finalDescription = loggedStudent?.phone_number
+        ? `${description}\n\n---\nStudent Contact: +91 ${loggedStudent.phone_number}`
+        : description;
+
       const newQuery = {
         student_email: studentEmail,
         student_name: studentName,
         category,
         subject,
-        description,
+        description: finalDescription,
         status: 'Submitted',
         created_at: new Date().toISOString()
       };
@@ -108,7 +112,7 @@ export default function QueryPanel({ loggedStudent }) {
             student_email: studentEmail,
             category: category,
             subject: subject,
-            description: description
+            description: finalDescription
           },
           publicKey
         );
@@ -219,7 +223,7 @@ export default function QueryPanel({ loggedStudent }) {
                   </span>
                 </div>
                 <h4 style={{ fontSize: '15px', color: '#0f172a', fontWeight: '700' }}>{item.subject}</h4>
-                <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.4' }}>{item.description}</p>
+                <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.4', whiteSpace: 'pre-wrap' }}>{item.description}</p>
                 <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '6px', marginTop: '4px', fontSize: '11px', color: '#94a3b8' }}>
                   Submitted on: {new Date(item.created_at).toLocaleDateString()}
                 </div>
