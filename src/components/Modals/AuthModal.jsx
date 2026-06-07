@@ -117,6 +117,30 @@ export default function AuthModal({
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setErrorMsg('Please enter your email address first, then click Forgot Password.');
+      return;
+    }
+    if (!hasSupabaseConfig) {
+      alert('Supabase is not configured. Password reset is unavailable in demo mode.');
+      return;
+    }
+    setIsLoading(true);
+    setErrorMsg('');
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin
+      });
+      if (error) throw error;
+      alert('Password reset link sent! Check your email inbox.');
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleAdminLogin = async (e) => {
     e.preventDefault();
     if (!hasSupabaseConfig) {
@@ -222,6 +246,19 @@ export default function AuthModal({
                 <button type="submit" className="login-btn" style={{ width: '100%', padding: '12px' }} disabled={isLoading}>
                   {isLoading ? 'Processing...' : isSignUp ? 'Create Student Account' : 'Student Log In'}
                 </button>
+
+                {!isSignUp && (
+                  <p style={{ textAlign: 'right', marginTop: '8px', marginBottom: '0' }}>
+                    <button
+                      type="button"
+                      style={{ background: 'none', border: 'none', color: '#6366f1', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
+                      onClick={handleForgotPassword}
+                      disabled={isLoading}
+                    >
+                      Forgot your password?
+                    </button>
+                  </p>
+                )}
 
                 <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: '#64748b' }}>
                   {isSignUp ? 'Already have an account?' : "Don't have an account yet?"}{' '}
