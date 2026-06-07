@@ -66,6 +66,15 @@ export const defaultBoysPGs = [
     "contact": "8714799817",
     "rooms": "",
     "gmapsLink": "https://maps.app.goo.gl/hGwDRqRzfeLrtkAS7"
+  },
+  {
+    "name": "St Joseph Hostel",
+    "location": "Near St. Joseph's English Medium Higher Secondary School, University Road, Thrikkakara, Kalamassery, Kochi, Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "9446077973",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/yZKc5A928XZXDFoU7"
   }
 ];
 // <!--BOYSPGS_END-->
