@@ -2,33 +2,10 @@
 export const defaultEvents = [];
 // <!--EVENTS_END-->
 
-// <!--HOSTELS_START-->
-export const defaultHostels = [
+// <!--BOYSPGS_START-->
+export const defaultBoysPGs = [
   {
-    "name": "CUSAT Boys Hostel",
-    "location": "Inside Campus",
-    "fees": "₹4500/month",
-    "food": "Mess available",
-    "contact": "+91-9991112221",
-    "rooms": "Double sharing",
-    "gmapsLink": ""
-  },
-  {
-    "name": "CUSAT Girls Hostel",
-    "location": "Inside Campus",
-    "fees": "₹5000/month",
-    "food": "Mess available",
-    "contact": "+91-9991112222",
-    "rooms": "Double sharing",
-    "gmapsLink": ""
-  }
-];
-// <!--HOSTELS_END-->
-
-// <!--PGS_START-->
-export const defaultPGs = [
-  {
-    "name": "Ameen PG",
+    "name": "Ameen PG (Boys)",
     "location": "Kalamassery",
     "rent": "₹6500/month",
     "food": "Included",
@@ -37,6 +14,20 @@ export const defaultPGs = [
     "gmapsLink": ""
   },
   {
+    "name": "CUSAT Boys Hostel",
+    "location": "Inside Campus",
+    "rent": "₹4500/month",
+    "food": "Mess available",
+    "contact": "+91-9991112221",
+    "rooms": "Double sharing",
+    "gmapsLink": ""
+  }
+];
+// <!--BOYSPGS_END-->
+
+// <!--GIRLSPGS_START-->
+export const defaultGirlsPGs = [
+  {
     "name": "Green Nest Ladies PG",
     "location": "South Kalamassery",
     "rent": "₹7000/month",
@@ -44,9 +35,18 @@ export const defaultPGs = [
     "contact": "+91-9991112244",
     "rooms": "Double",
     "gmapsLink": ""
+  },
+  {
+    "name": "CUSAT Girls Hostel",
+    "location": "Inside Campus",
+    "rent": "₹5000/month",
+    "food": "Mess available",
+    "contact": "+91-9991112222",
+    "rooms": "Double sharing",
+    "gmapsLink": ""
   }
 ];
-// <!--PGS_END-->
+// <!--GIRLSPGS_END-->
 
 // <!--FOODSPOTS_START-->
 export const defaultFoodSpots = [

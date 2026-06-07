@@ -3,8 +3,8 @@ import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 
 export default function Home({
   academicEvents,
-  hostels,
-  pgs,
+  boysPgs,
+  girlsPgs,
   foodSpots,
   restaurants,
   amenities,
@@ -52,21 +52,21 @@ export default function Home({
       title: 'Contact Directory',
       icon: 'ti-phone',
       key: 'D',
-      description: 'Find administrative helpline details, university hostel office contacts, and google map directions instantly.'
+      description: 'Find administrative helpline details, university office contacts, and google map directions instantly.'
     },
     {
-      id: 'hostels',
-      title: 'Campus Hostels',
+      id: 'boysPgs',
+      title: "Boys PG's",
       icon: 'ti-building-community',
-      key: 'S',
-      description: 'Explore verified student hostel listings inside or around Kalamassery campus, detailing mess options and room rules.'
+      key: 'B',
+      description: 'Explore verified boys PG and hostel listings near Kalamassery campus with mess options, rent details, and room types.'
     },
     {
-      id: 'pgs',
-      title: 'Paying Guests (PGs)',
-      icon: 'ti-bed',
-      key: 'P',
-      description: 'Compare double and single sharing PG options, monthly rent ranges, food availability, and contact detail cards.'
+      id: 'girlsPgs',
+      title: "Girls PG's",
+      icon: 'ti-home-2',
+      key: 'G',
+      description: 'Browse girls-only PG accommodations and hostels around CUSAT with food availability, rent ranges, and contact details.'
     },
     {
       id: 'food',
@@ -117,8 +117,8 @@ export default function Home({
           <div>
             <h2 className="hero-title">Student Portal</h2>
             <p className="hero-subtitle">
-              Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find local hostels,
-              paying guest (PG) accommodations, tea spots, and key campus contacts.
+              Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find boys and girls PG
+              accommodations, tea spots, and key campus contacts.
             </p>
           </div>
         )}
@@ -130,8 +130,8 @@ export default function Home({
             <div className="stat-lbl">Calendar Events</div>
           </div>
           <div className="stat-item">
-            <div className="stat-val">{hostels.length + pgs.length}</div>
-            <div className="stat-lbl">Stays Listed</div>
+            <div className="stat-val">{boysPgs.length + girlsPgs.length}</div>
+            <div className="stat-lbl">Accommodations</div>
           </div>
           <div className="stat-item">
             <div className="stat-val">{foodSpots.length + restaurants.length}</div>

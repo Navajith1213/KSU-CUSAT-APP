@@ -12,8 +12,8 @@ import Navbar from './components/Navbar';
 
 import {
   defaultEvents,
-  defaultHostels,
-  defaultPGs,
+  defaultBoysPGs,
+  defaultGirlsPGs,
   defaultFoodSpots,
   defaultRestaurants,
   defaultAmenities,
@@ -50,8 +50,8 @@ export default function App() {
 
   // Main data states
   const [academicEvents, setAcademicEvents] = useState(defaultEvents);
-  const [hostels, setHostels] = useState(defaultHostels);
-  const [pgs, setPgs] = useState(defaultPGs);
+  const [boysPgs, setBoysPgs] = useState(defaultBoysPGs);
+  const [girlsPgs, setGirlsPgs] = useState(defaultGirlsPGs);
   const [foodSpots, setFoodSpots] = useState(defaultFoodSpots);
   const [restaurants, setRestaurants] = useState(defaultRestaurants);
   const [amenities, setAmenities] = useState(defaultAmenities);
@@ -63,10 +63,8 @@ export default function App() {
   const [publishingStatus, setPublishingStatus] = useState('');
 
   // Search/Filter states
-  const [hostelSearch, setHostelSearch] = useState('');
-  const [pgSearch, setPgSearch] = useState('');
-  const [pgFoodFilter, setPgFoodFilter] = useState('all');
-  const [pgRentFilter, setPgRentFilter] = useState('all');
+  const [boysPgSearch, setBoysPgSearch] = useState('');
+  const [girlsPgSearch, setGirlsPgSearch] = useState('');
   const [foodSearch, setFoodSearch] = useState('');
   const [restaurantSearch, setRestaurantSearch] = useState('');
   const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
@@ -203,8 +201,8 @@ export default function App() {
       // 2. Perform text replacements using comments markers
       updatedData = dataContent;
       updatedData = replaceSection(updatedData, '// <!--EVENTS_START-->', '// <!--EVENTS_END-->', `export const defaultEvents = ${JSON.stringify(academicEvents, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--HOSTELS_START-->', '// <!--HOSTELS_END-->', `export const defaultHostels = ${JSON.stringify(hostels, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--PGS_START-->', '// <!--PGS_END-->', `export const defaultPGs = ${JSON.stringify(pgs, null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--BOYSPGS_START-->', '// <!--BOYSPGS_END-->', `export const defaultBoysPGs = ${JSON.stringify(boysPgs, null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--GIRLSPGS_START-->', '// <!--GIRLSPGS_END-->', `export const defaultGirlsPGs = ${JSON.stringify(girlsPgs, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--FOODSPOTS_START-->', '// <!--FOODSPOTS_END-->', `export const defaultFoodSpots = ${JSON.stringify(foodSpots, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--RESTAURANTS_START-->', '// <!--RESTAURANTS_END-->', `export const defaultRestaurants = ${JSON.stringify(restaurants, null, 2)};`);
       updatedData = replaceSection(updatedData, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `export const defaultAmenities = ${JSON.stringify(amenities, null, 2)};`);
@@ -266,48 +264,19 @@ export default function App() {
   const contains = (value, search) => (value || '').toLowerCase().includes(search.toLowerCase());
 
   // Filter calculations
-  const filteredHostels = hostels.filter(
+  const filteredBoysPgs = boysPgs.filter(
     (item) =>
-      contains(item.name, hostelSearch) ||
-      contains(item.location, hostelSearch) ||
-      contains(item.food, hostelSearch)
+      contains(item.name, boysPgSearch) ||
+      contains(item.location, boysPgSearch) ||
+      contains(item.food, boysPgSearch)
   );
 
-  const parseRent = (rent) => {
-    const num = parseInt((rent || '').toString().replace(/[^\d]/g, ''), 10);
-    return isNaN(num) ? null : num;
-  };
-
-  const filteredPGs = pgs.filter((item) => {
-    const textMatch =
-      contains(item.name, pgSearch) ||
-      contains(item.location, pgSearch) ||
-      contains(item.food, pgSearch) ||
-      contains(item.rooms, pgSearch);
-
-    const foodMatch =
-      pgFoodFilter === 'all'
-        ? true
-        : pgFoodFilter === 'included'
-        ? contains(item.food, 'included') || contains(item.food, 'mess')
-        : pgFoodFilter === 'not-included'
-        ? !contains(item.food, 'included') && !contains(item.food, 'mess')
-        : true;
-
-    const rent = parseRent(item.rent);
-    const rentMatch =
-      pgRentFilter === 'all'
-        ? true
-        : pgRentFilter === 'below6000'
-        ? rent !== null && rent < 6000
-        : pgRentFilter === '6000to8000'
-        ? rent !== null && rent >= 6000 && rent <= 8000
-        : pgRentFilter === 'above8000'
-        ? rent !== null && rent > 8000
-        : true;
-
-    return textMatch && foodMatch && rentMatch;
-  });
+  const filteredGirlsPgs = girlsPgs.filter(
+    (item) =>
+      contains(item.name, girlsPgSearch) ||
+      contains(item.location, girlsPgSearch) ||
+      contains(item.food, girlsPgSearch)
+  );
 
   const filteredFoodSpots = foodSpots.filter(
     (item) =>
@@ -350,8 +319,8 @@ export default function App() {
         {activeModule === 'home' && (
           <Home
             academicEvents={academicEvents}
-            hostels={hostels}
-            pgs={pgs}
+            boysPgs={boysPgs}
+            girlsPgs={girlsPgs}
             foodSpots={foodSpots}
             restaurants={restaurants}
             amenities={amenities}
@@ -383,52 +352,41 @@ export default function App() {
           <ContactList contacts={contacts} />
         )}
 
-        {activeModule === 'hostels' && (
+        {activeModule === 'boysPgs' && (
           <div className="card">
             <div className="module-header">
-              <h2>Hostels</h2>
+              <h2>Boys PG's</h2>
             </div>
             <div className="filter-bar">
               <input
                 type="text"
-                placeholder="Search by hostel, location, or food"
-                value={hostelSearch}
-                onChange={(e) => setHostelSearch(e.target.value)}
+                placeholder="Search by name, location, or food"
+                value={boysPgSearch}
+                onChange={(e) => setBoysPgSearch(e.target.value)}
               />
             </div>
             <ListingGrid
-              items={filteredHostels}
-              fields={['location', 'fees', 'food', 'contact', 'rooms']}
+              items={filteredBoysPgs}
+              fields={['location', 'rent', 'food', 'contact', 'rooms']}
             />
           </div>
         )}
 
-        {activeModule === 'pgs' && (
+        {activeModule === 'girlsPgs' && (
           <div className="card">
             <div className="module-header">
-              <h2>Paying Guest (PG) Options</h2>
+              <h2>Girls PG's</h2>
             </div>
             <div className="filter-bar">
               <input
                 type="text"
-                placeholder="Search PG by name, location, food, or room type"
-                value={pgSearch}
-                onChange={(e) => setPgSearch(e.target.value)}
+                placeholder="Search by name, location, or food"
+                value={girlsPgSearch}
+                onChange={(e) => setGirlsPgSearch(e.target.value)}
               />
-              <select value={pgFoodFilter} onChange={(e) => setPgFoodFilter(e.target.value)}>
-                <option value="all">All food options</option>
-                <option value="included">Food included / mess</option>
-                <option value="not-included">No food included</option>
-              </select>
-              <select value={pgRentFilter} onChange={(e) => setPgRentFilter(e.target.value)}>
-                <option value="all">All rent ranges</option>
-                <option value="below6000">Below 6000</option>
-                <option value="6000to8000">6000 to 8000</option>
-                <option value="above8000">Above 8000</option>
-              </select>
             </div>
             <ListingGrid
-              items={filteredPGs}
+              items={filteredGirlsPgs}
               fields={['location', 'rent', 'food', 'contact', 'rooms']}
             />
           </div>
@@ -524,10 +482,10 @@ export default function App() {
             setAcademicEvents={setAcademicEvents}
             contacts={contacts}
             setContacts={setContacts}
-            hostels={hostels}
-            setHostels={setHostels}
-            pgs={pgs}
-            setPgs={setPgs}
+            boysPgs={boysPgs}
+            setBoysPgs={setBoysPgs}
+            girlsPgs={girlsPgs}
+            setGirlsPgs={setGirlsPgs}
             foodSpots={foodSpots}
             setFoodSpots={setFoodSpots}
             restaurants={restaurants}
@@ -651,10 +609,10 @@ export default function App() {
                   </li>
                   <li>
                     <button
-                      onClick={() => setActiveModule('hostels')}
+                      onClick={() => setActiveModule('boysPgs')}
                       style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
-                      Hostels
+                      Boys PG's
                     </button>
                   </li>
                 </ul>
