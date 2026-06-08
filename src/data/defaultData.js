@@ -503,6 +503,13 @@ export const defaultContacts = [
     "email": "soeasection@gmail.com",
     "address": "Provides specialized training in industrial safety, fire protection, risk assessment, and disaster management. The department prepares engineers to ensure safety in industries and public infrastructure.",
     "gmapsLink": "https://maps.app.goo.gl/FPnV8uF5EBmb6K1D7?g_st=ic"
+  },
+  {
+    "name": "ICREP",
+    "phone": "+91 80780 19688",
+    "email": "icrepstudents@gmail.com",
+    "address": " It focuses on research, teaching, and training in bioethics and research ethics, and Bsc LLB COMPUTER SCIENCE Hon ,especially at the intersection of law, science, technology, and healthcare. The centre aims to promote ethical standards in scientific research, develop research protocols and codes of conduct, and enhance the quality and integrity of academic and scientific studies. ",
+    "gmapsLink": "https://maps.app.goo.gl/Y3cJqbzmfECkEkGw8"
   }
 ];
 // <!--CONTACTS_END-->
