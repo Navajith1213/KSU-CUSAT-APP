@@ -282,7 +282,7 @@ export default function App() {
     (item) =>
       contains(item.name, foodSearch) ||
       contains(item.location, foodSearch) ||
-      contains(item.specialty, foodSearch)
+      contains(item.description || item.specialty, foodSearch)
   );
 
   const filteredRestaurants = restaurants.filter((item) => {
@@ -303,7 +303,8 @@ export default function App() {
     (item) =>
       contains(item.name, amenitySearch) ||
       contains(item.location, amenitySearch) ||
-      contains(item.details, amenitySearch)
+      contains(item.details, amenitySearch) ||
+      contains(item.category, amenitySearch)
   );
 
   const filteredClubs = clubs.filter(
@@ -398,14 +399,14 @@ export default function App() {
             <div className="filter-bar">
               <input
                 type="text"
-                placeholder="Search tea spots by name, location, or specialty"
+                placeholder="Search tea spots by name, location, or description"
                 value={foodSearch}
                 onChange={(e) => setFoodSearch(e.target.value)}
               />
             </div>
             <ListingGrid
               items={filteredFoodSpots}
-              fields={['location', 'specialty', 'timing']}
+              fields={['location', 'description', 'timing']}
             />
           </div>
         )}
@@ -445,12 +446,12 @@ export default function App() {
             <div className="filter-bar">
               <input
                 type="text"
-                placeholder="Search amenities by name, location, or details"
+                placeholder="Search amenities by name, category, location, or details"
                 value={amenitySearch}
                 onChange={(e) => setAmenitySearch(e.target.value)}
               />
             </div>
-            <ListingGrid items={filteredAmenities} fields={['location', 'details']} />
+            <ListingGrid items={filteredAmenities} fields={['category', 'location', 'details']} />
           </div>
         )}
 

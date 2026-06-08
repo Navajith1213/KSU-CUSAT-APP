@@ -113,14 +113,14 @@ export const defaultFoodSpots = [
   {
     "name": "Campus Canteen",
     "location": "Near Main Block",
-    "specialty": "Meals, tea, snacks",
+    "description": "Meals, tea, snacks",
     "timing": "8 AM - 6 PM",
     "gmapsLink": ""
   },
   {
     "name": "Evening Snack Point",
     "location": "Hostel Road",
-    "specialty": "Chai, puffs, sandwiches",
+    "description": "Chai, puffs, sandwiches",
     "timing": "4 PM - 10 PM",
     "gmapsLink": ""
   }
@@ -147,7 +147,22 @@ export const defaultRestaurants = [
 // <!--RESTAURANTS_END-->
 
 // <!--AMENITIES_START-->
-export const defaultAmenities = [];
+export const defaultAmenities = [
+  {
+    "name": "CUSAT Post Office",
+    "location": "Near School of Engineering",
+    "category": "Post Office",
+    "details": "Speed post, registered post, savings bank, and standard mailing services.",
+    "gmapsLink": ""
+  },
+  {
+    "name": "Federal Bank ATM",
+    "location": "Near Administrative Block",
+    "category": "Banking / ATM",
+    "details": "24/7 ATM service with cash withdrawal and deposit facilities.",
+    "gmapsLink": ""
+  }
+];
 // <!--AMENITIES_END-->
 
 // <!--CLUBS_START-->

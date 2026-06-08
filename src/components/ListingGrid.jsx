@@ -9,6 +9,7 @@ const FIELD_LABELS = {
   rooms: 'Room Type',
   rent: 'Rent',
   specialty: 'Specialty',
+  description: 'Description',
   timing: 'Timing',
   cuisine: 'Cuisine',
   details: 'Details',
@@ -53,8 +54,9 @@ export default function ListingGrid({ items, fields }) {
                   );
                 }
 
-                return item[field] ? (
-                  <p key={i}><strong>{FIELD_LABELS[field] || (field.charAt(0).toUpperCase() + field.slice(1))}:</strong> {item[field]}</p>
+                const displayVal = field === 'description' ? (item.description || item.specialty) : item[field];
+                return displayVal ? (
+                  <p key={i}><strong>{FIELD_LABELS[field] || (field.charAt(0).toUpperCase() + field.slice(1))}:</strong> {displayVal}</p>
                 ) : null;
               })}
             </div>

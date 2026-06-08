@@ -39,9 +39,9 @@ export default function AdminDashboard({
   const [newEvent, setNewEvent] = useState({ title: '', date: '', type: 'academic' });
   const [newBoysPg, setNewBoysPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
   const [newGirlsPg, setNewGirlsPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
-  const [newFoodSpot, setNewFoodSpot] = useState({ name: '', location: '', specialty: '', timing: '', gmapsLink: '' });
+  const [newFoodSpot, setNewFoodSpot] = useState({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
   const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
-  const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', gmapsLink: '' });
+  const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', category: '', gmapsLink: '' });
   const [newClub, setNewClub] = useState({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
   const [newContact, setNewContact] = useState({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
  
@@ -49,9 +49,9 @@ export default function AdminDashboard({
     if (type === 'calendar') setNewEvent({ title: '', date: '', type: 'academic' });
     if (type === 'boysPgs') setNewBoysPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
     if (type === 'girlsPgs') setNewGirlsPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
-    if (type === 'food') setNewFoodSpot({ name: '', location: '', specialty: '', timing: '', gmapsLink: '' });
+    if (type === 'food') setNewFoodSpot({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
     if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
-    if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', gmapsLink: '' });
+    if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', category: '', gmapsLink: '' });
     if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
     if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
   };
@@ -63,7 +63,7 @@ export default function AdminDashboard({
       girlsPgs: { value: newGirlsPg, setValue: setNewGirlsPg, list: girlsPgs, setList: setGirlsPgs, required: ['name', 'location', 'contact'] },
       food: { value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots, required: ['name', 'location'] },
       restaurants: { value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants, required: ['name', 'location'] },
-      amenities: { value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities, required: ['name', 'location'] },
+      amenities: { value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities, required: ['name', 'location', 'category'] },
       clubs: { value: newClub, setValue: setNewClub, list: clubs, setList: setClubs, required: ['name', 'location'] },
       contacts: { value: newContact, setValue: setNewContact, list: contacts, setList: setContacts, required: ['name', 'phone'] }
     };
@@ -94,9 +94,22 @@ export default function AdminDashboard({
     if (type === 'calendar') setNewEvent(item);
     if (type === 'boysPgs') setNewBoysPg(item);
     if (type === 'girlsPgs') setNewGirlsPg(item);
-    if (type === 'food') setNewFoodSpot(item);
+    if (type === 'food') setNewFoodSpot({
+      name: item.name || '',
+      location: item.location || '',
+      description: item.description || item.specialty || '',
+      specialty: item.description || item.specialty || '',
+      timing: item.timing || '',
+      gmapsLink: item.gmapsLink || ''
+    });
     if (type === 'restaurants') setNewRestaurant(item);
-    if (type === 'amenities') setNewAmenity(item);
+    if (type === 'amenities') setNewAmenity({
+      name: item.name || '',
+      location: item.location || '',
+      details: item.details || '',
+      category: item.category || '',
+      gmapsLink: item.gmapsLink || ''
+    });
     if (type === 'clubs') setNewClub(item);
     if (type === 'contacts') setNewContact(item);
   };

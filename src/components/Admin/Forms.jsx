@@ -298,12 +298,16 @@ export function FoodSpotForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           <input value={value.location} onChange={(e) => onChange({ ...value, location: e.target.value })} />
         </div>
         <div className="form-group">
-          <label>Specialty</label>
-          <input value={value.specialty} onChange={(e) => onChange({ ...value, specialty: e.target.value })} />
+          <label>Description</label>
+          <input 
+            value={value.description || value.specialty || ''} 
+            onChange={(e) => onChange({ ...value, description: e.target.value, specialty: e.target.value })} 
+            placeholder="e.g. Famous for fresh juices, hot snacks, and varieties of tea." 
+          />
         </div>
         <div className="form-group">
           <label>Timing</label>
-          <input value={value.timing} onChange={(e) => onChange({ ...value, timing: e.target.value })} />
+          <input value={value.timing || ''} onChange={(e) => onChange({ ...value, timing: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Google Maps Link</label>
@@ -376,6 +380,15 @@ export function AmenityForm({ value, onChange, onSubmit, onCancel, isEdit }) {
         <div className="form-group">
           <label>Location *</label>
           <input value={value.location} onChange={(e) => onChange({ ...value, location: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Category *</label>
+          <input 
+            value={value.category || ''} 
+            onChange={(e) => onChange({ ...value, category: e.target.value })} 
+            placeholder="e.g. ATM, Pharmacy, Stationery, Laundry"
+            required
+          />
         </div>
         <div className="form-group">
           <label>Google Maps Link</label>
