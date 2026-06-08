@@ -39,13 +39,29 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     }
   }, [userRole]);
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   const types = ['All', 'Notes', 'PYQ', 'Syllabus', 'Other'];
 
   const filteredResources = resources.filter(r => {
     if (r.department !== activeDepartment) return false;
     if (activeType !== 'All' && r.resource_type !== activeType) return false;
+    if (searchQuery && !r.subject.toLowerCase().includes(searchQuery.toLowerCase())) return false;
     return true;
   });
+
+  // Group filtered resources by year_semester
+  const groupedResources = filteredResources.reduce((acc, resource) => {
+    const sem = resource.year_semester || 'Other';
+    if (!acc[sem]) {
+      acc[sem] = [];
+    }
+    acc[sem].push(resource);
+    return acc;
+  }, {});
+
+  // Sort groups alphabetically (S1, S2, etc.)
+  const sortedSemesters = Object.keys(groupedResources).sort();
 
   const [selectedDocument, setSelectedDocument] = useState(null);
 
@@ -67,6 +83,15 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
       return url; // fallback
     } catch (e) {
       return url;
+    }
+  };
+
+  const getResourceIcon = (type) => {
+    switch(type) {
+      case 'Notes': return <i className="ti ti-file-text" style={{ fontSize: '20px', color: '#3b82f6' }}></i>;
+      case 'PYQ': return <i className="ti ti-help" style={{ fontSize: '20px', color: '#f59e0b' }}></i>;
+      case 'Syllabus': return <i className="ti ti-book" style={{ fontSize: '20px', color: '#10b981' }}></i>;
+      default: return <i className="ti ti-file" style={{ fontSize: '20px', color: '#8b5cf6' }}></i>;
     }
   };
 
@@ -129,24 +154,36 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
           </div>
 
           <div className="card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '16px' }}>
-              <h2 style={{ margin: 0 }}>{activeDepartment} Materials</h2>
+            {/* Top Toolbar: Search and Filter */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+              <div style={{ position: 'relative', flex: '1', minWidth: '250px' }}>
+                <i className="ti ti-search" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}></i>
+                <input 
+                  type="text" 
+                  placeholder={`Search ${activeDepartment} notes...`}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ width: '100%', padding: '10px 10px 10px 36px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '14px' }}
+                />
+              </div>
               
               {/* Type Filter */}
-              <div style={{ display: 'flex', gap: '8px' }}>
+              <div style={{ display: 'flex', gap: '6px', background: 'var(--bg-hover)', padding: '4px', borderRadius: '10px' }}>
                 {types.map(type => (
                   <button
                     key={type}
                     onClick={() => setActiveType(type)}
                     style={{
-                      background: activeType === type ? '#0284c7' : '#f1f5f9',
-                      color: activeType === type ? 'white' : '#475569',
+                      background: activeType === type ? '#fff' : 'transparent',
+                      color: activeType === type ? '#0284c7' : '#475569',
                       border: 'none',
-                      padding: '6px 12px',
-                      borderRadius: '8px',
+                      padding: '6px 14px',
+                      borderRadius: '6px',
                       fontSize: '13px',
-                      fontWeight: '600',
-                      cursor: 'pointer'
+                      fontWeight: activeType === type ? '700' : '500',
+                      boxShadow: activeType === type ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
                     }}
                   >
                     {type}
@@ -156,37 +193,63 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
             </div>
 
             {filteredResources.length === 0 ? (
-              <p style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>No {activeType !== 'All' ? activeType : 'resources'} found for this department.</p>
+              <div style={{ textAlign: 'center', padding: '40px' }}>
+                <i className="ti ti-search" style={{ fontSize: '40px', color: '#cbd5e1', marginBottom: '12px' }}></i>
+                <p style={{ color: 'var(--text-muted)' }}>No materials found matching your search.</p>
+              </div>
             ) : (
-              <div className="grid">
-                {filteredResources.map(resource => (
-                  <div key={resource.id} className="item-card">
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
-                      <div style={{
-                        background: 'var(--bg-hover)',
-                        color: '#0369a1',
-                        padding: '4px 8px',
-                        borderRadius: '6px',
-                        fontSize: '11px',
-                        fontWeight: '700',
-                        textTransform: 'uppercase'
-                      }}>
-                        {resource.resource_type}
-                      </div>
-                      <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600' }}>
-                        {resource.year_semester}
-                      </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                {sortedSemesters.map(sem => (
+                  <div key={sem} className="semester-group">
+                    <h3 style={{ 
+                      fontSize: '18px', 
+                      color: 'var(--text-primary)', 
+                      borderBottom: '2px solid var(--bg-hover)', 
+                      paddingBottom: '8px', 
+                      marginBottom: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    }}>
+                      <i className="ti ti-folder" style={{ color: '#0284c7' }}></i>
+                      {sem}
+                    </h3>
+                    <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+                      {groupedResources[sem].map(resource => (
+                        <div key={resource.id} className="item-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              background: 'var(--bg-hover)',
+                              color: '#0369a1',
+                              padding: '4px 10px',
+                              borderRadius: '20px',
+                              fontSize: '11px',
+                              fontWeight: '700',
+                              textTransform: 'uppercase'
+                            }}>
+                              {getResourceIcon(resource.resource_type)}
+                              {resource.resource_type}
+                            </div>
+                            <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '600', padding: '4px 0' }}>
+                              {new Date(resource.created_at).toLocaleDateString()}
+                            </span>
+                          </div>
+                          
+                          <h3 style={{ fontSize: '16px', margin: '0 0 8px 0', color: 'var(--text-primary)', lineHeight: '1.4' }}>{resource.subject}</h3>
+                          
+                          <button 
+                            onClick={() => setSelectedDocument(resource)}
+                            className="btn-primary"
+                            style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '8px', marginTop: 'auto', padding: '10px' }}
+                          >
+                            <i className="ti ti-eye"></i> Read Document
+                          </button>
+                        </div>
+                      ))}
                     </div>
-                    
-                    <h3 style={{ fontSize: '16px', margin: '0 0 16px 0', color: 'var(--text-primary)' }}>{resource.subject}</h3>
-                    
-                    <button 
-                      onClick={() => setSelectedDocument(resource)}
-                      className="btn-primary"
-                      style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '8px', marginTop: 'auto' }}
-                    >
-                      <i className="ti ti-brand-google-drive"></i> Read Document
-                    </button>
                   </div>
                 ))}
               </div>
