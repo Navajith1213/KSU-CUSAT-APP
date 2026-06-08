@@ -14,6 +14,7 @@ import DepartmentDashboard from './components/DepartmentDashboard';
 import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
+import JoinKSUForm from './components/JoinKSUForm';
 
 
 
@@ -440,6 +441,11 @@ export default function App() {
             setClubs={setClubs}
               />
         )}
+        
+        {activeModule === 'join_ksu' && (
+          <JoinKSUForm setActiveModule={setActiveModule} />
+        )}
+
         {activeModule === 'admin-queries' && userRole === 'admin' && (
           <AdminQueries />
         )}

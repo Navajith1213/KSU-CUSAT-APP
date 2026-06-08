@@ -192,6 +192,28 @@ export default function Home({
         </div>
       </div>
 
+      {/* Join KSU Banner */}
+      <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', border: '1px solid #7dd3fc', flexWrap: 'wrap', marginBottom: '24px' }}>
+        <div style={{ flex: 1, minWidth: '260px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            <i className="ti ti-users-group" style={{ fontSize: '20px', color: '#0369a1' }}></i>
+            <h3 style={{ color: '#0369a1', fontSize: '18px', fontWeight: '800', margin: 0 }}>
+              Become a part of KSU
+            </h3>
+          </div>
+          <p style={{ color: '#0c4a6e', fontSize: '14.5px', lineHeight: '1.5', margin: 0, fontWeight: '500' }}>
+            Stand for student rights, welfare, and progressive values on campus. Join the movement today!
+          </p>
+        </div>
+        <button 
+          className="btn-primary" 
+          style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#0284c7', padding: '10px 20px', fontSize: '15px' }} 
+          onClick={() => setActiveModule('join_ksu')}
+        >
+          Join KSU <i className="ti ti-arrow-right"></i>
+        </button>
+      </div>
+
       {/* Guest Call to Action */}
       {!loggedStudent && (
         <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
