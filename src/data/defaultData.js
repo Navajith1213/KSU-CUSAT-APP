@@ -194,15 +194,22 @@ export const defaultContacts = [
     "name": "CUSAT Administration Office",
     "phone": "+91-484-2576800",
     "email": "registrar@cusat.ac.in",
-    "address": "Central hub for university administration, academic registrations, official admissions, and institutional affairs.",
+    "address": "Administrative Building, CUSAT Campus, Kalamassery, Kochi",
     "gmapsLink": ""
   },
   {
     "name": "Department of Computer Science",
     "phone": "+91-484-2577290",
     "email": "cs@cusat.ac.in",
-    "address": "Offers undergraduate, postgraduate, and doctoral programs in Computer Science & engineering with advanced research labs.",
-    "gmapsLink": ""
+    "address": "",
+    "gmapsLink": "https://maps.app.goo.gl/HXcN7gAxBZykuJFo6"
+  },
+  {
+    "name": "Department of Biotechnology ",
+    "phone": "0484-2576267",
+    "email": "biotech@cusat.ac.in",
+    "address": "Department of Biotechnology provides Msc and Integrated Msc courses for various biological field like microbiology, biotechnology etc ",
+    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   }
 ];
 // <!--CONTACTS_END-->
