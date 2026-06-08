@@ -374,15 +374,15 @@ export const defaultContacts = [
   {
     "name": "Department of Computer Science",
     "phone": "+91-484-2577290",
-    "email": "cs@cusat.ac.in",
-    "address": "",
+    "email": "csdir@cusat.ac.in",
+    "address": "Combines computer science fundamentals with artificial intelligence, machine learning, data analytics, and software development.",
     "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
   },
   {
     "name": "Department of Biotechnology ",
     "phone": "0484-2576267",
     "email": "biotech@cusat.ac.in",
-    "address": "Department of Biotechnology provides Msc and Integrated Msc courses for various biological field like microbiology, biotechnology etc ",
+    "address": "Explores molecular biology, genetics, biotechnology, microbiology, and bioinformatics with hands-on laboratory experience.",
     "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   },
   {
@@ -407,38 +407,38 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac"
   },
   {
-    "name": "Department of physics",
+    "name": "Department of Physics",
     "phone": "91-484-2577404",
     "email": "phys@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses",
+    "address": "Focuses on fundamental and applied physics, covering mechanics, electromagnetism, quantum physics, electronics, and modern research techniques.",
     "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac"
   },
   {
     "name": "Department of Mathematics",
     "phone": "0484-2577518",
     "email": "mathscusat@gmail.com",
-    "address": "Provides Msc and Integrated Msc courses",
+    "address": "Develops strong analytical and problem-solving skills through advanced studies in pure mathematics, applied mathematics, and computational methods.",
     "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac"
   },
   {
-    "name": "Department of statistcs ",
+    "name": "Department of Statistcs ",
     "phone": "91-484-2575893",
     "email": "statistics@cusat.ac.in",
-    "address": "Provides Msc, Mtech, Integrated Msc",
+    "address": "Covers statistical theory, data analysis, probability, machine learning fundamentals, and applications in research and industry",
     "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8"
   },
   {
     "name": "International School of Photonics",
     "phone": "91-484-2575848",
     "email": "officeisp@cusat.ac.in",
-    "address": "The course photonics is offered by some of the top tier institutes only",
+    "address": "The Integrated M.Sc. Photonics programme focuses on the study of light and its applications in modern technology. Students learn optics, lasers, fiber-optic communication, photonic devices, and optoelectronics through theoretical and practical training. The programme prepares graduates for careers in research, telecommunications, photonics industries, and advanced scientific studies.",
     "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac"
   },
   {
     "name": "School of Environmental Studies",
     "phone": "91-484-2577311",
     "email": "ses@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses",
+    "address": "Focuses on environmental conservation, ecology, pollution management, climate studies, and sustainable development practices.",
     "gmapsLink": "https://maps.app.goo.gl/ztNKVbkTJTQJzQCG7?g_st=ac"
   },
   {
@@ -452,7 +452,7 @@ export const defaultContacts = [
     "name": "Department of Chemistry",
     "phone": "91-484-2352421",
     "email": "chem@cusat.ac.in",
-    "address": "Provides Msc and Ingrated Msc courses",
+    "address": "Provides in-depth knowledge of organic, inorganic, physical, and analytical chemistry with extensive laboratory and research training",
     "gmapsLink": "https://maps.app.goo.gl/JdxahX9AziALmDBn8"
   },
   {
