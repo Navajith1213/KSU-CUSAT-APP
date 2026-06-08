@@ -286,8 +286,8 @@ export const defaultContacts = [
   {
     "name": "Department of Computer Science",
     "phone": "+91-484-2577290",
-    "email": "cs@cusat.ac.in",
-    "address": "",
+    "email": "csdir@cusat.ac.in",
+    "address": "Offers academic programs, research activities, and student workshops in Computer Science.",
     "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
   },
   {
@@ -312,53 +312,46 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
   },
   {
-    "name": "School of Legal Studies",
-    "phone": "9383445550",
-    "email": "cusatlegalstudents@gmail.com",
-    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education and research-oriented approach",
-    "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac"
-  },
-  {
-    "name": "Department of physics",
+    "name": "Department of Physics ",
     "phone": "91-484-2577404",
     "email": "phys@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac"
+    "address": "Provides Msc and Integrated Msc courses in Physics.",
+    "gmapsLink": "https://maps.app.goo.gl/VftJjKzHVFNkSdmN6"
   },
   {
-    "name": "Department of Mathematics",
+    "name": "Department of Mathematics ",
     "phone": "0484-2577518",
     "email": "mathscusat@gmail.com",
-    "address": "Provides Msc and Integrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac"
+    "address": "Provides Msc and Integrated Msc courses in Mathematics",
+    "gmapsLink": "https://maps.app.goo.gl/MmNFbEHa86WED2fX7"
   },
   {
-    "name": "Department of statistcs ",
-    "phone": "91-484-2575893",
+    "name": "Department of Statistics ",
+    "phone": "91-484- 2575893",
     "email": "statistics@cusat.ac.in",
-    "address": "Provides Msc, Mtech, Integrated Msc",
-    "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8"
+    "address": "Provides Msc, Mtech, Integrated Msc in Statistics",
+    "gmapsLink": "https://maps.app.goo.gl/Gmt7uT2jNJxt89397"
   },
   {
-    "name": "International School of Photonics",
-    "phone": "91-484-2575848",
+    "name": "International School Of Photonics",
+    "phone": "+91-484-2575848",
     "email": "officeisp@cusat.ac.in",
     "address": "The course photonics is offered by some of the top tier institutes only",
-    "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/7rvBLYz6NkVxfeFK9"
   },
   {
-    "name": "School of Environmental Studies",
-    "phone": "91-484-2577311",
+    "name": "School of Environmental Science ",
+    "phone": "+91-484-2577311",
     "email": "ses@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/ztNKVbkTJTQJzQCG7?g_st=ac"
+    "address": "Provides Msc and Integrated Msc courses in Environmental Science",
+    "gmapsLink": "https://maps.app.goo.gl/DEuHbNza3r3gQpcP6"
   },
   {
-    "name": "DDU Kaushal Kendra (DDUKK)",
-    "phone": "9037420475",
+    "name": "DDU Kaushal Kendra(DDUKK)",
+    "phone": "+919037420475",
     "email": "kaushalkendra@cusat.ac.in",
-    "address": "Provides various courses",
-    "gmapsLink": "https://maps.app.goo.gl/owd6iKjeuiiF2Qne8"
+    "address": "",
+    "gmapsLink": "https://maps.app.goo.gl/aWcTdP8RJGKF1bPcA"
   }
 ];
 // <!--CONTACTS_END-->
