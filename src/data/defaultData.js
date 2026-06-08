@@ -328,17 +328,87 @@ export const defaultRestaurants = [
 export const defaultAmenities = [
   {
     "name": "CUSAT Post Office",
-    "location": "Near School of Engineering",
-    "category": "Post Office",
+    "location": "Near Amenity Centre",
     "details": "Speed post, registered post, savings bank, and standard mailing services.",
-    "gmapsLink": ""
+    "category": "Post Office",
+    "gmapsLink": "https://maps.app.goo.gl/FmPLWaZTJhZwgQ6w5"
   },
   {
     "name": "Federal Bank ATM",
-    "location": "Near Administrative Block",
-    "category": "Banking / ATM",
+    "location": "Near Le Hayat Restaurant ",
     "details": "24/7 ATM service with cash withdrawal and deposit facilities.",
-    "gmapsLink": ""
+    "category": "Banking / ATM",
+    "gmapsLink": "https://maps.app.goo.gl/Uoc9CchSjmeqzyyRA"
+  },
+  {
+    "name": "Akshaya E Centre",
+    "location": "Near CUSAT Restaurant",
+    "details": "Akshaya E-Centres are Common Service Centres that serve as single-point hubs for accessing a wide range of government, financial, and digital services.",
+    "category": "Common Service Centre",
+    "gmapsLink": "https://maps.app.goo.gl/6Z7eB7E2hLUhs6kK7"
+  },
+  {
+    "name": "Aalam Two Wheeler Workshop",
+    "location": "Behind Soe Campus",
+    "details": "Aalam Two Wheeler Workshop is a highly-rated repair shop in Kochi known for providing quality service for two-wheelers at reasonable prices.",
+    "category": "Workshop",
+    "gmapsLink": "https://maps.app.goo.gl/Eg93xZxgT1pLk5Zb6"
+  },
+  {
+    "name": "Indu Photos",
+    "location": "University road, Near Alfiya Nagar",
+    "details": "Indu Photos is a busy, well-regarded print shop in Kalamassery, Kochi, recognized for providing efficient services like photocopying, printing, and binding at economical rates.",
+    "category": "Printing, Photo Studio, Binding, Stationary",
+    "gmapsLink": "https://maps.app.goo.gl/FRv7jQaWVXaLeWRY7"
+  },
+  {
+    "name": "Cherupushpam Digital Press",
+    "location": "Cusat University Junction, University Road",
+    "details": "Cherupushpam Digital Press is a highly-rated digital printing service in South Kalamassery, Kochi, widely recognized for its professional thesis formatting, printing, and binding solutions at affordable rates.",
+    "category": "Printing, Flex Printing, Binding",
+    "gmapsLink": "https://maps.app.goo.gl/SV7HHTXgQqRKPfq59"
+  },
+  {
+    "name": "Power House Multi Gym",
+    "location": "Above RP's Cake Reels",
+    "details": "Power House Multi Gym is a popular, budget-friendly fitness center in South Kalamassery, Kochi, known for its accessible facilities and helpful trainers.",
+    "category": "Gym, Fitness Centre",
+    "gmapsLink": "https://maps.app.goo.gl/SSP78XHFMK2s2c1z7"
+  },
+  {
+    "name": "Government Medical College Kochi",
+    "location": "HMT Rd, HMT Colony, North Kalamassery",
+    "details": "Government Medical College Kochi is a prominent government medical school and hospital in North Kalamassery, Kochi, recognized for providing accessible healthcare services and medical education.",
+    "category": "Govt Hospital",
+    "gmapsLink": "https://maps.app.goo.gl/EmqV5TW5Sftz51aS6"
+  },
+  {
+    "name": "B & B Memorial Hospital",
+    "location": "Model Engineering College Road, near Thrikkakara Temple, Thrikkakara",
+    "details": "B & B Memorial Hospital is a 24-hour medical facility located in Thrikkakara, Kochi, providing comprehensive healthcare services and medical care.",
+    "category": "Private Hospital",
+    "gmapsLink": "https://maps.app.goo.gl/pX6Rd5xQ8JsFsmpJ9"
+  },
+  {
+    "name": "Doc & Meds Clinic",
+    "location": "Near CUSAT Metro Station",
+    "details": "Doc & Meds Clinic is a 24-hour medical clinic in South Kalamassery, Kochi, offering services like consultations, lab tests, and speech therapy, with a notable student scheme for affordable healthcare.",
+    "category": "Pharmacy, Clinic",
+    "gmapsLink": "https://maps.app.goo.gl/yZRFLdp6T5Abdi6y5"
+  },
+  {
+    "name": "Aster Pharmacy - Pipeline Junction, Thrikkakara",
+    "location": "Near KMM Collage Pipeline Junction Thrikkakara",
+    "details": "Aster Pharmacy - Pipeline Junction, Thrikkakara is a well-rated, full-service pharmacy in Thrikkakara, Kochi, known for its friendly staff, prompt delivery services, and convenient 11 PM closing time.",
+    "category": "Pharmacy",
+    "gmapsLink": "https://maps.app.goo.gl/SAc8grxVq3GbEwPUA"
+  },
+  {
+    "name": "CUSAT Student Amenity Centre",
+    "location": "Near CUSAT Restaurant",
+    "details": "CUSAT Student Amenity Centre is a versatile hub located on the CUSAT campus in Kochi, offering essential facilities such as a gym, badminton court, medical clinic, student union offices, and various recreational spaces.",
+    "category": "Amenity Centre",
+    "gmapsLink": "https://maps.app.goo.gl/JUyaX4LgxDuTedcB7"
   }
 ];
 // <!--AMENITIES_END-->
