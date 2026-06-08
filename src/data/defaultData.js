@@ -395,6 +395,18 @@ export const defaultContacts = [
 // <!--CONTACTS_END-->
 
 // <!--HOSTELS_START-->
-export const defaultHostels = [];
+export const defaultHostels = [
+  {
+    "name": "Sahrudaya Hostel",
+    "location": "University Of Science And Technology, Vidya Nagar Colony, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
+    "fees": "",
+    "food": "Mess Available",
+    "contact": "9074031979",
+    "wardenContact": "9447233120",
+    "secretaryContact": "",
+    "rooms": "Three Share Rooms",
+    "gmapsLink": "https://maps.app.goo.gl/JVoyF5KTjHKb8cBv8"
+  }
+];
 // <!--HOSTELS_END-->
 
