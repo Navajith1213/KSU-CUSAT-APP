@@ -482,6 +482,27 @@ export const defaultContacts = [
     "email": "soeasection@gmail.com",
     "address": "Specializes in communication systems, embedded systems, signal processing, VLSI, and wireless technologies. The department prepares students for careers in electronics and telecommunication industries.",
     "gmapsLink": "https://maps.app.goo.gl/W3XbguT5RyZKoQzc9?g_st=ic"
+  },
+  {
+    "name": "Department of Computer Science and Engineering (SOE)",
+    "phone": "+91 484 286 2035",
+    "email": " soeasection@gmail.com",
+    "address": "Focuses on programming, software development, artificial intelligence, data science, networking, and cybersecurity. It trains students to solve complex computing problems and develop innovative software solutions.",
+    "gmapsLink": " https://maps.app.goo.gl/Zf1WJuiA2jEcZ2As7?g_st=ic "
+  },
+  {
+    "name": "Department of Information Technology",
+    "phone": " +91 484 286 2035",
+    "email": "soeasection@gmail.com",
+    "address": "Offers education in information systems, web technologies, cloud computing, database management, and cybersecurity. The department aims to develop professionals capable of managing modern IT infrastructure",
+    "gmapsLink": "https://maps.app.goo.gl/Zf1WJuiA2jEcZ2As7?g_st=ic"
+  },
+  {
+    "name": "Department of Safety and Fire Engineering",
+    "phone": "+91 484 286 2035",
+    "email": "soeasection@gmail.com",
+    "address": "Provides specialized training in industrial safety, fire protection, risk assessment, and disaster management. The department prepares engineers to ensure safety in industries and public infrastructure.",
+    "gmapsLink": "https://maps.app.goo.gl/FPnV8uF5EBmb6K1D7?g_st=ic"
   }
 ];
 // <!--CONTACTS_END-->
