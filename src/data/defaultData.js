@@ -460,35 +460,40 @@ export const defaultContacts = [
     "phone": "+91-484-2577290",
     "email": "csdir@cusat.ac.in",
     "address": "Combines computer science fundamentals with artificial intelligence, machine learning, data analytics, and software development.",
-    "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
+    "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6",
+    "website": "https://cs.cusat.ac.in/"
   },
   {
     "name": "Department of Biotechnology ",
     "phone": "0484-2576267",
     "email": "biotech@cusat.ac.in",
     "address": "Explores molecular biology, genetics, biotechnology, microbiology, and bioinformatics with hands-on laboratory experience.",
-    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
+    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA",
+    "website": "https://biotech.cusat.ac.in/"
   },
   {
     "name": "Department of Computer Application ",
     "phone": "0484 - 2577602",
     "email": "dcaoffice@cusat.ac.in",
     "address": "This department is bestowed with an experienced team of faculty members with an excellent academic track record and proficiency in data science, machine learning and cyber security.",
-    "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac",
+    "website": "https://dca.cusat.ac.in/"
   },
   {
     "name": "Centre for budget studies ",
     "phone": "04842572735 / 2077",
     "email": "budget@cusat.ac.in",
     "address": "Making experts in budget and finance-related issues, conducting ground-level studies, aiding state governments, and providing policy-relevant insights.",
-    "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
+    "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8",
+    "website": "https://cbs.cusat.ac.in/"
   },
   {
     "name": "School of Legal Studies",
     "phone": "9383445550",
     "email": "cusatlegalstudents@gmail.com",
     "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education and research-oriented approach",
-    "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac",
+    "website": "https://sls.cusat.ac.in/"
   },
   {
     "name": "Department of Physics",
