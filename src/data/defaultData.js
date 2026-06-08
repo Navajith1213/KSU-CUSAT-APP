@@ -454,6 +454,34 @@ export const defaultContacts = [
     "email": "chem@cusat.ac.in",
     "address": "Provides Msc and Ingrated Msc courses",
     "gmapsLink": "https://maps.app.goo.gl/JdxahX9AziALmDBn8"
+  },
+  {
+    "name": "Department of Civil Engineering",
+    "phone": "+91 484 286 2035",
+    "email": "soeasection@gmail.com",
+    "address": "Focuses on the planning, design, construction, and maintenance of infrastructure such as buildings, roads, bridges, and water resource systems. The department emphasizes sustainable development and modern construction technologies.",
+    "gmapsLink": "https://maps.app.goo.gl/wvjdAcgPVKrSomhVA?g_st=ic"
+  },
+  {
+    "name": "Department of Mechanical Engineering",
+    "phone": "+91 484 286 2035",
+    "email": "soeasection@gmail.com",
+    "address": "Provides education in design, manufacturing, thermal engineering, materials science, and industrial engineering. The department equips students with practical and analytical skills through laboratories, workshops, and industrial training.\n",
+    "gmapsLink": "https://maps.app.goo.gl/wvjdAcgPVKrSomhVA?g_st=ic "
+  },
+  {
+    "name": "Department of Electrical and Electronics Engineering",
+    "phone": "+91 484 286 2035",
+    "email": "soeasection@gmail.com",
+    "address": "Deals with power systems, electrical machines, control systems, and renewable energy technologies. Students gain knowledge in electrical engineering applications and modern power technologies.",
+    "gmapsLink": " https://maps.app.goo.gl/jaNH37tzMZJDfbw27?g_st=ic"
+  },
+  {
+    "name": "Department of Electronics and Communication Engineering",
+    "phone": "+91 484 286 2035",
+    "email": "soeasection@gmail.com",
+    "address": "Specializes in communication systems, embedded systems, signal processing, VLSI, and wireless technologies. The department prepares students for careers in electronics and telecommunication industries.",
+    "gmapsLink": "https://maps.app.goo.gl/W3XbguT5RyZKoQzc9?g_st=ic"
   }
 ];
 // <!--CONTACTS_END-->
