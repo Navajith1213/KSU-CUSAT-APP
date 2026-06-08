@@ -52,7 +52,7 @@ export default function AdminDashboard({
   const [newEvent, setNewEvent] = useState({ title: '', date: '', type: 'academic' });
   const [newBoysPg, setNewBoysPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
   const [newGirlsPg, setNewGirlsPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
-  const [newHostel, setNewHostel] = useState({ name: '', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
+  const [newHostel, setNewHostel] = useState({ name: '', type: 'Mens', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
   const [newFoodSpot, setNewFoodSpot] = useState({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
   const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
   const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', category: '', gmapsLink: '' });
@@ -63,7 +63,7 @@ export default function AdminDashboard({
     if (type === 'calendar') setNewEvent({ title: '', date: '', type: 'academic' });
     if (type === 'boysPgs') setNewBoysPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
     if (type === 'girlsPgs') setNewGirlsPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
-    if (type === 'hostels') setNewHostel({ name: '', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
+    if (type === 'hostels') setNewHostel({ name: '', type: 'Mens', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
     if (type === 'food') setNewFoodSpot({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
     if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
     if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', category: '', gmapsLink: '' });

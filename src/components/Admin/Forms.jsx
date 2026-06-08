@@ -98,6 +98,13 @@ export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           <input value={value.name || ''} onChange={(e) => onChange({ ...value, name: e.target.value })} />
         </div>
         <div className="form-group">
+          <label>Hostel Type *</label>
+          <select value={value.type || 'Mens'} onChange={(e) => onChange({ ...value, type: e.target.value })} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+            <option value="Mens">Men's Hostel</option>
+            <option value="Ladies">Ladies' Hostel</option>
+          </select>
+        </div>
+        <div className="form-group">
           <label>Location *</label>
           <input value={value.location || ''} onChange={(e) => onChange({ ...value, location: e.target.value })} />
         </div>

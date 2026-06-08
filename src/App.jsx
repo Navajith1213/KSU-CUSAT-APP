@@ -78,6 +78,7 @@ export default function App() {
   const [boysPgSearch, setBoysPgSearch] = useState('');
   const [girlsPgSearch, setGirlsPgSearch] = useState('');
   const [hostelSearch, setHostelSearch] = useState('');
+  const [hostelTypeFilter, setHostelTypeFilter] = useState('all');
   const [foodSearch, setFoodSearch] = useState('');
   const [restaurantSearch, setRestaurantSearch] = useState('');
   const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
@@ -328,12 +329,19 @@ export default function App() {
       contains(item.food, girlsPgSearch)
   );
 
-  const filteredHostels = hostels.filter(
-    (item) =>
+  const filteredHostels = hostels.filter((item) => {
+    const textMatch =
       contains(item.name, hostelSearch) ||
       contains(item.location, hostelSearch) ||
-      contains(item.food, hostelSearch)
-  );
+      contains(item.food, hostelSearch);
+
+    const typeMatch =
+      hostelTypeFilter === 'all'
+        ? true
+        : item.type === hostelTypeFilter;
+
+    return textMatch && typeMatch;
+  });
 
   const filteredFoodSpots = foodSpots.filter(
     (item) =>
@@ -463,10 +471,18 @@ export default function App() {
                 value={hostelSearch}
                 onChange={(e) => setHostelSearch(e.target.value)}
               />
+              <select
+                value={hostelTypeFilter}
+                onChange={(e) => setHostelTypeFilter(e.target.value)}
+              >
+                <option value="all">All Hostels</option>
+                <option value="Mens">Men's Hostels</option>
+                <option value="Ladies">Ladies' Hostels</option>
+              </select>
             </div>
             <ListingGrid
               items={filteredHostels}
-              fields={['location', 'fees', 'food', 'contact', 'wardenContact', 'secretaryContact', 'rooms']}
+              fields={['type', 'location', 'fees', 'food', 'contact', 'wardenContact', 'secretaryContact', 'rooms']}
             />
           </div>
         )}

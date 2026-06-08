@@ -8,6 +8,7 @@ const FIELD_LABELS = {
   contact: 'Contact Info',
   wardenContact: "Warden's Contact",
   secretaryContact: 'Secretaries Contact (Mess/Hostel)',
+  type: 'Hostel Type',
   rooms: 'Room Type',
   rent: 'Rent',
   specialty: 'Specialty',
@@ -56,7 +57,10 @@ export default function ListingGrid({ items, fields }) {
                   );
                 }
 
-                const displayVal = field === 'description' ? (item.description || item.specialty) : item[field];
+                let displayVal = field === 'description' ? (item.description || item.specialty) : item[field];
+                if (field === 'type') {
+                  displayVal = displayVal === 'Mens' ? "Men's Hostel" : (displayVal === 'Ladies' ? "Ladies' Hostel" : displayVal);
+                }
                 return displayVal ? (
                   <p key={i}><strong>{FIELD_LABELS[field] || (field.charAt(0).toUpperCase() + field.slice(1))}:</strong> {displayVal}</p>
                 ) : null;
