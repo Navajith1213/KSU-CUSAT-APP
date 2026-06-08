@@ -212,11 +212,18 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   },
   {
-    "name": "School of Legal Studies",
-    "phone": "+91 9383445550",
-    "email": "cusatlegalstudents@gmail.com",
-    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education, and research-oriented approach. ",
-    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
+    "name": "Department of Computer Application ",
+    "phone": "0484 - 2577602",
+    "email": "dcahod@cusat.ac.in",
+    "address": "The Department of Computer Applications is a pioneer department of Cochin University of Science and Technology established in the year 1994. Currently the department offers MCA (Master of Computer Application), MSc Computer Science with Specialization in Artificial Intelligence, MSc Computer Science with Specialization in Data Science, Ph.D in Technology and Ph.D in Science. As of now more than 30 Ph.Ds has been produced in data science and allied areas. This department is bestowed with an experienced team of faculty members with an excellent academic track record and proficiency in data science, machine learning and cyber security.",
+    "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac"
+  },
+  {
+    "name": "Centre for budget studies ",
+    "phone": "04842572735 / 2077",
+    "email": "budget@cusat.ac.in",
+    "address": "Making experts in budget and finance-related issues, conducting ground-level studies, aiding state governments, and providing policy-relevant insights.",
+    "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
   }
 ];
 // <!--CONTACTS_END-->
