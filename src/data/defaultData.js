@@ -88,24 +88,6 @@ export const defaultBoysPGs = [
 // <!--GIRLSPGS_START-->
 export const defaultGirlsPGs = [
   {
-    "name": "Green Nest Ladies PG",
-    "location": "South Kalamassery",
-    "rent": "₹7000/month",
-    "food": "Included",
-    "contact": "+91-9991112244",
-    "rooms": "Double",
-    "gmapsLink": ""
-  },
-  {
-    "name": "CUSAT Girls Hostel",
-    "location": "Inside Campus",
-    "rent": "₹5000/month",
-    "food": "Mess available",
-    "contact": "+91-9991112222",
-    "rooms": "Double sharing",
-    "gmapsLink": ""
-  },
-  {
     "name": "ILLIKAL HOSTEL",
     "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
     "rent": "",
