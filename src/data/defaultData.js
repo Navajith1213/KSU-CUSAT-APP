@@ -510,6 +510,13 @@ export const defaultContacts = [
     "email": "icrepstudents@gmail.com",
     "address": " It focuses on research, teaching, and training in bioethics and research ethics, and Bsc LLB COMPUTER SCIENCE Hon ,especially at the intersection of law, science, technology, and healthcare. The centre aims to promote ethical standards in scientific research, develop research protocols and codes of conduct, and enhance the quality and integrity of academic and scientific studies. ",
     "gmapsLink": "https://maps.app.goo.gl/Y3cJqbzmfECkEkGw8"
+  },
+  {
+    "name": "Department of Instrumentation and Control ",
+    "phone": "04842575008",
+    "email": "instrumentation@cusat.ac.in",
+    "address": "The Department of Instrumentation at CUSAT is a premier center for measurement, automation, and control engineering. Originally started in 1978 as a UGC-funded university science service center, it evolved into a full-fledged teaching department in 1995. It offers B.Tech., M.Tech., and Ph.D. programs.",
+    "gmapsLink": "https://maps.app.goo.gl/icU4B2pWsFTKLPnu5?g_st=ac"
   }
 ];
 // <!--CONTACTS_END-->
