@@ -228,14 +228,14 @@ export const defaultClubs = [
     "name": "CUSAT IEEE Student Branch",
     "location": "School of Engineering",
     "contact": "+91-9876543210",
-    "services": "Technical workshops, seminars, project mentoring",
+    "description": "Technical workshops, seminars, project mentoring",
     "gmapsLink": ""
   },
   {
     "name": "CUSAT Arts Club",
     "location": "University Auditorium",
     "contact": "+91-9876543211",
-    "services": "Cultural events, music, dance and drama coaching",
+    "description": "Cultural events, music, dance and drama coaching",
     "gmapsLink": ""
   },
   {

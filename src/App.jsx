@@ -368,7 +368,7 @@ export default function App() {
     (item) =>
       contains(item.name, clubSearch) ||
       contains(item.location, clubSearch) ||
-      contains(item.services, clubSearch)
+      contains(item.description, clubSearch)
   );
 
   const renderModuleContent = () => {
@@ -539,14 +539,14 @@ export default function App() {
             <div className="filter-bar">
               <input
                 type="text"
-                placeholder="Search clubs by name, location, or services..."
+                placeholder="Search clubs by name, location, or description..."
                 value={clubSearch}
                 onChange={(e) => setClubSearch(e.target.value)}
               />
             </div>
             <ListingGrid
               items={filteredClubs}
-              fields={['location', 'contact', 'services']}
+              fields={['location', 'contact', 'description']}
             />
           </div>
         )}

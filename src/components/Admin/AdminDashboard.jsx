@@ -56,7 +56,7 @@ export default function AdminDashboard({
   const [newFoodSpot, setNewFoodSpot] = useState({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
   const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
   const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', category: '', gmapsLink: '' });
-  const [newClub, setNewClub] = useState({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
+  const [newClub, setNewClub] = useState({ name: '', location: '', contact: '', description: '', gmapsLink: '' });
   const [newContact, setNewContact] = useState({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
  
   const resetFormByType = (type) => {
@@ -67,7 +67,7 @@ export default function AdminDashboard({
     if (type === 'food') setNewFoodSpot({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
     if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
     if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', category: '', gmapsLink: '' });
-    if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', services: '', gmapsLink: '' });
+    if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', description: '', gmapsLink: '' });
     if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
   };
 

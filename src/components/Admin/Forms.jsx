@@ -439,8 +439,8 @@ export function ClubForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           <input value={value.contact} onChange={(e) => onChange({ ...value, contact: e.target.value })} />
         </div>
         <div className="form-group">
-          <label>Services Provided</label>
-          <input value={value.services} onChange={(e) => onChange({ ...value, services: e.target.value })} />
+          <label>Description</label>
+          <input value={value.description || ''} onChange={(e) => onChange({ ...value, description: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Google Maps Link</label>
