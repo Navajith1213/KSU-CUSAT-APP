@@ -4,7 +4,7 @@ async function extractLogo() {
   try {
     const image = await Jimp.read('public/logo.jpg');
     
-    // Convert to RGBA
+    // We want to turn the dark parts of the logo WHITE, and the white parts TRANSPARENT.
     image.scan(0, 0, image.bitmap.width, image.bitmap.height, function(x, y, idx) {
       const red = this.bitmap.data[idx + 0];
       const green = this.bitmap.data[idx + 1];
@@ -12,7 +12,14 @@ async function extractLogo() {
       
       const intensity = (red + green + blue) / 3;
       
-      const newAlpha = 255 - intensity;
+      // If the pixel is light (JPEG artifact background), make it completely transparent
+      let newAlpha = 0;
+      if (intensity < 180) { // It's part of the dark logo
+        // Dark pixels become opaque white
+        // A black pixel (0) will have alpha 255
+        // A grey pixel (100) will have alpha 155
+        newAlpha = 255 - intensity;
+      }
       
       this.bitmap.data[idx + 0] = 255;
       this.bitmap.data[idx + 1] = 255;
