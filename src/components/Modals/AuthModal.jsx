@@ -238,7 +238,7 @@ export default function AuthModal({
       if (error) throw error;
 
       const allowedAdmins = ['navajith1122@gmail.com', 'mhdrashidkp3@gmail.com'];
-      if (allowedAdmins.includes(data.user.email)) {
+      if (data.user && data.user.email && allowedAdmins.includes(data.user.email.toLowerCase())) {
         setUserRole('admin');
         setShowAuthModal(false);
         alert('Master Admin Logged In.');
