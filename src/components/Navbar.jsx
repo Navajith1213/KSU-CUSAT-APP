@@ -39,7 +39,8 @@ export default function Navbar({
             style={{ 
               height: '40px', 
               objectFit: 'contain', 
-              display: 'block' 
+              display: 'block',
+              filter: 'invert(1)' 
             }} 
           />
         </a>
@@ -107,7 +108,8 @@ export default function Navbar({
               maxHeight: '76px', 
               objectFit: 'contain', 
               borderRadius: '8px',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+              filter: 'invert(1)'
             }} 
           />
         </div>
