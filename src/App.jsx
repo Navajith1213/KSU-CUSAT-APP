@@ -12,6 +12,8 @@ import Navbar from './components/Navbar';
 import AcademicResources from './components/AcademicResources';
 import DepartmentDashboard from './components/DepartmentDashboard';
 import Chatbot from './components/Chatbot';
+import SocialSpeedDial from './components/SocialSpeedDial';
+
 
 import {
   defaultEvents,
@@ -804,6 +806,7 @@ export default function App() {
         />
       )}
       {/* Always render chatbot globally */}
+      <SocialSpeedDial />
       <Chatbot />
     </>
   );
