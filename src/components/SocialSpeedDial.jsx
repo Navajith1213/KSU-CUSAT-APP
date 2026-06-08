@@ -5,8 +5,6 @@ export default function SocialSpeedDial() {
 
   const socials = [
     { name: 'Instagram', icon: 'ti ti-brand-instagram', color: '#e1306c', link: '#' },
-    { name: 'Facebook', icon: 'ti ti-brand-facebook', color: '#1877f2', link: '#' },
-    { name: 'X / Twitter', icon: 'ti ti-brand-x', color: '#000000', link: '#' },
     { name: 'WhatsApp', icon: 'ti ti-brand-whatsapp', color: '#25d366', link: '#' },
   ];
 
