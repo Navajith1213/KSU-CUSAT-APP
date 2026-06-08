@@ -348,7 +348,7 @@ export default function AuthModal({
                   {isSignUp ? 'Already have an account?' : "Don't have an account yet?"}{' '}
                   <button
                     type="button"
-                    style={{ background: 'none', border: 'none', color: '#0d9488', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}
+                    style={{ background: 'none', border: 'none', color: '#0284c7', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}
                     onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); setPhone(''); }}
                   >
                     {isSignUp ? 'Log In' : 'Sign Up'}

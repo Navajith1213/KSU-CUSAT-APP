@@ -265,7 +265,7 @@ export default function Navbar({
                 <button
                   className={`mobile-category-header ${isCatExpanded ? 'open' : ''}`}
                   onClick={() => toggleMobileCat(cat.id)}
-                  style={{ color: isCatActive ? '#0d9488' : 'var(--text-primary)' }}
+                  style={{ color: isCatActive ? '#0284c7' : 'var(--text-primary)' }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <i className={`ti ${cat.icon}`}></i>

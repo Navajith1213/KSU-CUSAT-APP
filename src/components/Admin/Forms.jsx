@@ -240,7 +240,7 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
         {/* Dynamic Room Rates Section */}
         <div className="form-group full-width" style={{ border: '1px solid var(--border-color)', borderRadius: '8px', padding: '16px', background: 'var(--bg-main)' }}>
           <h4 style={{ margin: '0 0 12px 0', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <i className="ti ti-cash" style={{ color: '#0d9488' }}></i> Room Rates & Options
+            <i className="ti ti-cash" style={{ color: '#0284c7' }}></i> Room Rates & Options
           </h4>
           
           {/* List of current rates */}
@@ -249,7 +249,7 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
               {value.rates.map((rate, idx) => (
                 <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-card)', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
                   <div>
-                    <strong style={{ color: 'var(--text-primary)' }}>{rate.type}</strong>: <span style={{ color: '#0d9488', fontWeight: '600' }}>{rate.rent}</span>
+                    <strong style={{ color: 'var(--text-primary)' }}>{rate.type}</strong>: <span style={{ color: '#0284c7', fontWeight: '600' }}>{rate.rent}</span>
                   </div>
                   <button 
                     type="button" 

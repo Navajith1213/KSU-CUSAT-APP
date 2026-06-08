@@ -116,7 +116,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                     key={type}
                     onClick={() => setActiveType(type)}
                     style={{
-                      background: activeType === type ? '#0d9488' : '#f1f5f9',
+                      background: activeType === type ? '#0284c7' : '#f1f5f9',
                       color: activeType === type ? 'white' : '#475569',
                       border: 'none',
                       padding: '6px 12px',

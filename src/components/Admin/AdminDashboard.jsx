@@ -463,7 +463,7 @@ export default function AdminDashboard({
               <div className="event-item" key={admin.id}>
                 <div>
                   <strong style={{ display: 'block', color: 'var(--text-primary)' }}>{admin.email}</strong>
-                  <span style={{ fontSize: '12px', color: '#0d9488', fontWeight: 'bold' }}>{admin.department}</span>
+                  <span style={{ fontSize: '12px', color: '#0284c7', fontWeight: 'bold' }}>{admin.department}</span>
                 </div>
                 <button className="btn-danger" onClick={() => handleDeleteDeptAdmin(admin.id)}>Remove</button>
               </div>

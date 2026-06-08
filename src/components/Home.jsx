@@ -146,7 +146,7 @@ export default function Home({
             </h2>
             <p className="hero-subtitle">
               Your student dashboard is active. You have submitted{' '}
-              <strong style={{ color: '#0d9488' }}>{queryCount} support ticket(s)</strong>. Use the navbar tabs or
+              <strong style={{ color: '#0284c7' }}>{queryCount} support ticket(s)</strong>. Use the navbar tabs or
               shortcut keys to search accommodations, check holidays, or file new inquiries.
             </p>
           </div>

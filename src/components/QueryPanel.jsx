@@ -212,7 +212,7 @@ export default function QueryPanel({ loggedStudent }) {
             {complaints.map((item, idx) => (
               <div key={idx} className="event-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#0d9488', backgroundColor: 'var(--bg-hover)', padding: '3px 8px', borderRadius: '12px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#0284c7', backgroundColor: 'var(--bg-hover)', padding: '3px 8px', borderRadius: '12px' }}>
                     {item.category}
                   </span>
                   <span style={{
