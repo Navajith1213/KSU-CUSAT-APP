@@ -24,7 +24,6 @@ export default function AuthModal({
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
-  const [isAdminAuthPassed, setIsAdminAuthPassed] = useState(false);
 
   // Rate limiting: lock login after 5 failed attempts within 60 seconds
   const loginAttempts = useRef([]);
@@ -205,8 +204,9 @@ export default function AuthModal({
       if (error) throw error;
 
       if (data.user.email === 'navajith1122@gmail.com') {
-        setIsAdminAuthPassed(true);
-        alert('Admin email verified! Please enter your Git repo settings next.');
+        setUserRole('admin');
+        setShowAuthModal(false);
+        alert('Master Admin Logged In.');
       } else {
         throw new Error('This account does not have Admin access.');
       }
@@ -222,7 +222,7 @@ export default function AuthModal({
     <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>{isAdminAuthPassed ? 'GitHub Admin Connection' : 'Portal Login'}</h2>
+          <h2>Portal Login</h2>
           <button className="close-btn" onClick={() => setShowAuthModal(false)}>&times;</button>
         </div>
 
@@ -232,8 +232,7 @@ export default function AuthModal({
           </div>
         )}
 
-        {!isAdminAuthPassed ? (
-          <div>
+        <div>
             {/* Header Tab — Admin access hidden behind triple-click */}
             <div className="admin-tabs" style={{ marginBottom: '18px' }}>
               <button
@@ -360,58 +359,6 @@ export default function AuthModal({
               </form>
             )}
           </div>
-        ) : (
-          /* GitHub connection screen (only shown for authorized admin) */
-          <form onSubmit={handleGitConnect}>
-            <div className="form-group">
-              <label>GitHub Username (Owner)</label>
-              <input
-                type="text"
-                value={gitOwner}
-                onChange={(e) => setGitOwner(e.target.value)}
-                placeholder="GitHub username"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Repository Name</label>
-              <input
-                type="text"
-                value={gitRepo}
-                onChange={(e) => setGitRepo(e.target.value)}
-                placeholder="Repository name"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Personal Access Token (PAT)</label>
-              <input
-                type="password"
-                value={gitPat}
-                onChange={(e) => setGitPat(e.target.value)}
-                placeholder="github_pat_..."
-                required
-              />
-            </div>
-
-            <button type="submit" className="login-btn" style={{ width: '100%' }} disabled={isPublishing}>
-              {isPublishing ? 'Verifying...' : 'Unlock Admin Panel'}
-            </button>
-
-            <div className="help-box">
-              <strong>Setup Instructions:</strong>
-              <p style={{ marginTop: '4px' }}>
-                To manage listings, connect the app to your GitHub repository.
-                <br />
-                1. Go to <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">GitHub settings</a>.
-                <br />
-                2. Generate a token with the <strong>repo</strong> contents write scopes.
-              </p>
-            </div>
-          </form>
-        )}
       </div>
     </div>
   );

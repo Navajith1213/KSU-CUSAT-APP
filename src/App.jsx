@@ -15,23 +15,8 @@ import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 
 
-import {
-  defaultEvents,
-  defaultBoysPGs,
-  defaultGirlsPGs,
-  defaultHostels,
-  defaultFoodSpots,
-  defaultRestaurants,
-  defaultAmenities,
-  defaultClubs,
-  defaultContacts
-} from './data/defaultData';
 
-import {
-  decodeBase64Utf8,
-  encodeBase64Utf8,
-  replaceSection
-} from './utils/gitUtils';
+
 
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
@@ -68,10 +53,7 @@ export default function App() {
   });
 
   // Git credentials in memory or session storage
-  const [gitOwner, setGitOwner] = useState(() => sessionStorage.getItem('git_owner') || '');
-  const [gitRepo, setGitRepo] = useState(() => sessionStorage.getItem('git_repo') || '');
-  const [gitPat, setGitPat] = useState(() => sessionStorage.getItem('git_pat') || '');
-
+      
   const [activeModule, setActiveModule] = useState(() => sessionStorage.getItem('active_module') || 'home');
 
   useEffect(() => {
@@ -79,15 +61,15 @@ export default function App() {
   }, [activeModule]);
 
   // Main data states
-  const [academicEvents, setAcademicEvents] = useState(defaultEvents);
-  const [boysPgs, setBoysPgs] = useState(defaultBoysPGs);
-  const [girlsPgs, setGirlsPgs] = useState(defaultGirlsPGs);
-  const [hostels, setHostels] = useState(defaultHostels);
-  const [foodSpots, setFoodSpots] = useState(defaultFoodSpots);
-  const [restaurants, setRestaurants] = useState(defaultRestaurants);
-  const [amenities, setAmenities] = useState(defaultAmenities);
-  const [clubs, setClubs] = useState(defaultClubs);
-  const [contacts, setContacts] = useState(defaultContacts);
+  const [academicEvents, setAcademicEvents] = useState([]);
+  const [boysPgs, setBoysPgs] = useState([]);
+  const [girlsPgs, setGirlsPgs] = useState([]);
+  const [hostels, setHostels] = useState([]);
+  const [foodSpots, setFoodSpots] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
+  const [amenities, setAmenities] = useState([]);
+  const [clubs, setClubs] = useState([]);
+  const [contacts, setContacts] = useState([]);
 
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
@@ -106,75 +88,22 @@ export default function App() {
 
   // Auto login on mount if session keys exist
   useEffect(() => {
-    if (gitOwner && gitRepo && gitPat) {
-      setUserRole('admin');
-    } else {
-      const session = sessionStorage.getItem('student_session');
-      if (session) {
-        try {
-          const parsed = JSON.parse(session);
-          if (parsed.department) {
-            setUserRole('dept_admin');
-          } else {
-            setUserRole('student');
-          }
-        } catch(e) {
+    const session = sessionStorage.getItem('student_session');
+    if (session) {
+      try {
+        const parsed = JSON.parse(session);
+        if (parsed.department) {
+          setUserRole('dept_admin');
+        } else {
           setUserRole('student');
         }
+      } catch(e) {
+        setUserRole('student');
       }
     }
-  }, [gitOwner, gitRepo, gitPat]);
+  }, []);
 
 
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const owner = gitOwner.trim();
-    const repo = gitRepo.trim();
-    const pat = gitPat.trim();
-
-    if (!owner || !repo || !pat) {
-      alert('Please fill out all credentials.');
-      return;
-    }
-
-    setIsPublishing(true);
-    setPublishingStatus('Verifying access token with GitHub API...');
-
-    try {
-      // Fetch contents of the default data file to verify credentials and repo validity
-      const res = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/contents/src/data/defaultData.js`,
-        {
-          headers: {
-            Authorization: `token ${pat}`,
-            Accept: 'application/vnd.github.v3+json'
-          }
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error(`GitHub responded with status: ${res.status}`);
-      }
-
-      sessionStorage.setItem('git_owner', owner);
-      sessionStorage.setItem('git_repo', repo);
-      sessionStorage.setItem('git_pat', pat);
-
-      setGitOwner(owner);
-      setGitRepo(repo);
-      setGitPat(pat);
-
-      setUserRole('admin');
-      setShowAuthModal(false);
-      alert('Authenticated successfully! Admin Access unlocked.');
-    } catch (err) {
-      alert('Authentication failed. Please check your credentials and token permissions.');
-    } finally {
-      setIsPublishing(false);
-      setPublishingStatus('');
-    }
-  };
 
   const logout = () => {
     sessionStorage.clear();
@@ -637,9 +566,7 @@ export default function App() {
             clubs={clubs}
             setClubs={setClubs}
             setUnsavedChanges={setUnsavedChanges}
-            publishToGitHub={publishToGitHub}
-            isPublishing={isPublishing}
-          />
+              />
         )}
         {activeModule === 'admin-queries' && userRole === 'admin' && (
           <AdminQueries />
@@ -795,13 +722,7 @@ export default function App() {
 
       {showAuthModal && (
         <AuthModal
-          gitOwner={gitOwner}
-          setGitOwner={setGitOwner}
-          gitRepo={gitRepo}
-          setGitRepo={setGitRepo}
-          gitPat={gitPat}
-          setGitPat={setGitPat}
-          isPublishing={isPublishing}
+
           handleGitConnect={handleLogin}
           setUserRole={setUserRole}
           setLoggedStudent={setLoggedStudent}

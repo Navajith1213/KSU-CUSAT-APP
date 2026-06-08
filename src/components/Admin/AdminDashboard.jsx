@@ -40,12 +40,9 @@ export default function AdminDashboard({
   setAmenities,
   clubs,
   setClubs,
-  setUnsavedChanges,
-  publishToGitHub,
-  isPublishing
 }) {
   const [adminSection, setAdminSection] = useState('calendar');
-  const [editIndex, setEditIndex] = useState(null);
+  const [editId, setEditId] = useState(null);
 
   // Department Admins State
   const [deptAdmins, setDeptAdmins] = useState([]);
@@ -126,7 +123,7 @@ export default function AdminDashboard({
     if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '', gmapsLink: '' });
   };
 
-  const addOrUpdateItem = (type) => {
+  const addOrUpdateItem = async (type) => {
     const config = {
       calendar: { value: newEvent, setValue: setNewEvent, list: academicEvents, setList: setAcademicEvents, required: ['title', 'date'] },
       boysPgs: { value: newBoysPg, setValue: setNewBoysPg, list: boysPgs, setList: setBoysPgs, required: ['name', 'location', 'contact'] },
@@ -147,21 +144,44 @@ export default function AdminDashboard({
       return;
     }
 
-    if (editIndex !== null) {
-      const updated = current.list.map((item, idx) => idx === editIndex ? current.value : item);
-      current.setList(updated);
+    const tableMap = {
+      calendar: 'events',
+      boysPgs: 'boys_pgs',
+      girlsPgs: 'girls_pgs',
+      hostels: 'hostels',
+      food: 'food_spots',
+      restaurants: 'restaurants',
+      amenities: 'amenities',
+      clubs: 'clubs',
+      contacts: 'contacts'
+    };
+    const tableName = tableMap[type];
+
+    if (editId !== null) {
+      const { data, error } = await supabase.from(tableName).update({ data: current.value }).eq('id', editId).select();
+      if (error) {
+        alert("Error updating item: " + error.message);
+        return;
+      }
+      current.setList(current.list.map(item => item.id === editId ? { id: editId, ...current.value } : item));
     } else {
-      current.setList([...current.list, current.value]);
+      const { data, error } = await supabase.from(tableName).insert([{ data: current.value }]).select();
+      if (error) {
+        alert("Error adding item: " + error.message);
+        return;
+      }
+      current.setList([{ id: data[0].id, ...current.value }, ...current.list]);
     }
 
     resetFormByType(type);
-    setEditIndex(null);
-    setUnsavedChanges(true);
+    setEditId(null);
   };
+
+
 
   const handleEdit = (type, index, item) => {
     setAdminSection(type);
-    setEditIndex(index);
+    setEditId(index);
     if (type === 'calendar') setNewEvent(item);
     if (type === 'boysPgs') setNewBoysPg(item);
     if (type === 'girlsPgs') setNewGirlsPg(item);
@@ -186,14 +206,34 @@ export default function AdminDashboard({
     if (type === 'contacts') setNewContact(item);
   };
 
-  const handleDelete = (setter, list, index) => {
-    setter(list.filter((_, i) => i !== index));
-    setUnsavedChanges(true);
-    if (editIndex === index) setEditIndex(null);
+  const handleDelete = async (setter, list, id, type) => {
+    if (!window.confirm("Are you sure you want to delete this item?")) return;
+    
+    const tableMap = {
+      calendar: 'events',
+      boysPgs: 'boys_pgs',
+      girlsPgs: 'girls_pgs',
+      hostels: 'hostels',
+      food: 'food_spots',
+      restaurants: 'restaurants',
+      amenities: 'amenities',
+      clubs: 'clubs',
+      contacts: 'contacts'
+    };
+    const tableName = tableMap[type];
+
+    const { error } = await supabase.from(tableName).delete().eq('id', id);
+    if (error) {
+      alert("Error deleting item: " + error.message);
+      return;
+    }
+
+    setter(list.filter((item) => item.id !== id));
+    if (editId === id) setEditId(null);
   };
 
   const cancelEdit = (type) => {
-    setEditIndex(null);
+    setEditId(null);
     resetFormByType(type);
   };
 
@@ -201,10 +241,6 @@ export default function AdminDashboard({
     <div className="card">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
         <h2>Admin Control Dashboard</h2>
-        <button className="btn-secondary" onClick={publishToGitHub} disabled={isPublishing}>
-          <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> 
-          {isPublishing ? 'Publishing...' : 'Save & Publish to GitHub'}
-        </button>
       </div>
 
       <div className="admin-tabs">
@@ -223,7 +259,7 @@ export default function AdminDashboard({
           <button
             key={id}
             className={`admin-tab-btn ${adminSection === id ? 'active' : ''}`}
-            onClick={() => { setAdminSection(id); setEditIndex(null); resetFormByType(id); }}
+            onClick={() => { setAdminSection(id); setEditId(null); resetFormByType(id); }}
           >
             {label}
           </button>
@@ -237,18 +273,18 @@ export default function AdminDashboard({
             onChange={setNewEvent}
             onSubmit={() => addOrUpdateItem('calendar')}
             onCancel={() => cancelEdit('calendar')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {academicEvents.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {academicEvents.map((item) => (
+            <div className="event-item" key={item.id}>
               <div>
                 <strong>{item.title}</strong>
                 <p className="small-text">{formatDate(item.date)} | {item.type}</p>
               </div>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('calendar', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setAcademicEvents, academicEvents, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('calendar', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setAcademicEvents, academicEvents, item.id, 'calendar')}>Delete</button>
               </div>
             </div>
           ))}
@@ -262,15 +298,15 @@ export default function AdminDashboard({
             onChange={setNewContact}
             onSubmit={() => addOrUpdateItem('contacts')}
             onCancel={() => cancelEdit('contacts')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {contacts.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {contacts.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('contacts', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setContacts, contacts, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('contacts', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setContacts, contacts, item.id, 'contacts')}>Delete</button>
               </div>
             </div>
           ))}
@@ -284,15 +320,15 @@ export default function AdminDashboard({
             onChange={setNewBoysPg}
             onSubmit={() => addOrUpdateItem('boysPgs')}
             onCancel={() => cancelEdit('boysPgs')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {boysPgs.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {boysPgs.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('boysPgs', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setBoysPgs, boysPgs, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('boysPgs', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setBoysPgs, boysPgs, item.id, 'boysPgs')}>Delete</button>
               </div>
             </div>
           ))}
@@ -306,15 +342,15 @@ export default function AdminDashboard({
             onChange={setNewGirlsPg}
             onSubmit={() => addOrUpdateItem('girlsPgs')}
             onCancel={() => cancelEdit('girlsPgs')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {girlsPgs.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {girlsPgs.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('girlsPgs', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setGirlsPgs, girlsPgs, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('girlsPgs', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setGirlsPgs, girlsPgs, item.id, 'girlsPgs')}>Delete</button>
               </div>
             </div>
           ))}
@@ -328,15 +364,15 @@ export default function AdminDashboard({
             onChange={setNewHostel}
             onSubmit={() => addOrUpdateItem('hostels')}
             onCancel={() => cancelEdit('hostels')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {hostels.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {hostels.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('hostels', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setHostels, hostels, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('hostels', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setHostels, hostels, item.id, 'hostels')}>Delete</button>
               </div>
             </div>
           ))}
@@ -350,15 +386,15 @@ export default function AdminDashboard({
             onChange={setNewFoodSpot}
             onSubmit={() => addOrUpdateItem('food')}
             onCancel={() => cancelEdit('food')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {foodSpots.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {foodSpots.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('food', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setFoodSpots, foodSpots, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('food', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setFoodSpots, foodSpots, item.id, 'food')}>Delete</button>
               </div>
             </div>
           ))}
@@ -372,15 +408,15 @@ export default function AdminDashboard({
             onChange={setNewRestaurant}
             onSubmit={() => addOrUpdateItem('restaurants')}
             onCancel={() => cancelEdit('restaurants')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {restaurants.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {restaurants.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('restaurants', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setRestaurants, restaurants, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('restaurants', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setRestaurants, restaurants, item.id, 'restaurants')}>Delete</button>
               </div>
             </div>
           ))}
@@ -394,15 +430,15 @@ export default function AdminDashboard({
             onChange={setNewAmenity}
             onSubmit={() => addOrUpdateItem('amenities')}
             onCancel={() => cancelEdit('amenities')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {amenities.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {amenities.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('amenities', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setAmenities, amenities, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('amenities', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setAmenities, amenities, item.id, 'amenities')}>Delete</button>
               </div>
             </div>
           ))}
@@ -416,15 +452,15 @@ export default function AdminDashboard({
             onChange={setNewClub}
             onSubmit={() => addOrUpdateItem('clubs')}
             onCancel={() => cancelEdit('clubs')}
-            isEdit={editIndex !== null}
+            isEdit={editId !== null}
           />
           <br />
-          {clubs.map((item, idx) => (
-            <div className="event-item" key={idx}>
+          {clubs.map((item) => (
+            <div className="event-item" key={item.id}>
               <span>{item.name}</span>
               <div className="row-actions">
-                <button className="btn-edit" onClick={() => handleEdit('clubs', idx, item)}>Edit</button>
-                <button className="btn-danger" onClick={() => handleDelete(setClubs, clubs, idx)}>Delete</button>
+                <button className="btn-edit" onClick={() => handleEdit('clubs', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setClubs, clubs, item.id, 'clubs')}>Delete</button>
               </div>
             </div>
           ))}
