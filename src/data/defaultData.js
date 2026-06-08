@@ -388,7 +388,7 @@ export const defaultContacts = [
   {
     "name": "Department of Computer Application ",
     "phone": "0484 - 2577602",
-    "email": "dcahod@cusat.ac.in",
+    "email": "dcaoffice@cusat.ac.in",
     "address": "This department is bestowed with an experienced team of faculty members with an excellent academic track record and proficiency in data science, machine learning and cyber security.",
     "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac"
   },
