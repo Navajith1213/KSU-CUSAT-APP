@@ -765,12 +765,7 @@ body {
   padding: 0 24px 12px;
   display: flex;
   align-items: center;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.navbar-container::-webkit-scrollbar {
-  display: none;
+  overflow: visible;
 }
 
 .navbar-logo {
