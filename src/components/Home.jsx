@@ -40,9 +40,33 @@ export default function Home({
     } catch (_) {}
   }, []);
 
+  const categories = [
+    { 
+      id: 'info', 
+      title: 'Campus Information', 
+      description: 'Stay updated with official schedules and helpline directories.' 
+    },
+    { 
+      id: 'accommodations', 
+      title: 'Stay & Accommodations', 
+      description: 'Find hostels, PGs, and shared rooms near CUSAT.' 
+    },
+    { 
+      id: 'dining', 
+      title: 'Dining & Food Joints', 
+      description: 'Explore campus canteens, tea joints, and local dining hubs.' 
+    },
+    { 
+      id: 'campus_life', 
+      title: 'Campus Life & Conveniences', 
+      description: 'Discover student clubs, convenience shops, and campus amenities.' 
+    }
+  ];
+
   const features = [
     {
       id: 'calendar',
+      category: 'info',
       title: 'Academic Calendar',
       icon: 'ti-calendar',
       key: 'C',
@@ -50,6 +74,7 @@ export default function Home({
     },
     {
       id: 'contacts',
+      category: 'info',
       title: 'Contact Directory',
       icon: 'ti-phone',
       key: 'D',
@@ -57,6 +82,7 @@ export default function Home({
     },
     {
       id: 'boysPgs',
+      category: 'accommodations',
       title: "Boys PG's",
       icon: 'ti-building-community',
       key: 'B',
@@ -64,6 +90,7 @@ export default function Home({
     },
     {
       id: 'girlsPgs',
+      category: 'accommodations',
       title: "Girls PG's",
       icon: 'ti-home-2',
       key: 'G',
@@ -71,6 +98,7 @@ export default function Home({
     },
     {
       id: 'hostels',
+      category: 'accommodations',
       title: 'College Hostels',
       icon: 'ti-building',
       key: 'H',
@@ -78,6 +106,7 @@ export default function Home({
     },
     {
       id: 'food',
+      category: 'dining',
       title: 'Evening Tea Spots',
       icon: 'ti-coffee',
       key: 'T',
@@ -85,6 +114,7 @@ export default function Home({
     },
     {
       id: 'restaurants',
+      category: 'dining',
       title: 'Restaurants',
       icon: 'ti-tools-kitchen-2',
       key: 'R',
@@ -92,6 +122,7 @@ export default function Home({
     },
     {
       id: 'amenities',
+      category: 'campus_life',
       title: 'Amenities & Shops',
       icon: 'ti-map-pin',
       key: 'A',
@@ -99,7 +130,8 @@ export default function Home({
     },
     {
       id: 'clubs',
-      title: 'Clubs & Arts',
+      category: 'campus_life',
+      title: 'Campus Clubs',
       icon: 'ti-users',
       key: 'K',
       description: 'Get involved in cultural clubs, arts collectives, IEEE student branches, and technical workshops active on campus.'
@@ -117,7 +149,7 @@ export default function Home({
             </h2>
             <p className="hero-subtitle">
               Your student dashboard is active. You have submitted{' '}
-              <strong style={{ color: '#0d9488' }}>{queryCount} support ticket(s)</strong>. Use the sidebar tabs or
+              <strong style={{ color: '#0d9488' }}>{queryCount} support ticket(s)</strong>. Use the navbar tabs or
               shortcut keys to search accommodations, check holidays, or file new inquiries.
             </p>
           </div>
@@ -191,32 +223,49 @@ export default function Home({
         </div>
       )}
 
-      {/* Feature Grid */}
-      <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#0f172a', marginBottom: '18px', letterSpacing: '-0.02em' }}>
-        Portal Features & Resources
-      </h2>
-      
-      <div className="preview-grid" style={{ marginBottom: '24px' }}>
-        {features.map((feat) => (
-          <div className="preview-card" key={feat.id} onClick={() => setActiveModule(feat.id)}>
-            <div>
-              <div className="preview-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                  <div className="preview-icon-box">
-                    <i className={`ti ${feat.icon}`}></i>
+      {/* Grouped Feature Grids */}
+      <div style={{ marginTop: '24px' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#0f172a', marginBottom: '8px', letterSpacing: '-0.02em' }}>
+          Portal Features & Resources
+        </h2>
+        <p style={{ color: '#64748b', fontSize: '14.5px', marginBottom: '16px' }}>
+          Explore CUSAT portal categories and student service hubs.
+        </p>
+
+        {categories.map((cat) => {
+          const catFeatures = features.filter((feat) => feat.category === cat.id);
+          if (catFeatures.length === 0) return null;
+
+          return (
+            <div key={cat.id} style={{ marginBottom: '32px' }}>
+              <h3 className="home-category-title">{cat.title}</h3>
+              <p className="home-category-desc">{cat.description}</p>
+              
+              <div className="preview-grid">
+                {catFeatures.map((feat) => (
+                  <div className="preview-card" key={feat.id} onClick={() => setActiveModule(feat.id)}>
+                    <div>
+                      <div className="preview-header">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                          <div className="preview-icon-box">
+                            <i className={`ti ${feat.icon}`}></i>
+                          </div>
+                          <h4 className="preview-title" style={{ fontSize: '16px', margin: 0 }}>{feat.title}</h4>
+                        </div>
+                      </div>
+                      <p className="preview-content" style={{ fontSize: '13.5px', marginTop: '8px' }}>
+                        {feat.description}
+                      </p>
+                    </div>
+                    <button className="preview-btn-text" style={{ fontSize: '13px' }}>
+                      Explore <i className="ti ti-arrow-right"></i>
+                    </button>
                   </div>
-                  <h3 className="preview-title" style={{ fontSize: '16px' }}>{feat.title}</h3>
-                </div>
+                ))}
               </div>
-              <p className="preview-content" style={{ fontSize: '13.5px', marginTop: '4px' }}>
-                {feat.description}
-              </p>
             </div>
-            <button className="preview-btn-text" style={{ fontSize: '13px' }}>
-              Explore <i className="ti ti-arrow-right"></i>
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

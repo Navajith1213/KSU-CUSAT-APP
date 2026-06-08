@@ -10,18 +10,59 @@ export default function Navbar({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = [
-    { id: 'home', label: 'Home', icon: 'ti-home' },
-    { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
-    { id: 'contacts', label: 'Contacts', icon: 'ti-phone' },
-    { id: 'boysPgs', label: "Boys PG's", icon: 'ti-building-community' },
-    { id: 'girlsPgs', label: "Girls PG's", icon: 'ti-home-2' },
-    { id: 'hostels', label: 'Hostels', icon: 'ti-building' },
-    { id: 'food', label: 'Tea Spots', icon: 'ti-coffee' },
-    { id: 'restaurants', label: 'Restaurants', icon: 'ti-tools-kitchen-2' },
-    { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
-    { id: 'clubs', label: 'Clubs', icon: 'ti-users' },
-    ...(userRole === 'student' ? [{ id: 'queries', label: 'My Queries', icon: 'ti-mail' }] : [])
+  // Mobile drawer categories expanded state
+  const [mobileExpanded, setMobileExpanded] = useState({
+    accommodations: true, // Default open for ease of discovery
+    dining: false,
+    info: false,
+    campus_life: false
+  });
+
+  const toggleMobileCat = (catId) => {
+    setMobileExpanded((prev) => ({
+      ...prev,
+      [catId]: !prev[catId]
+    }));
+  };
+
+  const navCategories = [
+    {
+      id: 'accommodations',
+      label: 'Stay & PG',
+      icon: 'ti-building',
+      items: [
+        { id: 'boysPgs', label: "Boys PG's", icon: 'ti-building-community' },
+        { id: 'girlsPgs', label: "Girls PG's", icon: 'ti-home-2' },
+        { id: 'hostels', label: 'College Hostels', icon: 'ti-building' }
+      ]
+    },
+    {
+      id: 'dining',
+      label: 'Food & Dining',
+      icon: 'ti-tools-kitchen-2',
+      items: [
+        { id: 'food', label: 'Tea Spots', icon: 'ti-coffee' },
+        { id: 'restaurants', label: 'Restaurants', icon: 'ti-tools-kitchen-2' }
+      ]
+    },
+    {
+      id: 'info',
+      label: 'Campus Info',
+      icon: 'ti-info-circle',
+      items: [
+        { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
+        { id: 'contacts', label: 'Contacts', icon: 'ti-phone' }
+      ]
+    },
+    {
+      id: 'campus_life',
+      label: 'Campus Life',
+      icon: 'ti-users',
+      items: [
+        { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
+        { id: 'clubs', label: 'Clubs', icon: 'ti-users' }
+      ]
+    }
   ];
 
   const handleNavClick = (id) => {
@@ -71,26 +112,58 @@ export default function Navbar({
         </div>
       </div>
 
-      {/* Bottom Row: Navigation Links */}
+      {/* Bottom Row: Desktop Navigation Links (Grouped Category Dropdowns) */}
       <div className="navbar-container">
         <nav className="navbar-menu">
-          {navItems.map((item) => (
+          <button
+            className={`navbar-link ${activeModule === 'home' ? 'active' : ''}`}
+            onClick={() => handleNavClick('home')}
+          >
+            <i className="ti ti-home" style={{ fontSize: '15px' }}></i>
+            Home
+          </button>
+
+          {navCategories.map((cat) => {
+            const isCatActive = cat.items.some(item => activeModule === item.id);
+            return (
+              <div key={cat.id} className="navbar-dropdown-container">
+                <button className={`navbar-category-btn ${isCatActive ? 'active-cat' : ''}`}>
+                  <i className={`ti ${cat.icon}`} style={{ fontSize: '15px' }}></i>
+                  {cat.label}
+                  <i className="ti ti-chevron-down" style={{ fontSize: '12px', marginLeft: '2px' }}></i>
+                </button>
+                <div className="navbar-dropdown-menu">
+                  {cat.items.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`dropdown-item-btn ${activeModule === item.id ? 'active' : ''}`}
+                      onClick={() => handleNavClick(item.id)}
+                    >
+                      <i className={`ti ${item.icon}`} style={{ fontSize: '14px' }}></i>
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+
+          {userRole === 'student' && (
             <button
-              key={item.id}
-              className={`navbar-link ${activeModule === item.id ? 'active' : ''}`}
-              onClick={() => handleNavClick(item.id)}
+              className={`navbar-link ${activeModule === 'queries' ? 'active' : ''}`}
+              onClick={() => handleNavClick('queries')}
             >
-              <i className={`ti ${item.icon}`} style={{ fontSize: '15px' }}></i>
-              {item.label}
+              <i className="ti ti-mail" style={{ fontSize: '15px' }}></i>
+              My Queries
             </button>
-          ))}
+          )}
         </nav>
       </div>
 
       {/* Backdrop overlay for mobile menu drawer */}
       {isOpen && <div className="mobile-menu-overlay" onClick={() => setIsOpen(false)}></div>}
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Menu Drawer (Collapsible Accordion) */}
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
           <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', fontFamily: 'Outfit, sans-serif' }}>Navigation</h3>
@@ -116,16 +189,64 @@ export default function Navbar({
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', overflowY: 'auto', flex: 1 }}>
-          {navItems.map((item) => (
+          {/* Home Link (Direct) */}
+          <button
+            className={`mobile-menu-link ${activeModule === 'home' ? 'active' : ''}`}
+            onClick={() => handleNavClick('home')}
+            style={{ fontWeight: '700' }}
+          >
+            <i className="ti ti-home" style={{ fontSize: '16px' }}></i>
+            Home
+          </button>
+
+          {/* Categorized Collapsible Accordions */}
+          {navCategories.map((cat) => {
+            const isCatExpanded = mobileExpanded[cat.id];
+            const isCatActive = cat.items.some(item => activeModule === item.id);
+            return (
+              <div key={cat.id} className="mobile-category-group">
+                <button
+                  className={`mobile-category-header ${isCatExpanded ? 'open' : ''}`}
+                  onClick={() => toggleMobileCat(cat.id)}
+                  style={{ color: isCatActive ? '#0d9488' : '#0f172a' }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <i className={`ti ${cat.icon}`}></i>
+                    {cat.label}
+                  </span>
+                  <i className="ti ti-chevron-down chevron"></i>
+                </button>
+                
+                {isCatExpanded && (
+                  <div className="mobile-category-items">
+                    {cat.items.map((item) => (
+                      <button
+                        key={item.id}
+                        className={`mobile-menu-link ${activeModule === item.id ? 'active' : ''}`}
+                        onClick={() => handleNavClick(item.id)}
+                        style={{ paddingLeft: '20px' }}
+                      >
+                        <i className={`ti ${item.icon}`} style={{ fontSize: '15px' }}></i>
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          {/* Student Queries (Direct) */}
+          {userRole === 'student' && (
             <button
-              key={item.id}
-              className={`mobile-menu-link ${activeModule === item.id ? 'active' : ''}`}
-              onClick={() => handleNavClick(item.id)}
+              className={`mobile-menu-link ${activeModule === 'queries' ? 'active' : ''}`}
+              onClick={() => handleNavClick('queries')}
+              style={{ fontWeight: '700' }}
             >
-              <i className={`ti ${item.icon}`} style={{ fontSize: '16px' }}></i>
-              {item.label}
+              <i className="ti ti-mail" style={{ fontSize: '16px' }}></i>
+              My Queries
             </button>
-          ))}
+          )}
         </div>
 
         <div style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
