@@ -382,6 +382,14 @@ export default function App() {
   const renderModuleContent = () => {
     return (
       <div key={activeModule} className="fade-in-section">
+        {['calendar', 'contacts', 'boysPgs', 'girlsPgs', 'hostels', 'food', 'restaurants', 'amenities', 'clubs', 'queries'].includes(activeModule) && (
+          <button
+            onClick={() => setActiveModule('home')}
+            className="back-btn"
+          >
+            <i className="ti ti-arrow-left"></i> Back to Home
+          </button>
+        )}
         {activeModule === 'home' && (
           <Home
             academicEvents={academicEvents}
