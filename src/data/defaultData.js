@@ -310,6 +310,13 @@ export const defaultContacts = [
     "email": "budget@cusat.ac.in",
     "address": "Making experts in budget and finance-related issues, conducting ground-level studies, aiding state governments, and providing policy-relevant insights.",
     "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
+  },
+  {
+    "name": "Department of Physics ",
+    "phone": "91-484-2577404",
+    "email": "phys@cusat.ac.in",
+    "address": "Provides Msc and Integrated Msc courses in Physics.",
+    "gmapsLink": "https://maps.app.goo.gl/VftJjKzHVFNkSdmN6"
   }
 ];
 // <!--CONTACTS_END-->
