@@ -247,7 +247,7 @@ export default function AuthModal({
       }
     } catch (err) {
       recordFailedAttempt();
-      setErrorMsg('Login failed. Please check your credentials.');
+      setErrorMsg(`Login failed: ${err.message}`);
     } finally {
       setIsLoading(false);
     }

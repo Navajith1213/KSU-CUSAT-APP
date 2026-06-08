@@ -8,12 +8,6 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
   const [activeType, setActiveType] = useState('All');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (userRole !== 'user') {
-      fetchResources();
-    }
-  }, [userRole]);
-
   const fetchResources = async () => {
     try {
       const { data, error } = await supabase
@@ -39,6 +33,12 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     }
   };
 
+  useEffect(() => {
+    if (userRole !== 'user') {
+      fetchResources();
+    }
+  }, [userRole]);
+
   const types = ['All', 'Notes', 'PYQ', 'Syllabus', 'Other'];
 
   const filteredResources = resources.filter(r => {
@@ -46,6 +46,29 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     if (activeType !== 'All' && r.resource_type !== activeType) return false;
     return true;
   });
+
+  const [selectedDocument, setSelectedDocument] = useState(null);
+
+  // Convert standard Drive links to embeddable preview links
+  const getDriveEmbedUrl = (url) => {
+    if (!url) return '';
+    try {
+      // Handle standard file view URLs
+      if (url.includes('drive.google.com/file/d/')) {
+        return url.replace(/\/view.*$/, '/preview');
+      }
+      // Handle folder URLs
+      if (url.includes('drive.google.com/drive/folders/')) {
+        const folderIdMatch = url.match(/folders\/([a-zA-Z0-9-_]+)/);
+        if (folderIdMatch && folderIdMatch[1]) {
+          return `https://drive.google.com/embeddedfolderview?id=${folderIdMatch[1]}#grid`;
+        }
+      }
+      return url; // fallback
+    } catch (e) {
+      return url;
+    }
+  };
 
   if (userRole === 'user') {
     return (
@@ -157,19 +180,66 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                     
                     <h3 style={{ fontSize: '16px', margin: '0 0 16px 0', color: 'var(--text-primary)' }}>{resource.subject}</h3>
                     
-                    <a 
-                      href={resource.drive_link} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
+                    <button 
+                      onClick={() => setSelectedDocument(resource)}
                       className="btn-primary"
-                      style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', gap: '8px', marginTop: 'auto' }}
+                      style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '8px', marginTop: 'auto' }}
                     >
-                      <i className="ti ti-brand-google-drive"></i> View File
-                    </a>
+                      <i className="ti ti-brand-google-drive"></i> Read Document
+                    </button>
                   </div>
                 ))}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Document Viewer Modal Overlay */}
+      {selectedDocument && (
+        <div className="modal-overlay" onClick={() => setSelectedDocument(null)} style={{ zIndex: 9999 }}>
+          <div 
+            className="modal-content" 
+            onClick={(e) => e.stopPropagation()} 
+            style={{ 
+              width: '90%', 
+              maxWidth: '1000px', 
+              height: '85vh', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              padding: '16px',
+              backgroundColor: '#fff'
+            }}
+          >
+            <div className="modal-header" style={{ marginBottom: '12px' }}>
+              <div>
+                <h2 style={{ fontSize: '20px', margin: 0 }}>{selectedDocument.subject}</h2>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted)' }}>
+                  {selectedDocument.resource_type} • {selectedDocument.year_semester}
+                </p>
+              </div>
+              <button className="close-btn" onClick={() => setSelectedDocument(null)}>&times;</button>
+            </div>
+            
+            <div style={{ flex: 1, borderRadius: '8px', overflow: 'hidden', border: '1px solid var(--border-color)', position: 'relative' }}>
+              <iframe 
+                src={getDriveEmbedUrl(selectedDocument.drive_link)} 
+                style={{ width: '100%', height: '100%', border: 'none' }}
+                allow="autoplay"
+                title={selectedDocument.subject}
+              ></iframe>
+            </div>
+
+            <div style={{ marginTop: '12px', textAlign: 'center' }}>
+              <a 
+                href={selectedDocument.drive_link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ fontSize: '13px', color: '#0284c7', textDecoration: 'none' }}
+              >
+                Open in new tab <i className="ti ti-external-link"></i>
+              </a>
+            </div>
           </div>
         </div>
       )}
