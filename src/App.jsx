@@ -726,9 +726,7 @@ export default function App() {
                     padding: '4px 10px', 
                     borderRadius: '8px',
                     marginBottom: '12px',
-                    display: 'inline-block',
-                    filter: theme === 'dark' ? 'none' : 'invert(1)',
-                    mixBlendMode: theme === 'dark' ? 'screen' : 'multiply'
+                    display: 'inline-block'
                   }} 
                 />
                 <p>Your ultimate campus assistant for staying, dining, and navigating Cochin University of Science and Technology.</p>
