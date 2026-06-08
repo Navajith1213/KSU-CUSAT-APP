@@ -14,6 +14,7 @@ import DepartmentDashboard from './components/DepartmentDashboard';
 import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
+import { Analytics } from '@vercel/analytics/react';
 
 
 
@@ -587,6 +588,7 @@ export default function App() {
       {/* Always render chatbot globally */}
       <SocialSpeedDial />
       <Chatbot />
+      <Analytics />
     </>
   );
 }
