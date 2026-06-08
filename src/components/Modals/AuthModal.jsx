@@ -24,6 +24,10 @@ export default function AuthModal({
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
+  
+  // OTP Verification state
+  const [verificationMode, setVerificationMode] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
 
   // Rate limiting: lock login after 5 failed attempts within 60 seconds
   const loginAttempts = useRef([]);
@@ -97,10 +101,40 @@ export default function AuthModal({
         }
       });
       if (error) throw error;
-      alert('Registration successful! You can now log in.');
+      
+      // Account created! Enter OTP verification mode.
+      setVerificationMode(true);
+      setErrorMsg('');
+      alert('Verification code sent! Please check your email inbox.');
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVerifySignUp = async (e) => {
+    e.preventDefault();
+    if (!otpCode.trim()) {
+      setErrorMsg('Please enter the 6-digit code.');
+      return;
+    }
+    setIsLoading(true);
+    setErrorMsg('');
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token: otpCode,
+        type: 'signup'
+      });
+      if (error) throw error;
+
+      alert('Email verified successfully! You can now log in.');
+      setVerificationMode(false);
       setIsSignUp(false);
       setPassword('');
       setPhone('');
+      setOtpCode('');
     } catch (err) {
       setErrorMsg(err.message);
     } finally {
@@ -247,88 +281,121 @@ export default function AuthModal({
             </div>
 
             {activeTab === 'student' ? (
-              /* Student signup or login form */
-              <form onSubmit={isSignUp ? handleStudentSignUp : handleStudentLogin}>
-                {isSignUp && (
-                  <>
-                    <div className="form-group">
-                      <label>Full Name *</label>
-                      <input
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Enter your name"
-                        required
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label>Mobile Number *</label>
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                        placeholder="10-digit mobile number"
-                        pattern="[6-9][0-9]{9}"
-                        maxLength={10}
-                        required
-                      />
-                      <small style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '4px', display: 'block' }}>
-                        Must be exactly 10 digits starting with 6, 7, 8, or 9 (Indian standard).
-                      </small>
-                    </div>
-                  </>
-                )}
-
-                <div className="form-group">
-                  <label>Email Address *</label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="yourname@gmail.com"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Password *</label>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    required
-                  />
-                </div>
-
-                <button type="submit" className="login-btn" style={{ width: '100%', padding: '12px' }} disabled={isLoading}>
-                  {isLoading ? 'Processing...' : isSignUp ? 'Create Student Account' : 'Student Log In'}
-                </button>
-
-                {!isSignUp && (
-                  <p style={{ textAlign: 'right', marginTop: '8px', marginBottom: '0' }}>
-                    <button
-                      type="button"
-                      style={{ background: 'none', border: 'none', color: '#6366f1', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
-                      onClick={handleForgotPassword}
-                      disabled={isLoading}
-                    >
-                      Forgot your password?
-                    </button>
-                  </p>
-                )}
-
-                 <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
-                  {isSignUp ? 'Already have an account?' : "Don't have an account yet?"}{' '}
+              /* Student signup, login, or OTP verification form */
+              verificationMode ? (
+                <form onSubmit={handleVerifySignUp}>
+                  <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                    <i className="ti ti-mail-opened" style={{ fontSize: '48px', color: '#0284c7', marginBottom: '12px' }}></i>
+                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '8px' }}>Verify Your Email</h3>
+                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>We just sent a 6-digit code to <strong>{email}</strong>.</p>
+                  </div>
+                  <div className="form-group">
+                    <label>6-Digit Code *</label>
+                    <input
+                      type="text"
+                      value={otpCode}
+                      onChange={(e) => setOtpCode(e.target.value)}
+                      placeholder="Enter the code"
+                      maxLength={6}
+                      required
+                      style={{ fontSize: '20px', letterSpacing: '4px', textAlign: 'center' }}
+                    />
+                  </div>
+                  <button type="submit" className="login-btn" style={{ width: '100%', padding: '12px' }} disabled={isLoading}>
+                    {isLoading ? 'Verifying...' : 'Verify and Create Account'}
+                  </button>
                   <button
                     type="button"
-                    style={{ background: 'none', border: 'none', color: '#0284c7', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}
-                    onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); setPhone(''); }}
+                    style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline', marginTop: '16px', width: '100%', textAlign: 'center' }}
+                    onClick={() => { setVerificationMode(false); setOtpCode(''); }}
+                    disabled={isLoading}
                   >
-                    {isSignUp ? 'Log In' : 'Sign Up'}
+                    Cancel
                   </button>
-                </p>
-              </form>
+                </form>
+              ) : (
+                <form onSubmit={isSignUp ? handleStudentSignUp : handleStudentLogin}>
+                  {isSignUp && (
+                    <>
+                      <div className="form-group">
+                        <label>Full Name *</label>
+                        <input
+                          type="text"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="Enter your name"
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Mobile Number *</label>
+                        <input
+                          type="tel"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                          placeholder="10-digit mobile number"
+                          pattern="[6-9][0-9]{9}"
+                          maxLength={10}
+                          required
+                        />
+                        <small style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '4px', display: 'block' }}>
+                          Must be exactly 10 digits starting with 6, 7, 8, or 9 (Indian standard).
+                        </small>
+                      </div>
+                    </>
+                  )}
+
+                  <div className="form-group">
+                    <label>Email Address *</label>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="yourname@gmail.com"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label>Password *</label>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      required
+                    />
+                  </div>
+
+                  <button type="submit" className="login-btn" style={{ width: '100%', padding: '12px' }} disabled={isLoading}>
+                    {isLoading ? 'Processing...' : isSignUp ? 'Create Student Account' : 'Student Log In'}
+                  </button>
+
+                  {!isSignUp && (
+                    <p style={{ textAlign: 'right', marginTop: '8px', marginBottom: '0' }}>
+                      <button
+                        type="button"
+                        style={{ background: 'none', border: 'none', color: '#6366f1', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline', padding: 0 }}
+                        onClick={handleForgotPassword}
+                        disabled={isLoading}
+                      >
+                        Forgot your password?
+                      </button>
+                    </p>
+                  )}
+
+                  <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
+                    {isSignUp ? 'Already have an account?' : "Don't have an account yet?"}{' '}
+                    <button
+                      type="button"
+                      style={{ background: 'none', border: 'none', color: '#0284c7', fontWeight: '600', cursor: 'pointer', textDecoration: 'underline' }}
+                      onClick={() => { setIsSignUp(!isSignUp); setErrorMsg(''); setPhone(''); }}
+                    >
+                      {isSignUp ? 'Log In' : 'Sign Up'}
+                    </button>
+                  </p>
+                </form>
+              )
             ) : (
               /* Admin login credentials form */
               <form onSubmit={handleAdminLogin}>
