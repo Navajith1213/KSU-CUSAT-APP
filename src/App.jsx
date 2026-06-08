@@ -438,7 +438,6 @@ export default function App() {
             setAmenities={setAmenities}
             clubs={clubs}
             setClubs={setClubs}
-            setUnsavedChanges={setUnsavedChanges}
               />
         )}
         {activeModule === 'admin-queries' && userRole === 'admin' && (
