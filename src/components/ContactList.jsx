@@ -36,7 +36,7 @@ export default function ContactList({ contacts }) {
               <div>
                 <h3>{contact.name}</h3>
                 {contact.address && (
-                  <p style={{ fontSize: '13.5px', color: '#64748b', fontStyle: 'italic', marginBottom: '12px', lineHeight: '1.5' }}>
+                  <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: '12px', lineHeight: '1.5' }}>
                     {contact.address}
                   </p>
                 )}

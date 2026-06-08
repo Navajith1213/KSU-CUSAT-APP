@@ -199,7 +199,7 @@ export default function AdminDashboard({
 
   return (
     <div className="card">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e2e8f0', paddingBottom: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
         <h2>Admin Control Dashboard</h2>
         <button className="btn-secondary" onClick={publishToGitHub} disabled={isPublishing}>
           <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> 
@@ -443,7 +443,7 @@ export default function AdminDashboard({
                 value={newAdminEmail} 
                 onChange={e => setNewAdminEmail(e.target.value)} 
                 required 
-                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
               />
               <input 
                 type="text" 
@@ -451,7 +451,7 @@ export default function AdminDashboard({
                 value={newAdminDept} 
                 onChange={e => setNewAdminDept(e.target.value)} 
                 required 
-                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
               />
               <button type="submit" className="btn-primary">Add Admin</button>
             </form>
@@ -462,7 +462,7 @@ export default function AdminDashboard({
             deptAdmins.map(admin => (
               <div className="event-item" key={admin.id}>
                 <div>
-                  <strong style={{ display: 'block', color: '#0f172a' }}>{admin.email}</strong>
+                  <strong style={{ display: 'block', color: 'var(--text-primary)' }}>{admin.email}</strong>
                   <span style={{ fontSize: '12px', color: '#0d9488', fontWeight: 'bold' }}>{admin.department}</span>
                 </div>
                 <button className="btn-danger" onClick={() => handleDeleteDeptAdmin(admin.id)}>Remove</button>

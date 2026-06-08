@@ -44,6 +44,16 @@ const formatDate = (dateStr) => {
 export default function App() {
   const [userRole, setUserRole] = useState('user');
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   // Student session state
   const [loggedStudent, setLoggedStudent] = useState(() => {
@@ -687,15 +697,16 @@ export default function App() {
         </div>
       ) : (
         <div className="website-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Navbar
+          <Navbar 
             userRole={userRole}
             activeModule={activeModule}
             setActiveModule={setActiveModule}
             setShowAuthModal={setShowAuthModal}
             logout={logout}
             loggedStudent={loggedStudent}
+            theme={theme}
+            setTheme={setTheme}
           />
-
           <main className="content website-content">
             {renderModuleContent()}
           </main>

@@ -6,7 +6,9 @@ export default function Navbar({
   setActiveModule,
   setShowAuthModal,
   logout,
-  loggedStudent
+  loggedStudent,
+  theme,
+  setTheme
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -89,6 +91,17 @@ export default function Navbar({
         </a>
 
         <div className="navbar-actions">
+          
+          {/* Theme Toggle Button */}
+          <button 
+            className="navbar-btn" 
+            style={{ padding: '8px', borderRadius: '50%', background: 'var(--bg-hover)', color: 'var(--text-primary)' }}
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            title="Toggle Dark Mode"
+          >
+            <i className={theme === 'dark' ? 'ti ti-sun' : 'ti ti-moon'} style={{ fontSize: '18px' }}></i>
+          </button>
+
           {userRole === 'student' && loggedStudent && (
             <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>
               <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
@@ -183,8 +196,8 @@ export default function Navbar({
 
       {/* Mobile Menu Drawer (Collapsible Accordion) */}
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', fontFamily: 'Outfit, sans-serif' }}>Navigation</h3>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+          <h3 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--text-primary)', fontFamily: 'Outfit, sans-serif' }}>Navigation</h3>
           <button className="hamburger-btn" style={{ display: 'block' }} onClick={() => setIsOpen(false)} aria-label="Close menu">
             <i className="ti ti-x"></i>
           </button>
@@ -281,7 +294,7 @@ export default function Navbar({
 
         <div style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {userRole === 'student' && loggedStudent && (
-            <div style={{ padding: '8px 12px', fontSize: '13px', color: '#64748b' }}>
+            <div style={{ padding: '8px 12px', fontSize: '13px', color: 'var(--text-muted)' }}>
               Logged in as: <strong>{loggedStudent.full_name}</strong>
             </div>
           )}

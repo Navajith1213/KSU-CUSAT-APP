@@ -185,7 +185,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
                 placeholder="https://drive.google.com/file/d/..." 
                 required 
               />
-              <p style={{ fontSize: '11px', color: '#64748b', marginTop: '4px' }}>
+              <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
                 Make sure the link sharing setting is "Anyone with the link can view".
               </p>
             </div>
@@ -203,8 +203,8 @@ export default function DepartmentDashboard({ loggedStudent }) {
           {isLoading ? (
             <p>Loading...</p>
           ) : resources.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '20px', background: '#f8fafc', borderRadius: '8px' }}>
-              <p style={{ color: '#64748b', fontSize: '14px' }}>No resources uploaded yet.</p>
+            <div style={{ textAlign: 'center', padding: '20px', background: 'var(--bg-main)', borderRadius: '8px' }}>
+              <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>No resources uploaded yet.</p>
             </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
@@ -220,7 +220,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
                           {resource.department}
                         </span>
                       )}
-                      {resource.year_semester && <span style={{ fontSize: '12px', color: '#64748b' }}>{resource.year_semester}</span>}
+                      {resource.year_semester && <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{resource.year_semester}</span>}
                     </div>
                     <h4 style={{ margin: 0, fontSize: '15px' }}>{resource.subject}</h4>
                     <a href={resource.drive_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#0ea5e9', textDecoration: 'none' }}>

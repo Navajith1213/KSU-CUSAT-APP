@@ -41,14 +41,14 @@ export default function ListingGrid({ items, fields }) {
                 // Render rates list under 'rent' field if structured rates exist
                 if (field === 'rent' && hasRates) {
                   return (
-                    <div key={i} style={{ margin: '12px 0 16px 0', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '12px', backgroundColor: '#f8fafc' }}>
-                      <strong style={{ fontSize: '11px', color: '#475569', display: 'flex', alignItems: 'center', gap: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
+                    <div key={i} style={{ margin: '12px 0 16px 0', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '12px', backgroundColor: 'var(--bg-main)' }}>
+                      <strong style={{ fontSize: '11px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '8px' }}>
                         <i className="ti ti-cash" style={{ color: '#0d9488' }}></i> Room Rates
                       </strong>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         {item.rates.map((rate, rIdx) => (
                           <div key={rIdx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13.5px', borderBottom: rIdx < item.rates.length - 1 ? '1px dashed #e2e8f0' : 'none', paddingBottom: rIdx < item.rates.length - 1 ? '6px' : '0' }}>
-                            <span style={{ color: '#475569', fontWeight: '500' }}>{rate.type}</span>
+                            <span style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>{rate.type}</span>
                             <span style={{ fontWeight: '700', color: '#0d9488' }}>{rate.rent}</span>
                           </div>
                         ))}

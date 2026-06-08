@@ -192,7 +192,7 @@ export default function Home({
             <h3 style={{ color: '#1e3a8a', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
               File Inquiries and Track complaints
             </h3>
-            <p style={{ color: '#475569', fontSize: '14px', lineHeight: '1.5' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.5' }}>
               Log in to your student account to access the Kerala Students Union help desk. Submit issues directly to the admins
               and track their status.
             </p>
@@ -210,7 +210,7 @@ export default function Home({
             <h3 style={{ color: '#1e3a8a', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
               Need Help? File a Complaint
             </h3>
-            <p style={{ color: '#475569', fontSize: '14px', lineHeight: '1.5' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.5' }}>
               File an official request or complaint regarding hostels, dining, or amenities and get a formal response letter back.
             </p>
           </div>
@@ -222,10 +222,10 @@ export default function Home({
 
       {/* Grouped Feature Grids */}
       <div style={{ marginTop: '24px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#0f172a', marginBottom: '8px', letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.02em' }}>
           Portal Features & Resources
         </h2>
-        <p style={{ color: '#64748b', fontSize: '14.5px', marginBottom: '16px' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '14.5px', marginBottom: '16px' }}>
           Explore CUSAT portal categories and student service hubs.
         </p>
 

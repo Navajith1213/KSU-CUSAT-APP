@@ -58,8 +58,8 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
           }}>
             <i className="ti ti-lock" style={{ fontSize: '36px', color: '#f59e0b' }}></i>
           </div>
-          <h2 style={{ fontSize: '24px', marginBottom: '12px', color: '#0f172a' }}>Locked Resources</h2>
-          <p style={{ color: '#475569', marginBottom: '28px', lineHeight: '1.6', fontSize: '15px' }}>
+          <h2 style={{ fontSize: '24px', marginBottom: '12px', color: 'var(--text-primary)' }}>Locked Resources</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '28px', lineHeight: '1.6', fontSize: '15px' }}>
             Please register or log in to access free notes, previous year question papers, and other academic materials!
           </p>
           <button className="btn-primary" onClick={() => setShowAuthModal(true)} style={{ width: '100%', padding: '14px', fontSize: '15px' }}>
@@ -81,13 +81,13 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
       {isLoading ? (
         <div style={{ textAlign: 'center', padding: '40px' }}>
           <i className="ti ti-loader" style={{ fontSize: '24px', animation: 'spin 1s linear infinite' }}></i>
-          <p style={{ marginTop: '10px', color: '#64748b' }}>Loading resources...</p>
+          <p style={{ marginTop: '10px', color: 'var(--text-muted)' }}>Loading resources...</p>
         </div>
       ) : departments.length === 0 ? (
         <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
           <i className="ti ti-books" style={{ fontSize: '48px', color: '#cbd5e1', marginBottom: '16px' }}></i>
           <h3>No Resources Available</h3>
-          <p style={{ color: '#64748b', marginTop: '8px' }}>No academic resources have been uploaded yet.</p>
+          <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>No academic resources have been uploaded yet.</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -133,7 +133,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
             </div>
 
             {filteredResources.length === 0 ? (
-              <p style={{ textAlign: 'center', padding: '30px', color: '#64748b' }}>No {activeType !== 'All' ? activeType : 'resources'} found for this department.</p>
+              <p style={{ textAlign: 'center', padding: '30px', color: 'var(--text-muted)' }}>No {activeType !== 'All' ? activeType : 'resources'} found for this department.</p>
             ) : (
               <div className="grid">
                 {filteredResources.map(resource => (
@@ -155,7 +155,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                       </span>
                     </div>
                     
-                    <h3 style={{ fontSize: '16px', margin: '0 0 16px 0', color: '#0f172a' }}>{resource.subject}</h3>
+                    <h3 style={{ fontSize: '16px', margin: '0 0 16px 0', color: 'var(--text-primary)' }}>{resource.subject}</h3>
                     
                     <a 
                       href={resource.drive_link} 

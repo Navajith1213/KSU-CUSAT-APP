@@ -104,7 +104,7 @@ export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
         </div>
         <div className="form-group">
           <label>Hostel Type *</label>
-          <select value={value.type || 'Mens'} onChange={(e) => onChange({ ...value, type: e.target.value })} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}>
+          <select value={value.type || 'Mens'} onChange={(e) => onChange({ ...value, type: e.target.value })} style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
             <option value="Mens">Men's Hostel</option>
             <option value="Ladies">Ladies' Hostel</option>
           </select>
@@ -230,8 +230,8 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
         </div>
 
         {/* Dynamic Room Rates Section */}
-        <div className="form-group full-width" style={{ border: '1px solid #e2e8f0', borderRadius: '8px', padding: '16px', background: '#f8fafc' }}>
-          <h4 style={{ margin: '0 0 12px 0', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div className="form-group full-width" style={{ border: '1px solid var(--border-color)', borderRadius: '8px', padding: '16px', background: 'var(--bg-main)' }}>
+          <h4 style={{ margin: '0 0 12px 0', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <i className="ti ti-cash" style={{ color: '#0d9488' }}></i> Room Rates & Options
           </h4>
           
@@ -239,7 +239,7 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {value.rates && value.rates.length > 0 ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
               {value.rates.map((rate, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'white', padding: '8px 12px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-card)', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
                   <div>
                     <strong style={{ color: '#334155' }}>{rate.type}</strong>: <span style={{ color: '#0d9488', fontWeight: '600' }}>{rate.rent}</span>
                   </div>
@@ -255,7 +255,7 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
               ))}
             </div>
           ) : (
-            <p style={{ fontSize: '13px', color: '#64748b', margin: '0 0 12px 0', fontStyle: 'italic' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: '0 0 12px 0', fontStyle: 'italic' }}>
               No specific room rates added yet. Enter rate options below to specify different prices for different room types.
             </p>
           )}
@@ -263,30 +263,30 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {/* Add rate form controls */}
           <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end', flexWrap: 'wrap' }}>
             <div style={{ flex: '1', minWidth: '150px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '600', color: '#475569', display: 'block', marginBottom: '4px' }}>Room Type / Sharing</label>
+              <label style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Room Type / Sharing</label>
               <input 
                 type="text" 
                 value={newRoomType} 
                 onChange={(e) => setNewRoomType(e.target.value)} 
                 placeholder="e.g. Single, Double Sharing, AC" 
-                style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)' }}
               />
             </div>
             <div style={{ flex: '1', minWidth: '150px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '600', color: '#475569', display: 'block', marginBottom: '4px' }}>Rent Amount</label>
+              <label style={{ fontSize: '12px', fontWeight: '600', color: 'var(--text-secondary)', display: 'block', marginBottom: '4px' }}>Rent Amount</label>
               <input 
                 type="text" 
                 value={newRoomRent} 
                 onChange={(e) => setNewRoomRent(e.target.value)} 
                 placeholder="e.g. ₹6000/month" 
-                style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                style={{ width: '100%', padding: '8px', borderRadius: '6px', border: '1px solid var(--border-color)' }}
               />
             </div>
             <button 
               type="button" 
               onClick={addRate}
               className="btn-secondary"
-              style={{ padding: '9px 16px', borderRadius: '6px', cursor: 'pointer', border: '1px solid #cbd5e1' }}
+              style={{ padding: '9px 16px', borderRadius: '6px', cursor: 'pointer', border: '1px solid var(--border-color)' }}
             >
               Add Option
             </button>

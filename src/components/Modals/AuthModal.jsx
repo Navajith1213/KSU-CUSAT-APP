@@ -298,7 +298,7 @@ export default function AuthModal({
                         maxLength={10}
                         required
                       />
-                      <small style={{ color: '#64748b', fontSize: '11px', marginTop: '4px', display: 'block' }}>
+                      <small style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '4px', display: 'block' }}>
                         Must be exactly 10 digits starting with 6, 7, 8, or 9 (Indian standard).
                       </small>
                     </div>
@@ -344,7 +344,7 @@ export default function AuthModal({
                   </p>
                 )}
 
-                 <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: '#64748b' }}>
+                 <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: 'var(--text-muted)' }}>
                   {isSignUp ? 'Already have an account?' : "Don't have an account yet?"}{' '}
                   <button
                     type="button"

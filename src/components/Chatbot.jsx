@@ -96,7 +96,7 @@ export default function Chatbot() {
 
           {/* Quick Replies */}
           <div className="chatbot-options">
-            <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: '#64748b', fontWeight: 'bold' }}>Suggested Questions:</p>
+            <p style={{ margin: '0 0 8px 0', fontSize: '12px', color: 'var(--text-muted)', fontWeight: 'bold' }}>Suggested Questions:</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               {QA_DATA.map(qa => (
                 <button key={qa.id} className="chatbot-option-btn" onClick={() => handleQuestionClick(qa)}>

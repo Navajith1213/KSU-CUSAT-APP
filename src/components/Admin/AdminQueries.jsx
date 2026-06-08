@@ -72,15 +72,15 @@ export default function AdminQueries() {
 
   return (
     <div className="card">
-      <div style={{ borderBottom: '1px solid #e2e8f0', paddingBottom: '16px', marginBottom: '20px' }}>
+      <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '16px', marginBottom: '20px' }}>
         <h2>Student Filed Queries & Complaints</h2>
-        <p style={{ fontSize: '13.5px', color: '#64748b', marginTop: '4px' }}>
+        <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '4px' }}>
           Read support tickets submitted by students and update their official resolution status below.
         </p>
       </div>
 
       {loadingQueries ? (
-        <p style={{ textAlign: 'center', padding: '24px', color: '#64748b' }}>
+        <p style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>
           <i className="ti ti-loader" style={{ display: 'inline-block', animation: 'spin 1s linear infinite', marginRight: '8px', fontSize: '18px' }}></i>
           Loading support tickets...
         </p>
@@ -93,11 +93,11 @@ export default function AdminQueries() {
                   {item.category}
                 </span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ fontSize: '12.5px', color: '#64748b', fontWeight: '600' }}>Status:</span>
+                  <span style={{ fontSize: '12.5px', color: 'var(--text-muted)', fontWeight: '600' }}>Status:</span>
                   <select
                     value={item.status}
                     onChange={(e) => updateComplaintStatus(idx, item, e.target.value)}
-                    style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '12px', background: 'white', cursor: 'pointer' }}
+                    style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '12px', background: 'var(--bg-card)', cursor: 'pointer' }}
                   >
                     <option value="Submitted">Submitted</option>
                     <option value="Letter Given">Letter Given</option>
@@ -105,8 +105,8 @@ export default function AdminQueries() {
                   </select>
                 </div>
               </div>
-              <h4 style={{ fontSize: '15px', color: '#0f172a', fontWeight: '700' }}>{item.subject}</h4>
-              <p style={{ fontSize: '13.5px', color: '#475569', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{item.description}</p>
+              <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: '700' }}>{item.subject}</h4>
+              <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{item.description}</p>
               <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '8px', marginTop: '4px', fontSize: '12px', color: '#94a3b8', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                 <span>Filed by: <strong>{item.student_name}</strong> ({item.student_email})</span>
                 <span>Date: {new Date(item.created_at).toLocaleDateString()}</span>

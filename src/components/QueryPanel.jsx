@@ -141,7 +141,7 @@ export default function QueryPanel({ loggedStudent }) {
       {/* Complaint Filing Form */}
       <div className="card" style={{ alignSelf: 'start' }}>
         <h2>File a Query or Complaint</h2>
-        <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '18px', marginTop: '-8px' }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '18px', marginTop: '-8px' }}>
           Fill out this form to request assistance. Your query will be saved in your portal log and emailed directly to the student union admin.
         </p>
 
@@ -198,12 +198,12 @@ export default function QueryPanel({ loggedStudent }) {
       {/* Complaints History Panel */}
       <div className="card">
         <h2>Your Sent Queries & Status</h2>
-        <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '18px', marginTop: '-8px' }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '18px', marginTop: '-8px' }}>
           Track the status of queries you have submitted previously.
         </p>
 
         {isLoading ? (
-          <p style={{ textAlign: 'center', padding: '24px', color: '#64748b' }}>
+          <p style={{ textAlign: 'center', padding: '24px', color: 'var(--text-muted)' }}>
             <i className="ti ti-loader" style={{ display: 'inline-block', animation: 'spin 1s linear infinite', marginRight: '8px', fontSize: '18px' }}></i>
             Loading history...
           </p>
@@ -226,8 +226,8 @@ export default function QueryPanel({ loggedStudent }) {
                     {item.status}
                   </span>
                 </div>
-                <h4 style={{ fontSize: '15px', color: '#0f172a', fontWeight: '700' }}>{item.subject}</h4>
-                <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.4', whiteSpace: 'pre-wrap' }}>{item.description}</p>
+                <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: '700' }}>{item.subject}</h4>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.4', whiteSpace: 'pre-wrap' }}>{item.description}</p>
                 <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '6px', marginTop: '4px', fontSize: '11px', color: '#94a3b8' }}>
                   Submitted on: {new Date(item.created_at).toLocaleDateString()}
                 </div>
