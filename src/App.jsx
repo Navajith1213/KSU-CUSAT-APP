@@ -632,10 +632,10 @@ export default function App() {
                   </li>
                   <li>
                     <button
-                      onClick={() => setActiveModule('boysPgs')}
+                      onClick={() => setActiveModule('food')}
                       style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
-                      Boys PG's
+                      Tea Spots
                     </button>
                   </li>
                 </ul>
@@ -648,7 +648,7 @@ export default function App() {
               </div>
             </div>
             <div className="footer-bottom">
-              &copy; {new Date().getFullYear()} Cochin University of Science and Technology. All rights reserved.
+              &copy; {new Date().getFullYear()} - Initiative by the KSU DCS Subcommittee
             </div>
           </footer>
         </div>

@@ -33,7 +33,9 @@ export default function Navbar({
       {/* Top Row: Brand + Auth */}
       <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
-          <img src="/logo.jpg" alt="CUSAT Portal" style={{ height: '32px', objectFit: 'contain', display: 'block' }} />
+          <h2 style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #1e3a8a, #0d9488)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'Outfit, sans-serif' }}>
+            KSU CUSAT
+          </h2>
         </a>
 
         <div className="navbar-actions">
@@ -62,7 +64,17 @@ export default function Navbar({
       </div>
 
       {/* Bottom Row: Navigation Links */}
-      <div className="navbar-container">
+      <div className="navbar-container" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <img 
+          src="/logo.jpg" 
+          alt="KSU CUSAT Logo" 
+          style={{ 
+            height: '46px', 
+            objectFit: 'contain', 
+            display: 'block', 
+            flexShrink: 0 
+          }} 
+        />
         <nav className="navbar-menu">
           {navItems.map((item) => (
             <button
@@ -82,11 +94,26 @@ export default function Navbar({
 
       {/* Mobile Menu Drawer */}
       <div className={`mobile-menu ${isOpen ? 'open' : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #e2e8f0', paddingBottom: '14px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
           <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#0f172a', fontFamily: 'Outfit, sans-serif' }}>Navigation</h3>
           <button className="hamburger-btn" style={{ display: 'block' }} onClick={() => setIsOpen(false)} aria-label="Close menu">
             <i className="ti ti-x"></i>
           </button>
+        </div>
+
+        {/* Big logo placed above the Home/menu links in mobile menu drawer */}
+        <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+          <img 
+            src="/logo.jpg" 
+            alt="KSU CUSAT Logo" 
+            style={{ 
+              width: '100%', 
+              maxHeight: '76px', 
+              objectFit: 'contain', 
+              borderRadius: '8px',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
+            }} 
+          />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', overflowY: 'auto', flex: 1 }}>
