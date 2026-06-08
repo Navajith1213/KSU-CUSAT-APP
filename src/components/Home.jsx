@@ -172,7 +172,7 @@ export default function Home({
           <div className="stat-item">
             <div className="stat-icon"><i className="ti ti-bed"></i></div>
             <div className="stat-val">{boysPgs.length + girlsPgs.length + hostels.length}</div>
-            <div className="stat-lbl">Housing</div>
+            <div className="stat-lbl">PG Accommodations</div>
           </div>
           <div className="stat-item">
             <div className="stat-icon"><i className="ti ti-coffee"></i></div>
