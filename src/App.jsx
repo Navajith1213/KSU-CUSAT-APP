@@ -587,7 +587,7 @@ export default function App() {
         )}
 
         {activeModule === 'academic_resources' && (
-          <AcademicResources />
+          <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />
         )}
 
         {activeModule === 'dept_dashboard' && userRole === 'dept_admin' && (

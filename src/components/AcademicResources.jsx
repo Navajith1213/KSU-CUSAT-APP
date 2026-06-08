@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 
-export default function AcademicResources() {
+export default function AcademicResources({ userRole, setShowAuthModal }) {
   const [resources, setResources] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [activeDepartment, setActiveDepartment] = useState('');
@@ -9,8 +9,10 @@ export default function AcademicResources() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchResources();
-  }, []);
+    if (userRole !== 'user') {
+      fetchResources();
+    }
+  }, [userRole]);
 
   const fetchResources = async () => {
     try {
@@ -44,6 +46,30 @@ export default function AcademicResources() {
     if (activeType !== 'All' && r.resource_type !== activeType) return false;
     return true;
   });
+
+  if (userRole === 'user') {
+    return (
+      <div className="fade-in-section" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+        <div className="card" style={{ textAlign: 'center', maxWidth: '420px', padding: '48px 32px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
+          <div style={{ 
+            width: '80px', height: '80px', background: '#fffbeb', borderRadius: '50%', 
+            display: 'flex', alignItems: 'center', justifyContent: 'center', 
+            margin: '0 auto 20px auto' 
+          }}>
+            <i className="ti ti-lock" style={{ fontSize: '36px', color: '#f59e0b' }}></i>
+          </div>
+          <h2 style={{ fontSize: '24px', marginBottom: '12px', color: '#0f172a' }}>Locked Resources</h2>
+          <p style={{ color: '#475569', marginBottom: '28px', lineHeight: '1.6', fontSize: '15px' }}>
+            Please register or log in to access free notes, previous year question papers, and other academic materials!
+          </p>
+          <button className="btn-primary" onClick={() => setShowAuthModal(true)} style={{ width: '100%', padding: '14px', fontSize: '15px' }}>
+            <i className="ti ti-user-plus" style={{ marginRight: '8px' }}></i>
+            Register / Log In
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fade-in-section">
