@@ -86,7 +86,7 @@ export default function Navbar({
               height: '40px', 
               objectFit: 'contain', 
               display: 'block',
-              filter: theme === 'dark' ? 'none' : 'invert(1)',
+              filter: theme === 'dark' ? 'invert(1) brightness(2)' : 'none',
               mixBlendMode: theme === 'dark' ? 'screen' : 'multiply'
             }} 
           />
@@ -227,9 +227,7 @@ export default function Navbar({
               width: '100%', 
               maxHeight: '76px', 
               objectFit: 'contain', 
-              borderRadius: '8px',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
-              filter: theme === 'dark' ? 'none' : 'invert(1)',
+              filter: theme === 'dark' ? 'invert(1) brightness(2)' : 'none',
               mixBlendMode: theme === 'dark' ? 'screen' : 'multiply'
             }} 
           />
