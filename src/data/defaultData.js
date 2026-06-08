@@ -86,26 +86,7 @@ export const defaultBoysPGs = [
 // <!--BOYSPGS_END-->
 
 // <!--GIRLSPGS_START-->
-export const defaultGirlsPGs = [
-  {
-    "name": "Green Nest Ladies PG",
-    "location": "South Kalamassery",
-    "rent": "₹7000/month",
-    "food": "Included",
-    "contact": "+91-9991112244",
-    "rooms": "Double",
-    "gmapsLink": ""
-  },
-  {
-    "name": "CUSAT Girls Hostel",
-    "location": "Inside Campus",
-    "rent": "₹5000/month",
-    "food": "Mess available",
-    "contact": "+91-9991112222",
-    "rooms": "Double sharing",
-    "gmapsLink": ""
-  }
-];
+export const defaultGirlsPGs = [];
 // <!--GIRLSPGS_END-->
 
 // <!--FOODSPOTS_START-->
@@ -113,14 +94,14 @@ export const defaultFoodSpots = [
   {
     "name": "Campus Canteen",
     "location": "Near Main Block",
-    "description": "Meals, tea, snacks",
+    "specialty": "Meals, tea, snacks",
     "timing": "8 AM - 6 PM",
     "gmapsLink": ""
   },
   {
     "name": "Evening Snack Point",
     "location": "Hostel Road",
-    "description": "Chai, puffs, sandwiches",
+    "specialty": "Chai, puffs, sandwiches",
     "timing": "4 PM - 10 PM",
     "gmapsLink": ""
   }
@@ -149,17 +130,21 @@ export const defaultRestaurants = [
 // <!--AMENITIES_START-->
 export const defaultAmenities = [
   {
-    "name": "CUSAT Post Office",
-    "location": "Near School of Engineering",
-    "category": "Post Office",
-    "details": "Speed post, registered post, savings bank, and standard mailing services.",
+    "name": "Medical Store",
+    "location": "University Road",
+    "details": "Open till 10 PM",
     "gmapsLink": ""
   },
   {
-    "name": "Federal Bank ATM",
-    "location": "Near Administrative Block",
-    "category": "Banking / ATM",
-    "details": "24/7 ATM service with cash withdrawal and deposit facilities.",
+    "name": "Laundry Service",
+    "location": "Hostel Side Gate",
+    "details": "Pickup available",
+    "gmapsLink": ""
+  },
+  {
+    "name": "Stationery Shop",
+    "location": "Campus Entrance",
+    "details": "Printout and photocopy available",
     "gmapsLink": ""
   }
 ];
@@ -198,7 +183,7 @@ export const defaultContacts = [
     "phone": "+91-484-2577290",
     "email": "cs@cusat.ac.in",
     "address": "",
-    "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
+    "gmapsLink": "https://maps.app.goo.gl/HXcN7gAxBZykuJFo6"
   },
   {
     "name": "Department of Biotechnology ",
@@ -208,18 +193,11 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   },
   {
-    "name": "Department of Computer Application ",
-    "phone": "0484 - 2577602",
-    "email": "dcahod@cusat.ac.in",
-    "address": "This department is bestowed with an experienced team of faculty members with an excellent academic track record and proficiency in data science, machine learning and cyber security.",
-    "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac"
-  },
-  {
-    "name": "Centre for budget studies ",
-    "phone": "04842572735 / 2077",
-    "email": "budget@cusat.ac.in",
-    "address": "Making experts in budget and finance-related issues, conducting ground-level studies, aiding state governments, and providing policy-relevant insights.",
-    "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
+    "name": "School of Legal Studies",
+    "phone": "+91 9383445550",
+    "email": "cusatlegalstudents@gmail.com",
+    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education, and research-oriented approach. ",
+    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   }
 ];
 // <!--CONTACTS_END-->
