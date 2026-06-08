@@ -202,7 +202,7 @@ export const defaultContacts = [
     "phone": "+91-484-2577290",
     "email": "cs@cusat.ac.in",
     "address": "",
-    "gmapsLink": "https://maps.app.goo.gl/HXcN7gAxBZykuJFo6"
+    "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
   },
   {
     "name": "Department of Biotechnology ",
