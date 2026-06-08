@@ -10,8 +10,13 @@ export function CalendarForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           <input value={value.title} onChange={(e) => onChange({ ...value, title: e.target.value })} />
         </div>
         <div className="form-group">
-          <label>Date *</label>
-          <input type="date" value={value.date} onChange={(e) => onChange({ ...value, date: e.target.value })} />
+          <label>Date (dd/mm/yyyy) *</label>
+          <input 
+            type="text" 
+            value={value.date || ''} 
+            onChange={(e) => onChange({ ...value, date: e.target.value })} 
+            placeholder="e.g. 15/08/2026"
+          />
         </div>
         <div className="form-group">
           <label>Type</label>
