@@ -414,6 +414,7 @@ export default function App() {
             clubs={clubs}
             setActiveModule={setActiveModule}
             setShowAuthModal={setShowAuthModal}
+            loggedStudent={loggedStudent}
           />
         )}
 

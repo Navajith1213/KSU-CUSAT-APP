@@ -11,34 +11,31 @@ export default function Home({
   amenities,
   clubs,
   setActiveModule,
-  setShowAuthModal
+  setShowAuthModal,
+  loggedStudent
 }) {
-  const [loggedStudent, setLoggedStudent] = useState(null);
   const [queryCount, setQueryCount] = useState(0);
 
-  // Check student session on mount/focus
+  // Fetch active queries count for logged student
   useEffect(() => {
-    try {
-      const session = sessionStorage.getItem('student_session');
-      if (session) {
-        const student = JSON.parse(session);
-        setLoggedStudent(student);
-
-        // Fetch query count
-        if (hasSupabaseConfig) {
-          supabase
-            .from('complaints')
-            .select('id', { count: 'exact', head: true })
-            .then(({ count, error }) => {
-              if (!error) setQueryCount(count || 0);
-            });
-        } else {
-          const mockHistory = JSON.parse(localStorage.getItem(`mock_queries_${student.email}`) || '[]');
-          setQueryCount(mockHistory.length);
-        }
-      }
-    } catch (_) {}
-  }, []);
+    if (!loggedStudent) {
+      setQueryCount(0);
+      return;
+    }
+    
+    if (hasSupabaseConfig) {
+      supabase
+        .from('complaints')
+        .select('id', { count: 'exact', head: true })
+        .eq('student_email', loggedStudent.email)
+        .then(({ count, error }) => {
+          if (!error) setQueryCount(count || 0);
+        });
+    } else {
+      const mockHistory = JSON.parse(localStorage.getItem(`mock_queries_${loggedStudent.email}`) || '[]');
+      setQueryCount(mockHistory.length);
+    }
+  }, [loggedStudent]);
 
   const categories = [
     { 
