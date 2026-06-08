@@ -322,3 +322,53 @@ export const defaultContacts = [
   }
 ];
 // <!--CONTACTS_END-->
+
+// <!--HOSTELS_START-->
+export const defaultHostels = [
+  {
+    "name": "Sahara Hostel (Men's)",
+    "location": "CUSAT Campus, Kalamassery, Kochi - 682022",
+    "fees": "₹1500 / month (caution deposit extra)",
+    "food": "Mess available (charges based on attendance)",
+    "contact": "0484-2575313",
+    "wardenContact": "0484-2575313",
+    "secretaryContact": "9446077973",
+    "rooms": "Double sharing & Triple sharing",
+    "gmapsLink": "https://maps.app.goo.gl/rDEXsU5uSrmF6p4u6"
+  },
+  {
+    "name": "Aiswarya Ladies Hostel",
+    "location": "CUSAT Campus, Kalamassery, Kochi - 682022",
+    "fees": "₹1500 / month",
+    "food": "Mess available (veg & non-veg)",
+    "contact": "0484-2576011",
+    "wardenContact": "0484-2576011",
+    "secretaryContact": "8714799817",
+    "rooms": "Double sharing",
+    "gmapsLink": "https://maps.app.goo.gl/9y5HqC26oU5rB8JRA"
+  },
+  {
+    "name": "Sarovar Hostel (Men's)",
+    "location": "CUSAT Campus, Kalamassery, Kochi - 682022",
+    "fees": "₹1600 / month",
+    "food": "Mess available",
+    "contact": "0484-2575122",
+    "wardenContact": "0484-2575122",
+    "secretaryContact": "9846097149",
+    "rooms": "Single & Double sharing",
+    "gmapsLink": "https://maps.app.goo.gl/8e2BvHnWe2eSPkva6"
+  },
+  {
+    "name": "Athulya Ladies Hostel",
+    "location": "CUSAT Campus, Kalamassery, Kochi - 682022",
+    "fees": "₹1500 / month",
+    "food": "Mess available",
+    "contact": "0484-2576012",
+    "wardenContact": "0484-2576012",
+    "secretaryContact": "8281063499",
+    "rooms": "Double sharing",
+    "gmapsLink": "https://maps.app.goo.gl/X2z2fgsnSYovNe357"
+  }
+];
+// <!--HOSTELS_END-->
+

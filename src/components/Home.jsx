@@ -5,6 +5,7 @@ export default function Home({
   academicEvents,
   boysPgs,
   girlsPgs,
+  hostels = [],
   foodSpots,
   restaurants,
   amenities,
@@ -69,6 +70,13 @@ export default function Home({
       description: 'Browse girls-only PG accommodations and hostels around CUSAT with food availability, rent ranges, and contact details.'
     },
     {
+      id: 'hostels',
+      title: 'College Hostels',
+      icon: 'ti-building',
+      key: 'H',
+      description: 'Browse official CUSAT university/college hostels with warden details, secretaries contacts, fee structures, and mess details.'
+    },
+    {
       id: 'food',
       title: 'Evening Tea Spots',
       icon: 'ti-coffee',
@@ -130,7 +138,7 @@ export default function Home({
             <div className="stat-lbl">Calendar Events</div>
           </div>
           <div className="stat-item">
-            <div className="stat-val">{boysPgs.length + girlsPgs.length}</div>
+            <div className="stat-val">{boysPgs.length + girlsPgs.length + hostels.length}</div>
             <div className="stat-lbl">Accommodations</div>
           </div>
           <div className="stat-item">

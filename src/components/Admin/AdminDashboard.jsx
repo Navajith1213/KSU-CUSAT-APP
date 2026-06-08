@@ -3,6 +3,7 @@ import {
   CalendarForm,
   ContactForm,
   PGForm,
+  HostelForm,
   FoodSpotForm,
   RestaurantForm,
   AmenityForm,
@@ -29,6 +30,8 @@ export default function AdminDashboard({
   setBoysPgs,
   girlsPgs,
   setGirlsPgs,
+  hostels,
+  setHostels,
   foodSpots,
   setFoodSpots,
   restaurants,
@@ -49,6 +52,7 @@ export default function AdminDashboard({
   const [newEvent, setNewEvent] = useState({ title: '', date: '', type: 'academic' });
   const [newBoysPg, setNewBoysPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
   const [newGirlsPg, setNewGirlsPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
+  const [newHostel, setNewHostel] = useState({ name: '', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
   const [newFoodSpot, setNewFoodSpot] = useState({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
   const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
   const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', category: '', gmapsLink: '' });
@@ -59,6 +63,7 @@ export default function AdminDashboard({
     if (type === 'calendar') setNewEvent({ title: '', date: '', type: 'academic' });
     if (type === 'boysPgs') setNewBoysPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
     if (type === 'girlsPgs') setNewGirlsPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
+    if (type === 'hostels') setNewHostel({ name: '', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
     if (type === 'food') setNewFoodSpot({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
     if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
     if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', category: '', gmapsLink: '' });
@@ -71,6 +76,7 @@ export default function AdminDashboard({
       calendar: { value: newEvent, setValue: setNewEvent, list: academicEvents, setList: setAcademicEvents, required: ['title', 'date'] },
       boysPgs: { value: newBoysPg, setValue: setNewBoysPg, list: boysPgs, setList: setBoysPgs, required: ['name', 'location', 'contact'] },
       girlsPgs: { value: newGirlsPg, setValue: setNewGirlsPg, list: girlsPgs, setList: setGirlsPgs, required: ['name', 'location', 'contact'] },
+      hostels: { value: newHostel, setValue: setNewHostel, list: hostels, setList: setHostels, required: ['name', 'location', 'contact'] },
       food: { value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots, required: ['name', 'location'] },
       restaurants: { value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants, required: ['name', 'location'] },
       amenities: { value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities, required: ['name', 'location', 'category'] },
@@ -104,6 +110,7 @@ export default function AdminDashboard({
     if (type === 'calendar') setNewEvent(item);
     if (type === 'boysPgs') setNewBoysPg(item);
     if (type === 'girlsPgs') setNewGirlsPg(item);
+    if (type === 'hostels') setNewHostel(item);
     if (type === 'food') setNewFoodSpot({
       name: item.name || '',
       location: item.location || '',
@@ -151,6 +158,7 @@ export default function AdminDashboard({
           ['contacts', 'Contacts'],
           ['boysPgs', "Boys PG's"],
           ['girlsPgs', "Girls PG's"],
+          ['hostels', 'College Hostels'],
           ['food', 'Tea Spots'],
           ['restaurants', 'Restaurants'],
           ['amenities', 'Amenities'],
@@ -251,6 +259,28 @@ export default function AdminDashboard({
               <div className="row-actions">
                 <button className="btn-edit" onClick={() => handleEdit('girlsPgs', idx, item)}>Edit</button>
                 <button className="btn-danger" onClick={() => handleDelete(setGirlsPgs, girlsPgs, idx)}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {adminSection === 'hostels' && (
+        <div>
+          <HostelForm
+            value={newHostel}
+            onChange={setNewHostel}
+            onSubmit={() => addOrUpdateItem('hostels')}
+            onCancel={() => cancelEdit('hostels')}
+            isEdit={editIndex !== null}
+          />
+          <br />
+          {hostels.map((item, idx) => (
+            <div className="event-item" key={idx}>
+              <span>{item.name}</span>
+              <div className="row-actions">
+                <button className="btn-edit" onClick={() => handleEdit('hostels', idx, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setHostels, hostels, idx)}>Delete</button>
               </div>
             </div>
           ))}

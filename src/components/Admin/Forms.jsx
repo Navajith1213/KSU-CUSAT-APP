@@ -95,27 +95,35 @@ export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
       <div className="form-grid">
         <div className="form-group">
           <label>Name *</label>
-          <input value={value.name} onChange={(e) => onChange({ ...value, name: e.target.value })} />
+          <input value={value.name || ''} onChange={(e) => onChange({ ...value, name: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Location *</label>
-          <input value={value.location} onChange={(e) => onChange({ ...value, location: e.target.value })} />
+          <input value={value.location || ''} onChange={(e) => onChange({ ...value, location: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Fees</label>
-          <input value={value.fees} onChange={(e) => onChange({ ...value, fees: e.target.value })} />
+          <input value={value.fees || ''} onChange={(e) => onChange({ ...value, fees: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Food</label>
-          <input value={value.food} onChange={(e) => onChange({ ...value, food: e.target.value })} />
+          <input value={value.food || ''} onChange={(e) => onChange({ ...value, food: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Contact *</label>
-          <input value={value.contact} onChange={(e) => onChange({ ...value, contact: e.target.value })} />
+          <input value={value.contact || ''} onChange={(e) => onChange({ ...value, contact: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Warden's Contact Number</label>
+          <input value={value.wardenContact || ''} onChange={(e) => onChange({ ...value, wardenContact: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Secretaries Contact Number (Mess/Hostel)</label>
+          <input value={value.secretaryContact || ''} onChange={(e) => onChange({ ...value, secretaryContact: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Rooms</label>
-          <input value={value.rooms} onChange={(e) => onChange({ ...value, rooms: e.target.value })} />
+          <input value={value.rooms || ''} onChange={(e) => onChange({ ...value, rooms: e.target.value })} />
         </div>
         <div className="form-group">
           <label>Google Maps Link</label>

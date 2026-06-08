@@ -6,6 +6,8 @@ const FIELD_LABELS = {
   fees: 'Fees',
   food: 'Food / Mess',
   contact: 'Contact Info',
+  wardenContact: "Warden's Contact",
+  secretaryContact: 'Secretaries Contact (Mess/Hostel)',
   rooms: 'Room Type',
   rent: 'Rent',
   specialty: 'Specialty',

@@ -20,7 +20,11 @@ export default function QueryPanel({ loggedStudent }) {
     if (!hasSupabaseConfig) {
       // Fallback mock history using local storage if Supabase is offline
       const mockHistory = localStorage.getItem(`mock_queries_${studentEmail}`) || '[]';
-      setComplaints(JSON.parse(mockHistory));
+      try {
+        setComplaints(JSON.parse(mockHistory));
+      } catch (_) {
+        setComplaints([]);
+      }
       setIsLoading(false);
       return;
     }

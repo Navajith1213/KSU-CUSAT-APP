@@ -26,6 +26,31 @@ export default function AuthModal({
   const [phone, setPhone] = useState('');
   const [isAdminAuthPassed, setIsAdminAuthPassed] = useState(false);
 
+  // Rate limiting: lock login after 5 failed attempts within 60 seconds
+  const loginAttempts = useRef([]);
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_MS = 30000; // 30 second lockout
+
+  const isRateLimited = () => {
+    const now = Date.now();
+    // Keep only attempts within the last 60 seconds
+    loginAttempts.current = loginAttempts.current.filter(t => now - t < 60000);
+    if (loginAttempts.current.length >= MAX_ATTEMPTS) {
+      const oldest = loginAttempts.current[0];
+      const remaining = Math.ceil((LOCKOUT_MS - (now - oldest)) / 1000);
+      if (remaining > 0) {
+        setErrorMsg(`Too many login attempts. Please wait ${remaining} seconds before trying again.`);
+        return true;
+      }
+      loginAttempts.current = [];
+    }
+    return false;
+  };
+
+  const recordFailedAttempt = () => {
+    loginAttempts.current.push(Date.now());
+  };
+
   // Secret admin access: triple-click Student Portal within 5 seconds
   const clickTimestamps = useRef([]);
   const handleStudentTabClick = () => {
@@ -86,6 +111,7 @@ export default function AuthModal({
 
   const handleStudentLogin = async (e) => {
     e.preventDefault();
+    if (isRateLimited()) return;
     if (!hasSupabaseConfig) {
       // Mock student login fallback for testing if Supabase isn't configured yet
       if (email === 'student@cusat.ac.in' && password === 'student123') {
@@ -100,6 +126,7 @@ export default function AuthModal({
         setShowAuthModal(false);
         alert('Demo Student Logged In.');
       } else {
+        recordFailedAttempt();
         alert(
           'Supabase is not configured yet.\n\nTo try out the portal right away without Supabase:\nUse Email: student@cusat.ac.in\nUse Password: student123'
         );
@@ -128,7 +155,8 @@ export default function AuthModal({
       setShowAuthModal(false);
       alert(`Welcome back, ${studentData.full_name}!`);
     } catch (err) {
-      setErrorMsg(err.message);
+      recordFailedAttempt();
+      setErrorMsg('Login failed. Please check your email and password.');
     } finally {
       setIsLoading(false);
     }
@@ -160,12 +188,14 @@ export default function AuthModal({
 
   const handleAdminLogin = async (e) => {
     e.preventDefault();
+    if (isRateLimited()) return;
     if (!hasSupabaseConfig) {
       // Mock admin login fallback
       if (email === 'navajith1122@gmail.com' && password === 'admin123') {
         setIsAdminAuthPassed(true);
         alert('Admin Email & Password verified (Demo Mode)! Please enter your Git repo settings next.');
       } else {
+        recordFailedAttempt();
         alert(
           'Supabase is not configured yet.\n\nTo try out the Admin section right away:\nUse Email: navajith1122@gmail.com\nUse Password: admin123'
         );
@@ -188,7 +218,8 @@ export default function AuthModal({
         throw new Error('This account does not have Admin access.');
       }
     } catch (err) {
-      setErrorMsg(err.message);
+      recordFailedAttempt();
+      setErrorMsg('Login failed. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }

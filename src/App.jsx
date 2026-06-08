@@ -14,6 +14,7 @@ import {
   defaultEvents,
   defaultBoysPGs,
   defaultGirlsPGs,
+  defaultHostels,
   defaultFoodSpots,
   defaultRestaurants,
   defaultAmenities,
@@ -62,6 +63,7 @@ export default function App() {
   const [academicEvents, setAcademicEvents] = useState(defaultEvents);
   const [boysPgs, setBoysPgs] = useState(defaultBoysPGs);
   const [girlsPgs, setGirlsPgs] = useState(defaultGirlsPGs);
+  const [hostels, setHostels] = useState(defaultHostels);
   const [foodSpots, setFoodSpots] = useState(defaultFoodSpots);
   const [restaurants, setRestaurants] = useState(defaultRestaurants);
   const [amenities, setAmenities] = useState(defaultAmenities);
@@ -75,6 +77,7 @@ export default function App() {
   // Search/Filter states
   const [boysPgSearch, setBoysPgSearch] = useState('');
   const [girlsPgSearch, setGirlsPgSearch] = useState('');
+  const [hostelSearch, setHostelSearch] = useState('');
   const [foodSearch, setFoodSearch] = useState('');
   const [restaurantSearch, setRestaurantSearch] = useState('');
   const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
@@ -137,7 +140,7 @@ export default function App() {
       setShowAuthModal(false);
       alert('Authenticated successfully! Admin Access unlocked.');
     } catch (err) {
-      alert(`Authentication failed: ${err.message}. Please check your credentials and token permissions.`);
+      alert('Authentication failed. Please check your credentials and token permissions.');
     } finally {
       setIsPublishing(false);
       setPublishingStatus('');
@@ -177,7 +180,7 @@ export default function App() {
 
     try {
       // 1. Fetch current defaultData.js contents
-      console.log('Fetching file from GitHub API:', fetchUrl);
+      // Fetch file from GitHub API
       let getRes;
       try {
         getRes = await fetch(fetchUrl, {
@@ -200,28 +203,40 @@ export default function App() {
     } catch (getErr) {
       setIsPublishing(false);
       setPublishingStatus('');
-      alert(`Publishing failed: ${getErr.message}`);
+      alert('Publishing failed: Could not fetch the latest file from GitHub. Please check your connection and try again.');
       return;
     }
 
     setPublishingStatus('Formatting updated data and updating source code...');
 
+    // Sanitize text fields in data arrays to strip any embedded HTML/script tags
+    const stripTags = (str) => typeof str === 'string' ? str.replace(/<[^>]*>/g, '') : str;
+    const sanitizeObj = (obj) => {
+      const cleaned = {};
+      for (const key in obj) {
+        cleaned[key] = typeof obj[key] === 'string' ? stripTags(obj[key]) : obj[key];
+      }
+      return cleaned;
+    };
+    const sanitizeArray = (arr) => Array.isArray(arr) ? arr.map(sanitizeObj) : arr;
+
     let updatedData = '';
     try {
-      // 2. Perform text replacements using comments markers
+      // 2. Perform text replacements using comments markers (with sanitized data)
       updatedData = dataContent;
-      updatedData = replaceSection(updatedData, '// <!--EVENTS_START-->', '// <!--EVENTS_END-->', `export const defaultEvents = ${JSON.stringify(academicEvents, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--BOYSPGS_START-->', '// <!--BOYSPGS_END-->', `export const defaultBoysPGs = ${JSON.stringify(boysPgs, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--GIRLSPGS_START-->', '// <!--GIRLSPGS_END-->', `export const defaultGirlsPGs = ${JSON.stringify(girlsPgs, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--FOODSPOTS_START-->', '// <!--FOODSPOTS_END-->', `export const defaultFoodSpots = ${JSON.stringify(foodSpots, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--RESTAURANTS_START-->', '// <!--RESTAURANTS_END-->', `export const defaultRestaurants = ${JSON.stringify(restaurants, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `export const defaultAmenities = ${JSON.stringify(amenities, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--CLUBS_START-->', '// <!--CLUBS_END-->', `export const defaultClubs = ${JSON.stringify(clubs, null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--CONTACTS_START-->', '// <!--CONTACTS_END-->', `export const defaultContacts = ${JSON.stringify(contacts, null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--EVENTS_START-->', '// <!--EVENTS_END-->', `export const defaultEvents = ${JSON.stringify(sanitizeArray(academicEvents), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--BOYSPGS_START-->', '// <!--BOYSPGS_END-->', `export const defaultBoysPGs = ${JSON.stringify(sanitizeArray(boysPgs), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--GIRLSPGS_START-->', '// <!--GIRLSPGS_END-->', `export const defaultGirlsPGs = ${JSON.stringify(sanitizeArray(girlsPgs), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--HOSTELS_START-->', '// <!--HOSTELS_END-->', `export const defaultHostels = ${JSON.stringify(sanitizeArray(hostels), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--FOODSPOTS_START-->', '// <!--FOODSPOTS_END-->', `export const defaultFoodSpots = ${JSON.stringify(sanitizeArray(foodSpots), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--RESTAURANTS_START-->', '// <!--RESTAURANTS_END-->', `export const defaultRestaurants = ${JSON.stringify(sanitizeArray(restaurants), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `export const defaultAmenities = ${JSON.stringify(sanitizeArray(amenities), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--CLUBS_START-->', '// <!--CLUBS_END-->', `export const defaultClubs = ${JSON.stringify(sanitizeArray(clubs), null, 2)};`);
+      updatedData = replaceSection(updatedData, '// <!--CONTACTS_START-->', '// <!--CONTACTS_END-->', `export const defaultContacts = ${JSON.stringify(sanitizeArray(contacts), null, 2)};`);
     } catch (replaceErr) {
       setIsPublishing(false);
       setPublishingStatus('');
-      alert(`Publishing failed (marker replacement): ${replaceErr.message}`);
+      alert('Publishing failed: Could not process the data update. Please try again.');
       return;
     }
 
@@ -233,7 +248,7 @@ export default function App() {
 
       // 4. PUT updated file to GitHub (with 409 retry logic)
       const attemptPut = async (sha) => {
-        console.log('Sending PUT request to commit changes to GitHub API:', fetchUrl);
+        // Submit commit to GitHub API
         const putRes = await fetch(fetchUrl, {
           method: 'PUT',
           headers: {
@@ -254,7 +269,7 @@ export default function App() {
       try {
         putRes = await attemptPut(fileSha);
       } catch (putFetchErr) {
-        throw new Error(`[PUT upload phase] Network/CORS error: ${putFetchErr.message}`);
+        throw new Error('Network error while uploading changes. Please check your connection and try again.');
       }
 
       // If 409 conflict (SHA mismatch), re-fetch latest SHA and retry once
@@ -282,13 +297,14 @@ export default function App() {
           const errDetails = await putRes.json();
           errText = errDetails.message || errText;
         } catch (_) {}
-        throw new Error(`[PUT upload phase] GitHub Commit Rejected: ${errText} (status: ${putRes.status})`);
+        throw new Error('GitHub rejected the commit. Please try again or re-authenticate.');
       }
 
       setUnsavedChanges(false);
       alert('Success! Changes committed to your repository. GitHub Pages will build and deploy the update in 1-2 minutes.');
     } catch (putErr) {
       alert(`Publishing failed: ${putErr.message}`);
+      console.error('Publish error (for debugging):', putErr);
     } finally {
       setIsPublishing(false);
       setPublishingStatus('');
@@ -310,6 +326,13 @@ export default function App() {
       contains(item.name, girlsPgSearch) ||
       contains(item.location, girlsPgSearch) ||
       contains(item.food, girlsPgSearch)
+  );
+
+  const filteredHostels = hostels.filter(
+    (item) =>
+      contains(item.name, hostelSearch) ||
+      contains(item.location, hostelSearch) ||
+      contains(item.food, hostelSearch)
   );
 
   const filteredFoodSpots = foodSpots.filter(
@@ -356,6 +379,7 @@ export default function App() {
             academicEvents={academicEvents}
             boysPgs={boysPgs}
             girlsPgs={girlsPgs}
+            hostels={hostels}
             foodSpots={foodSpots}
             restaurants={restaurants}
             amenities={amenities}
@@ -423,6 +447,26 @@ export default function App() {
             <ListingGrid
               items={filteredGirlsPgs}
               fields={['location', 'rent', 'food', 'contact', 'rooms']}
+            />
+          </div>
+        )}
+
+        {activeModule === 'hostels' && (
+          <div className="card">
+            <div className="module-header">
+              <h2>College Hostels</h2>
+            </div>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search by name, location, or food"
+                value={hostelSearch}
+                onChange={(e) => setHostelSearch(e.target.value)}
+              />
+            </div>
+            <ListingGrid
+              items={filteredHostels}
+              fields={['location', 'fees', 'food', 'contact', 'wardenContact', 'secretaryContact', 'rooms']}
             />
           </div>
         )}
@@ -521,6 +565,8 @@ export default function App() {
             setBoysPgs={setBoysPgs}
             girlsPgs={girlsPgs}
             setGirlsPgs={setGirlsPgs}
+            hostels={hostels}
+            setHostels={setHostels}
             foodSpots={foodSpots}
             setFoodSpots={setFoodSpots}
             restaurants={restaurants}
@@ -660,6 +706,14 @@ export default function App() {
                       style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
                       Tea Spots
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => setActiveModule('hostels')}
+                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                    >
+                      Hostels
                     </button>
                   </li>
                 </ul>

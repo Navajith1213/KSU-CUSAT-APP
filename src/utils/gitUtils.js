@@ -31,7 +31,8 @@ export const replaceSection = (text, start, end, replacement) => {
 export const sanitizeUrl = (url) => {
   if (!url) return '';
   const trimmed = url.trim();
-  if (trimmed.toLowerCase().startsWith('javascript:') || trimmed.toLowerCase().startsWith('data:')) {
+  const lower = trimmed.toLowerCase();
+  if (lower.startsWith('javascript:') || lower.startsWith('data:') || lower.startsWith('vbscript:') || lower.startsWith('blob:')) {
     return '#';
   }
   return trimmed;

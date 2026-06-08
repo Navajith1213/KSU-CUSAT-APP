@@ -13,6 +13,7 @@ export default function Sidebar({
     { id: 'contacts', label: 'Contacts', icon: 'ti-phone' },
     { id: 'boysPgs', label: "Boys PG's", icon: 'ti-building-community' },
     { id: 'girlsPgs', label: "Girls PG's", icon: 'ti-home-2' },
+    { id: 'hostels', label: 'College Hostels', icon: 'ti-building' },
     { id: 'food', label: 'Tea Spots', icon: 'ti-coffee' },
     { id: 'restaurants', label: 'Restaurants', icon: 'ti-tools-kitchen-2' },
     { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
