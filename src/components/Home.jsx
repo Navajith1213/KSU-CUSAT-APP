@@ -140,18 +140,18 @@ export default function Home({
       {/* Hero Welcome banner */}
       <div className="hero-section">
         {loggedStudent ? (
-          <div>
-            <h2 className="hero-title" style={{ fontSize: '32px' }}>
+          <div className="hero-content">
+            <h2 className="hero-title">
               Welcome back, {loggedStudent.full_name}!
             </h2>
             <p className="hero-subtitle">
               Your student dashboard is active. You have submitted{' '}
-              <strong style={{ color: '#0284c7' }}>{queryCount} support ticket(s)</strong>. Use the navbar tabs or
+              <strong>{queryCount} support ticket(s)</strong>. Use the navbar tabs or
               shortcut keys to search accommodations, check holidays, or file new inquiries.
             </p>
           </div>
         ) : (
-          <div>
+          <div className="hero-content">
             <h2 className="hero-title">KSU Students Portal</h2>
             <p className="hero-subtitle">
               Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find boys and girls PG
@@ -159,26 +159,33 @@ export default function Home({
             </p>
           </div>
         )}
+      </div>
 
-        {/* Quick statistics */}
+      {/* Quick statistics (Floating over hero) */}
+      <div className="quick-stats-container">
         <div className="quick-stats">
           <div className="stat-item">
+            <div className="stat-icon"><i className="ti ti-calendar-event"></i></div>
             <div className="stat-val">{academicEvents.length}</div>
-            <div className="stat-lbl">Calendar Events</div>
+            <div className="stat-lbl">Events</div>
           </div>
           <div className="stat-item">
+            <div className="stat-icon"><i className="ti ti-bed"></i></div>
             <div className="stat-val">{boysPgs.length + girlsPgs.length + hostels.length}</div>
-            <div className="stat-lbl">Accommodations</div>
+            <div className="stat-lbl">Housing</div>
           </div>
           <div className="stat-item">
+            <div className="stat-icon"><i className="ti ti-coffee"></i></div>
             <div className="stat-val">{foodSpots.length + restaurants.length}</div>
-            <div className="stat-lbl">Tea Spots</div>
+            <div className="stat-lbl">Dining</div>
           </div>
           <div className="stat-item">
+            <div className="stat-icon"><i className="ti ti-shopping-cart"></i></div>
             <div className="stat-val">{amenities.length}</div>
             <div className="stat-lbl">Amenities</div>
           </div>
           <div className="stat-item">
+            <div className="stat-icon"><i className="ti ti-users-group"></i></div>
             <div className="stat-val">{clubs.length}</div>
             <div className="stat-lbl">Clubs</div>
           </div>
