@@ -33,6 +33,15 @@ export default function Navbar({
       {/* Top Row: Brand + Auth */}
       <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
+          <img 
+            src="/logo.jpg" 
+            alt="KSU CUSAT Logo" 
+            style={{ 
+              height: '40px', 
+              objectFit: 'contain', 
+              display: 'block' 
+            }} 
+          />
         </a>
 
         <div className="navbar-actions">
@@ -61,17 +70,7 @@ export default function Navbar({
       </div>
 
       {/* Bottom Row: Navigation Links */}
-      <div className="navbar-container" style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <img 
-          src="/logo.jpg" 
-          alt="KSU CUSAT Logo" 
-          style={{ 
-            height: '46px', 
-            objectFit: 'contain', 
-            display: 'block', 
-            flexShrink: 0 
-          }} 
-        />
+      <div className="navbar-container">
         <nav className="navbar-menu">
           {navItems.map((item) => (
             <button
