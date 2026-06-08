@@ -409,6 +409,13 @@ export const defaultAmenities = [
     "details": "CUSAT Student Amenity Centre is a versatile hub located on the CUSAT campus in Kochi, offering essential facilities such as a gym, badminton court, medical clinic, student union offices, and various recreational spaces.",
     "category": "Amenity Centre",
     "gmapsLink": "https://maps.app.goo.gl/JUyaX4LgxDuTedcB7"
+  },
+  {
+    "name": "CUSAT Health Centre",
+    "location": "Amenity Centre CUSAT",
+    "details": "Cusat Doctor Consulting Office is a medical facility located on the CUSAT campus in South Kalamassery, Kochi, offering doctor consultations.",
+    "category": "Medical centre",
+    "gmapsLink": "https://maps.app.goo.gl/ZNrDPmVTrvgPoMaf8"
   }
 ];
 // <!--AMENITIES_END-->
