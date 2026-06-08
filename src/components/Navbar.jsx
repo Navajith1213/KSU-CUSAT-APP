@@ -239,7 +239,7 @@ export default function Navbar({
                 <button
                   className={`mobile-category-header ${isCatExpanded ? 'open' : ''}`}
                   onClick={() => toggleMobileCat(cat.id)}
-                  style={{ color: isCatActive ? '#0d9488' : '#0f172a' }}
+                  style={{ color: isCatActive ? '#0d9488' : 'var(--text-primary)' }}
                 >
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <i className={`ti ${cat.icon}`}></i>
@@ -292,7 +292,7 @@ export default function Navbar({
           )}
         </div>
 
-        <div style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <div style={{ marginTop: 'auto', borderTop: '1px solid var(--border-color)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {userRole === 'student' && loggedStudent && (
             <div style={{ padding: '8px 12px', fontSize: '13px', color: 'var(--text-muted)' }}>
               Logged in as: <strong>{loggedStudent.full_name}</strong>

@@ -409,7 +409,7 @@ body {
 }
 
 .status-badge.user {
-  background: #f0fdfa;
+  background: var(--bg-hover);
   color: #0d9488;
 }
 
@@ -855,7 +855,7 @@ body {
 }
 
 .navbar-link.active {
-  background: linear-gradient(135deg, #f0fdfa, #e0f2fe);
+  background: var(--bg-hover);
   color: #0d9488;
   box-shadow: 0 1px 4px rgba(13, 148, 136, 0.08);
 }
@@ -1143,7 +1143,7 @@ body {
 
 .navbar-category-btn.active-cat {
   color: #0d9488;
-  background: #f0fdfa;
+  background: var(--bg-hover);
 }
 
 /* Desktop dropdown menu card */
@@ -1198,7 +1198,7 @@ body {
 }
 
 .dropdown-item-btn.active {
-  background: #f0fdfa;
+  background: var(--bg-hover);
   color: #0d9488;
   font-weight: 600;
 }
