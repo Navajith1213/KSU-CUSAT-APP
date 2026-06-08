@@ -517,6 +517,13 @@ export const defaultContacts = [
     "email": "instrumentation@cusat.ac.in",
     "address": "The Department of Instrumentation at CUSAT is a premier center for measurement, automation, and control engineering. Originally started in 1978 as a UGC-funded university science service center, it evolved into a full-fledged teaching department in 1995. It offers B.Tech., M.Tech., and Ph.D. programs.",
     "gmapsLink": "https://maps.app.goo.gl/icU4B2pWsFTKLPnu5?g_st=ac"
+  },
+  {
+    "name": "School of Management Studies",
+    "phone": "9495995096",
+    "email": "sms@cusat.ac.in",
+    "address": "Ranked as the 2nd best B-School in Kerala, the School of Management Studies, CUSAT, delivers one of the strongest Returns on Investment (ROI) among management institutions in the country. With a rigorous merit- based student intake, SMS nurtures a cohort of high-calibre future leaders who excel academically and professionally and nurtures them through a curriculum that balances strong conceptual foundations with practical exposure.",
+    "gmapsLink": "https://maps.app.goo.gl/akMmdxe66zffsSGm9?g_st=ac"
   }
 ];
 // <!--CONTACTS_END-->
