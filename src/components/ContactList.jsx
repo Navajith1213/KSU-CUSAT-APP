@@ -43,9 +43,17 @@ export default function ContactList({ contacts }) {
                 {contact.phone && <p><strong>Office Phone:</strong> {contact.phone}</p>}
                 {contact.email && <p><strong>Email Address:</strong> {contact.email}</p>}
               </div>
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ marginTop: '12px' }}>
-                <i className="ti ti-map-2"></i> View on Maps
-              </a>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
+                <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ flex: 1, minWidth: '140px', textAlign: 'center' }}>
+                  <i className="ti ti-map-2"></i> View on Maps
+                </a>
+                
+                {contact.name === 'CUCEK' && (
+                  <a href="https://cucekuptodate.app/dashboard" target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ flex: 1, minWidth: '140px', textAlign: 'center', background: '#0ea5e9' }}>
+                    <i className="ti ti-external-link"></i> CUCEK Website
+                  </a>
+                )}
+              </div>
             </div>
           );
         }) : <p>No matching contacts found.</p>}
