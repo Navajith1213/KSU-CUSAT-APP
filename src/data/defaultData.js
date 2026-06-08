@@ -237,6 +237,13 @@ export const defaultClubs = [
     "contact": "+91-9876543211",
     "services": "Cultural events, music, dance and drama coaching",
     "gmapsLink": ""
+  },
+  {
+    "name": "Tinkerhub",
+    "location": "21/258, Cusat.P.O, Punnekkattumoola, Seaport - Airport Rd, Vidya Nagar Colony, Thrikkakara, Kalamassery, Kochi, Kerala 682022",
+    "contact": "",
+    "services": "",
+    "gmapsLink": "https://maps.app.goo.gl/e8dduxs4bRfut5868"
   }
 ];
 // <!--CLUBS_END-->
