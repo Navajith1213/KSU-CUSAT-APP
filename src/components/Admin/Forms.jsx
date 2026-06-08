@@ -74,6 +74,14 @@ export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
             placeholder="https://maps.app.goo.gl/..."
           />
         </div>
+        <div className="form-group">
+          <label>Website URL</label>
+          <input 
+            value={value.website || ''} 
+            onChange={(e) => onChange({ ...value, website: e.target.value })} 
+            placeholder="e.g. https://cucekuptodate.app/dashboard"
+          />
+        </div>
         <div className="form-group full-width">
           <label>Short Brief on Department</label>
           <textarea 

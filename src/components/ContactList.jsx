@@ -48,7 +48,13 @@ export default function ContactList({ contacts }) {
                   <i className="ti ti-map-2"></i> View on Maps
                 </a>
                 
-                {contact.name === 'CUCEK' && (
+                {contact.website && (
+                  <a href={contact.website} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ flex: 1, minWidth: '140px', textAlign: 'center', background: '#0ea5e9' }}>
+                    <i className="ti ti-external-link"></i> Visit Website
+                  </a>
+                )}
+
+                {contact.name === 'CUCEK' && !contact.website && (
                   <a href="https://cucekuptodate.app/dashboard" target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ flex: 1, minWidth: '140px', textAlign: 'center', background: '#0ea5e9' }}>
                     <i className="ti ti-external-link"></i> CUCEK Website
                   </a>
