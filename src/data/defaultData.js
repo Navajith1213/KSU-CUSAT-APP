@@ -86,7 +86,76 @@ export const defaultBoysPGs = [
 // <!--BOYSPGS_END-->
 
 // <!--GIRLSPGS_START-->
-export const defaultGirlsPGs = [];
+export const defaultGirlsPGs = [
+  {
+    "name": "Green Nest Ladies PG",
+    "location": "South Kalamassery",
+    "rent": "₹7000/month",
+    "food": "Included",
+    "contact": "+91-9991112244",
+    "rooms": "Double",
+    "gmapsLink": ""
+  },
+  {
+    "name": "CUSAT Girls Hostel",
+    "location": "Inside Campus",
+    "rent": "₹5000/month",
+    "food": "Mess available",
+    "contact": "+91-9991112222",
+    "rooms": "Double sharing",
+    "gmapsLink": ""
+  },
+  {
+    "name": "ILLIKAL HOSTEL",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "9562724077",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/ZwVMsYDySVhQz1zt9?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "AYISHA'S LADIES HOSTEL",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "7012958787",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/uFBLDMMaUbPWit389?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "MARTHOMA HOSTEL ",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "8330076255",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/syEr9gBLhSjc8h4m6",
+    "rates": []
+  },
+  {
+    "name": "BUTTERFLY HOSTEL",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "9656666646",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/SqoPFJRwsxHRdWmZ7?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "NSP",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "8086088333",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/K2MhwHnWe2eSPkva6",
+    "rates": []
+  }
+];
 // <!--GIRLSPGS_END-->
 
 // <!--FOODSPOTS_START-->
@@ -94,14 +163,14 @@ export const defaultFoodSpots = [
   {
     "name": "Campus Canteen",
     "location": "Near Main Block",
-    "specialty": "Meals, tea, snacks",
+    "description": "Meals, tea, snacks",
     "timing": "8 AM - 6 PM",
     "gmapsLink": ""
   },
   {
     "name": "Evening Snack Point",
     "location": "Hostel Road",
-    "specialty": "Chai, puffs, sandwiches",
+    "description": "Chai, puffs, sandwiches",
     "timing": "4 PM - 10 PM",
     "gmapsLink": ""
   }
@@ -130,21 +199,17 @@ export const defaultRestaurants = [
 // <!--AMENITIES_START-->
 export const defaultAmenities = [
   {
-    "name": "Medical Store",
-    "location": "University Road",
-    "details": "Open till 10 PM",
+    "name": "CUSAT Post Office",
+    "location": "Near School of Engineering",
+    "category": "Post Office",
+    "details": "Speed post, registered post, savings bank, and standard mailing services.",
     "gmapsLink": ""
   },
   {
-    "name": "Laundry Service",
-    "location": "Hostel Side Gate",
-    "details": "Pickup available",
-    "gmapsLink": ""
-  },
-  {
-    "name": "Stationery Shop",
-    "location": "Campus Entrance",
-    "details": "Printout and photocopy available",
+    "name": "Federal Bank ATM",
+    "location": "Near Administrative Block",
+    "category": "Banking / ATM",
+    "details": "24/7 ATM service with cash withdrawal and deposit facilities.",
     "gmapsLink": ""
   }
 ];
@@ -183,7 +248,7 @@ export const defaultContacts = [
     "phone": "+91-484-2577290",
     "email": "cs@cusat.ac.in",
     "address": "",
-    "gmapsLink": "https://maps.app.goo.gl/HXcN7gAxBZykuJFo6"
+    "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
   },
   {
     "name": "Department of Biotechnology ",
@@ -193,11 +258,18 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   },
   {
-    "name": "School of Legal Studies",
-    "phone": "+91 9383445550",
-    "email": "cusatlegalstudents@gmail.com",
-    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education, and research-oriented approach. ",
-    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
+    "name": "Department of Computer Application ",
+    "phone": "0484 - 2577602",
+    "email": "dcahod@cusat.ac.in",
+    "address": "This department is bestowed with an experienced team of faculty members with an excellent academic track record and proficiency in data science, machine learning and cyber security.",
+    "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac"
+  },
+  {
+    "name": "Centre for budget studies ",
+    "phone": "04842572735 / 2077",
+    "email": "budget@cusat.ac.in",
+    "address": "Making experts in budget and finance-related issues, conducting ground-level studies, aiding state governments, and providing policy-relevant insights.",
+    "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
   }
 ];
 // <!--CONTACTS_END-->
