@@ -72,7 +72,11 @@ export default function App() {
   const [gitRepo, setGitRepo] = useState(() => sessionStorage.getItem('git_repo') || '');
   const [gitPat, setGitPat] = useState(() => sessionStorage.getItem('git_pat') || '');
 
-  const [activeModule, setActiveModule] = useState('home');
+  const [activeModule, setActiveModule] = useState(() => sessionStorage.getItem('active_module') || 'home');
+
+  useEffect(() => {
+    sessionStorage.setItem('active_module', activeModule);
+  }, [activeModule]);
 
   // Main data states
   const [academicEvents, setAcademicEvents] = useState(defaultEvents);
