@@ -4,8 +4,8 @@ export default function SocialSpeedDial() {
   const [isOpen, setIsOpen] = useState(false);
 
   const socials = [
-    { name: 'Instagram', icon: 'ti ti-brand-instagram', color: '#e1306c', link: '#' },
-    { name: 'WhatsApp', icon: 'ti ti-brand-whatsapp', color: '#25d366', link: '#' },
+    { name: 'Instagram', icon: 'ti ti-brand-instagram', color: '#e1306c', link: 'https://www.instagram.com/ksu_cusat/' },
+    { name: 'WhatsApp', icon: 'ti ti-brand-whatsapp', color: '#25d366', link: 'https://whatsapp.com/channel/0029VaAiqPx4yltG70aUFP0X' },
   ];
 
   return (
