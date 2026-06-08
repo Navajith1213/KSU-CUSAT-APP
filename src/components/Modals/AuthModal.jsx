@@ -113,24 +113,7 @@ export default function AuthModal({
     e.preventDefault();
     if (isRateLimited()) return;
     if (!hasSupabaseConfig) {
-      // Mock student login fallback for testing if Supabase isn't configured yet
-      if (email === 'student@cusat.ac.in' && password === 'student123') {
-        const mockStudent = { 
-          email: 'student@cusat.ac.in', 
-          full_name: 'Demo Student',
-          phone_number: '9876543210'
-        };
-        setLoggedStudent(mockStudent);
-        setUserRole('student');
-        sessionStorage.setItem('student_session', JSON.stringify(mockStudent));
-        setShowAuthModal(false);
-        alert('Demo Student Logged In.');
-      } else {
-        recordFailedAttempt();
-        alert(
-          'Supabase is not configured yet.\n\nTo try out the portal right away without Supabase:\nUse Email: student@cusat.ac.in\nUse Password: student123'
-        );
-      }
+      alert('Supabase is not configured yet. Please configure it in .env');
       return;
     }
     setIsLoading(true);
@@ -209,16 +192,7 @@ export default function AuthModal({
     e.preventDefault();
     if (isRateLimited()) return;
     if (!hasSupabaseConfig) {
-      // Mock admin login fallback
-      if (email === 'navajith1122@gmail.com' && password === 'admin123') {
-        setIsAdminAuthPassed(true);
-        alert('Admin Email & Password verified (Demo Mode)! Please enter your Git repo settings next.');
-      } else {
-        recordFailedAttempt();
-        alert(
-          'Supabase is not configured yet.\n\nTo try out the Admin section right away:\nUse Email: navajith1122@gmail.com\nUse Password: admin123'
-        );
-      }
+      alert('Supabase is not configured yet. Please configure it in .env');
       return;
     }
     setIsLoading(true);
