@@ -722,11 +722,12 @@ export default function App() {
                   style={{ 
                     height: '40px', 
                     objectFit: 'contain', 
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)', 
-                    padding: '4px 10px', 
-                    borderRadius: '8px',
+                    backgroundColor: 'transparent', 
+                    padding: '4px 0', 
                     marginBottom: '12px',
-                    display: 'inline-block'
+                    display: 'inline-block',
+                    filter: 'invert(1) brightness(2)',
+                    mixBlendMode: 'screen'
                   }} 
                 />
                 <p>Your ultimate campus assistant for staying, dining, and navigating Cochin University of Science and Technology.</p>
