@@ -104,7 +104,7 @@ export default function JoinKSUForm({ setActiveModule }) {
             name="name"
             value={formData.name} 
             onChange={handleChange} 
-            placeholder="e.g. Navajith"
+            placeholder="e.g. Rahul M"
             required
             disabled={isSubmitting}
             className="input-field"
