@@ -11,20 +11,28 @@ export default function DepartmentDashboard({ loggedStudent }) {
   const [resourceType, setResourceType] = useState('Notes');
   const [yearSemester, setYearSemester] = useState('');
   const [driveLink, setDriveLink] = useState('');
+  const [customDepartment, setCustomDepartment] = useState(''); // For Master Admin
+
+  const isMasterAdmin = loggedStudent?.email === 'navajith1122@gmail.com';
 
   useEffect(() => {
-    if (loggedStudent?.department) {
+    if (loggedStudent?.department || isMasterAdmin) {
       fetchMyResources();
     }
   }, [loggedStudent]);
 
   const fetchMyResources = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('academic_resources')
         .select('*')
-        .eq('department', loggedStudent.department)
         .order('created_at', { ascending: false });
+
+      if (!isMasterAdmin) {
+        query = query.eq('department', loggedStudent.department);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       setResources(data || []);
@@ -37,7 +45,12 @@ export default function DepartmentDashboard({ loggedStudent }) {
 
   const handleAddResource = async (e) => {
     e.preventDefault();
-    if (!subject.trim() || !driveLink.trim()) return;
+    const finalDepartment = isMasterAdmin ? customDepartment.trim() : loggedStudent.department;
+    
+    if (!subject.trim() || !driveLink.trim() || !finalDepartment) {
+      alert("Please fill all required fields.");
+      return;
+    }
 
     // Basic Google Drive link validation
     if (!driveLink.includes('drive.google.com') && !driveLink.includes('docs.google.com')) {
@@ -48,7 +61,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
     setIsSubmitting(true);
     try {
       const newResource = {
-        department: loggedStudent.department,
+        department: finalDepartment,
         subject: subject.trim(),
         resource_type: resourceType,
         year_semester: yearSemester.trim(),
@@ -70,6 +83,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
       setSubject('');
       setYearSemester('');
       setDriveLink('');
+      if (isMasterAdmin) setCustomDepartment('');
     } catch (error) {
       alert('Error adding resource: ' + error.message);
     } finally {
@@ -81,13 +95,13 @@ export default function DepartmentDashboard({ loggedStudent }) {
     if (!window.confirm("Are you sure you want to delete this resource?")) return;
     
     try {
-      const { error } = await supabase
-        .from('academic_resources')
-        .delete()
-        .eq('id', id)
-        .eq('added_by', loggedStudent.email); // Extra security: ensure they own it
+      let query = supabase.from('academic_resources').delete().eq('id', id);
+      
+      if (!isMasterAdmin) {
+        query = query.eq('added_by', loggedStudent.email);
+      }
 
-      if (error) throw error;
+      const { error } = await query;
       
       setResources(resources.filter(r => r.id !== id));
     } catch (error) {
@@ -102,8 +116,12 @@ export default function DepartmentDashboard({ loggedStudent }) {
   return (
     <div className="fade-in-section">
       <div className="hero-section" style={{ padding: '32px 24px', marginBottom: '24px', background: 'linear-gradient(135deg, rgba(13, 148, 136, 0.05), rgba(30, 58, 138, 0.05))' }}>
-        <h1 className="hero-title" style={{ fontSize: '24px', color: '#0f766e' }}>Department Dashboard</h1>
-        <p className="hero-subtitle" style={{ marginBottom: 0 }}>Managing resources for: <strong>{loggedStudent.department}</strong></p>
+        <h1 className="hero-title" style={{ fontSize: '24px', color: '#0f766e' }}>
+          {isMasterAdmin ? 'Master Resource Manager' : 'Department Dashboard'}
+        </h1>
+        <p className="hero-subtitle" style={{ marginBottom: 0 }}>
+          {isMasterAdmin ? 'God Mode: Managing all departments' : `Managing resources for: ${loggedStudent.department}`}
+        </p>
       </div>
 
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
@@ -112,6 +130,20 @@ export default function DepartmentDashboard({ loggedStudent }) {
         <div className="card">
           <h2><i className="ti ti-file-plus" style={{ marginRight: '8px' }}></i> Add New Resource</h2>
           <form onSubmit={handleAddResource} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            
+            {isMasterAdmin && (
+              <div className="form-group" style={{ marginBottom: 0 }}>
+                <label>Department Name</label>
+                <input 
+                  type="text" 
+                  value={customDepartment} 
+                  onChange={(e) => setCustomDepartment(e.target.value)} 
+                  placeholder="e.g. Mechanical Engineering" 
+                  required 
+                />
+              </div>
+            )}
+
             <div className="form-group" style={{ marginBottom: 0 }}>
               <label>Subject / Topic Name</label>
               <input 
@@ -183,6 +215,11 @@ export default function DepartmentDashboard({ loggedStudent }) {
                       <span style={{ fontSize: '11px', background: '#e2e8f0', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
                         {resource.resource_type}
                       </span>
+                      {isMasterAdmin && (
+                        <span style={{ fontSize: '11px', background: '#fef3c7', color: '#b45309', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                          {resource.department}
+                        </span>
+                      )}
                       {resource.year_semester && <span style={{ fontSize: '12px', color: '#64748b' }}>{resource.year_semester}</span>}
                     </div>
                     <h4 style={{ margin: 0, fontSize: '15px' }}>{resource.subject}</h4>
