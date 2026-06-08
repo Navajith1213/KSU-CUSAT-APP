@@ -144,6 +144,18 @@ export default function Navbar({
             <i className="ti ti-home" style={{ fontSize: '15px' }}></i>
             Home
           </button>
+          
+          {/* External Link */}
+          <a
+            href="https://cucekuptodate.app/dashboard"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="navbar-link"
+            style={{ textDecoration: 'none' }}
+          >
+            <i className="ti ti-external-link" style={{ fontSize: '15px' }}></i>
+            CUCEK Up To Date
+          </a>
 
           {navCategories.map((cat) => {
             const isCatActive = cat.items.some(item => activeModule === item.id);
@@ -231,6 +243,18 @@ export default function Navbar({
             <i className="ti ti-home" style={{ fontSize: '16px' }}></i>
             Home
           </button>
+
+          {/* External Link Mobile */}
+          <a
+            href="https://cucekuptodate.app/dashboard"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mobile-menu-link"
+            style={{ textDecoration: 'none', fontWeight: '700' }}
+          >
+            <i className="ti ti-external-link" style={{ fontSize: '16px' }}></i>
+            CUCEK Up To Date
+          </a>
 
           {/* Categorized Collapsible Accordions */}
           {navCategories.map((cat) => {
