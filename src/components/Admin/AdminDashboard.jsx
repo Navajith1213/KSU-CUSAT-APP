@@ -50,12 +50,6 @@ export default function AdminDashboard({
   const [newAdminDept, setNewAdminDept] = useState('');
   const [isAdminsLoading, setIsAdminsLoading] = useState(false);
 
-  useEffect(() => {
-    if (adminSection === 'dept_admins') {
-      fetchDeptAdmins();
-    }
-  }, [adminSection]);
-
   const fetchDeptAdmins = async () => {
     if (!hasSupabaseConfig) return;
     setIsAdminsLoading(true);
@@ -69,6 +63,13 @@ export default function AdminDashboard({
       setIsAdminsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (adminSection === 'dept_admins') {
+      fetchDeptAdmins();
+    }
+  }, [adminSection]);
+
 
   const handleAddDeptAdmin = async (e) => {
     e.preventDefault();
