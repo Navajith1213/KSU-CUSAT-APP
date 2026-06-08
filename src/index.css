@@ -7,8 +7,8 @@
   --text-secondary: #475569;
   --text-muted: #64748b;
   --border-color: #e2e8f0;
+  --navbar-bg: rgba(255, 255, 255, 0.85);
   --border-strong: #cbd5e1;
-  --navbar-bg: #ffffff;
   --shadow-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -22,7 +22,7 @@ body.dark {
   --text-muted: #94a3b8;
   --border-color: var(--text-primary);
   --border-strong: #475569;
-  --navbar-bg: #1e293b;
+  --navbar-bg: rgba(30, 41, 59, 0.85);
   --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
@@ -778,7 +778,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: var(--navbar-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-color);
