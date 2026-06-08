@@ -33,9 +33,6 @@ export default function Navbar({
       {/* Top Row: Brand + Auth */}
       <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
-          <h2 style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '-0.02em', background: 'linear-gradient(135deg, #1e3a8a, #0d9488)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'Outfit, sans-serif' }}>
-            KSU CUSAT
-          </h2>
         </a>
 
         <div className="navbar-actions">
