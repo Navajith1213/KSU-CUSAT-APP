@@ -1,5 +1,5 @@
 import React from 'react';
-import { sanitizeUrl } from '../utils/gitUtils';
+import { sanitizeUrl } from '../utils/helpers';
 
 const FIELD_LABELS = {
   location: 'Location',

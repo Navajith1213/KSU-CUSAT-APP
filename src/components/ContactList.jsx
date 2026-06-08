@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sanitizeUrl } from '../utils/gitUtils';
+import { sanitizeUrl } from '../utils/helpers';
 
 export default function ContactList({ contacts }) {
   const [contactSearch, setContactSearch] = useState('');
