@@ -210,6 +210,13 @@ export const defaultContacts = [
     "email": "biotech@cusat.ac.in",
     "address": "Department of Biotechnology provides Msc and Integrated Msc courses for various biological field like microbiology, biotechnology etc ",
     "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
+  },
+  {
+    "name": "School of Legal Studies",
+    "phone": "+91 9383445550",
+    "email": "cusatlegalstudents@gmail.com",
+    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education, and research-oriented approach. ",
+    "gmapsLink": "https://maps.app.goo.gl/aKqA7Y17oX6b87FZA"
   }
 ];
 // <!--CONTACTS_END-->
