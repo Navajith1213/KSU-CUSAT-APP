@@ -1,5 +1,5 @@
 :root {
-  --bg-main: linear-gradient(-45deg, #fbc2eb, #a18cd1, #fbc2eb);
+  --bg-main: linear-gradient(-45deg, #e0f2fe, #93c5fd, #bfdbfe, #e0f2fe);
   --bg-card: rgba(255, 255, 255, 0.6);
   --bg-sidebar: rgba(255, 255, 255, 0.6);
   --bg-hover: rgba(255, 255, 255, 0.8);
@@ -15,7 +15,7 @@
 }
 
 body.dark {
-  --bg-main: linear-gradient(-45deg, #1a0b2e, #0f172a, #1e1b4b);
+  --bg-main: linear-gradient(-45deg, #0f172a, #1e3a8a, #172554, #0f172a);
   --bg-card: rgba(30, 41, 59, 0.6);
   --bg-sidebar: rgba(30, 41, 59, 0.6);
   --bg-hover: rgba(51, 65, 85, 0.6);
