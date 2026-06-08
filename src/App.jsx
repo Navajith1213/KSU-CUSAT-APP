@@ -11,6 +11,7 @@ import QueryPanel from './components/QueryPanel';
 import Navbar from './components/Navbar';
 import AcademicResources from './components/AcademicResources';
 import DepartmentDashboard from './components/DepartmentDashboard';
+import Chatbot from './components/Chatbot';
 
 import {
   defaultEvents,
@@ -790,6 +791,8 @@ export default function App() {
           setShowAuthModal={setShowAuthModal}
         />
       )}
+      {/* Always render chatbot globally */}
+      <Chatbot />
     </>
   );
 }

@@ -1,0 +1,46 @@
+DEPARTMENT ADMIN GUIDE: MANAGING ACADEMIC RESOURCES
+
+Welcome to the Academic Resource Management Team! As a Department Admin, you have special access to upload, manage, and delete study materials for your specific department. 
+
+Follow this quick guide to get started.
+
+--------------------------------------------------
+1. HOW TO ACCESS YOUR DASHBOARD
+--------------------------------------------------
+Because you have been designated as a Department Admin, the system will automatically recognize you based on your email address.
+
+1. Go to the website and click "Log In" in the top right corner.
+2. Under the "Student Portal" tab, log in with your designated email address and password. (If this is your first time, you must use the "Sign Up" tab with that exact same email address).
+3. Once logged in, you will notice a green "Dept Admin" badge in the top right. 
+4. Click the new "Dept Dashboard" button in your navigation menu to enter your control panel.
+
+
+--------------------------------------------------
+2. HOW TO UPLOAD A RESOURCE
+--------------------------------------------------
+Your dashboard is connected directly to the live website. Anything you upload will be instantly available to all registered students under the "Academic Resources" section.
+
+1. In your Dept Dashboard, locate the "Add New Resource" form.
+2. Subject Name: Type the name of the topic or subject (e.g., Data Structures & Algorithms).
+3. Resource Type: Select whether it is Notes, a PYQ (Previous Year Question), a Syllabus, or Other.
+4. Year / Semester: (Optional but recommended) Type the semester or year (e.g., Sem 3, 2024).
+5. Google Drive Link: Paste the shareable link to your file.
+
+*** IMPORTANT: DRIVE PERMISSIONS *** 
+Before pasting the link, you MUST ensure the Google Drive file sharing setting is set to "Anyone with the link can view". If it is restricted, students will see a "Request Access" screen instead of the file!
+
+6. Click "Add Resource".
+
+
+--------------------------------------------------
+3. HOW TO MANAGE AND DELETE RESOURCES
+--------------------------------------------------
+You have full control over the resources you have uploaded.
+
+1. On your Dept Dashboard, look at the "Uploaded Resources" list on the right side of your screen.
+2. This list shows all active materials for your department.
+3. If you uploaded a file by mistake, or if a syllabus becomes outdated, simply click the red Delete (Trash) icon next to it.
+4. The resource will be instantly removed from the database and the public website.
+
+--------------------------------------------------
+*If you experience any technical issues or need your department assignment changed, please contact the Master Admin.
