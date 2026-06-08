@@ -231,11 +231,10 @@ export default function App() {
       // 3. Encode updated file content to base64
       const base64Content = encodeBase64Utf8(updatedData);
 
-      // 4. PUT updated file to GitHub
-      console.log('Sending PUT request to commit changes to GitHub API:', fetchUrl);
-      let putRes;
-      try {
-        putRes = await fetch(fetchUrl, {
+      // 4. PUT updated file to GitHub (with 409 retry logic)
+      const attemptPut = async (sha) => {
+        console.log('Sending PUT request to commit changes to GitHub API:', fetchUrl);
+        const putRes = await fetch(fetchUrl, {
           method: 'PUT',
           headers: {
             Authorization: `token ${pat}`,
@@ -245,11 +244,36 @@ export default function App() {
           body: JSON.stringify({
             message: 'Update campus listings via Admin Portal UI',
             content: base64Content,
-            sha: fileSha
+            sha: sha
           })
         });
+        return putRes;
+      };
+
+      let putRes;
+      try {
+        putRes = await attemptPut(fileSha);
       } catch (putFetchErr) {
         throw new Error(`[PUT upload phase] Network/CORS error: ${putFetchErr.message}`);
+      }
+
+      // If 409 conflict (SHA mismatch), re-fetch latest SHA and retry once
+      if (putRes.status === 409) {
+        setPublishingStatus('SHA conflict detected — re-fetching latest version and retrying...');
+        try {
+          const refreshRes = await fetch(fetchUrl, {
+            headers: {
+              Authorization: `token ${pat}`,
+              Accept: 'application/vnd.github.v3+json'
+            }
+          });
+          if (refreshRes.ok) {
+            const refreshed = await refreshRes.json();
+            putRes = await attemptPut(refreshed.sha);
+          }
+        } catch (_) {
+          // If refresh fails, fall through to the error handler below
+        }
       }
 
       if (!putRes.ok) {
