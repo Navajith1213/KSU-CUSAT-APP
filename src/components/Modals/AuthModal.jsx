@@ -405,7 +405,7 @@ export default function AuthModal({
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="navajith1122@gmail.com"
+                    placeholder="admin@ksucusat.com"
                     required
                   />
                 </div>
