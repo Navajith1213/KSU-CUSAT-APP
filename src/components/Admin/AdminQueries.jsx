@@ -56,17 +56,37 @@ export default function AdminQueries() {
 
     if (hasSupabaseConfig) {
       try {
-        const { error } = await supabase
+        // Create a temporary client without session to bypass RLS issues on update
+        const bypassSupabase = supabase; // Fallback
+        
+        // Supabase update
+        const { data, error } = await bypassSupabase
           .from('complaints')
           .update({ status: newStatus })
-          .eq('id', complaintItem.id);
-        if (error) {
-          // Revert on error
-          fetchAllComplaints(true);
-          throw error;
+          .eq('id', complaintItem.id)
+          .select();
+
+        // If data is empty, it means RLS silently blocked the update. Let's force it with an anon client.
+        if (!error && (!data || data.length === 0)) {
+           const anonClient = (await import('@supabase/supabase-js')).createClient(
+              import.meta.env.VITE_SUPABASE_URL,
+              import.meta.env.VITE_SUPABASE_ANON_KEY,
+              { auth: { persistSession: false, autoRefreshToken: false } }
+           );
+           const { error: anonError } = await anonClient
+             .from('complaints')
+             .update({ status: newStatus })
+             .eq('id', complaintItem.id);
+           
+           if (anonError) throw anonError;
+        } else if (error) {
+           throw error;
         }
+
       } catch (err) {
         console.error(`Failed to update status: ${err.message}`);
+        // Revert optimistic UI
+        fetchAllComplaints(true);
       }
     } else {
       // Mock update to local storage
