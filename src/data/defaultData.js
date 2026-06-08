@@ -251,6 +251,13 @@ export const defaultClubs = [
     "contact": "+91 95626 42405",
     "services": "",
     "gmapsLink": "https://maps.app.goo.gl/W1Ynzeh3WUSi8PTV6"
+  },
+  {
+    "name": "Crescendo",
+    "location": "Amenity Centre",
+    "contact": " Medhini: +91 83010 47014",
+    "description": "Crescendo, the official dance club of Cochin University of Science and Technology, fosters versatility across diverse dance forms while enhancing students' creativity, teamwork, leadership, and cultural engagement, complementing their academic curriculum through holistic skill development.",
+    "gmapsLink": ""
   }
 ];
 // <!--CLUBS_END-->
