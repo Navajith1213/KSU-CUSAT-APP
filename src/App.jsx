@@ -589,7 +589,7 @@ export default function App() {
             <div className="footer-container">
               <div className="footer-brand">
                 <img 
-                  src="/logo.png" 
+                  src="/logo.jpg" 
                   alt="CUSAT Portal" 
                   style={{ 
                     height: '32px', 
