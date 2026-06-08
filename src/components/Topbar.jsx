@@ -29,7 +29,7 @@ export default function Topbar({ userRole }) {
   return (
     <div className="topbar">
       <div>
-        <h1>CUSAT Smart Student Portal</h1>
+        <h1>KSU Students Portal</h1>
         <p>Kalamassery, Kochi - campus support, accommodation and nearby essentials</p>
       </div>
       <div className="status-box">

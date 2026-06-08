@@ -115,7 +115,7 @@ export default function Home({
           </div>
         ) : (
           <div>
-            <h2 className="hero-title">Student Portal</h2>
+            <h2 className="hero-title">KSU Students Portal</h2>
             <p className="hero-subtitle">
               Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find boys and girls PG
               accommodations, tea spots, and key campus contacts.
