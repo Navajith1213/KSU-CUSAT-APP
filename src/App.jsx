@@ -666,8 +666,8 @@ export default function App() {
               </div>
               <div className="footer-contact">
                 <h4>Contact Info</h4>
-                <p><i className="ti ti-mail" style={{ marginRight: '8px' }}></i> support@cusat.ac.in</p>
-                <p><i className="ti ti-phone" style={{ marginRight: '8px' }}></i> +91 484 2577290</p>
+                <p><i className="ti ti-mail" style={{ marginRight: '8px' }}></i> ksucusatofficial@gmail.com</p>
+                <p><i className="ti ti-phone" style={{ marginRight: '8px' }}></i> Moh Rashid (President): +91 7025016468</p>
                 <p><i className="ti ti-map-pin" style={{ marginRight: '8px' }}></i> Kalamassery, Kochi, Kerala</p>
               </div>
             </div>
