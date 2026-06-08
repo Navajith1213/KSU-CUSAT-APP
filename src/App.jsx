@@ -717,7 +717,7 @@ export default function App() {
             <div className="footer-container">
               <div className="footer-brand">
                 <img 
-                  src="/logo.jpg" 
+                  src="/logo_white.png" 
                   alt="CUSAT Portal" 
                   style={{ 
                     height: '40px', 
@@ -725,9 +725,7 @@ export default function App() {
                     backgroundColor: 'transparent', 
                     padding: '4px 0', 
                     marginBottom: '12px',
-                    display: 'inline-block',
-                    filter: 'invert(1) grayscale(1) contrast(100)',
-                    mixBlendMode: 'screen'
+                    display: 'inline-block'
                   }} 
                 />
                 <p>Your ultimate campus assistant for staying, dining, and navigating Cochin University of Science and Technology.</p>
