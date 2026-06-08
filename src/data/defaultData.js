@@ -81,12 +81,70 @@ export const defaultBoysPGs = [
     "contact": "9446077973",
     "rooms": "",
     "gmapsLink": "https://maps.app.goo.gl/yZKc5A928XZXDFoU7"
+  },
+  {
+    "name": "Dreams hostel",
+    "location": "Hidayath nagar, North Kalamassery, Kalamassery, Ernakulam, Kochi, Kerala, 683503",
+    "rent": "",
+    "food": "",
+    "contact": "8592050505",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/aj4rotwod2tYNdmU7?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "Arafa Apartment",
+    "location": "Karuvally Rd, Vidya Nagar Colory, Thrikkakkara, Edappally, Kochi, Kerala, 682022",
+    "rent": "",
+    "food": "",
+    "contact": "9516445566",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/HgFWCzYGUuqvwvCH6?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "Fawami Apartment",
+    "location": "Puthuvayil, Pipeline Ring Road, Opposite Dream Flower Akademia, Soth Kalamassery, Kochi,  Kerala 682022",
+    "rent": "",
+    "food": "",
+    "contact": "9466806657",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/9Vg2gYXxf8D5hhdcA",
+    "rates": []
+  },
+  {
+    "name": "PMM Arcade Men's Hostel",
+    "location": "Hidayath nagar, North Kalamassery, Kalamassery, Ernakulam, Kochi, kerala 683503",
+    "rent": "",
+    "food": "",
+    "contact": "9961251611",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/djHdiGMpcH1xJrBbA",
+    "rates": []
   }
 ];
 // <!--BOYSPGS_END-->
 
 // <!--GIRLSPGS_START-->
 export const defaultGirlsPGs = [
+  {
+    "name": "Green Nest Ladies PG",
+    "location": "South Kalamassery",
+    "rent": "₹7000/month",
+    "food": "Included",
+    "contact": "+91-9991112244",
+    "rooms": "Double",
+    "gmapsLink": ""
+  },
+  {
+    "name": "CUSAT Girls Hostel",
+    "location": "Inside Campus",
+    "rent": "₹5000/month",
+    "food": "Mess available",
+    "contact": "+91-9991112222",
+    "rooms": "Double sharing",
+    "gmapsLink": ""
+  },
   {
     "name": "ILLIKAL HOSTEL",
     "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
@@ -181,7 +239,22 @@ export const defaultGirlsPGs = [
 // <!--GIRLSPGS_END-->
 
 // <!--FOODSPOTS_START-->
-export const defaultFoodSpots = [];
+export const defaultFoodSpots = [
+  {
+    "name": "Campus Canteen",
+    "location": "Near Main Block",
+    "description": "Meals, tea, snacks",
+    "timing": "8 AM - 6 PM",
+    "gmapsLink": ""
+  },
+  {
+    "name": "Evening Snack Point",
+    "location": "Hostel Road",
+    "description": "Chai, puffs, sandwiches",
+    "timing": "4 PM - 10 PM",
+    "gmapsLink": ""
+  }
+];
 // <!--FOODSPOTS_END-->
 
 // <!--RESTAURANTS_START-->
@@ -237,13 +310,6 @@ export const defaultClubs = [
     "contact": "+91-9876543211",
     "services": "Cultural events, music, dance and drama coaching",
     "gmapsLink": ""
-  },
-  {
-    "name": "Tinkerhub",
-    "location": "21/258, Cusat.P.O, Punnekkattumoola, Seaport - Airport Rd, Vidya Nagar Colony, Thrikkakara, Kalamassery, Kochi, Kerala 682022",
-    "contact": "",
-    "services": "",
-    "gmapsLink": "https://maps.app.goo.gl/e8dduxs4bRfut5868"
   }
 ];
 // <!--CLUBS_END-->
@@ -260,8 +326,8 @@ export const defaultContacts = [
   {
     "name": "Department of Computer Science",
     "phone": "+91-484-2577290",
-    "email": "csdir@cusat.ac.in",
-    "address": "Offers academic programs, research activities, and student workshops in Computer Science.",
+    "email": "cs@cusat.ac.in",
+    "address": "",
     "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
   },
   {
@@ -286,53 +352,60 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
   },
   {
-    "name": "Department of Physics ",
+    "name": "School of Legal Studies",
+    "phone": "9383445550",
+    "email": "cusatlegalstudents@gmail.com",
+    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education and research-oriented approach",
+    "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac"
+  },
+  {
+    "name": "Department of physics",
     "phone": "91-484-2577404",
     "email": "phys@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses in Physics.",
-    "gmapsLink": "https://maps.app.goo.gl/VftJjKzHVFNkSdmN6"
+    "address": "Provides Msc and Integrated Msc courses",
+    "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac"
   },
   {
-    "name": "Department of Mathematics ",
+    "name": "Department of Mathematics",
     "phone": "0484-2577518",
     "email": "mathscusat@gmail.com",
-    "address": "Provides Msc and Integrated Msc courses in Mathematics",
-    "gmapsLink": "https://maps.app.goo.gl/MmNFbEHa86WED2fX7"
+    "address": "Provides Msc and Integrated Msc courses",
+    "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac"
   },
   {
-    "name": "Department of Statistics ",
-    "phone": "91-484- 2575893",
+    "name": "Department of statistcs ",
+    "phone": "91-484-2575893",
     "email": "statistics@cusat.ac.in",
-    "address": "Provides Msc, Mtech, Integrated Msc in Statistics",
-    "gmapsLink": "https://maps.app.goo.gl/Gmt7uT2jNJxt89397"
+    "address": "Provides Msc, Mtech, Integrated Msc",
+    "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8"
   },
   {
-    "name": "International School Of Photonics",
-    "phone": "+91-484-2575848",
+    "name": "International School of Photonics",
+    "phone": "91-484-2575848",
     "email": "officeisp@cusat.ac.in",
     "address": "The course photonics is offered by some of the top tier institutes only",
-    "gmapsLink": "https://maps.app.goo.gl/7rvBLYz6NkVxfeFK9"
+    "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac"
   },
   {
-    "name": "School of Environmental Science ",
-    "phone": "+91-484-2577311",
+    "name": "School of Environmental Studies",
+    "phone": "91-484-2577311",
     "email": "ses@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses in Environmental Science",
-    "gmapsLink": "https://maps.app.goo.gl/DEuHbNza3r3gQpcP6"
+    "address": "Provides Msc and Integrated Msc courses",
+    "gmapsLink": "https://maps.app.goo.gl/ztNKVbkTJTQJzQCG7?g_st=ac"
   },
   {
-    "name": "DDU Kaushal Kendra(DDUKK)",
-    "phone": "+919037420475",
+    "name": "DDU Kaushal Kendra (DDUKK)",
+    "phone": "9037420475",
     "email": "kaushalkendra@cusat.ac.in",
-    "address": "",
-    "gmapsLink": "https://maps.app.goo.gl/aWcTdP8RJGKF1bPcA"
+    "address": "Provides various courses",
+    "gmapsLink": "https://maps.app.goo.gl/owd6iKjeuiiF2Qne8"
   },
   {
-    "name": "School of Management Studies",
-    "phone": "+91 9495995096",
-    "email": "sms@cusat.ac.in",
-    "address": "Ranked as the 2nd best B-School in Kerala, the School of Management Studies, CUSAT, delivers one of the strongest Returns on Investment (ROI) among management institutions in the country.",
-    "gmapsLink": "https://maps.app.goo.gl/akMmdxe66zffsSGm9?g_st=ac"
+    "name": "Department of Chemistry",
+    "phone": "91-484-2352421",
+    "email": "chem@cusat.ac.in",
+    "address": "Provides Msc and Ingrated Msc courses",
+    "gmapsLink": "https://maps.app.goo.gl/JdxahX9AziALmDBn8"
   }
 ];
 // <!--CONTACTS_END-->
