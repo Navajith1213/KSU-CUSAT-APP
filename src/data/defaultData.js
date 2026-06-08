@@ -331,7 +331,7 @@ export const defaultContacts = [
     "name": "School of Management Studies",
     "phone": "+91 9495995096",
     "email": "sms@cusat.ac.in",
-    "address": "Ranked as the 2nd best B-School in Kerala, the School of Management Studies, CUSAT, delivers one of the strongest Returns on Investment (ROI) among management institutions in the country. With a rigorous merit- based student intake, SMS nurtures a cohort of high-calibre future leaders who excel academically and professionally and nurtures them through a curriculum that balances strong conceptual foundations with practical exposure. With graduates placed in leading organizations across industries and geographies, and an alumni network that spans the globe, SMS continues to shape competent, responsible, and industry-ready management professionals.",
+    "address": "Ranked as the 2nd best B-School in Kerala, the School of Management Studies, CUSAT, delivers one of the strongest Returns on Investment (ROI) among management institutions in the country.",
     "gmapsLink": "https://maps.app.goo.gl/akMmdxe66zffsSGm9?g_st=ac"
   }
 ];
