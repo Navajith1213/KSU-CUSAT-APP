@@ -81,70 +81,12 @@ export const defaultBoysPGs = [
     "contact": "9446077973",
     "rooms": "",
     "gmapsLink": "https://maps.app.goo.gl/yZKc5A928XZXDFoU7"
-  },
-  {
-    "name": "Dreams hostel",
-    "location": "Hidayath nagar, North Kalamassery, Kalamassery, Ernakulam, Kochi, Kerala, 683503",
-    "rent": "",
-    "food": "",
-    "contact": "8592050505",
-    "rooms": "",
-    "gmapsLink": "https://maps.app.goo.gl/aj4rotwod2tYNdmU7?g_st=ac",
-    "rates": []
-  },
-  {
-    "name": "Arafa Apartment",
-    "location": "Karuvally Rd, Vidya Nagar Colory, Thrikkakkara, Edappally, Kochi, Kerala, 682022",
-    "rent": "",
-    "food": "",
-    "contact": "9516445566",
-    "rooms": "",
-    "gmapsLink": "https://maps.app.goo.gl/HgFWCzYGUuqvwvCH6?g_st=ac",
-    "rates": []
-  },
-  {
-    "name": "Fawami Apartment",
-    "location": "Puthuvayil, Pipeline Ring Road, Opposite Dream Flower Akademia, Soth Kalamassery, Kochi,  Kerala 682022",
-    "rent": "",
-    "food": "",
-    "contact": "9466806657",
-    "rooms": "",
-    "gmapsLink": "https://maps.app.goo.gl/9Vg2gYXxf8D5hhdcA",
-    "rates": []
-  },
-  {
-    "name": "PMM Arcade Men's Hostel",
-    "location": "Hidayath nagar, North Kalamassery, Kalamassery, Ernakulam, Kochi, kerala 683503",
-    "rent": "",
-    "food": "",
-    "contact": "9961251611",
-    "rooms": "",
-    "gmapsLink": "https://maps.app.goo.gl/djHdiGMpcH1xJrBbA",
-    "rates": []
   }
 ];
 // <!--BOYSPGS_END-->
 
 // <!--GIRLSPGS_START-->
 export const defaultGirlsPGs = [
-  {
-    "name": "Green Nest Ladies PG",
-    "location": "South Kalamassery",
-    "rent": "₹7000/month",
-    "food": "Included",
-    "contact": "+91-9991112244",
-    "rooms": "Double",
-    "gmapsLink": ""
-  },
-  {
-    "name": "CUSAT Girls Hostel",
-    "location": "Inside Campus",
-    "rent": "₹5000/month",
-    "food": "Mess available",
-    "contact": "+91-9991112222",
-    "rooms": "Double sharing",
-    "gmapsLink": ""
-  },
   {
     "name": "ILLIKAL HOSTEL",
     "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
@@ -239,70 +181,7 @@ export const defaultGirlsPGs = [
 // <!--GIRLSPGS_END-->
 
 // <!--FOODSPOTS_START-->
-export const defaultFoodSpots = [
-  {
-    "name": "Campus Canteen",
-    "location": "Near Main Block",
-    "description": "Meals, tea, snacks",
-    "timing": "8 AM - 6 PM",
-    "gmapsLink": ""
-  },
-  {
-    "name": "Evening Snack Point",
-    "location": "Hostel Road",
-    "description": "Chai, puffs, sandwiches",
-    "timing": "4 PM - 10 PM",
-    "gmapsLink": ""
-  },
-  {
-    "name": "Kochin House of Tea",
-    "location": "House of Tea, PKA Nagar, Thirunilath Housing Colony, South Kalamassery, Kalamassery, Ernakulam, Kerala 682033",
-    "description": "Dedicated tea spot in South Kalamassery, good if you want to try different tea options",
-    "specialty": "Dedicated tea spot in South Kalamassery, good if you want to try different tea options",
-    "timing": "24 hrs",
-    "gmapsLink": "https://maps.app.goo.gl/VjwP7gFGYUYtBEfW8?g_st=ac"
-  },
-  {
-    "name": "Tea House",
-    "location": "TVS Rd, South Kalamassery, Kalamassery, Ernakulam, Kochi, Kerala 683104",
-    "description": "Small tea-focused place with excellent ratings.",
-    "specialty": "Small tea-focused place with excellent ratings.",
-    "timing": "",
-    "gmapsLink": "https://maps.app.goo.gl/UixHSwBDax7nJcCT6?g_st=ac"
-  },
-  {
-    "name": "Ikkaante kada, Cusat",
-    "location": "Arjun Towers, University Road, Alfiya Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
-    "description": "Popular student spot for tea and quick bites, Highly rated.",
-    "specialty": "Popular student spot for tea and quick bites, Highly rated.",
-    "timing": "",
-    "gmapsLink": "https://maps.app.goo.gl/N9E3D8Yi8GLDnVdf6?g_st=ac"
-  },
-  {
-    "name": "The Tea Shop",
-    "location": "Pipeline Rd, Hidayath Nagar, Thrikkakara, HMT Kalamassery, Kochi, Kerala 683503",
-    "description": "Cozy café-style tea shop near HMT/Pipeline road",
-    "specialty": "Cozy café-style tea shop near HMT/Pipeline road",
-    "timing": "",
-    "gmapsLink": "https://maps.app.goo.gl/VtTUiBEqFQnt3eKCA?g_st=ac"
-  },
-  {
-    "name": "The MudBrew Café",
-    "location": "University Road, PKA Nagar, Alfiya Nagar, South Kalamassery, Circle, Kochi, Kerala 682033",
-    "description": "More of a café than a tea stall, but great for sitting and chatting for a while",
-    "specialty": "More of a café than a tea stall, but great for sitting and chatting for a while",
-    "timing": "11:30am-11:00pm",
-    "gmapsLink": "https://maps.app.goo.gl/ZfARYS9McrdSa2iT7?g_st=ac"
-  },
-  {
-    "name": "Dessi Cuppa",
-    "location": "Unversity of Science and Technology, 45, University Road, PKA Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
-    "description": "A longtime student favourite near the campus for chai, shakes, and snacks",
-    "specialty": "A longtime student favourite near the campus for chai, shakes, and snacks",
-    "timing": "11:00am-12:00am",
-    "gmapsLink": "https://maps.app.goo.gl/vjo6ABJUha1s8ZrPA"
-  }
-];
+export const defaultFoodSpots = [];
 // <!--FOODSPOTS_END-->
 
 // <!--RESTAURANTS_START-->
@@ -328,17 +207,59 @@ export const defaultRestaurants = [
 export const defaultAmenities = [
   {
     "name": "CUSAT Post Office",
-    "location": "Near School of Engineering",
-    "category": "Post Office",
+    "location": "Near Amenity Centre",
     "details": "Speed post, registered post, savings bank, and standard mailing services.",
-    "gmapsLink": ""
+    "category": "Post Office",
+    "gmapsLink": "https://maps.app.goo.gl/ysDzqxR4Yv3Rp1xm7"
   },
   {
     "name": "Federal Bank ATM",
-    "location": "Near Administrative Block",
-    "category": "Banking / ATM",
+    "location": "Near Le Hayat Restaurant",
     "details": "24/7 ATM service with cash withdrawal and deposit facilities.",
-    "gmapsLink": ""
+    "category": "Banking / ATM",
+    "gmapsLink": "https://maps.app.goo.gl/bW5H7W9RqQi2JE2f8"
+  },
+  {
+    "name": "State Bank of India CUSAT",
+    "location": "Near CUSAT Restaurant",
+    "details": " 24/7 ATM service with cash withdrawal and deposit facilities.",
+    "category": "ATM, Bank",
+    "gmapsLink": "https://maps.app.goo.gl/1amqX9guxGMx5W966"
+  },
+  {
+    "name": "Akshaya E Centre",
+    "location": "Near SBI Cusat",
+    "details": "Akshaya e-Centre is a government-authorized service hub providing accessible digital, financial, and utility services to the local community.",
+    "category": "Online Service provider",
+    "gmapsLink": "https://maps.app.goo.gl/spDAFkwbLDL3UuFT8"
+  },
+  {
+    "name": "Aalam Two Wheeler Workshop",
+    "location": "Pipeline road, Behind Soe Campus",
+    "details": "Aalam Two Wheeler Workshop is a highly-rated repair shop in Kochi known for providing quality service for two-wheelers at reasonable prices.",
+    "category": "Workshop",
+    "gmapsLink": "https://maps.app.goo.gl/r2mav2rB1Dd84NqC6"
+  },
+  {
+    "name": "Power House Multi Gym",
+    "location": "Above RP's Cake Reels",
+    "details": "Power House Multi Gym is a popular, budget-friendly fitness center in Kalamassery, Kochi, noted for its helpful trainers and accessible facilities.",
+    "category": "Gym",
+    "gmapsLink": "https://maps.app.goo.gl/VkpXxWwZvXHmjPoo8"
+  },
+  {
+    "name": "Indu Photos",
+    "location": "University Road, Alfiya Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
+    "details": "Indu Photos is a print shop in Kalamassery, Kochi, recognized for providing efficient services like photocopying, printing, and binding at economical rates.",
+    "category": "Printing, Studio, Stationary",
+    "gmapsLink": "https://maps.app.goo.gl/RPXKkNccuKJnUbtz8"
+  },
+  {
+    "name": "Cherupushpam Digital Press",
+    "location": "Cusat University Junction, University Road, PKA Nagar, Alfiya Nagar, South Kalamassery, Kalamassery, Kochi, Kerala 682022",
+    "details": "Cherupushpam Digital Press is a highly-rated, professional digital printing service in Kalamassery, Kochi, recognized for its quality thesis formatting, printing, and binding solutions at affordable rates.",
+    "category": "Printing, Binding, Flex Printing etc",
+    "gmapsLink": "https://maps.app.goo.gl/xV9cMJtfXfnizo1a7"
   }
 ];
 // <!--AMENITIES_END-->
@@ -349,14 +270,36 @@ export const defaultClubs = [
     "name": "CUSAT IEEE Student Branch",
     "location": "School of Engineering",
     "contact": "+91-9876543210",
-    "services": "Technical workshops, seminars, project mentoring",
+    "description": "Technical workshops, seminars, project mentoring",
     "gmapsLink": ""
   },
   {
     "name": "CUSAT Arts Club",
     "location": "University Auditorium",
     "contact": "+91-9876543211",
-    "services": "Cultural events, music, dance and drama coaching",
+    "description": "Cultural events, music, dance and drama coaching",
+    "gmapsLink": ""
+  },
+  {
+    "name": "Tinkerhub",
+    "location": "21/258, Cusat.P.O, Punnekkattumoola, Seaport - Airport Rd, Vidya Nagar Colony, Thrikkakara, Kalamassery, Kochi, Kerala 682022",
+    "contact": "Jasim: +91 70341 91969",
+    "services": "",
+    "gmapsLink": "https://maps.app.goo.gl/e8dduxs4bRfut5868",
+    "description": "TinkerSpace is a free hackerspace in Kochi built by the TinkerHub Foundation. It offers students essential hardware, mentors, and tools to collaborate, build prototypes, and master new technologies together."
+  },
+  {
+    "name": "Theatre Lovers Cusat",
+    "location": "Department of Youth Welfare,2nd Floor, Amenity Centre, Cusat",
+    "contact": "+91 95626 42405",
+    "services": "",
+    "gmapsLink": "https://maps.app.goo.gl/W1Ynzeh3WUSi8PTV6"
+  },
+  {
+    "name": "Crescendo",
+    "location": "Amenity Centre",
+    "contact": " Medhini: +91 83010 47014",
+    "description": "Crescendo, the official dance club of Cochin University of Science and Technology, fosters versatility across diverse dance forms while enhancing students' creativity, teamwork, leadership, and cultural engagement, complementing their academic curriculum through holistic skill development.",
     "gmapsLink": ""
   }
 ];
@@ -374,8 +317,8 @@ export const defaultContacts = [
   {
     "name": "Department of Computer Science",
     "phone": "+91-484-2577290",
-    "email": "cs@cusat.ac.in",
-    "address": "",
+    "email": "csdir@cusat.ac.in",
+    "address": "Offers academic programs, research activities, and student workshops in Computer Science.",
     "gmapsLink": "https://maps.app.goo.gl/VDDWBFgZX6kfkUDd6"
   },
   {
@@ -393,67 +336,60 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/PFtP9Jzq636zS3WW6?g_st=ac"
   },
   {
-    "name": "Centre for budget studies ",
+    "name": "Centre for Budget Studies ",
     "phone": "04842572735 / 2077",
     "email": "budget@cusat.ac.in",
     "address": "Making experts in budget and finance-related issues, conducting ground-level studies, aiding state governments, and providing policy-relevant insights.",
     "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
   },
   {
-    "name": "School of Legal Studies",
-    "phone": "9383445550",
-    "email": "cusatlegalstudents@gmail.com",
-    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education and research-oriented approach",
-    "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac"
-  },
-  {
-    "name": "Department of physics",
+    "name": "Department of Physics ",
     "phone": "91-484-2577404",
     "email": "phys@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac"
+    "address": "Provides Msc and Integrated Msc courses in Physics.",
+    "gmapsLink": "https://maps.app.goo.gl/VftJjKzHVFNkSdmN6"
   },
   {
-    "name": "Department of Mathematics",
+    "name": "Department of Mathematics ",
     "phone": "0484-2577518",
     "email": "mathscusat@gmail.com",
-    "address": "Provides Msc and Integrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac"
+    "address": "Provides Msc and Integrated Msc courses in Mathematics",
+    "gmapsLink": "https://maps.app.goo.gl/MmNFbEHa86WED2fX7"
   },
   {
-    "name": "Department of statistcs ",
-    "phone": "91-484-2575893",
+    "name": "Department of Statistics ",
+    "phone": "91-484- 2575893",
     "email": "statistics@cusat.ac.in",
-    "address": "Provides Msc, Mtech, Integrated Msc",
-    "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8"
+    "address": "Provides Msc, Mtech, Integrated Msc in Statistics",
+    "gmapsLink": "https://maps.app.goo.gl/Gmt7uT2jNJxt89397"
   },
   {
-    "name": "International School of Photonics",
-    "phone": "91-484-2575848",
+    "name": "International School Of Photonics",
+    "phone": "+91-484-2575848",
     "email": "officeisp@cusat.ac.in",
     "address": "The course photonics is offered by some of the top tier institutes only",
-    "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/7rvBLYz6NkVxfeFK9"
   },
   {
-    "name": "School of Environmental Studies",
-    "phone": "91-484-2577311",
+    "name": "School of Environmental Science ",
+    "phone": "+91-484-2577311",
     "email": "ses@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/ztNKVbkTJTQJzQCG7?g_st=ac"
+    "address": "Provides Msc and Integrated Msc courses in Environmental Science",
+    "gmapsLink": "https://maps.app.goo.gl/DEuHbNza3r3gQpcP6"
   },
   {
-    "name": "DDU Kaushal Kendra (DDUKK)",
-    "phone": "9037420475",
+    "name": "DDU Kaushal Kendra(DDUKK)",
+    "phone": "+919037420475",
     "email": "kaushalkendra@cusat.ac.in",
-    "address": "Provides various courses",
-    "gmapsLink": "https://maps.app.goo.gl/owd6iKjeuiiF2Qne8"
+    "address": "",
+    "gmapsLink": "https://maps.app.goo.gl/aWcTdP8RJGKF1bPcA"
   },
   {
-    "name": "Department of Chemistry",
-    "phone": "91-484-2352421",
-    "email": "chem@cusat.ac.in",
-    "address": "Provides Msc and Ingrated Msc courses",
-    "gmapsLink": "https://maps.app.goo.gl/JdxahX9AziALmDBn8"
+    "name": "School of Management Studies",
+    "phone": "+91 9495995096",
+    "email": "sms@cusat.ac.in",
+    "address": "Ranked as the 2nd best B-School in Kerala, the School of Management Studies, CUSAT, delivers one of the strongest Returns on Investment (ROI) among management institutions in the country.",
+    "gmapsLink": "https://maps.app.goo.gl/akMmdxe66zffsSGm9?g_st=ac"
   }
 ];
 // <!--CONTACTS_END-->
