@@ -5,12 +5,12 @@ export default function AdminQueries() {
   const [adminComplaints, setAdminComplaints] = useState([]);
   const [loadingQueries, setLoadingQueries] = useState(false);
 
-  const fetchAllComplaints = async () => {
-    setLoadingQueries(true);
+  const fetchAllComplaints = async (isBackground = false) => {
+    if (!isBackground) setLoadingQueries(true);
     if (!hasSupabaseConfig) {
       const allQueries = JSON.parse(localStorage.getItem('mock_all_queries') || '[]');
       setAdminComplaints(allQueries);
-      setLoadingQueries(false);
+      if (!isBackground) setLoadingQueries(false);
       return;
     }
     try {
@@ -23,7 +23,7 @@ export default function AdminQueries() {
     } catch (err) {
       console.error('Error fetching complaints from Supabase:', err.message);
     } finally {
-      setLoadingQueries(false);
+      if (!isBackground) setLoadingQueries(false);
     }
   };
 
@@ -37,7 +37,7 @@ export default function AdminQueries() {
           'postgres_changes',
           { event: '*', schema: 'public', table: 'complaints' },
           (payload) => {
-            fetchAllComplaints();
+            fetchAllComplaints(true);
           }
         )
         .subscribe();
@@ -62,7 +62,7 @@ export default function AdminQueries() {
           .eq('id', complaintItem.id);
         if (error) {
           // Revert on error
-          fetchAllComplaints();
+          fetchAllComplaints(true);
           throw error;
         }
       } catch (err) {

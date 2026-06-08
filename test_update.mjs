@@ -16,9 +16,13 @@ envFile.split('\n').forEach(line => {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function checkComplaints() {
-  const { data, error } = await supabase.from('complaints').select('*').limit(1);
-  console.log(data);
+async function testUpdate() {
+  const { data, error } = await supabase
+    .from('complaints')
+    .update({ status: 'Submitted' })
+    .eq('id', '78906515-1ea8-4744-bae5-7b6946b31c88')
+    .select();
+  console.log(data, error);
 }
 
-checkComplaints();
+testUpdate();

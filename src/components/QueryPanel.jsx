@@ -15,8 +15,8 @@ export default function QueryPanel({ loggedStudent }) {
   const studentEmail = loggedStudent?.email || '';
   const studentName = loggedStudent?.full_name || 'CUSAT Student';
 
-  const fetchComplaints = async () => {
-    setIsLoading(true);
+  const fetchComplaints = async (isBackground = false) => {
+    if (!isBackground) setIsLoading(true);
     if (!hasSupabaseConfig) {
       // Fallback mock history using local storage if Supabase is offline
       const mockHistory = localStorage.getItem(`mock_queries_${studentEmail}`) || '[]';
@@ -25,7 +25,7 @@ export default function QueryPanel({ loggedStudent }) {
       } catch (_) {
         setComplaints([]);
       }
-      setIsLoading(false);
+      if (!isBackground) setIsLoading(false);
       return;
     }
 
@@ -41,7 +41,7 @@ export default function QueryPanel({ loggedStudent }) {
     } catch (err) {
       console.error('Error fetching complaints from Supabase:', err.message);
     } finally {
-      setIsLoading(false);
+      if (!isBackground) setIsLoading(false);
     }
   };
 
@@ -57,7 +57,7 @@ export default function QueryPanel({ loggedStudent }) {
             { event: '*', schema: 'public', table: 'complaints', filter: `student_email=eq.${studentEmail}` },
             (payload) => {
               // Whenever a complaint is updated by admin, refetch
-              fetchComplaints();
+              fetchComplaints(true);
             }
           )
           .subscribe();
