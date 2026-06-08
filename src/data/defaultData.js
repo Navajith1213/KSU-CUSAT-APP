@@ -147,26 +147,7 @@ export const defaultRestaurants = [
 // <!--RESTAURANTS_END-->
 
 // <!--AMENITIES_START-->
-export const defaultAmenities = [
-  {
-    "name": "Medical Store",
-    "location": "University Road",
-    "details": "Open till 10 PM",
-    "gmapsLink": ""
-  },
-  {
-    "name": "Laundry Service",
-    "location": "Hostel Side Gate",
-    "details": "Pickup available",
-    "gmapsLink": ""
-  },
-  {
-    "name": "Stationery Shop",
-    "location": "Campus Entrance",
-    "details": "Printout and photocopy available",
-    "gmapsLink": ""
-  }
-];
+export const defaultAmenities = [];
 // <!--AMENITIES_END-->
 
 // <!--CLUBS_START-->
