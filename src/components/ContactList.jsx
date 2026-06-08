@@ -35,9 +35,13 @@ export default function ContactList({ contacts }) {
             <div className="item-card" key={idx}>
               <div>
                 <h3>{contact.name}</h3>
+                {contact.address && (
+                  <p style={{ fontSize: '13.5px', color: '#64748b', fontStyle: 'italic', marginBottom: '12px', lineHeight: '1.5' }}>
+                    {contact.address}
+                  </p>
+                )}
                 {contact.phone && <p><strong>Office Phone:</strong> {contact.phone}</p>}
                 {contact.email && <p><strong>Email Address:</strong> {contact.email}</p>}
-                {contact.address && <p><strong>Location/Address:</strong> {contact.address}</p>}
               </div>
               <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ marginTop: '12px' }}>
                 <i className="ti ti-map-2"></i> View on Maps

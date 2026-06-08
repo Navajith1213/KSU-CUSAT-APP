@@ -70,11 +70,11 @@ export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           />
         </div>
         <div className="form-group full-width">
-          <label>Address / Location details</label>
+          <label>Short Brief on Department</label>
           <textarea 
             value={value.address || ''} 
             onChange={(e) => onChange({ ...value, address: e.target.value })}
-            placeholder="e.g. Phase 2 Building, University Road"
+            placeholder="e.g. Offers academic programs, research activities, and student workshops in computer science and technology."
           ></textarea>
         </div>
         <div className="form-group full-width row-actions">
