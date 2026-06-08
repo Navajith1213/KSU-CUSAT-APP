@@ -29,20 +29,44 @@ export default function AdminQueries() {
 
   useEffect(() => {
     fetchAllComplaints();
+    
+    if (hasSupabaseConfig) {
+      const subscription = supabase
+        .channel('admin_complaints')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'complaints' },
+          (payload) => {
+            fetchAllComplaints();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(subscription);
+      };
+    }
   }, []);
 
   const updateComplaintStatus = async (idx, complaintItem, newStatus) => {
+    // Optimistic UI update
+    const newAdminComplaints = [...adminComplaints];
+    newAdminComplaints[idx] = { ...newAdminComplaints[idx], status: newStatus };
+    setAdminComplaints(newAdminComplaints);
+
     if (hasSupabaseConfig) {
       try {
         const { error } = await supabase
           .from('complaints')
           .update({ status: newStatus })
           .eq('id', complaintItem.id);
-        if (error) throw error;
-        alert('Status updated successfully!');
-        fetchAllComplaints();
+        if (error) {
+          // Revert on error
+          fetchAllComplaints();
+          throw error;
+        }
       } catch (err) {
-        alert(`Failed to update status: ${err.message}`);
+        console.error(`Failed to update status: ${err.message}`);
       }
     } else {
       // Mock update to local storage

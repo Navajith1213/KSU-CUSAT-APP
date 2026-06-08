@@ -48,6 +48,24 @@ export default function QueryPanel({ loggedStudent }) {
   useEffect(() => {
     if (studentEmail) {
       fetchComplaints();
+
+      if (hasSupabaseConfig) {
+        const subscription = supabase
+          .channel('public:complaints')
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'complaints', filter: `student_email=eq.${studentEmail}` },
+            (payload) => {
+              // Whenever a complaint is updated by admin, refetch
+              fetchComplaints();
+            }
+          )
+          .subscribe();
+
+        return () => {
+          supabase.removeChannel(subscription);
+        };
+      }
     }
   }, [studentEmail]);
 
@@ -153,7 +171,7 @@ export default function QueryPanel({ loggedStudent }) {
               <option value="Dining">Dining & Food spots</option>
               <option value="Academic">Academic Support</option>
               <option value="Campus Services">Campus Amenities</option>
-              <option value="Clubs">Campus Clubs / Union</option>
+              <option value="Clubs">Campus Clubs</option>
               <option value="Others">Others</option>
             </select>
           </div>
