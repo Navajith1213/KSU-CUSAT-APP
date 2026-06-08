@@ -608,6 +608,13 @@ export const defaultContacts = [
     "email": "sms@cusat.ac.in",
     "address": "Ranked as the 2nd best B-School in Kerala, the School of Management Studies, CUSAT, delivers one of the strongest Returns on Investment (ROI) among management institutions in the country. With a rigorous merit- based student intake, SMS nurtures a cohort of high-calibre future leaders who excel academically and professionally and nurtures them through a curriculum that balances strong conceptual foundations with practical exposure.",
     "gmapsLink": "https://maps.app.goo.gl/akMmdxe66zffsSGm9?g_st=ac"
+  },
+  {
+    "name": "CUCEK",
+    "phone": "0477 270 7500",
+    "email": "cucek@cusat.ac.in",
+    "address": "CUCEK (Cochin University College of Engineering, Kuttanad) is the only rural engineering campus of the ⁠Cochin University of Science and Technology (CUSAT). Located in Pulincunnoo, Alappuzha District, Kerala, the scenic backwater campus offers undergraduate engineering programs and postgraduate studies.",
+    "gmapsLink": "https://maps.app.goo.gl/vcUwcZYtCuq7vdw7A"
   }
 ];
 // <!--CONTACTS_END-->
