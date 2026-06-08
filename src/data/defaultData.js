@@ -207,17 +207,31 @@ export const defaultRestaurants = [
 export const defaultAmenities = [
   {
     "name": "CUSAT Post Office",
-    "location": "Near School of Engineering",
-    "category": "Post Office",
+    "location": "Near Amenity Centre",
     "details": "Speed post, registered post, savings bank, and standard mailing services.",
-    "gmapsLink": ""
+    "category": "Post Office",
+    "gmapsLink": "https://maps.app.goo.gl/ysDzqxR4Yv3Rp1xm7"
   },
   {
     "name": "Federal Bank ATM",
-    "location": "Near Administrative Block",
-    "category": "Banking / ATM",
+    "location": "Near Le Hayat Restaurant",
     "details": "24/7 ATM service with cash withdrawal and deposit facilities.",
-    "gmapsLink": ""
+    "category": "Banking / ATM",
+    "gmapsLink": "https://maps.app.goo.gl/bW5H7W9RqQi2JE2f8"
+  },
+  {
+    "name": "State Bank of India CUSAT",
+    "location": "Near CUSAT Restaurant",
+    "details": " 24/7 ATM service with cash withdrawal and deposit facilities.",
+    "category": "ATM, Bank",
+    "gmapsLink": "https://maps.app.goo.gl/1amqX9guxGMx5W966"
+  },
+  {
+    "name": "Akshaya E Centre",
+    "location": "Near SBI Cusat",
+    "details": "Akshaya e-Centre is a government-authorized service hub providing accessible digital, financial, and utility services to the local community.",
+    "category": "Government Service provider",
+    "gmapsLink": "https://maps.app.goo.gl/spDAFkwbLDL3UuFT8"
   }
 ];
 // <!--AMENITIES_END-->
@@ -241,9 +255,10 @@ export const defaultClubs = [
   {
     "name": "Tinkerhub",
     "location": "21/258, Cusat.P.O, Punnekkattumoola, Seaport - Airport Rd, Vidya Nagar Colony, Thrikkakara, Kalamassery, Kochi, Kerala 682022",
-    "contact": "",
+    "contact": "Jasim: +91 70341 91969",
     "services": "",
-    "gmapsLink": "https://maps.app.goo.gl/e8dduxs4bRfut5868"
+    "gmapsLink": "https://maps.app.goo.gl/e8dduxs4bRfut5868",
+    "description": "TinkerSpace is a free hackerspace in Kochi built by the TinkerHub Foundation. It offers students essential hardware, mentors, and tools to collaborate, build prototypes, and master new technologies together."
   },
   {
     "name": "Theatre Lovers Cusat",
