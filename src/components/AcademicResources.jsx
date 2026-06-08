@@ -52,7 +52,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
       <div className="fade-in-section" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
         <div className="card" style={{ textAlign: 'center', maxWidth: '420px', padding: '48px 32px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
           <div style={{ 
-            width: '80px', height: '80px', background: '#fffbeb', borderRadius: '50%', 
+            width: '80px', height: '80px', background: 'var(--bg-hover)', borderRadius: '50%', 
             display: 'flex', alignItems: 'center', justifyContent: 'center', 
             margin: '0 auto 20px auto' 
           }}>
@@ -140,7 +140,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                   <div key={resource.id} className="item-card">
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '12px' }}>
                       <div style={{
-                        background: '#e0f2fe',
+                        background: 'var(--bg-hover)',
                         color: '#0369a1',
                         padding: '4px 8px',
                         borderRadius: '6px',
@@ -150,7 +150,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                       }}>
                         {resource.resource_type}
                       </div>
-                      <span style={{ fontSize: '12px', color: '#94a3b8', fontWeight: '600' }}>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '600' }}>
                         {resource.year_semester}
                       </span>
                     </div>

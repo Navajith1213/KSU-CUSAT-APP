@@ -253,7 +253,7 @@ export default function AuthModal({
         </div>
 
         {errorMsg && (
-          <div style={{ color: '#ef4444', backgroundColor: '#fef2f2', padding: '10px', borderRadius: '8px', fontSize: '13px', marginBottom: '14px', border: '1px solid #fee2e2' }}>
+          <div style={{ color: '#ef4444', backgroundColor: 'var(--bg-hover)', padding: '10px', borderRadius: '8px', fontSize: '13px', marginBottom: '14px', border: '1px solid var(--border-color)' }}>
             {errorMsg}
           </div>
         )}

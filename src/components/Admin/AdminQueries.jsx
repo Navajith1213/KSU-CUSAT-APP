@@ -89,7 +89,7 @@ export default function AdminQueries() {
           {adminComplaints.map((item, idx) => (
             <div key={idx} className="event-item" style={{ flexDirection: 'column', alignItems: 'stretch', gap: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#0d9488', backgroundColor: '#f0fdfa', padding: '3px 8px', borderRadius: '12px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', textTransform: 'uppercase', color: '#0d9488', backgroundColor: 'var(--bg-hover)', padding: '3px 8px', borderRadius: '12px' }}>
                   {item.category}
                 </span>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -107,7 +107,7 @@ export default function AdminQueries() {
               </div>
               <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: '700' }}>{item.subject}</h4>
               <p style={{ fontSize: '13.5px', color: 'var(--text-secondary)', lineHeight: '1.5', whiteSpace: 'pre-wrap' }}>{item.description}</p>
-              <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '8px', marginTop: '4px', fontSize: '12px', color: '#94a3b8', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '8px', marginTop: '4px', fontSize: '12px', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                 <span>Filed by: <strong>{item.student_name}</strong> ({item.student_email})</span>
                 <span>Date: {new Date(item.created_at).toLocaleDateString()}</span>
               </div>
@@ -115,7 +115,7 @@ export default function AdminQueries() {
           ))}
         </div>
       ) : (
-        <div style={{ textAlign: 'center', padding: '48px 24px', border: '2px dashed #e2e8f0', borderRadius: '12px', color: '#94a3b8' }}>
+        <div style={{ textAlign: 'center', padding: '48px 24px', border: '2px dashed #e2e8f0', borderRadius: '12px', color: 'var(--text-muted)' }}>
           <i className="ti ti-mail-opened" style={{ fontSize: '32px', marginBottom: '8px', color: '#cbd5e1', display: 'block' }}></i>
           <p>No complaints filed yet.</p>
         </div>

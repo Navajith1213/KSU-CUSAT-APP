@@ -241,7 +241,7 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
               {value.rates.map((rate, idx) => (
                 <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-card)', padding: '8px 12px', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
                   <div>
-                    <strong style={{ color: '#334155' }}>{rate.type}</strong>: <span style={{ color: '#0d9488', fontWeight: '600' }}>{rate.rent}</span>
+                    <strong style={{ color: 'var(--text-primary)' }}>{rate.type}</strong>: <span style={{ color: '#0d9488', fontWeight: '600' }}>{rate.rent}</span>
                   </div>
                   <button 
                     type="button" 

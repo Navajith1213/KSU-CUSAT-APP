@@ -85,7 +85,7 @@ export default function Navbar({
               height: '40px', 
               objectFit: 'contain', 
               display: 'block',
-              filter: 'invert(1)' 
+              filter: theme === 'dark' ? 'invert(1)' : 'none' 
             }} 
           />
         </a>
@@ -214,7 +214,7 @@ export default function Navbar({
               objectFit: 'contain', 
               borderRadius: '8px',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
-              filter: 'invert(1)'
+              filter: theme === 'dark' ? 'invert(1)' : 'none'
             }} 
           />
         </div>

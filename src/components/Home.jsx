@@ -187,9 +187,9 @@ export default function Home({
 
       {/* Guest Call to Action */}
       {!loggedStudent && (
-        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #f0fdfa, #eff6ff)', border: '1px solid #bfdbfe', flexWrap: 'wrap' }}>
+        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '260px' }}>
-            <h3 style={{ color: '#1e3a8a', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
+            <h3 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
               File Inquiries and Track complaints
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.5' }}>
@@ -205,9 +205,9 @@ export default function Home({
 
       {/* Logged in student shortcut */}
       {loggedStudent && (
-        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #f0fdfa, #eff6ff)', border: '1px solid #bfdbfe', flexWrap: 'wrap' }}>
+        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '260px' }}>
-            <h3 style={{ color: '#1e3a8a', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
+            <h3 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
               Need Help? File a Complaint
             </h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '14px', lineHeight: '1.5' }}>

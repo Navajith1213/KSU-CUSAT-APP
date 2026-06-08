@@ -735,7 +735,7 @@ export default function App() {
                   <li>
                     <button
                       onClick={() => setActiveModule('home')}
-                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                      style={{ color: 'var(--text-muted)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
                       Home
                     </button>
@@ -743,7 +743,7 @@ export default function App() {
                   <li>
                     <button
                       onClick={() => setActiveModule('calendar')}
-                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                      style={{ color: 'var(--text-muted)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
                       Calendar
                     </button>
@@ -751,7 +751,7 @@ export default function App() {
                   <li>
                     <button
                       onClick={() => setActiveModule('contacts')}
-                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                      style={{ color: 'var(--text-muted)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
                       Contacts
                     </button>
@@ -759,7 +759,7 @@ export default function App() {
                   <li>
                     <button
                       onClick={() => setActiveModule('food')}
-                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                      style={{ color: 'var(--text-muted)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
                       Tea Spots
                     </button>
@@ -767,7 +767,7 @@ export default function App() {
                   <li>
                     <button
                       onClick={() => setActiveModule('hostels')}
-                      style={{ color: '#94a3b8', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
+                      style={{ color: 'var(--text-muted)', background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px 0', fontSize: '13.5px', fontWeight: '500' }}
                     >
                       Hostels
                     </button>
