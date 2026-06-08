@@ -154,6 +154,46 @@ export const defaultGirlsPGs = [
     "rooms": "",
     "gmapsLink": "https://maps.app.goo.gl/K2MhwHnWe2eSPkva6",
     "rates": []
+  },
+  {
+    "name": "NADHA HOMES",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "9846361658",
+    "rooms": "",
+    "gmapsLink": " https://maps.app.goo.gl/MbfzJALarbGXJuzE9?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "CHANGRAPRABHA",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "9567046814",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/BdZZrzbwHoiLeUDa8?g_st=ac",
+    "rates": []
+  },
+  {
+    "name": "PMA",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "9995103983",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/5vfiAR4Wbu78JS2g7",
+    "rates": []
+  },
+  {
+    "name": "Stanza",
+    "location": "Near CUSAT, Kalaassery, Kochi, Kerala 6802022",
+    "rent": "",
+    "food": "",
+    "contact": "9686135967",
+    "rooms": "",
+    "gmapsLink": "https://maps.app.goo.gl/y736fgsnSYovNe357?g_st=ac",
+    "rates": []
   }
 ];
 // <!--GIRLSPGS_END-->
