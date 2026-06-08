@@ -312,11 +312,39 @@ export const defaultContacts = [
     "gmapsLink": "https://maps.app.goo.gl/ssrMUFGcx9tVh8ng8"
   },
   {
-    "name": "Department of Physics ",
+    "name": "School of Legal Studies",
+    "phone": "9383445550",
+    "email": "cusatlegalstudents@gmail.com",
+    "address": "SLS CUSAT is a premier public law school in Kerala, recognized for its long academic tradition, quality legal education and research-oriented approach",
+    "gmapsLink": "https://maps.app.goo.gl/6TgwFsXyWBv7HeHN8?g_st=ac"
+  },
+  {
+    "name": "Department of physics",
     "phone": "91-484-2577404",
     "email": "phys@cusat.ac.in",
-    "address": "Provides Msc and Integrated Msc courses in Physics.",
-    "gmapsLink": "https://maps.app.goo.gl/VftJjKzHVFNkSdmN6"
+    "address": "Provides Msc and Integrated Msc courses",
+    "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac"
+  },
+  {
+    "name": "Department of Mathematics",
+    "phone": "0484-2577518",
+    "email": "mathscusat@gmail.com",
+    "address": "Provides Msc and Integrated Msc courses",
+    "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac"
+  },
+  {
+    "name": "Department of statistcs ",
+    "phone": "91-484-2575893",
+    "email": "statistics@cusat.ac.in",
+    "address": "Provides Msc, Mtech, Integrated Msc",
+    "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8"
+  },
+  {
+    "name": "International School of Photonics",
+    "phone": "91-484-2575848",
+    "email": "officeisp@cusat.ac.in",
+    "address": "The course photonics is offered by some of the top tier institutes only",
+    "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac"
   }
 ];
 // <!--CONTACTS_END-->
