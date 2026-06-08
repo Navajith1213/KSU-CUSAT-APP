@@ -1,5 +1,5 @@
 :root {
-  --bg-main: #f8fafc;
+  --bg-main: #f4f9fc;
   --bg-card: #ffffff;
   --bg-sidebar: #0f172a;
   --bg-hover: #f1f5f9;
@@ -9,11 +9,13 @@
   --border-color: #e2e8f0;
   --navbar-bg: rgba(255, 255, 255, 0.85);
   --border-strong: #cbd5e1;
-  --shadow-color: rgba(0, 0, 0, 0.05);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --primary-gradient: linear-gradient(135deg, #2563eb, #06b6d4);
+  --primary-glow: rgba(37, 99, 235, 0.25);
 }
 
 body.dark {
-  --bg-main: #0f172a;
+  --bg-main: #0b1120;
   --bg-card: #1e293b;
   --bg-sidebar: #020617;
   --bg-hover: #334155;
@@ -23,7 +25,9 @@ body.dark {
   --border-color: var(--text-primary);
   --border-strong: #475569;
   --navbar-bg: rgba(30, 41, 59, 0.85);
-  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --primary-gradient: linear-gradient(135deg, #3b82f6, #22d3ee);
+  --primary-glow: rgba(59, 130, 246, 0.35);
 }
 
 /* Ensure background applies immediately */
@@ -119,7 +123,7 @@ body {
 }
 
 .menu-btn.active {
-  background: linear-gradient(135deg, #1e3a8a, #0d9488);
+  background: var(--primary-gradient);
   color: white;
   box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
 }
@@ -171,7 +175,13 @@ body {
   border: 1px solid var(--border-color);
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px var(--shadow-color);
 }
 
 .card h2 {
@@ -193,11 +203,16 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 14px;
   padding: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px var(--shadow-color);
 }
 
 .item-card:hover {
@@ -366,12 +381,15 @@ body {
 }
 
 .login-btn, .btn-primary {
-  background: var(--bg-sidebar);
+  background: var(--primary-gradient);
   color: white;
+  border: none;
+  box-shadow: 0 4px 10px var(--primary-glow);
 }
 
 .login-btn:hover, .btn-primary:hover {
-  background: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px var(--primary-glow);
 }
 
 .btn-secondary {
@@ -445,7 +463,7 @@ body {
 .hero-title {
   font-size: 36px;
   font-weight: 800;
-  background: linear-gradient(135deg, #1e3a8a, #0d9488);
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 12px;
@@ -814,7 +832,7 @@ body {
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #1e3a8a, #0d9488);
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -861,7 +879,7 @@ body {
 }
 
 .navbar-btn {
-  background: linear-gradient(135deg, #0d9488, #0f766e);
+  background: var(--primary-gradient);
   color: white;
   border: none;
   border-radius: 20px;
@@ -870,13 +888,13 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 10px rgba(13, 148, 136, 0.15);
+  box-shadow: 0 4px 10px var(--primary-glow);
   white-space: nowrap;
 }
 
 .navbar-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(13, 148, 136, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px var(--primary-glow);
 }
 
 .navbar-btn.logout {
