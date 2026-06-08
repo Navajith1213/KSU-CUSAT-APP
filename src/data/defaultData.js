@@ -435,6 +435,13 @@ export const defaultClubs = [
     "contact": "+91-9876543211",
     "services": "Cultural events, music, dance and drama coaching",
     "gmapsLink": ""
+  },
+  {
+    "name": "CUSAT Boxing Club",
+    "location": "Amenity Centre",
+    "contact": "Karthik Sir: +91 95444 57903",
+    "description": "CUSAT Boxing Club is a highly-rated, disciplined training facility located on the CUSAT campus in Kochi, known for its quality coaching that caters to both beginners and competitive athletes.",
+    "gmapsLink": "https://maps.app.goo.gl/5XT2NvNfk9GhajxG9"
   }
 ];
 // <!--CLUBS_END-->
