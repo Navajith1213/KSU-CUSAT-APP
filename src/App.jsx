@@ -463,22 +463,7 @@ export default function App() {
             <Topbar userRole={userRole} theme={theme} setTheme={setTheme} />
 
             <div className="content">
-              {/* Publishing Loading Banner */}
-              {isPublishing && (
-                <div className="publish-banner" style={{ background: '#fef3c7', borderColor: '#fde68a' }}>
-                  <div className="publish-banner-text" style={{ color: '#92400e' }}>
-                    <i
-                      className="ti ti-loader"
-                      style={{
-                        display: 'inline-block',
-                        animation: 'spin 1s linear infinite',
-                        marginRight: '8px'
-                      }}
-                    ></i>
-                    <strong>Processing:</strong> {publishingStatus}
-                  </div>
-                </div>
-              )}
+
 
               {renderModuleContent()}
             </div>
