@@ -74,7 +74,8 @@ export default function Navbar({
   };
 
   return (
-    <header className="navbar">
+    <>
+      <header className="navbar">
       {/* Top Row: Brand + Auth */}
       <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
@@ -203,6 +204,7 @@ export default function Navbar({
           )}
         </nav>
       </div>
+    </header>
 
       {/* Backdrop overlay for mobile menu drawer */}
       {isOpen && <div className="mobile-menu-overlay" onClick={() => setIsOpen(false)}></div>}
@@ -336,6 +338,6 @@ export default function Navbar({
           )}
         </div>
       </div>
-    </header>
+    </>
   );
 }

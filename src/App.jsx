@@ -720,13 +720,15 @@ export default function App() {
                   src="/logo.jpg" 
                   alt="CUSAT Portal" 
                   style={{ 
-                    height: '32px', 
+                    height: '40px', 
                     objectFit: 'contain', 
                     backgroundColor: 'rgba(255, 255, 255, 0.95)', 
                     padding: '4px 10px', 
                     borderRadius: '8px',
                     marginBottom: '12px',
-                    display: 'inline-block' 
+                    display: 'inline-block',
+                    filter: theme === 'dark' ? 'none' : 'invert(1)',
+                    mixBlendMode: theme === 'dark' ? 'screen' : 'multiply'
                   }} 
                 />
                 <p>Your ultimate campus assistant for staying, dining, and navigating Cochin University of Science and Technology.</p>

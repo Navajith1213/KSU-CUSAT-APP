@@ -969,7 +969,7 @@ h1, h2, h3, .hero-title, .brand-box h2 {
   right: -320px; /* Offscreen by default */
   width: 300px;
   height: 100vh;
-  background: var(--bg-card);
+  background: var(--bg-main);
   z-index: 10001;
   box-shadow: -10px 0 30px rgba(15, 23, 42, 0.15);
   transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
