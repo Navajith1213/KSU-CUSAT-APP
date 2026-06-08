@@ -500,98 +500,112 @@ export const defaultContacts = [
     "phone": "91-484-2577404",
     "email": "phys@cusat.ac.in",
     "address": "Focuses on fundamental and applied physics, covering mechanics, electromagnetism, quantum physics, electronics, and modern research techniques.",
-    "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/4JgTg2x9SMDd92XX6?g_st=ac",
+    "website": "https://physics.cusat.ac.in/"
   },
   {
     "name": "Department of Mathematics",
     "phone": "0484-2577518",
     "email": "mathscusat@gmail.com",
     "address": "Develops strong analytical and problem-solving skills through advanced studies in pure mathematics, applied mathematics, and computational methods.",
-    "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/p6WbthnzXmtcZ7yHA?g_st=ac",
+    "website": "https://maths.cusat.ac.in/"
   },
   {
     "name": "Department of Statistcs ",
     "phone": "91-484-2575893",
     "email": "statistics@cusat.ac.in",
     "address": "Covers statistical theory, data analysis, probability, machine learning fundamentals, and applications in research and industry",
-    "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8"
+    "gmapsLink": "https://maps.app.goo.gl/DHRheuStt3EcUhth8",
+    "website": "https://stats.cusat.ac.in/"
   },
   {
     "name": "International School of Photonics",
     "phone": "91-484-2575848",
     "email": "officeisp@cusat.ac.in",
     "address": "The Integrated M.Sc. Photonics programme focuses on the study of light and its applications in modern technology. Students learn optics, lasers, fiber-optic communication, photonic devices, and optoelectronics through theoretical and practical training. The programme prepares graduates for careers in research, telecommunications, photonics industries, and advanced scientific studies.",
-    "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/cxZoR9aQ5UiyJsXY8?g_st=ac",
+    "website": "https://photonics.cusat.ac.in/"
   },
   {
     "name": "School of Environmental Studies",
     "phone": "91-484-2577311",
     "email": "ses@cusat.ac.in",
     "address": "Focuses on environmental conservation, ecology, pollution management, climate studies, and sustainable development practices.",
-    "gmapsLink": "https://maps.app.goo.gl/ztNKVbkTJTQJzQCG7?g_st=ac"
+    "gmapsLink": "https://maps.app.goo.gl/ztNKVbkTJTQJzQCG7?g_st=ac",
+    "website": "https://ses.cusat.ac.in/"
   },
   {
     "name": "DDU Kaushal Kendra (DDUKK)",
     "phone": "9037420475",
     "email": "kaushalkendra@cusat.ac.in",
     "address": "Provides various courses",
-    "gmapsLink": "https://maps.app.goo.gl/owd6iKjeuiiF2Qne8"
+    "gmapsLink": "https://maps.app.goo.gl/owd6iKjeuiiF2Qne8",
+    "website": "https://kaushalkendra.cusat.ac.in/"
   },
   {
     "name": "Department of Chemistry",
     "phone": "91-484-2352421",
     "email": "chem@cusat.ac.in",
     "address": "Provides in-depth knowledge of organic, inorganic, physical, and analytical chemistry with extensive laboratory and research training",
-    "gmapsLink": "https://maps.app.goo.gl/JdxahX9AziALmDBn8"
+    "gmapsLink": "https://maps.app.goo.gl/JdxahX9AziALmDBn8",
+    "website": "https://chem.cusat.ac.in/"
   },
   {
     "name": "Department of Civil Engineering",
     "phone": "+91 484 286 2035",
     "email": "soeasection@gmail.com",
     "address": "Focuses on the planning, design, construction, and maintenance of infrastructure such as buildings, roads, bridges, and water resource systems. The department emphasizes sustainable development and modern construction technologies.",
-    "gmapsLink": "https://maps.app.goo.gl/wvjdAcgPVKrSomhVA?g_st=ic"
+    "gmapsLink": "https://maps.app.goo.gl/wvjdAcgPVKrSomhVA?g_st=ic",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=ce"
   },
   {
     "name": "Department of Mechanical Engineering",
     "phone": "+91 484 286 2035",
     "email": "soeasection@gmail.com",
     "address": "Provides education in design, manufacturing, thermal engineering, materials science, and industrial engineering. The department equips students with practical and analytical skills through laboratories, workshops, and industrial training.\n",
-    "gmapsLink": "https://maps.app.goo.gl/wvjdAcgPVKrSomhVA?g_st=ic "
+    "gmapsLink": "https://maps.app.goo.gl/wvjdAcgPVKrSomhVA?g_st=ic ",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=me"
   },
   {
     "name": "Department of Electrical and Electronics Engineering",
     "phone": "+91 484 286 2035",
     "email": "soeasection@gmail.com",
     "address": "Deals with power systems, electrical machines, control systems, and renewable energy technologies. Students gain knowledge in electrical engineering applications and modern power technologies.",
-    "gmapsLink": " https://maps.app.goo.gl/jaNH37tzMZJDfbw27?g_st=ic"
+    "gmapsLink": " https://maps.app.goo.gl/jaNH37tzMZJDfbw27?g_st=ic",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=ee"
   },
   {
     "name": "Department of Electronics and Communication Engineering",
     "phone": "+91 484 286 2035",
     "email": "soeasection@gmail.com",
     "address": "Specializes in communication systems, embedded systems, signal processing, VLSI, and wireless technologies. The department prepares students for careers in electronics and telecommunication industries.",
-    "gmapsLink": "https://maps.app.goo.gl/W3XbguT5RyZKoQzc9?g_st=ic"
+    "gmapsLink": "https://maps.app.goo.gl/W3XbguT5RyZKoQzc9?g_st=ic",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=ec"
   },
   {
     "name": "Department of Computer Science and Engineering (SOE)",
     "phone": "+91 484 286 2035",
     "email": " soeasection@gmail.com",
     "address": "Focuses on programming, software development, artificial intelligence, data science, networking, and cybersecurity. It trains students to solve complex computing problems and develop innovative software solutions.",
-    "gmapsLink": " https://maps.app.goo.gl/Zf1WJuiA2jEcZ2As7?g_st=ic "
+    "gmapsLink": " https://maps.app.goo.gl/Zf1WJuiA2jEcZ2As7?g_st=ic ",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=cs"
   },
   {
     "name": "Department of Information Technology",
     "phone": " +91 484 286 2035",
     "email": "soeasection@gmail.com",
     "address": "Offers education in information systems, web technologies, cloud computing, database management, and cybersecurity. The department aims to develop professionals capable of managing modern IT infrastructure",
-    "gmapsLink": "https://maps.app.goo.gl/Zf1WJuiA2jEcZ2As7?g_st=ic"
+    "gmapsLink": "https://maps.app.goo.gl/Zf1WJuiA2jEcZ2As7?g_st=ic",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=it"
   },
   {
     "name": "Department of Safety and Fire Engineering",
     "phone": "+91 484 286 2035",
     "email": "soeasection@gmail.com",
     "address": "Provides specialized training in industrial safety, fire protection, risk assessment, and disaster management. The department prepares engineers to ensure safety in industries and public infrastructure.",
-    "gmapsLink": "https://maps.app.goo.gl/FPnV8uF5EBmb6K1D7?g_st=ic"
+    "gmapsLink": "https://maps.app.goo.gl/FPnV8uF5EBmb6K1D7?g_st=ic",
+    "website": "https://soe.cusat.ac.in/divisions.php?dept=se"
   },
   {
     "name": "ICREP",
