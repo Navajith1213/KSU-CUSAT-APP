@@ -9,6 +9,8 @@ import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminQueries from './components/Admin/AdminQueries';
 import QueryPanel from './components/QueryPanel';
 import Navbar from './components/Navbar';
+import AcademicResources from './components/AcademicResources';
+import DepartmentDashboard from './components/DepartmentDashboard';
 
 import {
   defaultEvents,
@@ -92,7 +94,16 @@ export default function App() {
     } else {
       const session = sessionStorage.getItem('student_session');
       if (session) {
-        setUserRole('student');
+        try {
+          const parsed = JSON.parse(session);
+          if (parsed.department) {
+            setUserRole('dept_admin');
+          } else {
+            setUserRole('student');
+          }
+        } catch(e) {
+          setUserRole('student');
+        }
       }
     }
   }, [gitOwner, gitRepo, gitPat]);
@@ -575,7 +586,15 @@ export default function App() {
           </div>
         )}
 
-        {activeModule === 'queries' && userRole === 'student' && (
+        {activeModule === 'academic_resources' && (
+          <AcademicResources />
+        )}
+
+        {activeModule === 'dept_dashboard' && userRole === 'dept_admin' && (
+          <DepartmentDashboard loggedStudent={loggedStudent} />
+        )}
+
+        {activeModule === 'queries' && (userRole === 'student' || userRole === 'dept_admin') && (
           <QueryPanel loggedStudent={loggedStudent} />
         )}
 

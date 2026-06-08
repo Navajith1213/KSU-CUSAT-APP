@@ -142,15 +142,34 @@ export default function AuthModal({
       });
       if (error) throw error;
 
+      let managedDepartment = '';
+      let finalRole = 'student';
+      
+      try {
+        const { data: adminData } = await supabase
+          .from('department_admins')
+          .select('department')
+          .eq('email', data.user.email)
+          .maybeSingle();
+          
+        if (adminData) {
+          finalRole = 'dept_admin';
+          managedDepartment = adminData.department;
+        }
+      } catch (err) {
+        console.error("Error checking department admin status:", err);
+      }
+
       const studentData = {
         email: data.user.email,
         full_name: data.user.user_metadata?.full_name || 'CUSAT Student',
         phone_number: data.user.user_metadata?.phone_number || '',
-        id: data.user.id
+        id: data.user.id,
+        department: managedDepartment
       };
 
       setLoggedStudent(studentData);
-      setUserRole('student');
+      setUserRole(finalRole);
       sessionStorage.setItem('student_session', JSON.stringify(studentData));
       setShowAuthModal(false);
       alert(`Welcome back, ${studentData.full_name}!`);

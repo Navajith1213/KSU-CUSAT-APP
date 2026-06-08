@@ -60,7 +60,8 @@ export default function Navbar({
       icon: 'ti-users',
       items: [
         { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
-        { id: 'clubs', label: 'Clubs', icon: 'ti-users' }
+        { id: 'clubs', label: 'Clubs', icon: 'ti-users' },
+        { id: 'academic_resources', label: 'Academic Resources', icon: 'ti-books' }
       ]
     }
   ];
@@ -92,6 +93,13 @@ export default function Navbar({
             <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>
               <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
               {loggedStudent.full_name.split(' ')[0]}
+            </span>
+          )}
+
+          {userRole === 'dept_admin' && loggedStudent && (
+            <span className="status-badge admin" style={{ padding: '6px 14px', fontSize: '13px' }}>
+              <i className="ti ti-shield-check" style={{ marginRight: '4px' }}></i>
+              Dept Admin
             </span>
           )}
 
@@ -148,13 +156,23 @@ export default function Navbar({
             );
           })}
 
-          {userRole === 'student' && (
+          {(userRole === 'student' || userRole === 'dept_admin') && (
             <button
               className={`navbar-link ${activeModule === 'queries' ? 'active' : ''}`}
               onClick={() => handleNavClick('queries')}
             >
               <i className="ti ti-mail" style={{ fontSize: '15px' }}></i>
               My Queries
+            </button>
+          )}
+
+          {userRole === 'dept_admin' && (
+            <button
+              className={`navbar-link ${activeModule === 'dept_dashboard' ? 'active' : ''}`}
+              onClick={() => handleNavClick('dept_dashboard')}
+            >
+              <i className="ti ti-books" style={{ fontSize: '15px' }}></i>
+              Dept Dashboard
             </button>
           )}
         </nav>
@@ -237,7 +255,7 @@ export default function Navbar({
           })}
 
           {/* Student Queries (Direct) */}
-          {userRole === 'student' && (
+          {(userRole === 'student' || userRole === 'dept_admin') && (
             <button
               className={`mobile-menu-link ${activeModule === 'queries' ? 'active' : ''}`}
               onClick={() => handleNavClick('queries')}
@@ -245,6 +263,18 @@ export default function Navbar({
             >
               <i className="ti ti-mail" style={{ fontSize: '16px' }}></i>
               My Queries
+            </button>
+          )}
+
+          {/* Dept Dashboard (Direct) */}
+          {userRole === 'dept_admin' && (
+            <button
+              className={`mobile-menu-link ${activeModule === 'dept_dashboard' ? 'active' : ''}`}
+              onClick={() => handleNavClick('dept_dashboard')}
+              style={{ fontWeight: '700' }}
+            >
+              <i className="ti ti-books" style={{ fontSize: '16px' }}></i>
+              Dept Dashboard
             </button>
           )}
         </div>

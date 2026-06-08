@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   CalendarForm,
   ContactForm,
@@ -46,6 +46,61 @@ export default function AdminDashboard({
 }) {
   const [adminSection, setAdminSection] = useState('calendar');
   const [editIndex, setEditIndex] = useState(null);
+
+  // Department Admins State
+  const [deptAdmins, setDeptAdmins] = useState([]);
+  const [newAdminEmail, setNewAdminEmail] = useState('');
+  const [newAdminDept, setNewAdminDept] = useState('');
+  const [isAdminsLoading, setIsAdminsLoading] = useState(false);
+
+  useEffect(() => {
+    if (adminSection === 'dept_admins') {
+      fetchDeptAdmins();
+    }
+  }, [adminSection]);
+
+  const fetchDeptAdmins = async () => {
+    if (!hasSupabaseConfig) return;
+    setIsAdminsLoading(true);
+    try {
+      const { data, error } = await supabase.from('department_admins').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      setDeptAdmins(data || []);
+    } catch (err) {
+      console.error("Error fetching dept admins:", err);
+    } finally {
+      setIsAdminsLoading(false);
+    }
+  };
+
+  const handleAddDeptAdmin = async (e) => {
+    e.preventDefault();
+    if (!newAdminEmail.trim() || !newAdminDept.trim()) return;
+    try {
+      const { data, error } = await supabase.from('department_admins').insert([{
+        email: newAdminEmail.trim().toLowerCase(),
+        department: newAdminDept.trim()
+      }]).select();
+      if (error) throw error;
+      setDeptAdmins([data[0], ...deptAdmins]);
+      setNewAdminEmail('');
+      setNewAdminDept('');
+      alert("Department Admin added successfully!");
+    } catch (err) {
+      alert("Error adding admin: " + err.message);
+    }
+  };
+
+  const handleDeleteDeptAdmin = async (id) => {
+    if (!window.confirm("Remove this Department Admin?")) return;
+    try {
+      const { error } = await supabase.from('department_admins').delete().eq('id', id);
+      if (error) throw error;
+      setDeptAdmins(deptAdmins.filter(a => a.id !== id));
+    } catch (err) {
+      alert("Error deleting admin: " + err.message);
+    }
+  };
 
 
   // Re-define form states locally inside the Admin dashboard
@@ -162,7 +217,8 @@ export default function AdminDashboard({
           ['food', 'Tea Spots'],
           ['restaurants', 'Restaurants'],
           ['amenities', 'Amenities'],
-          ['clubs', 'Clubs']
+          ['clubs', 'Clubs'],
+          ['dept_admins', 'Dept Admins']
         ].map(([id, label]) => (
           <button
             key={id}
@@ -372,6 +428,47 @@ export default function AdminDashboard({
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {adminSection === 'dept_admins' && (
+        <div>
+          <div className="card" style={{ marginBottom: '20px' }}>
+            <h3>Add Department Admin</h3>
+            <p className="small-text" style={{ marginBottom: '16px' }}>Assign a student to manage a specific department's resources.</p>
+            <form onSubmit={handleAddDeptAdmin} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <input 
+                type="email" 
+                placeholder="Student Email" 
+                value={newAdminEmail} 
+                onChange={e => setNewAdminEmail(e.target.value)} 
+                required 
+                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+              />
+              <input 
+                type="text" 
+                placeholder="Department Name" 
+                value={newAdminDept} 
+                onChange={e => setNewAdminDept(e.target.value)} 
+                required 
+                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+              />
+              <button type="submit" className="btn-primary">Add Admin</button>
+            </form>
+          </div>
+
+          <h3>Current Department Admins</h3>
+          {isAdminsLoading ? <p>Loading...</p> : deptAdmins.length === 0 ? <p>No department admins assigned.</p> : (
+            deptAdmins.map(admin => (
+              <div className="event-item" key={admin.id}>
+                <div>
+                  <strong style={{ display: 'block', color: '#0f172a' }}>{admin.email}</strong>
+                  <span style={{ fontSize: '12px', color: '#0d9488', fontWeight: 'bold' }}>{admin.department}</span>
+                </div>
+                <button className="btn-danger" onClick={() => handleDeleteDeptAdmin(admin.id)}>Remove</button>
+              </div>
+            ))
+          )}
         </div>
       )}
 
