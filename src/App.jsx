@@ -654,7 +654,7 @@ export default function App() {
           />
 
           <div className="main-area">
-            <Topbar userRole={userRole} />
+            <Topbar userRole={userRole} theme={theme} setTheme={setTheme} />
 
             <div className="content">
               {/* Publishing Loading Banner */}

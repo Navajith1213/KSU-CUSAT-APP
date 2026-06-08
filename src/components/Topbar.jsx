@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Topbar({ userRole }) {
+export default function Topbar({ userRole, theme, setTheme }) {
   const getBadgeConfig = () => {
     switch (userRole) {
       case 'admin':
@@ -33,6 +33,14 @@ export default function Topbar({ userRole }) {
         <p>Kalamassery, Kochi - campus support, accommodation and nearby essentials</p>
       </div>
       <div className="status-box">
+        <button 
+          className="navbar-btn" 
+          style={{ padding: '8px', borderRadius: '50%', background: 'var(--bg-hover)', color: 'var(--text-primary)', marginRight: '8px' }}
+          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+          title="Toggle Dark Mode"
+        >
+          <i className={theme === 'dark' ? 'ti ti-sun' : 'ti ti-moon'} style={{ fontSize: '18px' }}></i>
+        </button>
         <span className={badge.className}>
           <i className={`ti ${badge.icon}`}></i>
           {badge.label}
