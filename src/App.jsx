@@ -726,7 +726,7 @@ export default function App() {
                     padding: '4px 0', 
                     marginBottom: '12px',
                     display: 'inline-block',
-                    filter: 'invert(1) brightness(2)',
+                    filter: 'invert(1) grayscale(1) contrast(100)',
                     mixBlendMode: 'screen'
                   }} 
                 />
