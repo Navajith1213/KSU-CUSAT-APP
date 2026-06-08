@@ -13,6 +13,7 @@ import AcademicResources from './components/AcademicResources';
 import DepartmentDashboard from './components/DepartmentDashboard';
 import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
+import { supabase } from './utils/supabaseClient';
 
 
 
@@ -71,9 +72,6 @@ export default function App() {
   const [clubs, setClubs] = useState([]);
   const [contacts, setContacts] = useState([]);
 
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
-  const [publishingStatus, setPublishingStatus] = useState('');
 
   // Search/Filter states
   const [boysPgSearch, setBoysPgSearch] = useState('');
@@ -107,167 +105,42 @@ export default function App() {
 
   const logout = () => {
     sessionStorage.clear();
-    setGitOwner('');
-    setGitRepo('');
-    setGitPat('');
     setLoggedStudent(null);
     setUserRole('user');
     setActiveModule('home');
-    setUnsavedChanges(false);
     alert('Logged out successfully.');
   };
 
-  const publishToGitHub = async () => {
-    const owner = gitOwner.trim();
-    const repo = gitRepo.trim();
-    const pat = gitPat.trim();
-
-    if (!owner || !repo || !pat) {
-      alert('Missing GitHub credentials. Please re-login.');
-      logout();
-      return;
-    }
-
-    setIsPublishing(true);
-    setPublishingStatus('Fetching latest file content from GitHub...');
-
-    let fileSha = '';
-    let dataContent = '';
-
-    const fetchUrl = `https://api.github.com/repos/${owner}/${repo}/contents/src/data/defaultData.js`;
-
+  const fetchStaticData = async () => {
     try {
-      // 1. Fetch current defaultData.js contents
-      // Fetch file from GitHub API
-      let getRes;
-      try {
-        getRes = await fetch(fetchUrl, {
-          headers: {
-            Authorization: `token ${pat}`,
-            Accept: 'application/vnd.github.v3+json'
-          }
-        });
-      } catch (fetchErr) {
-        throw new Error(`[GET download phase] Network/CORS error: ${fetchErr.message}`);
-      }
+      const tables = [
+        { name: 'events', setter: setAcademicEvents },
+        { name: 'boys_pgs', setter: setBoysPgs },
+        { name: 'girls_pgs', setter: setGirlsPgs },
+        { name: 'hostels', setter: setHostels },
+        { name: 'food_spots', setter: setFoodSpots },
+        { name: 'restaurants', setter: setRestaurants },
+        { name: 'amenities', setter: setAmenities },
+        { name: 'clubs', setter: setClubs },
+        { name: 'contacts', setter: setContacts }
+      ];
 
-      if (!getRes.ok) {
-        throw new Error(`[GET download phase] GitHub responded with status: ${getRes.status} ${getRes.statusText}`);
-      }
-
-      const gitFile = await getRes.json();
-      fileSha = gitFile.sha;
-      dataContent = decodeBase64Utf8(gitFile.content);
-    } catch (getErr) {
-      setIsPublishing(false);
-      setPublishingStatus('');
-      alert('Publishing failed: Could not fetch the latest file from GitHub. Please check your connection and try again.');
-      return;
-    }
-
-    setPublishingStatus('Formatting updated data and updating source code...');
-
-    // Sanitize text fields in data arrays to strip any embedded HTML/script tags
-    const stripTags = (str) => typeof str === 'string' ? str.replace(/<[^>]*>/g, '') : str;
-    const sanitizeObj = (obj) => {
-      const cleaned = {};
-      for (const key in obj) {
-        cleaned[key] = typeof obj[key] === 'string' ? stripTags(obj[key]) : obj[key];
-      }
-      return cleaned;
-    };
-    const sanitizeArray = (arr) => Array.isArray(arr) ? arr.map(sanitizeObj) : arr;
-
-    let updatedData = '';
-    try {
-      // 2. Perform text replacements using comments markers (with sanitized data)
-      updatedData = dataContent;
-      updatedData = replaceSection(updatedData, '// <!--EVENTS_START-->', '// <!--EVENTS_END-->', `export const defaultEvents = ${JSON.stringify(sanitizeArray(academicEvents), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--BOYSPGS_START-->', '// <!--BOYSPGS_END-->', `export const defaultBoysPGs = ${JSON.stringify(sanitizeArray(boysPgs), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--GIRLSPGS_START-->', '// <!--GIRLSPGS_END-->', `export const defaultGirlsPGs = ${JSON.stringify(sanitizeArray(girlsPgs), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--HOSTELS_START-->', '// <!--HOSTELS_END-->', `export const defaultHostels = ${JSON.stringify(sanitizeArray(hostels), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--FOODSPOTS_START-->', '// <!--FOODSPOTS_END-->', `export const defaultFoodSpots = ${JSON.stringify(sanitizeArray(foodSpots), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--RESTAURANTS_START-->', '// <!--RESTAURANTS_END-->', `export const defaultRestaurants = ${JSON.stringify(sanitizeArray(restaurants), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--AMENITIES_START-->', '// <!--AMENITIES_END-->', `export const defaultAmenities = ${JSON.stringify(sanitizeArray(amenities), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--CLUBS_START-->', '// <!--CLUBS_END-->', `export const defaultClubs = ${JSON.stringify(sanitizeArray(clubs), null, 2)};`);
-      updatedData = replaceSection(updatedData, '// <!--CONTACTS_START-->', '// <!--CONTACTS_END-->', `export const defaultContacts = ${JSON.stringify(sanitizeArray(contacts), null, 2)};`);
-    } catch (replaceErr) {
-      setIsPublishing(false);
-      setPublishingStatus('');
-      alert('Publishing failed: Could not process the data update. Please try again.');
-      return;
-    }
-
-    setPublishingStatus('Submitting commit to GitHub...');
-
-    try {
-      // 3. Encode updated file content to base64
-      const base64Content = encodeBase64Utf8(updatedData);
-
-      // 4. PUT updated file to GitHub (with 409 retry logic)
-      const attemptPut = async (sha) => {
-        // Submit commit to GitHub API
-        const putRes = await fetch(fetchUrl, {
-          method: 'PUT',
-          headers: {
-            Authorization: `token ${pat}`,
-            'Content-Type': 'application/json',
-            Accept: 'application/vnd.github.v3+json'
-          },
-          body: JSON.stringify({
-            message: 'Update campus listings via Admin Portal UI',
-            content: base64Content,
-            sha: sha
-          })
-        });
-        return putRes;
-      };
-
-      let putRes;
-      try {
-        putRes = await attemptPut(fileSha);
-      } catch (putFetchErr) {
-        throw new Error('Network error while uploading changes. Please check your connection and try again.');
-      }
-
-      // If 409 conflict (SHA mismatch), re-fetch latest SHA and retry once
-      if (putRes.status === 409) {
-        setPublishingStatus('SHA conflict detected — re-fetching latest version and retrying...');
-        try {
-          const refreshRes = await fetch(fetchUrl, {
-            headers: {
-              Authorization: `token ${pat}`,
-              Accept: 'application/vnd.github.v3+json'
-            }
-          });
-          if (refreshRes.ok) {
-            const refreshed = await refreshRes.json();
-            putRes = await attemptPut(refreshed.sha);
-          }
-        } catch (_) {
-          // If refresh fails, fall through to the error handler below
+      for (const { name, setter } of tables) {
+        const { data, error } = await supabase.from(name).select('*');
+        if (!error && data) {
+          const formatted = data.map(row => ({ id: row.id, ...row.data }));
+          setter(formatted);
         }
       }
-
-      if (!putRes.ok) {
-        let errText = putRes.statusText;
-        try {
-          const errDetails = await putRes.json();
-          errText = errDetails.message || errText;
-        } catch (_) {}
-        throw new Error('GitHub rejected the commit. Please try again or re-authenticate.');
-      }
-
-      setUnsavedChanges(false);
-      alert('Success! Changes committed to your repository. GitHub Pages will build and deploy the update in 1-2 minutes.');
-    } catch (putErr) {
-      alert(`Publishing failed: ${putErr.message}`);
-      console.error('Publish error (for debugging):', putErr);
-    } finally {
-      setIsPublishing(false);
-      setPublishingStatus('');
+    } catch (err) {
+      console.error("Error fetching static data:", err);
     }
   };
+
+  useEffect(() => {
+    fetchStaticData();
+  }, []);
+
 
   const contains = (value, search) => (value || '').toLowerCase().includes(search.toLowerCase());
 
@@ -607,23 +480,6 @@ export default function App() {
                 </div>
               )}
 
-              {/* Unsaved Changes Banner */}
-              {unsavedChanges && !isPublishing && (
-                <div className="publish-banner">
-                  <div className="publish-banner-text">
-                    <i className="ti ti-alert-circle" style={{ marginRight: '8px', fontSize: '16px' }}></i>
-                    <strong>Unsaved Edits:</strong> You have made changes locally. Click publish to deploy them to GitHub Pages.
-                  </div>
-                  <button
-                    className="btn-secondary"
-                    style={{ padding: '8px 16px', fontSize: '13px' }}
-                    onClick={publishToGitHub}
-                  >
-                    <i className="ti ti-cloud-upload" style={{ marginRight: '6px' }}></i> Save & Publish
-                  </button>
-                </div>
-              )}
-
               {renderModuleContent()}
             </div>
           </div>
@@ -723,7 +579,6 @@ export default function App() {
       {showAuthModal && (
         <AuthModal
 
-          handleGitConnect={handleLogin}
           setUserRole={setUserRole}
           setLoggedStudent={setLoggedStudent}
           setShowAuthModal={setShowAuthModal}
