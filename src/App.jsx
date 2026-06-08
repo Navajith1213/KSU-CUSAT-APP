@@ -27,6 +27,16 @@ import {
   replaceSection
 } from './utils/gitUtils';
 
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const isoPattern = /^\d{4}-\d{2}-\d{2}$/;
+  if (isoPattern.test(dateStr)) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+  }
+  return dateStr;
+};
+
 export default function App() {
   const [userRole, setUserRole] = useState('user');
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -341,7 +351,7 @@ export default function App() {
                     <strong>{event.title}</strong>
                   </p>
                   <p className="small-text">
-                    {event.date} | {event.type}
+                    {formatDate(event.date)} | {event.type}
                   </p>
                 </div>
               </div>

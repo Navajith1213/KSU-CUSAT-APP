@@ -10,6 +10,16 @@ import {
 } from './Forms';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
 
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const isoPattern = /^\d{4}-\d{2}-\d{2}$/;
+  if (isoPattern.test(dateStr)) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+  }
+  return dateStr;
+};
+
 export default function AdminDashboard({
   academicEvents,
   setAcademicEvents,
@@ -170,7 +180,7 @@ export default function AdminDashboard({
             <div className="event-item" key={idx}>
               <div>
                 <strong>{item.title}</strong>
-                <p className="small-text">{item.date} | {item.type}</p>
+                <p className="small-text">{formatDate(item.date)} | {item.type}</p>
               </div>
               <div className="row-actions">
                 <button className="btn-edit" onClick={() => handleEdit('calendar', idx, item)}>Edit</button>
