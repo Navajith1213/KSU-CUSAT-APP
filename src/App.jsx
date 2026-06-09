@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import AuthModal from './components/Modals/AuthModal';
+import PasswordResetModal from './components/Modals/PasswordResetModal';
 import Home from './components/Home';
 import ListingGrid from './components/ListingGrid';
 import ContactList from './components/ContactList';
@@ -33,6 +34,7 @@ const formatDate = (dateStr) => {
 export default function App() {
   const [userRole, setUserRole] = useState('user');
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
 
   useEffect(() => {
@@ -57,6 +59,19 @@ export default function App() {
   // Git credentials in memory or session storage
       
   const [activeModule, setActiveModule] = useState(() => sessionStorage.getItem('active_module') || 'home');
+
+  useEffect(() => {
+    // Listen for password recovery events
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        setShowPasswordResetModal(true);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     sessionStorage.setItem('active_module', activeModule);
@@ -573,6 +588,10 @@ export default function App() {
           setLoggedStudent={setLoggedStudent}
           setShowAuthModal={setShowAuthModal}
         />
+      )}
+      
+      {showPasswordResetModal && (
+        <PasswordResetModal onClose={() => setShowPasswordResetModal(false)} />
       )}
       {/* Always render chatbot globally */}
       <SocialSpeedDial />
