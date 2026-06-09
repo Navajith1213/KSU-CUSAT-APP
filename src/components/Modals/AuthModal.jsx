@@ -105,7 +105,7 @@ export default function AuthModal({
       // If session exists, email confirmation is disabled in Supabase, so log them in instantly!
       if (data.session) {
         setLoggedStudent(data.user);
-        setIsOpen(false);
+        setShowAuthModal(false);
         alert('Account created successfully! You are now logged in.');
       } else {
         // Otherwise, enter OTP verification mode.
