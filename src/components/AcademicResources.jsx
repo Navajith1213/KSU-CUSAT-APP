@@ -163,7 +163,15 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                   placeholder={`Search ${activeDepartment} notes...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ width: '100%', padding: '10px 10px 10px 36px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '14px' }}
+                  style={{ 
+                    width: '100%', 
+                    padding: '10px 10px 10px 36px', 
+                    borderRadius: '8px', 
+                    border: '1px solid var(--border-color)', 
+                    fontSize: '14px',
+                    color: 'var(--text-primary)',
+                    backgroundColor: 'transparent'
+                  }}
                 />
               </div>
               

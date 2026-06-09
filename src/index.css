@@ -266,6 +266,7 @@ h1, h2, h3, .hero-title, .brand-box h2 {
   border-radius: 10px;
   font-size: 14px;
   background: var(--bg-card);
+  color: var(--text-primary);
   transition: border 0.2s;
 }
 
@@ -369,6 +370,8 @@ h1, h2, h3, .hero-title, .brand-box h2 {
   border: 1px solid var(--border-color);
   border-radius: 10px;
   font-size: 14px;
+  background: var(--bg-card);
+  color: var(--text-primary);
 }
 
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
