@@ -212,7 +212,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
                 <div key={resource.id} className="event-item" style={{ padding: '12px' }}>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
-                      <span style={{ fontSize: '11px', background: '#e2e8f0', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                      <span style={{ fontSize: '11px', background: '#e2e8f0', color: '#334155', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
                         {resource.resource_type}
                       </span>
                       {isMasterAdmin && (
