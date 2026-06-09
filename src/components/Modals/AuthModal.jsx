@@ -90,7 +90,7 @@ export default function AuthModal({
     setIsLoading(true);
     setErrorMsg('');
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -102,10 +102,17 @@ export default function AuthModal({
       });
       if (error) throw error;
       
-      // Account created! Enter OTP verification mode.
-      setVerificationMode(true);
-      setErrorMsg('');
-      alert('Verification code sent! Please check your email inbox.');
+      // If session exists, email confirmation is disabled in Supabase, so log them in instantly!
+      if (data.session) {
+        setLoggedStudent(data.user);
+        setIsOpen(false);
+        alert('Account created successfully! You are now logged in.');
+      } else {
+        // Otherwise, enter OTP verification mode.
+        setVerificationMode(true);
+        setErrorMsg('');
+        alert('Verification code sent! Please check your email inbox (and spam folder).');
+      }
     } catch (err) {
       setErrorMsg(err.message);
     } finally {
