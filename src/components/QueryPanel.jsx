@@ -153,6 +153,30 @@ export default function QueryPanel({ loggedStudent }) {
     }
   };
 
+  const handleDeleteQuery = async (queryId) => {
+    if (!window.confirm("Are you sure you want to delete this query? This action cannot be undone.")) return;
+    
+    if (!hasSupabaseConfig) {
+      // Offline fallback
+      const mockComplaints = JSON.parse(localStorage.getItem(`mock_complaints_${loggedStudent?.email}`) || '[]');
+      const updated = mockComplaints.filter(c => c.id !== queryId);
+      localStorage.setItem(`mock_complaints_${loggedStudent?.email}`, JSON.stringify(updated));
+      setComplaints(updated);
+      alert('Query deleted offline.');
+      return;
+    }
+
+    try {
+      const { error } = await supabase.from('complaints').delete().eq('id', queryId);
+      if (error) throw error;
+      
+      setComplaints(complaints.filter(c => c.id !== queryId));
+      alert('Query deleted successfully.');
+    } catch (err) {
+      alert(`Failed to delete query: ${err.message}`);
+    }
+  };
+
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
       
@@ -246,8 +270,24 @@ export default function QueryPanel({ loggedStudent }) {
                 </div>
                 <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: '700' }}>{item.subject}</h4>
                 <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: '1.4', whiteSpace: 'pre-wrap' }}>{item.description}</p>
-                <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '6px', marginTop: '4px', fontSize: '11px', color: 'var(--text-muted)' }}>
-                  Submitted on: {new Date(item.created_at).toLocaleDateString()}
+                <div style={{ borderTop: '1px dashed #f1f5f9', paddingTop: '6px', marginTop: '4px', fontSize: '11px', color: 'var(--text-muted)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Submitted on: {new Date(item.created_at).toLocaleDateString()}</span>
+                  
+                  {/* Delete Button logic (1 hour window) */}
+                  {new Date() - new Date(item.created_at) < 60 * 60 * 1000 ? (
+                    <button 
+                      onClick={() => handleDeleteQuery(item.id)}
+                      style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: '11px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                      title="You can delete this query within 1 hour of submission"
+                    >
+                      <i className="ti ti-trash"></i> Delete Query
+                    </button>
+                  ) : (
+                    <span title="Deletion window has closed (1 hour limit)" style={{ color: '#94a3b8', fontSize: '10px' }}>
+                      <i className="ti ti-lock" style={{ marginRight: '4px' }}></i>
+                      Deletion locked
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
