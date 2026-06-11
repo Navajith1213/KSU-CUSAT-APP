@@ -196,6 +196,7 @@ export default function QueryPanel({ loggedStudent }) {
               <option value="Academic">Academic Support</option>
               <option value="Campus Services">Campus Amenities</option>
               <option value="Clubs">Campus Clubs</option>
+              <option value="Website Issues">Website Issues / Bug Report</option>
               <option value="Others">Others</option>
             </select>
           </div>
