@@ -508,7 +508,7 @@ export default function App() {
 
           <footer className="footer">
             <div className="footer-container">
-              <div className="footer-brand">
+              <div className="footer-brand" style={{ cursor: 'pointer' }} onClick={() => { setActiveModule('home'); window.scrollTo(0, 0); }}>
                 <img 
                   src="/logo.png" 
                   alt="CUSAT Portal" 

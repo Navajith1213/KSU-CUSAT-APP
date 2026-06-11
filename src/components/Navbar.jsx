@@ -78,7 +78,7 @@ export default function Navbar({
       <header className="navbar">
       {/* Top Row: Brand + Auth */}
       <div className="navbar-top">
-        <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
+        <a href="#" className="navbar-logo" onClick={(e) => { e.preventDefault(); handleNavClick('home'); window.scrollTo(0, 0); }}>
           <img 
             src="/logo.png" 
             alt="KSU CUSAT Logo" 
@@ -219,7 +219,7 @@ export default function Navbar({
         </div>
 
         {/* Big logo placed above the Home/menu links in mobile menu drawer */}
-        <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+        <div style={{ marginBottom: '20px', textAlign: 'center', cursor: 'pointer' }} onClick={() => handleNavClick('home')}>
           <img 
             src="/logo.png" 
             alt="KSU CUSAT Logo" 
