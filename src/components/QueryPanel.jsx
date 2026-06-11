@@ -189,7 +189,7 @@ export default function QueryPanel({ loggedStudent }) {
       <div className="card" style={{ alignSelf: 'start' }}>
         <h2>File a Query or Complaint</h2>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '18px', marginTop: '-8px' }}>
-          Fill out this form to request assistance. Your query will be saved in your portal log and emailed directly to the student union admin.
+          Fill out this form to request assistance. Your query will be saved in your portal log and emailed directly to the Kerala Students Union President.
         </p>
 
         <form onSubmit={handleSubmit}>
