@@ -144,11 +144,11 @@ export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
         </div>
 
         <div className="form-group">
-          <label>Warden's Contact Number</label>
+          <label>Warden's Number</label>
           <input value={value.wardenContact || ''} onChange={(e) => onChange({ ...value, wardenContact: e.target.value })} />
         </div>
         <div className="form-group">
-          <label>Secretaries Contact Number (Mess/Hostel)</label>
+          <label>Mess/Hostel Secretaries Number</label>
           <input value={value.secretaryContact || ''} onChange={(e) => onChange({ ...value, secretaryContact: e.target.value })} />
         </div>
         <div className="form-group">
