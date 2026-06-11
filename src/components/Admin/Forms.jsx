@@ -142,10 +142,7 @@ export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           <label>Food</label>
           <input value={value.food || ''} onChange={(e) => onChange({ ...value, food: e.target.value })} />
         </div>
-        <div className="form-group">
-          <label>Contact *</label>
-          <input value={value.contact || ''} onChange={(e) => onChange({ ...value, contact: e.target.value })} />
-        </div>
+
         <div className="form-group">
           <label>Warden's Contact Number</label>
           <input value={value.wardenContact || ''} onChange={(e) => onChange({ ...value, wardenContact: e.target.value })} />

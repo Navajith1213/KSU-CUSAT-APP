@@ -337,7 +337,7 @@ export default function App() {
             </div>
             <ListingGrid
               items={filteredHostels}
-              fields={['type', 'location', 'fees', 'food', 'contact', 'wardenContact', 'secretaryContact', 'rooms']}
+              fields={['type', 'location', 'fees', 'food', 'wardenContact', 'secretaryContact', 'rooms']}
             />
           </div>
         )}
