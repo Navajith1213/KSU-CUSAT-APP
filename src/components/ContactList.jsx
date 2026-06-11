@@ -61,6 +61,7 @@ export default function ContactList({ contacts }) {
                           {contact.address}
                         </p>
                       )}
+                      {contact.email && <p><strong>Email Address:</strong> {contact.email}</p>}
                     </div>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
                       <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ flex: 1, minWidth: '140px', textAlign: 'center' }}>
