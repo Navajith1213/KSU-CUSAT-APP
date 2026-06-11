@@ -454,7 +454,8 @@ export default function App() {
             setAmenities={setAmenities}
             clubs={clubs}
             setClubs={setClubs}
-              />
+            loggedStudent={loggedStudent}
+          />
         )}
         
         {activeModule === 'join_ksu' && (

@@ -244,14 +244,25 @@ export default function AuthModal({
       });
       if (error) throw error;
 
-      const allowedAdmins = ['navajith1122@gmail.com', 'mhdrashidkp3@gmail.com', 'mohamedfamjas@gmail.com'];
-      if (data.user && data.user.email && allowedAdmins.includes(data.user.email.toLowerCase())) {
-        setUserRole('admin');
-        setShowAuthModal(false);
-        alert('Master Admin Logged In.');
-      } else {
-        throw new Error('This account does not have Admin access.');
+      if (data.user && data.user.email) {
+        // Dynamically check the master_admins table
+        const { data: adminData, error: adminError } = await supabase
+          .from('master_admins')
+          .select('email')
+          .eq('email', data.user.email.toLowerCase())
+          .single();
+
+        if (adminData) {
+          setUserRole('admin');
+          setShowAuthModal(false);
+          alert('Master Admin Logged In.');
+          return;
+        }
       }
+
+      // If they are not in the master_admins table, sign them out and throw error
+      await supabase.auth.signOut();
+      throw new Error('This account does not have Master Admin access.');
     } catch (err) {
       recordFailedAttempt();
       setErrorMsg(`Login failed: ${err.message}`);

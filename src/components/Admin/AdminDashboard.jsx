@@ -40,15 +40,19 @@ export default function AdminDashboard({
   setAmenities,
   clubs,
   setClubs,
+  loggedStudent,
 }) {
   const [adminSection, setAdminSection] = useState('calendar');
   const [editId, setEditId] = useState(null);
 
-  // Department Admins State
   const [deptAdmins, setDeptAdmins] = useState([]);
   const [newAdminEmail, setNewAdminEmail] = useState('');
   const [newAdminDept, setNewAdminDept] = useState('');
   const [isAdminsLoading, setIsAdminsLoading] = useState(false);
+
+  // Master Admins State
+  const [masterAdmins, setMasterAdmins] = useState([]);
+  const [newMasterAdminEmail, setNewMasterAdminEmail] = useState('');
 
   const fetchDeptAdmins = async () => {
     if (!hasSupabaseConfig) return;
@@ -67,8 +71,24 @@ export default function AdminDashboard({
   useEffect(() => {
     if (adminSection === 'dept_admins') {
       fetchDeptAdmins();
+    } else if (adminSection === 'master_admins') {
+      fetchMasterAdmins();
     }
   }, [adminSection]);
+
+  const fetchMasterAdmins = async () => {
+    if (!hasSupabaseConfig) return;
+    setIsAdminsLoading(true);
+    try {
+      const { data, error } = await supabase.from('master_admins').select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      setMasterAdmins(data || []);
+    } catch (err) {
+      console.error("Error fetching master admins:", err);
+    } finally {
+      setIsAdminsLoading(false);
+    }
+  };
 
 
   const handleAddDeptAdmin = async (e) => {
@@ -95,6 +115,37 @@ export default function AdminDashboard({
       const { error } = await supabase.from('department_admins').delete().eq('id', id);
       if (error) throw error;
       setDeptAdmins(deptAdmins.filter(a => a.id !== id));
+    } catch (err) {
+      alert("Error deleting admin: " + err.message);
+    }
+  };
+
+  const handleAddMasterAdmin = async (e) => {
+    e.preventDefault();
+    if (!newMasterAdminEmail.trim()) return;
+    try {
+      const { data, error } = await supabase.from('master_admins').insert([{
+        email: newMasterAdminEmail.trim().toLowerCase()
+      }]).select();
+      if (error) throw error;
+      setMasterAdmins([data[0], ...masterAdmins]);
+      setNewMasterAdminEmail('');
+      alert("Master Admin added successfully!");
+    } catch (err) {
+      alert("Error adding master admin: " + err.message);
+    }
+  };
+
+  const handleDeleteMasterAdmin = async (id, email) => {
+    if (email === 'navajith1122@gmail.com') {
+      alert("You cannot remove the super admin.");
+      return;
+    }
+    if (!window.confirm("Remove this Master Admin? They will lose all access.")) return;
+    try {
+      const { error } = await supabase.from('master_admins').delete().eq('id', id);
+      if (error) throw error;
+      setMasterAdmins(masterAdmins.filter(a => a.id !== id));
     } catch (err) {
       alert("Error deleting admin: " + err.message);
     }
@@ -255,7 +306,8 @@ export default function AdminDashboard({
           ['restaurants', 'Restaurants'],
           ['amenities', 'Amenities'],
           ['clubs', 'Clubs'],
-          ['dept_admins', 'Dept Admins']
+          ['dept_admins', 'Dept Admins'],
+          ...(loggedStudent?.email === 'navajith1122@gmail.com' ? [['master_admins', 'Super Admin']] : [])
         ].map(([id, label]) => (
           <button
             key={id}
@@ -509,6 +561,44 @@ export default function AdminDashboard({
         </div>
       )}
 
+      {adminSection === 'master_admins' && loggedStudent?.email === 'navajith1122@gmail.com' && (
+        <div>
+          <div className="card" style={{ marginBottom: '20px', border: '2px solid #0284c7' }}>
+            <h3 style={{ color: '#0284c7' }}>Super Admin: Add Master Admin</h3>
+            <p className="small-text" style={{ marginBottom: '16px' }}>Assign full dashboard access to a new user. They will be able to edit all data across the platform.</p>
+            <form onSubmit={handleAddMasterAdmin} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <input 
+                type="email" 
+                placeholder="New Admin Email Address" 
+                value={newMasterAdminEmail} 
+                onChange={e => setNewMasterAdminEmail(e.target.value)} 
+                required 
+                style={{ flex: '1 1 250px' }}
+              />
+              <button type="submit" className="btn-secondary" style={{ whiteSpace: 'nowrap' }}>Grant Master Access</button>
+            </form>
+          </div>
+
+          <h3 style={{ marginBottom: '16px' }}>Current Master Admins</h3>
+          {isAdminsLoading && <p>Loading master admins...</p>}
+          {!isAdminsLoading && masterAdmins.map((admin) => (
+            <div className="event-item" key={admin.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <i className="ti ti-shield-check" style={{ color: '#0284c7', fontSize: '20px' }}></i>
+                <span style={{ fontWeight: '500' }}>{admin.email}</span>
+                {admin.email === 'navajith1122@gmail.com' && (
+                  <span style={{ fontSize: '11px', background: '#e0f2fe', color: '#0284c7', padding: '2px 8px', borderRadius: '12px', fontWeight: 'bold' }}>SUPER ADMIN</span>
+                )}
+              </div>
+              <div className="row-actions">
+                {admin.email !== 'navajith1122@gmail.com' && (
+                  <button className="btn-danger" onClick={() => handleDeleteMasterAdmin(admin.id, admin.email)}>Revoke Access</button>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
     </div>
   );
