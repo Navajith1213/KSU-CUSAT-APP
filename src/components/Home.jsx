@@ -146,8 +146,8 @@ export default function Home({
             </h2>
             <p className="hero-subtitle">
               Your student dashboard is active. You have submitted{' '}
-              <strong>{queryCount} support ticket(s)</strong>. Use the navbar tabs or
-              shortcut keys to search accommodations, check holidays, or file new inquiries.
+              <strong>{queryCount} support ticket(s)</strong>. Use the
+              navbar tabs to search accommodations, check holidays, or file new inquiries.
             </p>
           </div>
         ) : (
