@@ -9,6 +9,7 @@ export default function QueryPanel({ loggedStudent }) {
 
   // Form states
   const [category, setCategory] = useState('Accommodation');
+  const [department, setDepartment] = useState('');
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
 
@@ -79,8 +80,11 @@ export default function QueryPanel({ loggedStudent }) {
     setIsSubmitting(true);
 
     try {
-      const finalDescription = loggedStudent?.phone_number
-        ? `${description}\n\n---\nStudent Contact: +91 ${loggedStudent.phone_number}`
+      const contactInfo = loggedStudent?.phone_number ? `\nStudent Contact: +91 ${loggedStudent.phone_number}` : '';
+      const deptInfo = department ? `\nDepartment: ${department}` : '';
+      
+      const finalDescription = (contactInfo || deptInfo) 
+        ? `${description}\n\n---${deptInfo}${contactInfo}`
         : description;
 
       const newQuery = {
@@ -145,6 +149,7 @@ export default function QueryPanel({ loggedStudent }) {
       alert('Query filed successfully! The admin has been notified.');
       setSubject('');
       setDescription('');
+      setDepartment('');
       fetchComplaints();
     } catch (err) {
       alert(`Failed to file complaint: ${err.message}`);
@@ -199,6 +204,17 @@ export default function QueryPanel({ loggedStudent }) {
               <option value="Website Issues">Website Issues / Bug Report</option>
               <option value="Others">Others</option>
             </select>
+          </div>
+
+          <div className="form-group">
+            <label>Your Department *</label>
+            <input
+              type="text"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              placeholder="e.g. Computer Science, Mechanical, B.Com"
+              required
+            />
           </div>
 
           <div className="form-group">
