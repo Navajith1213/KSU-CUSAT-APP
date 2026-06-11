@@ -72,10 +72,9 @@ export default function Home({
     {
       id: 'contacts',
       category: 'info',
-      title: 'Contact Directory',
-      icon: 'ti-phone',
-      key: 'D',
-      description: 'Find administrative helpline details, university office contacts, and google map directions instantly.'
+      title: 'Campus Departments',
+      icon: 'ti-building',
+      description: 'Find administrative department details, university office locations, and google map directions instantly.'
     },
     {
       id: 'boysPgs',

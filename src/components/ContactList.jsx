@@ -22,7 +22,7 @@ export default function ContactList({ contacts }) {
   return (
     <div className="card">
       <div className="module-header">
-        <h2>Campus Contact & Department Directory</h2>
+        <h2>Campus Departments Directory</h2>
       </div>
       <div className="filter-bar">
         <input
@@ -61,8 +61,6 @@ export default function ContactList({ contacts }) {
                           {contact.address}
                         </p>
                       )}
-                      {contact.phone && <p><strong>Office Phone:</strong> {contact.phone}</p>}
-                      {contact.email && <p><strong>Email Address:</strong> {contact.email}</p>}
                     </div>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
                       <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn" style={{ flex: 1, minWidth: '140px', textAlign: 'center' }}>
@@ -88,7 +86,7 @@ export default function ContactList({ contacts }) {
           </div>
         ))
       ) : (
-        <p>No matching contacts found.</p>
+        <p>No matching departments found.</p>
       )}
     </div>
   );

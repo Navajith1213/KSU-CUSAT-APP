@@ -298,7 +298,7 @@ export default function AdminDashboard({
       <div className="admin-tabs">
         {[
           ['calendar', 'Calendar'],
-          ['contacts', 'Contacts'],
+          ['contacts', 'Departments'],
           ['boysPgs', "Boys PG's"],
           ['girlsPgs', "Girls PG's"],
           ['hostels', 'College Hostels'],
@@ -345,7 +345,8 @@ export default function AdminDashboard({
       )}
 
       {adminSection === 'contacts' && (
-        <div>
+        <div className="admin-form-container">
+          <h3>Manage Departments</h3>
           <ContactForm
             value={newContact}
             onChange={setNewContact}

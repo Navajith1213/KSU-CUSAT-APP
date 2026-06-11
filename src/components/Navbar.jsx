@@ -53,7 +53,7 @@ export default function Navbar({
       icon: 'ti-info-circle',
       items: [
         { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
-        { id: 'contacts', label: 'Contacts', icon: 'ti-phone' }
+        { id: 'contacts', label: 'Departments', icon: 'ti-building' }
       ]
     },
     {

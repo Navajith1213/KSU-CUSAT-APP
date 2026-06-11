@@ -10,7 +10,7 @@ export default function Sidebar({
   const menuItems = [
     { id: 'home', label: 'Back to Site', icon: 'ti-arrow-left' },
     { id: 'calendar', label: 'Academic Calendar', icon: 'ti-calendar' },
-    { id: 'contacts', label: 'Contacts', icon: 'ti-phone' },
+    { id: 'contacts', label: 'Departments', icon: 'ti-building' },
     { id: 'boysPgs', label: "Boys PG's", icon: 'ti-building-community' },
     { id: 'girlsPgs', label: "Girls PG's", icon: 'ti-home-2' },
     { id: 'hostels', label: 'College Hostels', icon: 'ti-building' },
