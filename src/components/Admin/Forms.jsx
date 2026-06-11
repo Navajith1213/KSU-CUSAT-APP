@@ -43,6 +43,14 @@ export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
       <h3>{isEdit ? 'Edit Department Contact' : 'Add Department Contact'}</h3>
       <div className="form-grid">
         <div className="form-group">
+          <label>Campus Section / Category *</label>
+          <input 
+            value={value.section || ''} 
+            onChange={(e) => onChange({ ...value, section: e.target.value })} 
+            placeholder="e.g. Main Campus, SOE, CUCEK, etc."
+          />
+        </div>
+        <div className="form-group">
           <label>Department / Office Name *</label>
           <input 
             value={value.name || ''} 
