@@ -254,6 +254,7 @@ export default function AuthModal({
 
         if (adminData) {
           setUserRole('admin');
+          setLoggedStudent({ email: data.user.email.toLowerCase(), full_name: 'Master Admin' });
           setShowAuthModal(false);
           alert('Master Admin Logged In.');
           return;
