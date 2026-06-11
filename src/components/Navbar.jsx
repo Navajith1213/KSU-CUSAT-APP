@@ -80,7 +80,7 @@ export default function Navbar({
       <div className="navbar-top">
         <a href="#home" className="navbar-logo" onClick={() => handleNavClick('home')}>
           <img 
-            src="/logo.jpg" 
+            src="/logo.png" 
             alt="KSU CUSAT Logo" 
             style={{ 
               height: '40px', 
@@ -221,7 +221,7 @@ export default function Navbar({
         {/* Big logo placed above the Home/menu links in mobile menu drawer */}
         <div style={{ marginBottom: '20px', textAlign: 'center' }}>
           <img 
-            src="/logo.jpg" 
+            src="/logo.png" 
             alt="KSU CUSAT Logo" 
             style={{ 
               width: '100%', 
