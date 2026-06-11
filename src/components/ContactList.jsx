@@ -15,7 +15,7 @@ export default function ContactList({ contacts }) {
 
   // Group contacts by section
   const groupedContacts = filteredContacts.reduce((acc, contact) => {
-    const section = contact.section || 'General';
+    const section = contact.section || 'Main Campus';
     if (!acc[section]) acc[section] = [];
     acc[section].push(contact);
     return acc;

@@ -44,11 +44,16 @@ export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
       <div className="form-grid">
         <div className="form-group">
           <label>Campus Section / Category *</label>
-          <input 
-            value={value.section || ''} 
+          <select 
+            value={value.section || 'Main Campus'} 
             onChange={(e) => onChange({ ...value, section: e.target.value })} 
-            placeholder="e.g. Main Campus, SOE, CUCEK, etc."
-          />
+          >
+            <option value="Main Campus">Main Campus</option>
+            <option value="SOE">SOE</option>
+            <option value="Lakeside">Lakeside</option>
+            <option value="CUCEK">CUCEK</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
         <div className="form-group">
           <label>Department / Office Name *</label>
