@@ -11,7 +11,7 @@ export default function ContactList({ contacts }) {
     contains(item.phone, contactSearch) ||
     contains(item.email, contactSearch) ||
     contains(item.address, contactSearch) ||
-    contains(item.section, contactSearch)
+    contains(item.section || 'Main Campus', contactSearch)
   );
 
   // Group contacts by section
