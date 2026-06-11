@@ -10,7 +10,8 @@ export default function ContactList({ contacts }) {
     contains(item.name, contactSearch) ||
     contains(item.phone, contactSearch) ||
     contains(item.email, contactSearch) ||
-    contains(item.address, contactSearch)
+    contains(item.address, contactSearch) ||
+    contains(item.section, contactSearch)
   );
 
   // Group contacts by section
