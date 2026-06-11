@@ -8,9 +8,6 @@ export default function ContactList({ contacts }) {
 
   const filteredContacts = contacts.filter(item =>
     contains(item.name, contactSearch) ||
-    contains(item.phone, contactSearch) ||
-    contains(item.email, contactSearch) ||
-    contains(item.address, contactSearch) ||
     contains(item.section || 'Main Campus', contactSearch)
   );
 
@@ -30,7 +27,7 @@ export default function ContactList({ contacts }) {
       <div className="filter-bar">
         <input
           type="text"
-          placeholder="Search by department name, phone, email, or location..."
+          placeholder="Search by department name or campus section..."
           value={contactSearch}
           onChange={(e) => setContactSearch(e.target.value)}
         />
