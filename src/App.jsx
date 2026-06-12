@@ -9,7 +9,7 @@ import ContactList from './components/ContactList';
 import AdminDashboard from './components/Admin/AdminDashboard';
 import AdminQueries from './components/Admin/AdminQueries';
 import QueryPanel from './components/QueryPanel';
-import Navbar from './components/Navbar';
+import CardNav from './components/CardNav';
 import AcademicResources from './components/AcademicResources';
 import DepartmentDashboard from './components/DepartmentDashboard';
 import Chatbot from './components/Chatbot';
@@ -524,7 +524,7 @@ export default function App() {
         </div>
       ) : (
         <div className="website-layout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Navbar 
+          <CardNav
             userRole={userRole}
             activeModule={activeModule}
             setActiveModule={setActiveModule}
