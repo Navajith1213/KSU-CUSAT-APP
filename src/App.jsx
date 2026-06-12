@@ -628,7 +628,7 @@ export default function App() {
       )}
       {/* Always render chatbot globally */}
       <SocialSpeedDial />
-      <Chatbot />
+      <Chatbot onNavigate={(id) => setActiveModule(id)} />
     </>
   );
 }

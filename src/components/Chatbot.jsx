@@ -16,6 +16,17 @@ Here is specific knowledge you must use to answer questions:
 - Department Admins: Appointed by Master Admins. To volunteer, students should contact the admin team via the query system.
 - CUSAT Campus details: Focus on helping students with practical life (food, stay, studies).
 
+IMPORTANT NAVIGATION RULES:
+If you are recommending a section of the app, you MUST provide a clickable markdown link using this format: [Visible Text](module_id)
+The ONLY valid module_ids are:
+- boysPgs, girlsPgs, hostels
+- food, restaurants
+- calendar, contacts
+- amenities, clubs, turfs, academic_resources
+
+Example: "You can find past papers in the [Academic Resources](academic_resources) section."
+Do NOT use full URLs or http links, just the module_id inside the parenthesis.
+
 If you don't know the answer to a specific local question, politely say you don't have that exact information but encourage them to submit a formal query to the KSU helpdesk.`;
 
 const QA_DATA = [
@@ -26,7 +37,7 @@ const QA_DATA = [
   { id: 'dept_admin', question: 'How do I become a Department Admin?' }
 ];
 
-export default function Chatbot() {
+export default function Chatbot({ onNavigate }) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { type: 'bot', text: 'Hi there! 👋 I am the KSU CUSAT virtual assistant, powered by Gemini AI. How can I help you today?' }
@@ -45,6 +56,31 @@ export default function Chatbot() {
   useEffect(() => {
     if (isOpen) scrollToBottom();
   }, [messages, isOpen, isTyping]);
+
+  const renderMessageText = (text) => {
+    // Split by markdown links: [Label](module_id)
+    const parts = text.split(/(\[[^\]]+\]\([^)]+\))/g);
+    return parts.map((part, i) => {
+      const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (match) {
+        return (
+          <a 
+            key={i} 
+            href="#" 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              if (onNavigate) onNavigate(match[2]); 
+              setIsOpen(false); // Close chatbot to show the new page
+            }}
+            style={{ color: 'inherit', textDecoration: 'underline', fontWeight: 'bold' }}
+          >
+            {match[1]}
+          </a>
+        );
+      }
+      return <span key={i}>{part}</span>;
+    });
+  };
 
   const handleSendMessage = async (text) => {
     if (!text.trim()) return;
@@ -140,7 +176,7 @@ export default function Chatbot() {
                   </div>
                 )}
                 <div className={`message-bubble ${msg.type === 'user' ? 'bubble-user' : 'bubble-bot'}`} style={{ whiteSpace: 'pre-wrap' }}>
-                  {msg.text}
+                  {renderMessageText(msg.text)}
                 </div>
               </div>
             ))}
