@@ -107,7 +107,7 @@
 }
 
 .nav-auth-mobile {
-  display: none;
+  display: none !important;
 }
 
 .card-nav-content {
@@ -217,7 +217,7 @@
   }
 
   .nav-auth-mobile {
-    display: flex;
+    display: flex !important;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
