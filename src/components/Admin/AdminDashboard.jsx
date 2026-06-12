@@ -244,6 +244,7 @@ export default function AdminDashboard({
     if (type === 'boysPgs') setNewBoysPg(item);
     if (type === 'girlsPgs') setNewGirlsPg(item);
     if (type === 'hostels') setNewHostel(item);
+    if (type === 'turfs') setNewTurf(item);
     if (type === 'food') setNewFoodSpot({
       name: item.name || '',
       location: item.location || '',
@@ -312,6 +313,7 @@ export default function AdminDashboard({
           ['restaurants', 'Restaurants'],
           ['amenities', 'Amenities'],
           ['clubs', 'Clubs'],
+          ['turfs', 'Turfs & Arenas'],
           ['dept_admins', 'Dept Admins'],
           ...(loggedStudent?.email === 'navajith1122@gmail.com' ? [['master_admins', 'Super Admin']] : [])
         ].map(([id, label]) => (
