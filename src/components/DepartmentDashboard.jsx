@@ -160,8 +160,15 @@ export default function DepartmentDashboard({ loggedStudent }) {
       if (!isMasterAdmin) {
         query = query.eq('added_by', loggedStudent.email);
       }
-      const { error } = await query;
+      
+      const { data, error } = await query.select();
+      
       if (error) throw error;
+      
+      if (!data || data.length === 0) {
+        throw new Error("You do not have permission to delete this file, or it does not exist.");
+      }
+
       setResources(resources.filter(r => r.id !== id));
     } catch (error) {
       alert('Error deleting resource: ' + error.message);
