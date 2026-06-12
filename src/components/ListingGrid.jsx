@@ -68,8 +68,8 @@ export default function ListingGrid({ items, fields }) {
               })}
             </div>
             {item.location && (
-              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn">
-                <i className="ti ti-map-2"></i> Navigate on Maps
+              <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn slide-in-btn">
+                <i className="ti ti-map-2"></i> <span className="btn-text">Navigate on Maps</span>
               </a>
             )}
           </div>

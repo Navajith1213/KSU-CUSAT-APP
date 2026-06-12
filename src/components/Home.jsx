@@ -216,11 +216,11 @@ export default function Home({
           </p>
         </div>
         <button 
-          className="btn-primary" 
-          style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#0284c7', padding: '10px 20px', fontSize: '15px' }} 
+          className="btn-primary slide-in-btn" 
+          style={{ background: '#0284c7', fontSize: '15px' }} 
           onClick={() => setActiveModule('join_ksu')}
         >
-          Join KSU <i className="ti ti-arrow-right"></i>
+          <i className="ti ti-arrow-right"></i> <span className="btn-text">Join KSU</span>
         </button>
       </div>
 
@@ -236,8 +236,8 @@ export default function Home({
               and track their status.
             </p>
           </div>
-          <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setShowAuthModal(true)}>
-            <i className="ti ti-login"></i> Log In to File Inquiries
+          <button className="btn-secondary slide-in-btn" onClick={() => setShowAuthModal(true)}>
+            <i className="ti ti-login"></i> <span className="btn-text">Log In to File Inquiries</span>
           </button>
         </div>
       )}

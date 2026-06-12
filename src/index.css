@@ -942,6 +942,39 @@ h1, h2, h3, .hero-title, .brand-box h2 {
   box-shadow: 0 6px 14px var(--primary-glow);
 }
 
+.slide-in-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 8px 24px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-in-btn .ti {
+  position: absolute;
+  left: 10px;
+  opacity: 0;
+  transform: translateX(-15px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 16px;
+}
+
+.slide-in-btn .btn-text {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(0);
+}
+
+.slide-in-btn:hover .ti {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-in-btn:hover .btn-text {
+  transform: translateX(10px);
+}
+
 .navbar-btn.logout {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.15);
