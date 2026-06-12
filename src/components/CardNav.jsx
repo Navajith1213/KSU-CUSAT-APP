@@ -135,7 +135,13 @@ const CardNav = ({
   }, [items]);
 
   useLayoutEffect(() => {
+    let lastWidth = window.innerWidth;
+
     const handleResize = () => {
+      // Ignore height-only resize events triggered by mobile browser scroll bars hiding/overscrolling
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+
       if (!tlRef.current) return;
 
       if (isExpanded) {
