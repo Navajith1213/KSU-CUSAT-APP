@@ -108,7 +108,10 @@ const CardNav = ({
     const validCards = cardsRef.current.filter(el => el != null);
     gsap.set(validCards, { y: 30, opacity: 0 });
 
-    const tl = gsap.timeline({ paused: true });
+    const tl = gsap.timeline({ 
+      paused: true,
+      onReverseComplete: () => setIsExpanded(false) 
+    });
 
     tl.to(navEl, {
       height: calculateHeight,
@@ -164,11 +167,10 @@ const CardNav = ({
     if (!isExpanded) {
       setIsHamburgerOpen(true);
       setIsExpanded(true);
-      tl.play(0);
+      tl.restart(); // Bulletproof: always restarts from 0 and plays forward
     } else {
       setIsHamburgerOpen(false);
-      tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
-      tl.reverse();
+      tl.reverse(); // onReverseComplete baked into timeline creation handles the rest
     }
   };
 
