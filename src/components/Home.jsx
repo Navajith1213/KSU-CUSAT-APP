@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
+import Typewriter from './Typewriter';
 
 export default function Home({
   academicEvents,
@@ -160,9 +161,11 @@ export default function Home({
         ) : (
           <div className="hero-content">
             <h2 className="hero-title">KSU Students Portal</h2>
-            <p className="hero-subtitle">
-              Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find boys and girls PG
-              accommodations, tea spots, and key campus contacts.
+            <p className="hero-subtitle" style={{ minHeight: '60px' }}>
+              <Typewriter 
+                text="Your ultimate campus assistant for staying, dining, and navigating CUSAT. Find boys and girls PG accommodations, tea spots, and key campus contacts." 
+                speed={30} 
+              />
             </p>
           </div>
         )}
