@@ -9,8 +9,8 @@ export default function Typewriter({ text, speed = 50, cursor = '|' }) {
     let i = 0;
     setDisplayedText('');
     const typingInterval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText(prev => prev + text.charAt(i));
+      if (i <= text.length) {
+        setDisplayedText(text.slice(0, i));
         i++;
       } else {
         clearInterval(typingInterval);
