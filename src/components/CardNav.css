@@ -12,7 +12,9 @@
   display: block;
   height: 64px;
   padding: 0;
-  background-color: var(--card-bg);
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
@@ -20,6 +22,10 @@
   overflow: hidden;
   will-change: height;
   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .card-nav {
+  background-color: rgba(15, 23, 42, 0.6);
 }
 
 .card-nav-top {
@@ -33,7 +39,7 @@
   justify-content: space-between;
   padding: 0 16px 0 20px;
   z-index: 2;
-  background-color: var(--card-bg); /* ensure background stays solid during animation */
+  background-color: transparent; /* transparent to let glass effect show */
   border-bottom: 1px solid transparent;
   transition: border-bottom-color 0.3s ease;
 }
@@ -123,7 +129,7 @@
   visibility: hidden;
   pointer-events: none;
   z-index: 1;
-  background-color: var(--background-color);
+  background-color: transparent; /* transparent to let glass effect show */
 }
 
 .card-nav.open .card-nav-content {
