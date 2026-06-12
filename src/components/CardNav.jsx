@@ -200,7 +200,7 @@ const CardNav = ({
               src="/logo.png" 
               alt="KSU CUSAT Logo" 
               className="logo" 
-              style={{ filter: theme === 'dark' ? 'none' : 'invert(1)', mixBlendMode: theme === 'dark' ? 'screen' : 'multiply' }}
+              style={{ filter: 'brightness(0) invert(1)', mixBlendMode: 'difference' }}
             />
           </div>
 
