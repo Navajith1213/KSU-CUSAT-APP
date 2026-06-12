@@ -943,24 +943,21 @@ h1, h2, h3, .hero-title, .brand-box h2 {
 }
 
 .slide-in-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 8px 24px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 10px 24px;
 }
 
 .slide-in-btn .ti {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 0;
+  position: absolute;
+  left: 16px;
   opacity: 0;
   transform: translateX(-15px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 18px;
-  white-space: nowrap;
 }
 
 .slide-in-btn .btn-text {
@@ -971,10 +968,12 @@ h1, h2, h3, .hero-title, .brand-box h2 {
 }
 
 .slide-in-btn:hover .ti {
-  max-width: 24px;
   opacity: 1;
   transform: translateX(0);
-  margin-right: 6px;
+}
+
+.slide-in-btn:hover .btn-text {
+  transform: translateX(12px);
 }
 
 .theme-toggle {
