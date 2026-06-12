@@ -97,12 +97,12 @@ export default function Navbar({
           
           {/* Theme Toggle Button */}
           <button 
-            className="navbar-btn" 
-            style={{ padding: '8px', borderRadius: '50%', background: 'var(--bg-hover)', color: 'var(--text-primary)' }}
+            className="theme-toggle" 
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             title="Toggle Dark Mode"
           >
-            <i className={theme === 'dark' ? 'ti ti-sun' : 'ti ti-moon'} style={{ fontSize: '18px' }}></i>
+            <i className="ti ti-sun icon-sun"></i>
+            <i className="ti ti-moon icon-moon"></i>
           </button>
 
           {userRole === 'student' && loggedStudent && (
@@ -120,8 +120,8 @@ export default function Navbar({
           )}
 
           {userRole === 'user' ? (
-            <button className="navbar-btn" onClick={() => setShowAuthModal(true)}>
-              <i className="ti ti-login"></i> Log In
+            <button className="navbar-btn slide-in-btn" onClick={() => setShowAuthModal(true)}>
+              <i className="ti ti-login"></i> <span className="btn-text">Log In</span>
             </button>
           ) : (
             <button className="navbar-btn logout" onClick={logout}>
@@ -329,8 +329,8 @@ export default function Navbar({
           )}
 
           {userRole === 'user' ? (
-            <button className="navbar-btn" style={{ width: '100%' }} onClick={() => { setShowAuthModal(true); setIsOpen(false); }}>
-              <i className="ti ti-login"></i> Log In
+            <button className="navbar-btn slide-in-btn" style={{ width: '100%', marginTop: '10px' }} onClick={() => { setShowAuthModal(true); setIsMobileMenuOpen(false); }}>
+              <i className="ti ti-login"></i> <span className="btn-text">Log In</span>
             </button>
           ) : (
             <button className="navbar-btn logout" style={{ width: '100%' }} onClick={() => { logout(); setIsOpen(false); }}>

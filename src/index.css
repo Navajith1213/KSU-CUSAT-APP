@@ -975,6 +975,48 @@ h1, h2, h3, .hero-title, .brand-box h2 {
   transform: translateX(10px);
 }
 
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-hover);
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: background 0.3s ease;
+}
+
+.theme-toggle i {
+  position: absolute;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 20px;
+}
+
+.theme-toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+body.dark .theme-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+body.dark .theme-toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
 .navbar-btn.logout {
   background: linear-gradient(135deg, #ef4444, #dc2626);
   box-shadow: 0 4px 10px rgba(239, 68, 68, 0.15);

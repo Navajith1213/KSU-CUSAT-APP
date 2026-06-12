@@ -34,12 +34,13 @@ export default function Topbar({ userRole, theme, setTheme }) {
       </div>
       <div className="status-box">
         <button 
-          className="navbar-btn" 
-          style={{ padding: '8px', borderRadius: '50%', background: 'var(--bg-hover)', color: 'var(--text-primary)', marginRight: '8px' }}
+          className="theme-toggle" 
+          style={{ marginRight: '8px' }}
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           title="Toggle Dark Mode"
         >
-          <i className={theme === 'dark' ? 'ti ti-sun' : 'ti ti-moon'} style={{ fontSize: '18px' }}></i>
+          <i className="ti ti-sun icon-sun"></i>
+          <i className="ti ti-moon icon-moon"></i>
         </button>
         <span className={badge.className}>
           <i className={`ti ${badge.icon}`}></i>
