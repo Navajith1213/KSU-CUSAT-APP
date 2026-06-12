@@ -109,8 +109,16 @@ export default function DepartmentDashboard({ loggedStudent }) {
               const files = await fetchDriveFiles(cat.id);
               if (files.length === 0) continue;
 
+              // Fetch existing links to prevent duplicates
+              const { data: existingData } = await supabase
+                .from('academic_resources')
+                .select('drive_link')
+                .eq('department', finalDepartment);
+              const existingLinks = new Set((existingData || []).map(r => r.drive_link));
+
               const resourcesToInsert = files
                 .filter(f => f.mimeType !== 'application/vnd.google-apps.folder')
+                .filter(f => !existingLinks.has(f.webViewLink)) // PREVENT DUPLICATES
                 .map(file => ({
                   department: finalDepartment,
                   course: course.name.trim(),
@@ -144,7 +152,9 @@ export default function DepartmentDashboard({ loggedStudent }) {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this resource?")) return;
+    if (!window.confirm("Are you sure you want to delete this resource from the dashboard?")) return;
+    if (!window.confirm("IMPORTANT: Because of Bulk Sync, if this file is still in your Google Drive folder, the next sync will just add it right back!\n\nTo permanently delete it, you must also delete the file from your Google Drive.\n\nContinue with deletion?")) return;
+
     try {
       let query = supabase.from('academic_resources').delete().eq('id', id);
       if (!isMasterAdmin) {
@@ -160,6 +170,8 @@ export default function DepartmentDashboard({ loggedStudent }) {
 
   const handleDeleteAll = async () => {
     if (!window.confirm("WARNING: Are you sure you want to delete ALL your uploaded resources? This cannot be undone.")) return;
+    if (!window.confirm("IMPORTANT: If you run Bulk Sync again, all of these files will just be instantly re-downloaded from Google Drive!\n\nTo permanently remove them, you must delete the folders from your Google Drive.\n\nContinue?")) return;
+
     try {
       let query = supabase.from('academic_resources').delete();
       if (!isMasterAdmin) {
