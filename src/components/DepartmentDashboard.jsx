@@ -5,21 +5,32 @@ export default function DepartmentDashboard({ loggedStudent }) {
   const [resources, setResources] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [syncStatus, setSyncStatus] = useState('');
   
   // Form State
-  const [subject, setSubject] = useState('');
-  const [resourceType, setResourceType] = useState('Notes');
-  const [yearSemester, setYearSemester] = useState('');
   const [driveLink, setDriveLink] = useState('');
   const [customDepartment, setCustomDepartment] = useState(''); // For Master Admin
+  const [departmentsList, setDepartmentsList] = useState([]);
 
   const isMasterAdmin = loggedStudent?.email === 'navajith1122@gmail.com';
+  const DRIVE_API_KEY = import.meta.env.VITE_GOOGLE_DRIVE_API_KEY;
 
   useEffect(() => {
     if (loggedStudent?.department || isMasterAdmin) {
       fetchMyResources();
     }
-  }, [loggedStudent]);
+    if (isMasterAdmin) {
+      supabase.from('contacts').select('data').then(({ data }) => {
+        if (data) {
+          const depts = data
+            .map(d => d.data.name)
+            .filter(n => n.toLowerCase().includes('department') || n.toLowerCase().includes('school'))
+            .sort();
+          setDepartmentsList(depts);
+        }
+      });
+    }
+  }, [loggedStudent, isMasterAdmin]);
 
   const fetchMyResources = async () => {
     try {
@@ -43,73 +54,130 @@ export default function DepartmentDashboard({ loggedStudent }) {
     }
   };
 
-  const handleAddResource = async (e) => {
+  const fetchDriveFiles = async (folderId) => {
+    const response = await fetch(`https://www.googleapis.com/drive/v3/files?q='${folderId}'+in+parents+and+trashed=false&fields=files(id,name,mimeType,webViewLink)&key=${DRIVE_API_KEY}`);
+    const data = await response.json();
+    if (data.error) throw new Error(data.error.message);
+    return data.files || [];
+  };
+
+  const handleBulkSync = async (e) => {
     e.preventDefault();
-    const finalDepartment = isMasterAdmin ? customDepartment.trim() : loggedStudent.department;
-    
-    if (!subject.trim() || !driveLink.trim() || !finalDepartment) {
-      alert("Please fill all required fields.");
+    if (!DRIVE_API_KEY) {
+      alert("Google Drive API Key is missing. Please add VITE_GOOGLE_DRIVE_API_KEY to your .env file.");
       return;
     }
 
-    // Basic Google Drive link validation
-    if (!driveLink.includes('drive.google.com') && !driveLink.includes('docs.google.com')) {
-      alert("Please enter a valid Google Drive link.");
+    const finalDepartment = isMasterAdmin ? customDepartment : loggedStudent.department;
+    if (!finalDepartment) {
+      alert("Please select a department.");
       return;
     }
+
+    const folderIdMatch = driveLink.match(/folders\/([a-zA-Z0-9-_]+)/);
+    if (!folderIdMatch) {
+      alert("Invalid Google Drive folder link. Must contain /folders/ID. Ensure you are copying the link of the ROOT folder.");
+      return;
+    }
+    const rootFolderId = folderIdMatch[1];
 
     setIsSubmitting(true);
+    setSyncStatus("Connecting to Google Drive...");
+
     try {
-      const newResource = {
-        department: finalDepartment,
-        subject: subject.trim(),
-        resource_type: resourceType,
-        year_semester: yearSemester.trim(),
-        drive_link: driveLink.trim(),
-        added_by: loggedStudent.email
-      };
-
-      const { data, error } = await supabase
-        .from('academic_resources')
-        .insert([newResource])
-        .select();
-
-      if (error) throw error;
-
-      alert('Resource added successfully!');
-      setResources([data[0], ...resources]);
+      let totalSynced = 0;
+      const courses = await fetchDriveFiles(rootFolderId);
       
-      // Reset form
-      setSubject('');
-      setYearSemester('');
+      for (const course of courses) {
+        if (course.mimeType !== 'application/vnd.google-apps.folder') continue;
+        setSyncStatus(`Scanning Course: ${course.name}...`);
+        
+        const semesters = await fetchDriveFiles(course.id);
+        for (const sem of semesters) {
+          if (sem.mimeType !== 'application/vnd.google-apps.folder') continue;
+          setSyncStatus(`Scanning ${course.name} > ${sem.name}...`);
+
+          const subjects = await fetchDriveFiles(sem.id);
+          for (const sub of subjects) {
+            if (sub.mimeType !== 'application/vnd.google-apps.folder') continue;
+            setSyncStatus(`Scanning Subject: ${sub.name}...`);
+
+            const categories = await fetchDriveFiles(sub.id);
+            for (const cat of categories) {
+              if (cat.mimeType !== 'application/vnd.google-apps.folder') continue;
+
+              const files = await fetchDriveFiles(cat.id);
+              if (files.length === 0) continue;
+
+              const resourcesToInsert = files
+                .filter(f => f.mimeType !== 'application/vnd.google-apps.folder')
+                .map(file => ({
+                  department: finalDepartment,
+                  course: course.name.trim(),
+                  year_semester: sem.name.trim(),
+                  subject: sub.name.trim(),
+                  resource_type: cat.name.trim(),
+                  drive_link: file.webViewLink,
+                  added_by: loggedStudent.email
+                }));
+
+              if (resourcesToInsert.length > 0) {
+                const { error } = await supabase.from('academic_resources').insert(resourcesToInsert);
+                if (error) throw error;
+                totalSynced += resourcesToInsert.length;
+              }
+            }
+          }
+        }
+      }
+      
+      setSyncStatus(`Success! Synced ${totalSynced} new files.`);
       setDriveLink('');
-      if (isMasterAdmin) setCustomDepartment('');
-    } catch (error) {
-      alert('Error adding resource: ' + error.message);
+      fetchMyResources(); 
+    } catch (err) {
+      alert("Error syncing: " + err.message);
+      setSyncStatus("Sync failed. Check permissions.");
     } finally {
       setIsSubmitting(false);
+      setTimeout(() => setSyncStatus(""), 6000);
     }
   };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this resource?")) return;
-    
     try {
       let query = supabase.from('academic_resources').delete().eq('id', id);
-      
       if (!isMasterAdmin) {
         query = query.eq('added_by', loggedStudent.email);
       }
-
       const { error } = await query;
-      
+      if (error) throw error;
       setResources(resources.filter(r => r.id !== id));
     } catch (error) {
       alert('Error deleting resource: ' + error.message);
     }
   };
 
-  if (!loggedStudent?.department) {
+  const handleDeleteAll = async () => {
+    if (!window.confirm("WARNING: Are you sure you want to delete ALL your uploaded resources? This cannot be undone.")) return;
+    try {
+      let query = supabase.from('academic_resources').delete();
+      if (!isMasterAdmin) {
+        query = query.eq('added_by', loggedStudent.email);
+      } else {
+        query = query.eq('department', customDepartment || loggedStudent.department);
+      }
+      
+      const { error } = await query;
+      if (error) throw error;
+      setResources([]);
+      alert("All resources deleted successfully.");
+    } catch (error) {
+      alert('Error deleting resources: ' + error.message);
+    }
+  };
+
+  if (!loggedStudent?.department && !isMasterAdmin) {
     return <div className="content"><p>Error: You are not assigned to a department.</p></div>;
   }
 
@@ -120,100 +188,95 @@ export default function DepartmentDashboard({ loggedStudent }) {
           {isMasterAdmin ? 'Master Resource Manager' : 'Department Dashboard'}
         </h1>
         <p className="hero-subtitle" style={{ marginBottom: 0 }}>
-          {isMasterAdmin ? 'God Mode: Managing all departments' : `Managing resources for: ${loggedStudent.department}`}
+          {isMasterAdmin ? 'God Mode: Bulk Syncing for any department' : `Managing resources for: ${loggedStudent.department}`}
         </p>
       </div>
 
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
         
-        {/* Add Resource Form */}
+        {/* Bulk Sync Form */}
         <div className="card">
-          <h2><i className="ti ti-file-plus" style={{ marginRight: '8px' }}></i> Add New Resource</h2>
-          <form onSubmit={handleAddResource} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <h2><i className="ti ti-cloud-upload" style={{ marginRight: '8px' }}></i> Bulk Drive Sync</h2>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>
+            Paste the link to your Root Folder. It must be set to "Anyone with the link can view". The folder must follow this exact structure: <strong>Course &gt; Semester &gt; Subject &gt; Category &gt; Files</strong>.
+          </p>
+
+          <form onSubmit={handleBulkSync} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
             {isMasterAdmin && (
               <div className="form-group" style={{ marginBottom: 0 }}>
-                <label>Department Name</label>
+                <label>Select Department</label>
                 <input 
+                  list="departments-list"
                   type="text" 
                   value={customDepartment} 
                   onChange={(e) => setCustomDepartment(e.target.value)} 
-                  placeholder="e.g. Mechanical Engineering" 
+                  placeholder="Type or select a department..." 
                   required 
+                  style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-main)', color: 'var(--text-primary)' }}
                 />
+                <datalist id="departments-list">
+                  {departmentsList.map((dep, idx) => (
+                    <option key={idx} value={dep} />
+                  ))}
+                </datalist>
               </div>
             )}
 
             <div className="form-group" style={{ marginBottom: 0 }}>
-              <label>Subject / Topic Name</label>
-              <input 
-                type="text" 
-                value={subject} 
-                onChange={(e) => setSubject(e.target.value)} 
-                placeholder="e.g. Data Structures" 
-                required 
-              />
-            </div>
-            
-            <div className="form-grid">
-              <div className="form-group" style={{ marginBottom: 0 }}>
-                <label>Resource Type</label>
-                <select value={resourceType} onChange={(e) => setResourceType(e.target.value)}>
-                  <option value="Notes">Notes</option>
-                  <option value="PYQ">Previous Year Question</option>
-                  <option value="Syllabus">Syllabus</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div className="form-group" style={{ marginBottom: 0 }}>
-                <label>Year / Semester (Optional)</label>
-                <input 
-                  type="text" 
-                  value={yearSemester} 
-                  onChange={(e) => setYearSemester(e.target.value)} 
-                  placeholder="e.g. Sem 3, 2024" 
-                />
-              </div>
-            </div>
-
-            <div className="form-group" style={{ marginBottom: 0 }}>
-              <label>Google Drive Shareable Link</label>
+              <label>Google Drive Root Folder Link</label>
               <input 
                 type="url" 
                 value={driveLink} 
                 onChange={(e) => setDriveLink(e.target.value)} 
-                placeholder="https://drive.google.com/file/d/..." 
+                placeholder="https://drive.google.com/drive/folders/..." 
                 required 
+                disabled={isSubmitting}
+                style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-main)', color: 'var(--text-primary)' }}
               />
-              <p style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                Make sure the link sharing setting is "Anyone with the link can view".
-              </p>
             </div>
 
+            {syncStatus && (
+              <div style={{ padding: '10px', background: 'var(--bg-hover)', borderRadius: '8px', fontSize: '13px', fontWeight: 'bold', color: 'var(--primary-color)' }}>
+                <i className={isSubmitting ? "ti ti-loader" : "ti ti-check"} style={{ marginRight: '6px', animation: isSubmitting ? 'spin 1s linear infinite' : 'none' }}></i>
+                {syncStatus}
+              </div>
+            )}
+
             <button type="submit" className="btn-primary" disabled={isSubmitting} style={{ marginTop: '8px' }}>
-              {isSubmitting ? 'Adding...' : 'Add Resource'}
+              {isSubmitting ? 'Syncing...' : 'Start Bulk Sync'}
             </button>
           </form>
         </div>
 
         {/* List of Managed Resources */}
-        <div className="card">
-          <h2><i className="ti ti-books" style={{ marginRight: '8px' }}></i> Uploaded Resources</h2>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <h2 style={{ margin: 0 }}><i className="ti ti-books" style={{ marginRight: '8px' }}></i> Uploaded Files</h2>
+            {resources.length > 0 && (
+              <button className="btn-danger" onClick={handleDeleteAll} style={{ padding: '6px 12px', fontSize: '12px', background: 'transparent', color: '#ef4444', border: '1px solid #ef4444' }}>
+                Delete All
+              </button>
+            )}
+          </div>
           
           {isLoading ? (
             <p>Loading...</p>
           ) : resources.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '20px', background: 'var(--bg-main)', borderRadius: '8px' }}>
-              <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>No resources uploaded yet.</p>
+              <p style={{ color: 'var(--text-muted)', fontSize: '14px' }}>No resources synced yet.</p>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flex: 1, maxHeight: '400px', overflowY: 'auto', paddingRight: '8px' }}>
               {resources.map(resource => (
                 <div key={resource.id} className="event-item" style={{ padding: '12px' }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '4px', flexWrap: 'wrap' }}>
                       <span style={{ fontSize: '11px', background: '#e2e8f0', color: '#334155', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
                         {resource.resource_type}
+                      </span>
+                      <span style={{ fontSize: '11px', background: '#dbeafe', color: '#1e40af', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                        {resource.course}
                       </span>
                       {isMasterAdmin && (
                         <span style={{ fontSize: '11px', background: '#fef3c7', color: '#b45309', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
@@ -222,16 +285,16 @@ export default function DepartmentDashboard({ loggedStudent }) {
                       )}
                       {resource.year_semester && <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{resource.year_semester}</span>}
                     </div>
-                    <h4 style={{ margin: 0, fontSize: '15px' }}>{resource.subject}</h4>
+                    <h4 style={{ margin: '4px 0', fontSize: '15px' }}>{resource.subject}</h4>
                     <a href={resource.drive_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#0ea5e9', textDecoration: 'none' }}>
-                      <i className="ti ti-external-link"></i> View Link
+                      <i className="ti ti-external-link"></i> View File
                     </a>
                   </div>
                   <button 
                     className="btn-danger" 
                     onClick={() => handleDelete(resource.id)}
-                    style={{ padding: '6px 10px', fontSize: '12px' }}
-                    title="Delete Resource"
+                    style={{ padding: '6px 10px', fontSize: '12px', height: 'fit-content' }}
+                    title="Delete File"
                   >
                     <i className="ti ti-trash"></i>
                   </button>
