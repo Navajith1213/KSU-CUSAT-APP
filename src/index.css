@@ -962,6 +962,7 @@ h1, h2, h3, .hero-title, .brand-box h2 {
 }
 
 .slide-in-btn .btn-text {
+  display: inline-block;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(0);
 }
