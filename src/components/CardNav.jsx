@@ -18,8 +18,8 @@ const CardNav = ({
   const cardsRef = useRef([]);
   const tlRef = useRef(null);
 
-  // Define nav items mapping
-  const items = [
+  // Define nav items mapping, wrapped in useMemo to prevent GSAP timeline re-creation on every render
+  const items = React.useMemo(() => [
     {
       id: 'accommodations',
       label: 'Stay & PG',
@@ -67,7 +67,7 @@ const CardNav = ({
         { id: 'academic_resources', label: 'Academic Resources', icon: 'ti-books' }
       ]
     }
-  ];
+  ], [theme]);
 
   const calculateHeight = () => {
     const navEl = navRef.current;
