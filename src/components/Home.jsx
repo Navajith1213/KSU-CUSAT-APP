@@ -131,6 +131,14 @@ export default function Home({
       icon: 'ti-users',
       key: 'K',
       description: 'Get involved in cultural clubs, arts collectives, IEEE student branches, and technical workshops active on campus.'
+    },
+    {
+      id: 'turfs',
+      category: 'campus_life',
+      title: 'Turfs & Arenas',
+      icon: 'ti-ball-football',
+      key: 'T',
+      description: 'Find football turfs, badminton courts, and sports arenas near the campus with timing and rent details.'
     }
   ];
 

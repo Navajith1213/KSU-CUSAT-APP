@@ -87,6 +87,7 @@ export default function App() {
   const [amenities, setAmenities] = useState([]);
   const [clubs, setClubs] = useState([]);
   const [contacts, setContacts] = useState([]);
+  const [turfs, setTurfs] = useState([]);
 
 
   // Search/Filter states
@@ -99,6 +100,7 @@ export default function App() {
   const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
   const [amenitySearch, setAmenitySearch] = useState('');
   const [clubSearch, setClubSearch] = useState('');
+  const [turfSearch, setTurfSearch] = useState('');
 
   // Auto login on mount if session keys exist
   useEffect(() => {
@@ -138,7 +140,8 @@ export default function App() {
         { name: 'restaurants', setter: setRestaurants },
         { name: 'amenities', setter: setAmenities },
         { name: 'clubs', setter: setClubs },
-        { name: 'contacts', setter: setContacts }
+        { name: 'contacts', setter: setContacts },
+        { name: 'turfs', setter: setTurfs }
       ];
 
       for (const { name, setter } of tables) {
@@ -225,10 +228,17 @@ export default function App() {
       contains(item.description, clubSearch)
   );
 
+  const filteredTurfs = turfs.filter(
+    (item) =>
+      contains(item.name, turfSearch) ||
+      contains(item.location, turfSearch) ||
+      contains(item.facilities, turfSearch)
+  );
+
   const renderModuleContent = () => {
     return (
       <div key={activeModule} className="fade-in-section">
-        {['calendar', 'contacts', 'boysPgs', 'girlsPgs', 'hostels', 'food', 'restaurants', 'amenities', 'clubs', 'queries'].includes(activeModule) && (
+        {['calendar', 'contacts', 'boysPgs', 'girlsPgs', 'hostels', 'food', 'restaurants', 'amenities', 'clubs', 'turfs', 'queries'].includes(activeModule) && (
           <button
             onClick={() => setActiveModule('home')}
             className="back-btn"
@@ -422,6 +432,26 @@ export default function App() {
           </div>
         )}
 
+        {activeModule === 'turfs' && (
+          <div className="card">
+            <div className="module-header">
+              <h2>Turfs & Sports Arenas</h2>
+            </div>
+            <div className="filter-bar">
+              <input
+                type="text"
+                placeholder="Search turfs by name, location, or facilities..."
+                value={turfSearch}
+                onChange={(e) => setTurfSearch(e.target.value)}
+              />
+            </div>
+            <ListingGrid
+              items={filteredTurfs}
+              fields={['location', 'facilities', 'rent', 'timing', 'contact']}
+            />
+          </div>
+        )}
+
         {activeModule === 'academic_resources' && (
           <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />
         )}
@@ -454,6 +484,8 @@ export default function App() {
             setAmenities={setAmenities}
             clubs={clubs}
             setClubs={setClubs}
+            turfs={turfs}
+            setTurfs={setTurfs}
             loggedStudent={loggedStudent}
           />
         )}

@@ -7,7 +7,8 @@ import {
   FoodSpotForm,
   RestaurantForm,
   AmenityForm,
-  ClubForm
+  ClubForm,
+  TurfForm
 } from './Forms';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
 
@@ -40,6 +41,8 @@ export default function AdminDashboard({
   setAmenities,
   clubs,
   setClubs,
+  turfs,
+  setTurfs,
   loggedStudent,
 }) {
   const [adminSection, setAdminSection] = useState('calendar');
@@ -162,6 +165,7 @@ export default function AdminDashboard({
   const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', category: '', gmapsLink: '' });
   const [newClub, setNewClub] = useState({ name: '', location: '', contact: '', description: '', gmapsLink: '' });
   const [newContact, setNewContact] = useState({ name: '', phone: '', email: '', address: '', gmapsLink: '', section: 'Main Campus' });
+  const [newTurf, setNewTurf] = useState({ name: '', location: '', facilities: '', rent: '', timing: '', contact: '', gmapsLink: '' });
  
   const resetFormByType = (type) => {
     if (type === 'calendar') setNewEvent({ title: '', date: '', type: 'academic' });
@@ -173,6 +177,7 @@ export default function AdminDashboard({
     if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', category: '', gmapsLink: '' });
     if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', description: '', gmapsLink: '' });
     if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '', gmapsLink: '', section: 'Main Campus' });
+    if (type === 'turfs') setNewTurf({ name: '', location: '', facilities: '', rent: '', timing: '', contact: '', gmapsLink: '' });
   };
 
   const addOrUpdateItem = async (type) => {
@@ -184,8 +189,9 @@ export default function AdminDashboard({
       food: { value: newFoodSpot, setValue: setNewFoodSpot, list: foodSpots, setList: setFoodSpots, required: ['name', 'location'] },
       restaurants: { value: newRestaurant, setValue: setNewRestaurant, list: restaurants, setList: setRestaurants, required: ['name', 'location'] },
       amenities: { value: newAmenity, setValue: setNewAmenity, list: amenities, setList: setAmenities, required: ['name', 'location', 'category'] },
-      clubs: { value: newClub, setValue: setNewClub, list: clubs, setList: setClubs, required: ['name', 'location'] },
-      contacts: { value: newContact, setValue: setNewContact, list: contacts, setList: setContacts, required: ['name', 'phone'] }
+      clubs: { value: newClub, setValue: setNewClub, list: clubs, setList: setClubs, required: ['name'] },
+      contacts: { value: newContact, setValue: setNewContact, list: contacts, setList: setContacts, required: ['name'] },
+      turfs: { value: newTurf, setValue: setNewTurf, list: turfs, setList: setTurfs, required: ['name', 'location'] }
     };
 
     const current = config[type];
@@ -515,6 +521,28 @@ export default function AdminDashboard({
               <div className="row-actions">
                 <button className="btn-edit" onClick={() => handleEdit('clubs', item.id, item)}>Edit</button>
                 <button className="btn-danger" onClick={() => handleDelete(setClubs, clubs, item.id, 'clubs')}>Delete</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {adminSection === 'turfs' && (
+        <div>
+          <TurfForm
+            value={newTurf}
+            onChange={setNewTurf}
+            onSubmit={() => addOrUpdateItem('turfs')}
+            onCancel={() => cancelEdit('turfs')}
+            isEdit={editId !== null}
+          />
+          <br />
+          {turfs.map((item) => (
+            <div className="event-item" key={item.id}>
+              <span>{item.name}</span>
+              <div className="row-actions">
+                <button className="btn-edit" onClick={() => handleEdit('turfs', item.id, item)}>Edit</button>
+                <button className="btn-danger" onClick={() => handleDelete(setTurfs, turfs, item.id, 'turfs')}>Delete</button>
               </div>
             </div>
           ))}

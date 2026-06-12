@@ -63,6 +63,7 @@ export default function Navbar({
       items: [
         { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
         { id: 'clubs', label: 'Clubs', icon: 'ti-users' },
+        { id: 'turfs', label: 'Turfs & Arenas', icon: 'ti-ball-football' },
         { id: 'academic_resources', label: 'Academic Resources', icon: 'ti-books' }
       ]
     }

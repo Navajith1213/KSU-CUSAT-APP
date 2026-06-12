@@ -16,7 +16,8 @@ const FIELD_LABELS = {
   timing: 'Timing',
   cuisine: 'Cuisine',
   details: 'Details',
-  services: 'Services Provided'
+  services: 'Services Provided',
+  facilities: 'Facilities / Amenities'
 };
 
 export default function ListingGrid({ items, fields }) {

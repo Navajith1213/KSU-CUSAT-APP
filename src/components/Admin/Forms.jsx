@@ -490,3 +490,53 @@ export function ClubForm({ value, onChange, onSubmit, onCancel, isEdit }) {
     </div>
   );
 }
+
+export function TurfForm({ value, onChange, onSubmit, onCancel, isEdit }) {
+  return (
+    <div className="card">
+      <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>
+        {isEdit ? 'Edit Turf/Arena' : 'Add New Turf/Arena'}
+      </h3>
+      <div className="form-grid">
+        <div className="form-group">
+          <label>Name *</label>
+          <input value={value.name || ''} onChange={(e) => onChange({ ...value, name: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Location *</label>
+          <input value={value.location || ''} onChange={(e) => onChange({ ...value, location: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Facilities (e.g., 5s, 7s, Badminton)</label>
+          <input value={value.facilities || ''} onChange={(e) => onChange({ ...value, facilities: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Rent (e.g., ₹1000/hr)</label>
+          <input value={value.rent || ''} onChange={(e) => onChange({ ...value, rent: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Timing (e.g., 6 AM - 11 PM)</label>
+          <input value={value.timing || ''} onChange={(e) => onChange({ ...value, timing: e.target.value })} />
+        </div>
+        <div className="form-group">
+          <label>Contact Number</label>
+          <input value={value.contact || ''} onChange={(e) => onChange({ ...value, contact: e.target.value })} />
+        </div>
+        <div className="form-group full-width">
+          <label>Google Maps Link</label>
+          <input 
+            value={value.gmapsLink || ''} 
+            onChange={(e) => onChange({ ...value, gmapsLink: e.target.value })} 
+            placeholder="https://maps.app.goo.gl/..."
+          />
+        </div>
+        <div className="form-group full-width row-actions">
+          <button className="btn-primary" onClick={onSubmit}>
+            {isEdit ? 'Update Turf' : 'Add Turf'}
+          </button>
+          {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
+        </div>
+      </div>
+    </div>
+  );
+}
