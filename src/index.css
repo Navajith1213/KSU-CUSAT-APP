@@ -1618,6 +1618,18 @@ body.dark .theme-toggle .icon-moon {
   color: #0369a1;
 }
 
+body.dark .chatbot-option-btn {
+  background: var(--bg-hover);
+  border-color: var(--border-color);
+  color: #38bdf8;
+}
+
+body.dark .chatbot-option-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+  color: #bae6fd;
+}
+
 .chatbot-reset-btn {
   background: none;
   border: none;
