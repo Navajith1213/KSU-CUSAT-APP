@@ -503,7 +503,7 @@ export default function App() {
         {activeModule === 'admin_dashboard' && userRole === 'admin' && (
           <AdminDashboard />
         )}
-        {activeModule === 'admin_queries' && userRole === 'admin' && (
+        {activeModule === 'admin-queries' && userRole === 'admin' && (
           <AdminQueries />
         )}
       </div>
