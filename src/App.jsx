@@ -16,7 +16,7 @@ import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
-import DotGrid from './components/DotGrid';
+import ColorBends from './components/ColorBends';
 
 
 
@@ -504,16 +504,20 @@ export default function App() {
   return (
     <>
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
-        <DotGrid
-          dotSize={8}
-          gap={24}
-          baseColor="#ffffff"
-          activeColor="#2563eb"
-          proximity={120}
-          shockRadius={250}
-          shockStrength={5}
-          resistance={750}
-          returnDuration={1.5}
+        <ColorBends
+          colors={["#e0f2fe", "#93c5fd", "#3b82f6"]}
+          rotation={45}
+          speed={0.15}
+          scale={1.2}
+          frequency={0.8}
+          warpStrength={1.5}
+          mouseInfluence={1}
+          noise={0.05}
+          parallax={0.2}
+          iterations={2}
+          intensity={1.2}
+          bandWidth={4}
+          transparent={true}
         />
       </div>
       <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
