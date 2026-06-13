@@ -4,7 +4,7 @@ import Typewriter from './Typewriter';
 import BorderGlow from './BorderGlow';
 import CountUp from './CountUp';
 import MagicBento from './MagicBento';
-import Stack from './Stack';
+import DomeGallery from './DomeGallery';
 import Marquee from './Marquee';
 
 const galleryImages = [
@@ -301,7 +301,7 @@ export default function Home({
           className="card" 
           glowRadius={40} 
           borderRadius={20} 
-          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', height: '100%', position: 'relative' }} 
+          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', position: 'relative' }} 
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', width: '100%' }}>
             <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '12px', borderRadius: '14px' }}>
@@ -310,19 +310,15 @@ export default function Home({
             <h3 style={{ color: 'var(--text-primary)', fontSize: '22px', fontWeight: '700', margin: 0 }}>Photo Gallery</h3>
           </div>
           
-          <div style={{ width: '220px', height: '220px', marginBottom: '20px' }}>
-            <Stack
-              randomRotation={true}
-              sensitivity={180}
-              sendToBackOnClick={true}
-              cards={galleryImages.map((src, i) => (
-                <img 
-                  key={i} 
-                  src={src} 
-                  alt={`gallery-${i + 1}`} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
-                />
-              ))}
+          <div style={{ width: '100%', height: '350px', position: 'relative', overflow: 'hidden', borderRadius: '16px' }}>
+            <DomeGallery
+              images={galleryImages}
+              fit={0.7}
+              minRadius={300}
+              maxVerticalRotationDeg={8}
+              segments={22}
+              dragDampening={0.8}
+              grayscale={false}
             />
           </div>
         </BorderGlow>
