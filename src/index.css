@@ -1778,3 +1778,6 @@ body.dark .speed-dial-btn {
   margin-bottom: 24px;
   box-shadow: 0 4px 6px var(--shadow-color);
 }
+
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } 100% { transform: scale(1); opacity: 1; } }
+

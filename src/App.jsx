@@ -38,6 +38,7 @@ export default function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -159,6 +160,8 @@ export default function App() {
       }));
     } catch (err) {
       console.error("Error fetching static data:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -527,6 +530,14 @@ export default function App() {
           transparent={true}
         />
       </div>
+
+      {isLoading ? (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-main)', backdropFilter: 'blur(10px)' }}>
+          <img src="/logo.png" alt="Loading" style={{ height: '80px', objectFit: 'contain', marginBottom: '20px', animation: 'pulse 1.5s infinite' }} />
+          <div style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: '600' }}>Fetching Dashboard...</div>
+        </div>
+      ) : null}
+
       <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
       {userRole === 'admin' ? (
         <div className="portal-layout">
