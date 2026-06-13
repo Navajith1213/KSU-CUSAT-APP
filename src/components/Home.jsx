@@ -279,49 +279,53 @@ export default function Home({
         </BorderGlow>
       )}
 
-      {/* Grouped Feature Grids */}
-      <div style={{ marginTop: '24px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.02em' }}>
-          Portal Features & Resources
-        </h2>
-        <p style={{ color: 'var(--text-muted)', fontSize: '14.5px', marginBottom: '16px' }}>
-          Explore CUSAT portal categories and student service hubs.
-        </p>
-
-        {categories.map((cat) => {
-          const catFeatures = features.filter((feat) => feat.category === cat.id);
-          if (catFeatures.length === 0) return null;
-
-          return (
-            <div key={cat.id} style={{ marginBottom: '32px' }}>
-              <h3 className="home-category-title">{cat.title}</h3>
-              <p className="home-category-desc">{cat.description}</p>
-              
-              <div className="preview-grid">
-                {catFeatures.map((feat) => (
-                  <div className="preview-card" key={feat.id} onClick={() => setActiveModule(feat.id)}>
-                    <div>
-                      <div className="preview-header">
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                          <div className="preview-icon-box">
-                            <i className={`ti ${feat.icon}`}></i>
-                          </div>
-                          <h4 className="preview-title" style={{ fontSize: '16px', margin: 0 }}>{feat.title}</h4>
-                        </div>
-                      </div>
-                      <p className="preview-content" style={{ fontSize: '13.5px', marginTop: '8px' }}>
-                        {feat.description}
-                      </p>
-                    </div>
-                    <button className="preview-btn-text" style={{ fontSize: '13px' }}>
-                      Explore <i className="ti ti-arrow-right"></i>
-                    </button>
-                  </div>
-                ))}
-              </div>
+      {/* Announcements & Photo Gallery */}
+      <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', padding: '0 10px', marginBottom: '40px' }}>
+        
+        {/* Announcements Box */}
+        <BorderGlow 
+          className="card" 
+          glowRadius={40} 
+          borderRadius={20} 
+          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', padding: '24px', cursor: 'pointer', height: '100%' }} 
+          onClick={() => setActiveModule('calendar')}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '12px', borderRadius: '14px' }}>
+              <i className="ti ti-bell-ringing" style={{ fontSize: '26px' }}></i>
             </div>
-          );
-        })}
+            <h3 style={{ color: 'var(--text-primary)', fontSize: '22px', fontWeight: '700', margin: 0 }}>Announcements</h3>
+          </div>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: '1.6', flex: 1 }}>
+            Stay updated with the latest news, exam schedules, and important notices from the university and union.
+          </p>
+          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', color: '#ef4444', fontWeight: '600', fontSize: '14.5px' }}>
+            View Updates <i className="ti ti-arrow-right" style={{ marginLeft: '6px' }}></i>
+          </div>
+        </BorderGlow>
+
+        {/* Photo Gallery Box */}
+        <BorderGlow 
+          className="card" 
+          glowRadius={40} 
+          borderRadius={20} 
+          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', padding: '24px', cursor: 'pointer', height: '100%' }} 
+          onClick={() => setActiveModule('gallery')}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '12px', borderRadius: '14px' }}>
+              <i className="ti ti-photo" style={{ fontSize: '26px' }}></i>
+            </div>
+            <h3 style={{ color: 'var(--text-primary)', fontSize: '22px', fontWeight: '700', margin: 0 }}>Photo Gallery</h3>
+          </div>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: '1.6', flex: 1 }}>
+            Explore memories, campus events, and celebrations captured by our talented student community.
+          </p>
+          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', color: '#10b981', fontWeight: '600', fontSize: '14.5px' }}>
+            Open Gallery <i className="ti ti-arrow-right" style={{ marginLeft: '6px' }}></i>
+          </div>
+        </BorderGlow>
+
       </div>
     </div>
   );
