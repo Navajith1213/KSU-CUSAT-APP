@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
 import BorderGlow from './BorderGlow';
+import Folder from './Folder';
 
 export default function AcademicResources({ userRole, setShowAuthModal }) {
   const [resources, setResources] = useState([]);
@@ -293,11 +294,27 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                     {/* Level 4: Subject Cards Grid */}
                     <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
                       {Object.keys(groupedData[sem]).sort().map(sub => (
-                        <div key={sub} className="item-card" style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
-                          <h4 style={{ fontSize: '18px', margin: '0 0 16px 0', color: 'var(--text-primary)', lineHeight: '1.4' }}>{sub}</h4>
+                        <div key={sub} className="item-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px 20px', alignItems: 'center', background: 'var(--bg-main)', border: '1px solid var(--border-color)', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+                          
+                          <div style={{ height: '140px', position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                            <Folder 
+                              color={getResourceColor(groupedData[sem][sub][0]?.resource_type || 'default')} 
+                              size={1.1} 
+                              items={groupedData[sem][sub].slice(0, 3).map(file => (
+                                <div style={{ padding: '6px', fontSize: '9px', color: '#1e293b', textAlign: 'center', height: '100%', border: '1px solid #e2e8f0', borderRadius: '4px', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                  <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ fontSize: '18px', marginBottom: '6px', display: 'block', color: getResourceColor(file.resource_type) }}></i>
+                                  <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', fontWeight: '600', lineHeight: '1.2' }}>
+                                    {file.topic || file.resource_type}
+                                  </div>
+                                </div>
+                              ))} 
+                            />
+                          </div>
+
+                          <h4 style={{ fontSize: '18px', margin: '0 0 20px 0', color: 'var(--text-primary)', lineHeight: '1.4', textAlign: 'center', fontWeight: '700' }}>{sub}</h4>
                           
                           {/* Level 5: Categories / Topics inside the Subject */}
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto' }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto', width: '100%' }}>
                             {groupedData[sem][sub].map(file => (
                               <button 
                                 key={file.id}
