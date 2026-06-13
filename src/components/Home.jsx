@@ -3,6 +3,14 @@ import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 import Typewriter from './Typewriter';
 import BorderGlow from './BorderGlow';
 import MagicBento from './MagicBento';
+import Stack from './Stack';
+
+const galleryImages = [
+  "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=500&auto=format",
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=500&auto=format",
+  "https://images.unsplash.com/photo-1519452314561-34afb55f19c6?q=80&w=500&auto=format",
+  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=500&auto=format"
+];
 
 export default function Home({
   academicEvents,
@@ -304,24 +312,37 @@ export default function Home({
           </div>
         </BorderGlow>
 
-        {/* Photo Gallery Box */}
+        {/* Photo Gallery Stack Box */}
         <BorderGlow 
           className="card" 
           glowRadius={40} 
           borderRadius={20} 
-          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', padding: '24px', cursor: 'pointer', height: '100%' }} 
-          onClick={() => setActiveModule('gallery')}
+          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', height: '100%', position: 'relative' }} 
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', width: '100%' }}>
             <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '12px', borderRadius: '14px' }}>
               <i className="ti ti-photo" style={{ fontSize: '26px' }}></i>
             </div>
             <h3 style={{ color: 'var(--text-primary)', fontSize: '22px', fontWeight: '700', margin: 0 }}>Photo Gallery</h3>
           </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: '1.6', flex: 1 }}>
-            Explore memories, campus events, and celebrations captured by our talented student community.
-          </p>
-          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', color: '#10b981', fontWeight: '600', fontSize: '14.5px' }}>
+          
+          <div style={{ width: '220px', height: '220px', marginBottom: '20px' }}>
+            <Stack
+              randomRotation={true}
+              sensitivity={180}
+              sendToBackOnClick={true}
+              cards={galleryImages.map((src, i) => (
+                <img 
+                  key={i} 
+                  src={src} 
+                  alt={`gallery-${i + 1}`} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px' }} 
+                />
+              ))}
+            />
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', color: '#10b981', fontWeight: '600', fontSize: '14.5px', cursor: 'pointer', zIndex: 10, width: '100%' }} onClick={() => setActiveModule('gallery')}>
             Open Gallery <i className="ti ti-arrow-right" style={{ marginLeft: '6px' }}></i>
           </div>
         </BorderGlow>
