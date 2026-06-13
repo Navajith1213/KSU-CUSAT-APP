@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 import emailjs from '@emailjs/browser';
+import BorderGlow from './BorderGlow';
 
 export default function QueryPanel({ loggedStudent }) {
   const [complaints, setComplaints] = useState([]);
@@ -186,7 +187,7 @@ export default function QueryPanel({ loggedStudent }) {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
       
       {/* Complaint Filing Form */}
-      <div className="card" style={{ alignSelf: 'start' }}>
+      <BorderGlow className="card" style={{ alignSelf: 'start' }}>
         <h2>File a Query or Complaint</h2>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '18px', marginTop: '-8px' }}>
           Fill out this form to request assistance. Your query will be saved in your portal log and emailed directly to the Kerala Students Union President.
@@ -252,10 +253,10 @@ export default function QueryPanel({ loggedStudent }) {
             )}
           </button>
         </form>
-      </div>
+      </BorderGlow>
 
       {/* Complaints History Panel */}
-      <div className="card">
+      <BorderGlow className="card">
         <h2>Your Sent Queries & Status</h2>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '18px', marginTop: '-8px' }}>
           Track the status of queries you have submitted previously.
@@ -315,7 +316,7 @@ export default function QueryPanel({ loggedStudent }) {
             <p>You have not submitted any complaints yet.</p>
           </div>
         )}
-      </div>
+      </BorderGlow>
 
     </div>
   );

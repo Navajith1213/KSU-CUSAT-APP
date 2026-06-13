@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
+import BorderGlow from './BorderGlow';
 
 export default function DepartmentDashboard({ loggedStudent }) {
   const [resources, setResources] = useState([]);
@@ -255,7 +256,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
         
         {/* Bulk Sync Form */}
-        <div className="card">
+        <BorderGlow className="card">
           <h2><i className="ti ti-cloud-upload" style={{ marginRight: '8px' }}></i> Bulk Drive Sync</h2>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>
             Paste the link to your Root Folder. It must be set to "Anyone with the link can view". The folder must follow this exact structure: <strong>Course &gt; Semester &gt; Subject &gt; Category &gt; Files</strong>.
@@ -307,10 +308,10 @@ export default function DepartmentDashboard({ loggedStudent }) {
               {isSubmitting ? 'Syncing...' : 'Start Bulk Sync'}
             </button>
           </form>
-        </div>
+        </BorderGlow>
 
         {/* List of Managed Resources */}
-        <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+        <BorderGlow className="card" style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <h2 style={{ margin: 0 }}><i className="ti ti-books" style={{ marginRight: '8px' }}></i> Uploaded Files</h2>
             {resources.length > 0 && (
@@ -362,7 +363,7 @@ export default function DepartmentDashboard({ loggedStudent }) {
               ))}
             </div>
           )}
-        </div>
+        </BorderGlow>
 
       </div>
     </div>

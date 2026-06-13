@@ -17,6 +17,7 @@ import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
 import ColorBends from './components/ColorBends';
+import BorderGlow from './components/BorderGlow';
 
 
 
@@ -263,7 +264,7 @@ export default function App() {
         )}
 
         {activeModule === 'calendar' && (
-          <div className="card">
+          <BorderGlow className="card">
             <h2>Academic Calendar</h2>
             {academicEvents.map((event, idx) => (
               <div key={idx} className="event-item">
@@ -277,7 +278,7 @@ export default function App() {
                 </div>
               </div>
             ))}
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'contacts' && (
@@ -285,7 +286,7 @@ export default function App() {
         )}
 
         {activeModule === 'boysPgs' && (
-          <div className="card">
+          <BorderGlow className="card">
             <div className="module-header">
               <h2>Boys PG's</h2>
             </div>
@@ -301,11 +302,11 @@ export default function App() {
               items={filteredBoysPgs}
               fields={['location', 'rent', 'food', 'contact', 'rooms']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'girlsPgs' && (
-          <div className="card">
+          <BorderGlow className="card">
             <div className="module-header">
               <h2>Girls PG's</h2>
             </div>
@@ -321,11 +322,11 @@ export default function App() {
               items={filteredGirlsPgs}
               fields={['location', 'rent', 'food', 'contact', 'rooms']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'hostels' && (
-          <div className="card">
+          <BorderGlow className="card">
             <div className="module-header">
               <h2>College Hostels</h2>
             </div>
@@ -349,11 +350,11 @@ export default function App() {
               items={filteredHostels}
               fields={['type', 'location', 'fees', 'food', 'wardenContact', 'secretaryContact', 'rooms']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'food' && (
-          <div className="card">
+          <BorderGlow className="card">
             <h2>Tea Spots</h2>
             <div className="filter-bar">
               <input
@@ -367,11 +368,11 @@ export default function App() {
               items={filteredFoodSpots}
               fields={['location', 'description', 'timing']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'restaurants' && (
-          <div className="card">
+          <BorderGlow className="card">
             <h2>Restaurants</h2>
             <div className="filter-bar">
               <input
@@ -396,11 +397,11 @@ export default function App() {
               items={filteredRestaurants}
               fields={['location', 'cuisine', 'contact']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'amenities' && (
-          <div className="card">
+          <BorderGlow className="card">
             <h2>Amenities</h2>
             <div className="filter-bar">
               <input
@@ -411,11 +412,11 @@ export default function App() {
               />
             </div>
             <ListingGrid items={filteredAmenities} fields={['category', 'location', 'details']} />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'clubs' && (
-          <div className="card">
+          <BorderGlow className="card">
             <h2>Campus Clubs</h2>
             <div className="filter-bar">
               <input
@@ -429,11 +430,11 @@ export default function App() {
               items={filteredClubs}
               fields={['location', 'contact', 'description']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'turfs' && (
-          <div className="card">
+          <BorderGlow className="card">
             <div className="module-header">
               <h2>Turfs & Sports Arenas</h2>
             </div>
@@ -449,7 +450,7 @@ export default function App() {
               items={filteredTurfs}
               fields={['location', 'facilities', 'rent', 'timing', 'contact']}
             />
-          </div>
+          </BorderGlow>
         )}
 
         {activeModule === 'academic_resources' && (

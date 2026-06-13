@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
+import BorderGlow from './BorderGlow';
 
 export default function JoinKSUForm({ setActiveModule }) {
   const [formData, setFormData] = useState({
@@ -58,19 +59,19 @@ export default function JoinKSUForm({ setActiveModule }) {
 
   if (isSuccess) {
     return (
-      <div className="card" style={{ textAlign: 'center', padding: '60px 20px', maxWidth: '500px', margin: '40px auto' }}>
+      <BorderGlow className="card" style={{ textAlign: 'center', padding: '60px 20px', maxWidth: '500px', margin: '40px auto' }}>
         <i className="ti ti-circle-check" style={{ fontSize: '64px', color: '#10b981', marginBottom: '20px' }}></i>
         <h2 style={{ fontSize: '28px', color: 'var(--text-primary)', marginBottom: '12px' }}>Thank You for Joining KSU!</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: '1.6' }}>
           Your application has been received. Our representatives will contact you shortly.
         </p>
         <p style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '24px' }}>Redirecting to home...</p>
-      </div>
+      </BorderGlow>
     );
   }
 
   return (
-    <div className="card" style={{ maxWidth: '600px', margin: '20px auto' }}>
+    <BorderGlow className="card" style={{ maxWidth: '600px', margin: '20px auto' }}>
       <button 
         className="btn-secondary" 
         onClick={() => setActiveModule('home')}
@@ -156,6 +157,6 @@ export default function JoinKSUForm({ setActiveModule }) {
           {isSubmitting ? 'Submitting Application...' : 'Submit Application'}
         </button>
       </form>
-    </div>
+    </BorderGlow>
   );
 }

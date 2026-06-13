@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 import Typewriter from './Typewriter';
+import BorderGlow from './BorderGlow';
 
 export default function Home({
   academicEvents,
@@ -203,7 +204,7 @@ export default function Home({
       </div>
 
       {/* Join KSU Banner */}
-      <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', border: '1px solid #7dd3fc', flexWrap: 'wrap', marginBottom: '24px' }}>
+      <BorderGlow className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%)', border: '1px solid #7dd3fc', flexWrap: 'wrap', marginBottom: '24px' }}>
         <div style={{ flex: 1, minWidth: '260px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
             <i className="ti ti-users-group" style={{ fontSize: '20px', color: '#0369a1' }}></i>
@@ -222,11 +223,11 @@ export default function Home({
         >
           <i className="ti ti-arrow-right"></i> <span className="btn-text">Join KSU</span>
         </button>
-      </div>
+      </BorderGlow>
 
       {/* Guest Call to Action */}
       {!loggedStudent && (
-        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
+        <BorderGlow className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '260px' }}>
             <h3 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
               File Inquiries and Track complaints
@@ -239,12 +240,12 @@ export default function Home({
           <button className="btn-secondary slide-in-btn" onClick={() => setShowAuthModal(true)}>
             <i className="ti ti-login"></i> <span className="btn-text">Log In to File Inquiries</span>
           </button>
-        </div>
+        </BorderGlow>
       )}
 
       {/* Logged in student shortcut */}
       {loggedStudent && (
-        <div className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
+        <BorderGlow className="card" style={{ display: 'flex', gap: '20px', alignItems: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: '260px' }}>
             <h3 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: '700', marginBottom: '6px' }}>
               Need Help? File a Complaint
@@ -256,7 +257,7 @@ export default function Home({
           <button className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '8px' }} onClick={() => setActiveModule('queries')}>
             <i className="ti ti-mail"></i> File Complaint
           </button>
-        </div>
+        </BorderGlow>
       )}
 
       {/* Grouped Feature Grids */}

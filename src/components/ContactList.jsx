@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { sanitizeUrl } from '../utils/helpers';
+import BorderGlow from './BorderGlow';
 
 export default function ContactList({ contacts }) {
   const [contactSearch, setContactSearch] = useState('');
@@ -20,7 +21,7 @@ export default function ContactList({ contacts }) {
   }, {});
 
   return (
-    <div className="card">
+    <BorderGlow className="card">
       <div className="module-header">
         <h2>Campus Departments Directory</h2>
       </div>
@@ -89,6 +90,6 @@ export default function ContactList({ contacts }) {
       ) : (
         <p>No matching departments found.</p>
       )}
-    </div>
+    </BorderGlow>
   );
 }

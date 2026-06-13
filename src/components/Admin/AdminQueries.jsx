@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
+import BorderGlow from '../BorderGlow';
 
 export default function AdminQueries() {
   const [adminComplaints, setAdminComplaints] = useState([]);
@@ -115,7 +116,7 @@ export default function AdminQueries() {
   };
 
   return (
-    <div className="card">
+    <BorderGlow className="card">
       <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '16px', marginBottom: '20px' }}>
         <h2>Student Filed Queries & Complaints</h2>
         <p style={{ fontSize: '13.5px', color: 'var(--text-muted)', marginTop: '4px' }}>
@@ -164,6 +165,6 @@ export default function AdminQueries() {
           <p>No complaints filed yet.</p>
         </div>
       )}
-    </div>
+    </BorderGlow>
   );
 }
