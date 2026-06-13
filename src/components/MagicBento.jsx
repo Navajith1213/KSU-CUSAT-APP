@@ -10,10 +10,10 @@ const MOBILE_BREAKPOINT = 768;
 const cardData = [
   {
     color: '#0f172a',
-    title: 'Stay & PG',
-    description: 'Find verified hostels and PGs with honest ratings and contact info.',
-    label: 'Accommodations',
-    moduleId: 'hostels'
+    title: 'Turfs & Sports',
+    description: 'Find and book local sports arenas, turfs, and college grounds.',
+    label: 'Athletics',
+    moduleId: 'turfs'
   },
   {
     color: '#1e1b4b',
