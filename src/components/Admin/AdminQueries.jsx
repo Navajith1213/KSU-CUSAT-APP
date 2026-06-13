@@ -142,7 +142,7 @@ export default function AdminQueries() {
                   <select
                     value={item.status}
                     onChange={(e) => updateComplaintStatus(idx, item, e.target.value)}
-                    style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '12px', background: 'var(--bg-card)', cursor: 'pointer' }}
+                    style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', fontSize: '12px', background: 'var(--bg-card)', color: 'var(--text-primary)', cursor: 'pointer' }}
                   >
                     <option value="Submitted">Submitted</option>
                     <option value="Letter Given">Letter Given</option>
