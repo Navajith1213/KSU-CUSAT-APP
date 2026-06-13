@@ -175,31 +175,31 @@ export default function Home({
       {/* Quick statistics (Floating over hero) */}
       <div className="quick-stats-container">
         <div className="quick-stats">
-          <div className="stat-item">
+          <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-calendar-event"></i></div>
             <div className="stat-val">{academicEvents.length}</div>
-            <div className="stat-lbl">Events</div>
-          </div>
-          <div className="stat-item">
+            <div className="stat-lbl">EVENTS</div>
+          </BorderGlow>
+          <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-bed"></i></div>
             <div className="stat-val">{boysPgs.length + girlsPgs.length}</div>
-            <div className="stat-lbl">PG Accommodations</div>
-          </div>
-          <div className="stat-item">
+            <div className="stat-lbl">PG ACCOMMODATIONS</div>
+          </BorderGlow>
+          <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-coffee"></i></div>
             <div className="stat-val">{foodSpots.length + restaurants.length}</div>
-            <div className="stat-lbl">Dining</div>
-          </div>
-          <div className="stat-item">
+            <div className="stat-lbl">DINING</div>
+          </BorderGlow>
+          <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-shopping-cart"></i></div>
             <div className="stat-val">{amenities.length}</div>
-            <div className="stat-lbl">Amenities</div>
-          </div>
-          <div className="stat-item">
+            <div className="stat-lbl">AMENITIES</div>
+          </BorderGlow>
+          <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-users-group"></i></div>
             <div className="stat-val">{clubs.length}</div>
-            <div className="stat-lbl">Clubs</div>
-          </div>
+            <div className="stat-lbl">CLUBS</div>
+          </BorderGlow>
         </div>
       </div>
 
