@@ -12,37 +12,43 @@ const cardData = [
     color: '#0f172a',
     title: 'Stay & PG',
     description: 'Find verified hostels and PGs with honest ratings and contact info.',
-    label: 'Accommodations'
+    label: 'Accommodations',
+    moduleId: 'hostels'
   },
   {
     color: '#1e1b4b',
     title: 'Food & Dining',
     description: 'Discover local tea spots, cafeterias, and restaurants near CUSAT.',
-    label: 'Dining'
+    label: 'Dining',
+    moduleId: 'food'
   },
   {
     color: '#064e3b',
     title: 'Campus Info',
     description: 'Access academic calendars, syllabus, and department details.',
-    label: 'Academics'
+    label: 'Academics',
+    moduleId: 'calendar'
   },
   {
     color: '#450a0a',
     title: 'Campus Life',
     description: 'Explore clubs, turfs, sports arenas, and university amenities.',
-    label: 'Lifestyle'
+    label: 'Lifestyle',
+    moduleId: 'clubs'
   },
   {
     color: '#172554',
     title: 'Grievance Redressal',
     description: 'File complaints and track issues directly through the union desk.',
-    label: 'Helpdesk'
+    label: 'Helpdesk',
+    moduleId: 'queries'
   },
   {
     color: '#312e81',
     title: 'Academic Resources',
     description: 'Download study materials, notes, and previous year question papers.',
-    label: 'Resources'
+    label: 'Resources',
+    moduleId: 'academic_resources'
   }
 ];
 
@@ -89,7 +95,8 @@ const ParticleCard = ({
   glowColor = DEFAULT_GLOW_COLOR,
   enableTilt = true,
   clickEffect = false,
-  enableMagnetism = false
+  enableMagnetism = false,
+  onClick
 }) => {
   const cardRef = useRef(null);
   const particlesRef = useRef([]);
@@ -310,7 +317,8 @@ const ParticleCard = ({
     <div
       ref={cardRef}
       className={`${className} particle-container`}
-      style={{ ...style, position: 'relative', overflow: 'hidden' }}
+      style={{ ...style, position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
+      onClick={onClick}
     >
       {children}
     </div>
@@ -481,7 +489,8 @@ const MagicBento = ({
   enableTilt = true,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
-  enableMagnetism = true
+  enableMagnetism = true,
+  onNavigate
 }) => {
   const gridRef = useRef(null);
   const isMobile = useMobileDetection();
@@ -521,6 +530,7 @@ const MagicBento = ({
                 enableTilt={enableTilt}
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
+                onClick={() => onNavigate && onNavigate(card.moduleId)}
               >
                 <div className="magic-bento-card__header">
                   <div className="magic-bento-card__label">{card.label}</div>
@@ -642,8 +652,12 @@ const MagicBento = ({
 
                 el.addEventListener('mousemove', handleMouseMove);
                 el.addEventListener('mouseleave', handleMouseLeave);
-                el.addEventListener('click', handleClick);
+                el.addEventListener('click', (e) => {
+                  handleClick(e);
+                  if (onNavigate) onNavigate(card.moduleId);
+                });
               }}
+              style={{ ...cardProps.style, cursor: 'pointer' }}
             >
               <div className="magic-bento-card__header">
                 <div className="magic-bento-card__label">{card.label}</div>

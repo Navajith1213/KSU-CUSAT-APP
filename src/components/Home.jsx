@@ -218,6 +218,7 @@ export default function Home({
           spotlightRadius={300}
           particleCount={15}
           glowColor="59, 130, 246"
+          onNavigate={(id) => setActiveModule(id)}
         />
       </div>
 
