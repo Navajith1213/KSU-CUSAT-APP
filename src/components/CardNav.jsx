@@ -105,22 +105,41 @@ const CardNav = ({
     const navEl = navRef.current;
     if (!navEl) return null;
 
-    gsap.set(navEl, { height: 64 });
     const validCards = cardsRef.current.filter(el => el != null);
-    gsap.set(validCards, { y: 30, opacity: 0 });
+    const contentEl = navEl.querySelector('.card-nav-content');
 
     const tl = gsap.timeline({ 
       paused: true,
       onReverseComplete: () => setIsExpanded(false) 
     });
 
-    tl.to(navEl, {
-      height: calculateHeight,
-      duration: 0.4,
-      ease: 'power3.out'
-    });
+    if (window.innerWidth <= 900) {
+      // Mobile sliding from right
+      gsap.set(navEl, { height: 64 }); // Keep nav fixed height
+      gsap.set(contentEl, { x: '100%', display: 'flex' });
+      gsap.set(validCards, { x: 50, opacity: 0 });
 
-    tl.to(validCards, { y: 0, opacity: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05 }, '-=0.2');
+      tl.to(contentEl, {
+        x: '0%',
+        duration: 0.4,
+        ease: 'power3.out'
+      });
+
+      tl.to(validCards, { x: 0, opacity: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05 }, '-=0.2');
+    } else {
+      // Desktop expanding height
+      gsap.set(navEl, { height: 64 });
+      gsap.set(contentEl, { x: '0%', display: 'flex' });
+      gsap.set(validCards, { y: 30, x: 0, opacity: 0 });
+
+      tl.to(navEl, {
+        height: calculateHeight,
+        duration: 0.4,
+        ease: 'power3.out'
+      });
+
+      tl.to(validCards, { y: 0, opacity: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05 }, '-=0.2');
+    }
 
     return tl;
   };
@@ -146,8 +165,12 @@ const CardNav = ({
       if (!tlRef.current) return;
 
       if (isExpanded) {
-        const newHeight = calculateHeight();
-        gsap.set(navRef.current, { height: newHeight });
+        if (window.innerWidth > 900) {
+          const newHeight = calculateHeight();
+          gsap.set(navRef.current, { height: newHeight });
+        } else {
+          gsap.set(navRef.current, { height: 64 });
+        }
 
         tlRef.current.kill();
         const newTl = createTimeline();
