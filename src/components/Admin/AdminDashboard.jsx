@@ -44,6 +44,8 @@ export default function AdminDashboard({
   setClubs,
   turfs,
   setTurfs,
+  announcements,
+  setAnnouncements,
   loggedStudent,
 }) {
   const [adminSection, setAdminSection] = useState('calendar');
