@@ -74,6 +74,8 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
   });
 
   const sortedSemesters = Object.keys(groupedData).sort();
+  const syllabusData = groupedData['Syllabus'];
+  const regularSemesters = sortedSemesters.filter(s => s !== 'Syllabus');
 
   // Drive embed logic
   const getDriveEmbedUrl = (url) => {
@@ -225,8 +227,53 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                 
-                {/* Level 3: Semester Loop */}
-                {sortedSemesters.map(sem => (
+                {/* Level 3A: Syllabuses (Special Highlighted Section) */}
+                {syllabusData && (
+                  <div className="syllabus-group" style={{ background: 'var(--primary-glow)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: '0 4px 20px var(--shadow-color)' }}>
+                    <h3 style={{ fontSize: '20px', color: 'var(--primary-color)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <i className="ti ti-book"></i> Course Syllabuses
+                    </h3>
+                    <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                      {Object.keys(syllabusData).sort((a,b) => b.localeCompare(a)).map(adYear => (
+                        <div key={adYear} className="item-card" style={{ padding: '16px', background: 'var(--bg-main)' }}>
+                          <h4 style={{ fontSize: '16px', marginBottom: '12px', color: 'var(--text-primary)' }}>{adYear}</h4>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {syllabusData[adYear].map(file => (
+                              <button 
+                                key={file.id}
+                                onClick={() => setSelectedDocument(file)}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  width: '100%',
+                                  padding: '10px 14px',
+                                  background: 'var(--bg-hover)',
+                                  border: '1px solid var(--border-color)',
+                                  borderRadius: '8px',
+                                  cursor: 'pointer',
+                                  transition: 'all 0.2s',
+                                  textAlign: 'left'
+                                }}
+                                onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor('Syllabus'), transform: 'translateX(4px)' })}
+                                onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
+                              >
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                                  <i className="ti ti-file-text" style={{ color: getResourceColor('Syllabus'), fontSize: '18px' }}></i>
+                                  <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}>{file.topic || file.resource_type}</span>
+                                </span>
+                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)' }}></i>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Level 3B: Regular Semester Loop */}
+                {regularSemesters.map(sem => (
                   <div key={sem} className="semester-group">
                     <h3 style={{ 
                       fontSize: '18px', 
@@ -248,7 +295,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                         <div key={sub} className="item-card" style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}>
                           <h4 style={{ fontSize: '18px', margin: '0 0 16px 0', color: 'var(--text-primary)', lineHeight: '1.4' }}>{sub}</h4>
                           
-                          {/* Level 5: Categories / Files inside the Subject */}
+                          {/* Level 5: Categories / Topics inside the Subject */}
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto' }}>
                             {groupedData[sem][sub].map(file => (
                               <button 
@@ -265,18 +312,21 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                                   borderRadius: '8px',
                                   cursor: 'pointer',
                                   transition: 'all 0.2s',
-                                  color: 'var(--text-primary)',
-                                  fontWeight: '600',
-                                  fontSize: '14px'
+                                  textAlign: 'left'
                                 }}
                                 onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor(file.resource_type), transform: 'translateX(4px)' })}
                                 onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
                               >
-                                <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                  <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ color: getResourceColor(file.resource_type), fontSize: '18px' }}></i>
-                                  {file.resource_type}
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, overflow: 'hidden' }}>
+                                  <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ color: getResourceColor(file.resource_type), fontSize: '20px', flexShrink: 0 }}></i>
+                                  <span style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>{file.resource_type}</span>
+                                    <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                      {file.topic || file.resource_type}
+                                    </span>
+                                  </span>
                                 </span>
-                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)' }}></i>
+                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)', flexShrink: 0, marginLeft: '8px' }}></i>
                               </button>
                             ))}
                           </div>

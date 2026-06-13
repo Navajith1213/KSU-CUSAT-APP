@@ -97,19 +97,17 @@ export default function DepartmentDashboard({ loggedStudent }) {
           if (sem.mimeType !== 'application/vnd.google-apps.folder') continue;
           setSyncStatus(`Scanning ${course.name} > ${sem.name}...`);
 
-          const subjects = await fetchDriveFiles(sem.id);
-          for (const sub of subjects) {
-            if (sub.mimeType !== 'application/vnd.google-apps.folder') continue;
-            setSyncStatus(`Scanning Subject: ${sub.name}...`);
+          if (sem.name.trim().toLowerCase() === 'syllabus') {
+            // SYLLABUS MODE
+            // Expected: Course > Syllabus > Admission Year > Files
+            const admissionYears = await fetchDriveFiles(sem.id);
+            for (const adYear of admissionYears) {
+              if (adYear.mimeType !== 'application/vnd.google-apps.folder') continue;
+              setSyncStatus(`Scanning Syllabus > ${adYear.name}...`);
 
-            const categories = await fetchDriveFiles(sub.id);
-            for (const cat of categories) {
-              if (cat.mimeType !== 'application/vnd.google-apps.folder') continue;
-
-              const files = await fetchDriveFiles(cat.id);
+              const files = await fetchDriveFiles(adYear.id);
               if (files.length === 0) continue;
 
-              // Fetch existing links to prevent duplicates
               const { data: existingData } = await supabase
                 .from('academic_resources')
                 .select('drive_link')
@@ -118,13 +116,14 @@ export default function DepartmentDashboard({ loggedStudent }) {
 
               const resourcesToInsert = files
                 .filter(f => f.mimeType !== 'application/vnd.google-apps.folder')
-                .filter(f => !existingLinks.has(f.webViewLink)) // PREVENT DUPLICATES
+                .filter(f => !existingLinks.has(f.webViewLink))
                 .map(file => ({
                   department: finalDepartment,
                   course: course.name.trim(),
-                  year_semester: sem.name.trim(),
-                  subject: sub.name.trim(),
-                  resource_type: cat.name.trim(),
+                  year_semester: 'Syllabus',
+                  subject: adYear.name.trim(), // We store the Admission Year in the subject column
+                  resource_type: 'Syllabus',
+                  topic: file.name.replace(/\.[^/.]+$/, "").trim(), // Strip extension for topic
                   drive_link: file.webViewLink,
                   added_by: loggedStudent.email
                 }));
@@ -133,6 +132,48 @@ export default function DepartmentDashboard({ loggedStudent }) {
                 const { error } = await supabase.from('academic_resources').insert(resourcesToInsert);
                 if (error) throw error;
                 totalSynced += resourcesToInsert.length;
+              }
+            }
+          } else {
+            // REGULAR MODE
+            // Expected: Course > Semester > Subject > Category > Files
+            const subjects = await fetchDriveFiles(sem.id);
+            for (const sub of subjects) {
+              if (sub.mimeType !== 'application/vnd.google-apps.folder') continue;
+              setSyncStatus(`Scanning Subject: ${sub.name}...`);
+
+              const categories = await fetchDriveFiles(sub.id);
+              for (const cat of categories) {
+                if (cat.mimeType !== 'application/vnd.google-apps.folder') continue;
+
+                const files = await fetchDriveFiles(cat.id);
+                if (files.length === 0) continue;
+
+                const { data: existingData } = await supabase
+                  .from('academic_resources')
+                  .select('drive_link')
+                  .eq('department', finalDepartment);
+                const existingLinks = new Set((existingData || []).map(r => r.drive_link));
+
+                const resourcesToInsert = files
+                  .filter(f => f.mimeType !== 'application/vnd.google-apps.folder')
+                  .filter(f => !existingLinks.has(f.webViewLink))
+                  .map(file => ({
+                    department: finalDepartment,
+                    course: course.name.trim(),
+                    year_semester: sem.name.trim(),
+                    subject: sub.name.trim(),
+                    resource_type: cat.name.trim(),
+                    topic: file.name.replace(/\.[^/.]+$/, "").trim(), // Strip extension for topic
+                    drive_link: file.webViewLink,
+                    added_by: loggedStudent.email
+                  }));
+
+                if (resourcesToInsert.length > 0) {
+                  const { error } = await supabase.from('academic_resources').insert(resourcesToInsert);
+                  if (error) throw error;
+                  totalSynced += resourcesToInsert.length;
+                }
               }
             }
           }
