@@ -3,7 +3,7 @@ import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 import emailjs from '@emailjs/browser';
 import BorderGlow from './BorderGlow';
 
-export default function QueryPanel({ loggedStudent }) {
+export default function QueryPanel({ loggedStudent, contacts = [] }) {
   const [complaints, setComplaints] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,7 +15,7 @@ export default function QueryPanel({ loggedStudent }) {
   const [description, setDescription] = useState('');
 
   const studentEmail = loggedStudent?.email || '';
-  const studentName = loggedStudent?.full_name || 'CUSAT Student';
+  const [studentName, setStudentName] = useState(loggedStudent?.full_name || 'CUSAT Student');
 
   const fetchComplaints = async (isBackground = false) => {
     if (!isBackground) setIsLoading(true);
@@ -208,14 +208,29 @@ export default function QueryPanel({ loggedStudent }) {
           </div>
 
           <div className="form-group">
-            <label>Your Department *</label>
+            <label>Your Name / Username *</label>
             <input
               type="text"
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-              placeholder="e.g. Computer Science, Mechanical, B.Com"
+              value={studentName}
+              onChange={(e) => setStudentName(e.target.value)}
+              placeholder="Enter your full name or username"
               required
             />
+          </div>
+
+          <div className="form-group">
+            <label>Your Department *</label>
+            <select
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              required
+            >
+              <option value="" disabled>Select your department</option>
+              {contacts.map((contact, idx) => (
+                <option key={idx} value={contact.name}>{contact.name}</option>
+              ))}
+              <option value="Other">Other / Not Listed</option>
+            </select>
           </div>
 
           <div className="form-group">

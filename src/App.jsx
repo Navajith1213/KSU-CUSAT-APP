@@ -469,7 +469,7 @@ export default function App() {
         )}
 
         {activeModule === 'queries' && (userRole === 'student' || userRole === 'dept_admin') && (
-          <QueryPanel loggedStudent={loggedStudent} />
+          <QueryPanel loggedStudent={loggedStudent} contacts={contacts} />
         )}
 
         {activeModule === 'admin' && userRole === 'admin' && (
