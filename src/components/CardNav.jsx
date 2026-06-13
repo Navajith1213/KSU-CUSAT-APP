@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import { gsap } from 'gsap';
 import './CardNav.css';
+import BorderGlow from './BorderGlow';
 
 const CardNav = ({
   userRole,
@@ -255,29 +256,33 @@ const CardNav = ({
 
         <div className="card-nav-content" aria-hidden={!isExpanded}>
           {items.map((item, idx) => (
-            <div
+            <BorderGlow
               key={`${item.label}-${idx}`}
               className="nav-card"
-              ref={setCardRef(idx)}
-              style={{ backgroundColor: item.bgColor, color: item.textColor }}
+              backgroundColor={item.bgColor}
+              style={{ color: item.textColor }}
+              borderRadius={16}
+              glowRadius={30}
             >
-              <div className="nav-card-label">
-                <i className={`ti ${item.icon}`} style={{ fontSize: '22px' }}></i>
-                {item.label}
+              <div ref={setCardRef(idx)} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                <div className="nav-card-label">
+                  <i className={`ti ${item.icon}`} style={{ fontSize: '22px' }}></i>
+                  {item.label}
+                </div>
+                <div className="nav-card-links">
+                  {item.links?.map((lnk, i) => (
+                    <a 
+                      key={`${lnk.label}-${i}`} 
+                      className="nav-card-link" 
+                      onClick={(e) => { e.preventDefault(); handleNavClick(lnk.id); }}
+                    >
+                      <i className={`ti ${lnk.icon} nav-card-link-icon`}></i>
+                      {lnk.label}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="nav-card-links">
-                {item.links?.map((lnk, i) => (
-                  <a 
-                    key={`${lnk.label}-${i}`} 
-                    className="nav-card-link" 
-                    onClick={(e) => { e.preventDefault(); handleNavClick(lnk.id); }}
-                  >
-                    <i className={`ti ${lnk.icon} nav-card-link-icon`}></i>
-                    {lnk.label}
-                  </a>
-                ))}
-              </div>
-            </div>
+            </BorderGlow>
           ))}
 
           {/* Mobile specific auth panel inside the GSAP animated menu */}
