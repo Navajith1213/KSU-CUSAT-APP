@@ -8,7 +8,7 @@ export default function Marquee({ announcements }) {
     <div className="marquee-container">
       <div className="marquee-content">
         {/* Render the items multiple times for seamless infinite scrolling */}
-        {[...announcements, ...announcements, ...announcements].map((announcement, idx) => (
+        {[...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements].map((announcement, idx) => (
           <div key={`${announcement.id}-${idx}`} className="marquee-item">
             <i className="ti ti-bell-ringing"></i>
             {announcement.link ? (
