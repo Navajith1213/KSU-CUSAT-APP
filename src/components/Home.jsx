@@ -8,10 +8,7 @@ import DomeGallery from './DomeGallery';
 import Marquee from './Marquee';
 
 const galleryImages = [
-  "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=500&auto=format",
-  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=500&auto=format",
-  "https://images.unsplash.com/photo-1519452314561-34afb55f19c6?q=80&w=500&auto=format",
-  "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=500&auto=format"
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
 ];
 
 export default function Home({
