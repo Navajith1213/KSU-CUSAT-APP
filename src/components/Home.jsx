@@ -294,27 +294,6 @@ export default function Home({
       {/* Announcements & Photo Gallery */}
       <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', padding: '0 10px', marginBottom: '40px' }}>
         
-        {/* Announcements Box */}
-        <BorderGlow 
-          className="card" 
-          glowRadius={40} 
-          borderRadius={20} 
-          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', padding: '24px', cursor: 'pointer', height: '100%' }} 
-          onClick={() => setActiveModule('calendar')}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '12px', borderRadius: '14px' }}>
-              <i className="ti ti-bell-ringing" style={{ fontSize: '26px' }}></i>
-            </div>
-            <h3 style={{ color: 'var(--text-primary)', fontSize: '22px', fontWeight: '700', margin: 0 }}>Announcements</h3>
-          </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: '1.6', flex: 1 }}>
-            Stay updated with the latest news, exam schedules, and important notices from the university and union.
-          </p>
-          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', color: '#ef4444', fontWeight: '600', fontSize: '14.5px' }}>
-            View Updates <i className="ti ti-arrow-right" style={{ marginLeft: '6px' }}></i>
-          </div>
-        </BorderGlow>
 
         {/* Photo Gallery Stack Box */}
         <BorderGlow 
