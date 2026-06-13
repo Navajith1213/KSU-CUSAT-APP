@@ -114,22 +114,17 @@ const CardNav = ({
     });
 
     if (window.innerWidth <= 900) {
-      // Mobile sliding from right
-      gsap.set(navEl, { height: 64 }); // Keep nav fixed height
-      gsap.set(contentEl, { x: '100%', display: 'flex' });
-      gsap.set(validCards, { x: 50, opacity: 0 });
-
-      tl.to(contentEl, {
-        x: '0%',
-        duration: 0.4,
-        ease: 'power3.out'
-      });
-
-      tl.to(validCards, { x: 0, opacity: 1, duration: 0.4, ease: 'power3.out', stagger: 0.05 }, '-=0.2');
+      // Mobile sliding from right is handled purely by CSS via .open class
+      // We just return a dummy timeline so toggleMenu still works seamlessly
+      gsap.set(navEl, { clearProps: 'height' });
+      gsap.set(contentEl, { clearProps: 'all' });
+      gsap.set(validCards, { clearProps: 'all' });
+      
+      tl.to({}, { duration: 0.1 }); // dummy animation
     } else {
       // Desktop expanding height
       gsap.set(navEl, { height: 64 });
-      gsap.set(contentEl, { x: '0%', display: 'flex' });
+      gsap.set(contentEl, { clearProps: 'all' }); // reset any CSS transform
       gsap.set(validCards, { y: 30, x: 0, opacity: 0 });
 
       tl.to(navEl, {
@@ -169,7 +164,7 @@ const CardNav = ({
           const newHeight = calculateHeight();
           gsap.set(navRef.current, { height: newHeight });
         } else {
-          gsap.set(navRef.current, { height: 64 });
+          gsap.set(navRef.current, { clearProps: 'height' });
         }
 
         tlRef.current.kill();
