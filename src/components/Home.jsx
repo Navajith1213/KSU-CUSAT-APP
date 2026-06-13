@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 import Typewriter from './Typewriter';
 import BorderGlow from './BorderGlow';
+import MagicBento from './MagicBento';
 
 export default function Home({
   academicEvents,
@@ -201,6 +202,23 @@ export default function Home({
             <div className="stat-lbl">CLUBS</div>
           </BorderGlow>
         </div>
+      </div>
+
+      {/* Magic Bento Features Grid */}
+      <div style={{ marginTop: '40px', padding: '0 10px' }}>
+        <h2 style={{ textAlign: 'center', color: 'var(--text-primary)', marginBottom: '30px', fontSize: '28px', fontWeight: '800' }}>Explore Your Campus</h2>
+        <MagicBento 
+          textAutoHide={false}
+          enableStars={true}
+          enableSpotlight={true}
+          enableBorderGlow={true}
+          enableTilt={true}
+          enableMagnetism={true}
+          clickEffect={true}
+          spotlightRadius={300}
+          particleCount={15}
+          glowColor="59, 130, 246"
+        />
       </div>
 
       {/* Join KSU Banner */}
