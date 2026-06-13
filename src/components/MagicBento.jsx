@@ -34,7 +34,8 @@ const cardData = [
     title: 'Campus Life',
     description: 'Explore clubs, turfs, sports arenas, and university amenities.',
     label: 'Lifestyle',
-    moduleId: 'clubs'
+    moduleId: 'clubs',
+    image: '/cusat-sign.png'
   },
   {
     color: '#172554',
@@ -659,10 +660,22 @@ const MagicBento = ({
               }}
               style={{ ...cardProps.style, cursor: 'pointer' }}
             >
-              <div className="magic-bento-card__header">
+              {card.image && (
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, ${card.color} 100%), url(${card.image})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  borderRadius: 'inherit',
+                  zIndex: 0,
+                  opacity: 0.8
+                }} />
+              )}
+              <div className="magic-bento-card__header" style={{ position: 'relative', zIndex: 1 }}>
                 <div className="magic-bento-card__label">{card.label}</div>
               </div>
-              <div className="magic-bento-card__content">
+              <div className="magic-bento-card__content" style={{ position: 'relative', zIndex: 1 }}>
                 <h2 className="magic-bento-card__title">{card.title}</h2>
                 <p className="magic-bento-card__description">{card.description}</p>
               </div>
