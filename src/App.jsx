@@ -76,6 +76,7 @@ export default function App() {
 
   useEffect(() => {
     sessionStorage.setItem('active_module', activeModule);
+    window.scrollTo(0, 0);
   }, [activeModule]);
 
   // Main data states
