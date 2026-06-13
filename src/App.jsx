@@ -503,6 +503,20 @@ export default function App() {
 
   return (
     <>
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
+        <DotGrid
+          dotSize={8}
+          gap={24}
+          baseColor="#ffffff"
+          activeColor="#2563eb"
+          proximity={120}
+          shockRadius={250}
+          shockStrength={5}
+          resistance={750}
+          returnDuration={1.5}
+        />
+      </div>
+      <div style={{ position: 'relative', zIndex: 1, width: '100%', height: '100%' }}>
       {userRole === 'admin' ? (
         <div className="portal-layout">
           <Sidebar
@@ -613,6 +627,7 @@ export default function App() {
           </footer>
         </div>
       )}
+      </div>
 
       {showAuthModal && (
         <AuthModal
