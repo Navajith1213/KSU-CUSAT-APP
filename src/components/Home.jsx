@@ -301,20 +301,13 @@ export default function Home({
           className="card" 
           glowRadius={40} 
           borderRadius={20} 
-          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', position: 'relative', overflow: 'hidden', minHeight: '400px' }} 
+          style={{ background: 'var(--bg-hover)', border: '1px solid var(--border-color)', position: 'relative', overflow: 'hidden', minHeight: '450px' }} 
         >
-          <div style={{ position: 'absolute', top: '24px', left: '24px', right: '24px', display: 'flex', alignItems: 'center', gap: '12px', zIndex: 10 }}>
-            <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '12px', borderRadius: '14px', backdropFilter: 'blur(10px)' }}>
-              <i className="ti ti-photo" style={{ fontSize: '26px' }}></i>
-            </div>
-            <h3 style={{ color: 'var(--text-primary)', fontSize: '22px', fontWeight: '700', margin: 0, textShadow: '0 2px 10px rgba(255,255,255,0.5)' }}>Photo Gallery</h3>
-          </div>
-          
           <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
             <DomeGallery
               images={galleryImages}
-              fit={0.9}
-              minRadius={300}
+              fit={1.1}
+              minRadius={350}
               maxVerticalRotationDeg={8}
               segments={22}
               dragDampening={0.8}
