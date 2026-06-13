@@ -89,6 +89,7 @@ export default function App() {
   const [clubs, setClubs] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [turfs, setTurfs] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
 
 
   // Search/Filter states
@@ -142,7 +143,8 @@ export default function App() {
         { name: 'amenities', setter: setAmenities },
         { name: 'clubs', setter: setClubs },
         { name: 'contacts', setter: setContacts },
-        { name: 'turfs', setter: setTurfs }
+        { name: 'turfs', setter: setTurfs },
+        { name: 'announcements', setter: setAnnouncements }
       ];
 
       for (const { name, setter } of tables) {
@@ -260,6 +262,7 @@ export default function App() {
             setActiveModule={setActiveModule}
             setShowAuthModal={setShowAuthModal}
             loggedStudent={loggedStudent}
+            announcements={announcements}
           />
         )}
 
@@ -487,6 +490,8 @@ export default function App() {
             setClubs={setClubs}
             turfs={turfs}
             setTurfs={setTurfs}
+            announcements={announcements}
+            setAnnouncements={setAnnouncements}
             loggedStudent={loggedStudent}
           />
         )}

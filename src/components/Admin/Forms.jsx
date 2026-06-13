@@ -541,3 +541,35 @@ export function TurfForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   );
 }
 
+
+export function AnnouncementForm({ value, onChange, onSubmit, onCancel, isEdit }) {
+  return (
+    <div className="admin-flat-card">
+      <h3>{isEdit ? 'Edit Announcement' : 'Add Announcement'}</h3>
+      <div className="form-grid">
+        <div className="form-group">
+          <label>Announcement Text *</label>
+          <input 
+            value={value.text || ''} 
+            onChange={(e) => onChange({ ...value, text: e.target.value })} 
+            placeholder="e.g. University closed tomorrow due to heavy rain"
+          />
+        </div>
+        <div className="form-group">
+          <label>Optional Link (URL)</label>
+          <input 
+            value={value.link || ''} 
+            onChange={(e) => onChange({ ...value, link: e.target.value })} 
+            placeholder="https://..."
+          />
+        </div>
+        <div className="form-group full-width row-actions">
+          <button className="btn-primary" onClick={onSubmit}>
+            {isEdit ? 'Update Announcement' : 'Add Announcement'}
+          </button>
+          {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
+        </div>
+      </div>
+    </div>
+  );
+}

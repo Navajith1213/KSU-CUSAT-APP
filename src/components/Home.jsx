@@ -4,6 +4,7 @@ import Typewriter from './Typewriter';
 import BorderGlow from './BorderGlow';
 import MagicBento from './MagicBento';
 import Stack from './Stack';
+import Marquee from './Marquee';
 
 const galleryImages = [
   "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=500&auto=format",
@@ -23,7 +24,8 @@ export default function Home({
   clubs,
   setActiveModule,
   setShowAuthModal,
-  loggedStudent
+  loggedStudent,
+  announcements
 }) {
   const [queryCount, setQueryCount] = useState(0);
 
@@ -155,6 +157,8 @@ export default function Home({
 
   return (
     <div>
+      <Marquee announcements={announcements} />
+
       {/* Hero Welcome banner */}
       <div className="hero-section">
         {loggedStudent ? (
