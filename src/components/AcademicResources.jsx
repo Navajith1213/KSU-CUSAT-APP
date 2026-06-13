@@ -262,7 +262,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                               >
                                 <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                                   <i className="ti ti-file-text" style={{ color: getResourceColor('Syllabus'), fontSize: '18px' }}></i>
-                                  <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}>{file.topic || file.resource_type}</span>
+                                  <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}>{file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}</span>
                                 </span>
                                 <i className="ti ti-external-link" style={{ color: 'var(--text-muted)' }}></i>
                               </button>
@@ -304,7 +304,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                                 <div style={{ padding: '6px', fontSize: '9px', color: '#1e293b', textAlign: 'center', height: '100%', border: '1px solid #e2e8f0', borderRadius: '4px', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                                   <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ fontSize: '18px', marginBottom: '6px', display: 'block', color: getResourceColor(file.resource_type) }}></i>
                                   <div style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', fontWeight: '600', lineHeight: '1.2' }}>
-                                    {file.topic || file.resource_type}
+                                    {file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}
                                   </div>
                                 </div>
                               ))} 
@@ -340,7 +340,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                                   <span style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                                     <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>{file.resource_type}</span>
                                     <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                      {file.topic || file.resource_type}
+                                      {file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}
                                     </span>
                                   </span>
                                 </span>
