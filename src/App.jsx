@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import Sidebar from './components/Sidebar';
 import Topbar from './components/Topbar';
 import AuthModal from './components/Modals/AuthModal';
 import PasswordResetModal from './components/Modals/PasswordResetModal';
 import Home from './components/Home';
-import ListingGrid from './components/ListingGrid';
-import ContactList from './components/ContactList';
-import AdminDashboard from './components/Admin/AdminDashboard';
-import AdminQueries from './components/Admin/AdminQueries';
-import QueryPanel from './components/QueryPanel';
 import CardNav from './components/CardNav';
-import AcademicResources from './components/AcademicResources';
-import DepartmentDashboard from './components/DepartmentDashboard';
 import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
 import ColorBends from './components/ColorBends';
 import BorderGlow from './components/BorderGlow';
+
+const ListingGrid = lazy(() => import('./components/ListingGrid'));
+const ContactList = lazy(() => import('./components/ContactList'));
+const AdminDashboard = lazy(() => import('./components/Admin/AdminDashboard'));
+const AdminQueries = lazy(() => import('./components/Admin/AdminQueries'));
+const QueryPanel = lazy(() => import('./components/QueryPanel'));
+const AcademicResources = lazy(() => import('./components/AcademicResources'));
+const DepartmentDashboard = lazy(() => import('./components/DepartmentDashboard'));
+
 
 
 
@@ -147,13 +149,14 @@ export default function App() {
         { name: 'announcements', setter: setAnnouncements }
       ];
 
-      for (const { name, setter } of tables) {
+      // Fetch all tables concurrently instead of sequentially
+      await Promise.all(tables.map(async ({ name, setter }) => {
         const { data, error } = await supabase.from(name).select('*');
         if (!error && data) {
           const formatted = data.map(row => ({ id: row.id, ...row.data }));
           setter(formatted);
         }
-      }
+      }));
     } catch (err) {
       console.error("Error fetching static data:", err);
     }
@@ -240,6 +243,7 @@ export default function App() {
 
   const renderModuleContent = () => {
     return (
+      <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0', color: 'var(--text-muted)' }}>Loading...</div>}>
       <div key={activeModule} className="fade-in-section">
         {['calendar', 'contacts', 'boysPgs', 'girlsPgs', 'hostels', 'food', 'restaurants', 'amenities', 'clubs', 'turfs', 'queries'].includes(activeModule) && (
           <button
@@ -249,8 +253,9 @@ export default function App() {
             <i className="ti ti-arrow-left"></i> Back to Home
           </button>
         )}
+
         {activeModule === 'home' && (
-          <Home
+          <Home 
             academicEvents={academicEvents}
             boysPgs={boysPgs}
             girlsPgs={girlsPgs}
@@ -260,11 +265,15 @@ export default function App() {
             amenities={amenities}
             clubs={clubs}
             setActiveModule={setActiveModule}
-            setShowAuthModal={setShowAuthModal}
-            loggedStudent={loggedStudent}
             announcements={announcements}
+            loggedStudent={loggedStudent}
+            setShowAuthModal={setShowAuthModal}
+            userRole={userRole}
           />
         )}
+        {activeModule === 'join_ksu' && <JoinKSUForm setActiveModule={setActiveModule} />}
+        {activeModule === 'academic_resources' && <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />}
+        {activeModule === 'contacts' && <ContactList contacts={contacts} />}
 
         {activeModule === 'calendar' && (
           <BorderGlow className="card">
@@ -282,10 +291,6 @@ export default function App() {
               </div>
             ))}
           </BorderGlow>
-        )}
-
-        {activeModule === 'contacts' && (
-          <ContactList contacts={contacts} />
         )}
 
         {activeModule === 'boysPgs' && (
@@ -456,10 +461,6 @@ export default function App() {
           </BorderGlow>
         )}
 
-        {activeModule === 'academic_resources' && (
-          <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />
-        )}
-
         {activeModule === 'dept_dashboard' && userRole === 'dept_admin' && (
           <DepartmentDashboard loggedStudent={loggedStudent} />
         )}
@@ -496,14 +497,14 @@ export default function App() {
           />
         )}
         
-        {activeModule === 'join_ksu' && (
-          <JoinKSUForm setActiveModule={setActiveModule} />
+        {activeModule === 'admin_dashboard' && userRole === 'admin' && (
+          <AdminDashboard />
         )}
-
-        {activeModule === 'admin-queries' && userRole === 'admin' && (
+        {activeModule === 'admin_queries' && userRole === 'admin' && (
           <AdminQueries />
         )}
       </div>
+      </Suspense>
     );
   };
 
