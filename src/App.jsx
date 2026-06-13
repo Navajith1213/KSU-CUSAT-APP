@@ -16,7 +16,7 @@ import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
-
+import DotGrid from './components/DotGrid';
 
 
 
