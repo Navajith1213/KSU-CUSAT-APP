@@ -10,12 +10,12 @@ export default function QueryPanel({ loggedStudent, contacts = [] }) {
 
   // Form states
   const [category, setCategory] = useState('Accommodation');
-  const [department, setDepartment] = useState('');
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
 
   const studentEmail = loggedStudent?.email || '';
-  const [studentName, setStudentName] = useState(loggedStudent?.full_name || 'CUSAT Student');
+  const studentName = loggedStudent?.full_name || 'CUSAT Student';
+  const department = loggedStudent?.user_metadata?.department || 'Not Specified';
 
   const fetchComplaints = async (isBackground = false) => {
     if (!isBackground) setIsLoading(true);
@@ -150,7 +150,6 @@ export default function QueryPanel({ loggedStudent, contacts = [] }) {
       alert('Query filed successfully! The admin has been notified.');
       setSubject('');
       setDescription('');
-      setDepartment('');
       fetchComplaints();
     } catch (err) {
       alert(`Failed to file complaint: ${err.message}`);
@@ -207,31 +206,6 @@ export default function QueryPanel({ loggedStudent, contacts = [] }) {
             </select>
           </div>
 
-          <div className="form-group">
-            <label>Your Name / Username *</label>
-            <input
-              type="text"
-              value={studentName}
-              onChange={(e) => setStudentName(e.target.value)}
-              placeholder="Enter your full name or username"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Your Department *</label>
-            <select
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-              required
-            >
-              <option value="" disabled>Select your department</option>
-              {contacts.map((contact, idx) => (
-                <option key={idx} value={contact.name}>{contact.name}</option>
-              ))}
-              <option value="Other">Other / Not Listed</option>
-            </select>
-          </div>
 
           <div className="form-group">
             <label>Subject *</label>

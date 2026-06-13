@@ -653,7 +653,7 @@ export default function App() {
 
       {showAuthModal && (
         <AuthModal
-
+          contacts={contacts}
           setUserRole={setUserRole}
           setLoggedStudent={setLoggedStudent}
           setShowAuthModal={setShowAuthModal}

@@ -12,7 +12,8 @@ export default function AuthModal({
   handleGitConnect,
   setUserRole,
   setLoggedStudent,
-  setShowAuthModal
+  setShowAuthModal,
+  contacts = []
 }) {
   const [activeTab, setActiveTab] = useState('student'); // 'student' or 'admin'
   const [isSignUp, setIsSignUp] = useState(false);
@@ -24,6 +25,7 @@ export default function AuthModal({
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
+  const [department, setDepartment] = useState('');
   
   // OTP Verification state
   const [verificationMode, setVerificationMode] = useState(false);
@@ -96,7 +98,8 @@ export default function AuthModal({
         options: {
           data: {
             full_name: fullName,
-            phone_number: trimmedPhone
+            phone_number: trimmedPhone,
+            department: department
           }
         }
       });
@@ -360,6 +363,20 @@ export default function AuthModal({
                         <small style={{ color: 'var(--text-muted)', fontSize: '11px', marginTop: '4px', display: 'block' }}>
                           Must be exactly 10 digits starting with 6, 7, 8, or 9 (Indian standard).
                         </small>
+                      </div>
+                      <div className="form-group">
+                        <label>Your Department *</label>
+                        <select
+                          value={department}
+                          onChange={(e) => setDepartment(e.target.value)}
+                          required
+                        >
+                          <option value="" disabled>Select your department</option>
+                          {contacts.map((contact, idx) => (
+                            <option key={idx} value={contact.name}>{contact.name}</option>
+                          ))}
+                          <option value="Other">Other / Not Listed</option>
+                        </select>
                       </div>
                     </>
                   )}
