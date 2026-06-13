@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { sanitizeUrl } from '../utils/helpers';
 import BorderGlow from './BorderGlow';
+import ElectricBorder from './ElectricBorder';
 
 export default function ContactList({ contacts }) {
   const [contactSearch, setContactSearch] = useState('');
@@ -53,8 +54,9 @@ export default function ContactList({ contacts }) {
                 const mapsQuery = encodeURIComponent(`${contact.name} CUSAT Kalamassery Kochi`);
                 const mapsUrl = contact.gmapsLink && contact.gmapsLink.trim() !== '' ? sanitizeUrl(contact.gmapsLink) : `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
 
-                return (
-                  <div className="item-card" key={idx}>
+                const isElectrical = contact.name.toLowerCase().includes('electrical');
+                const content = (
+                  <div className="item-card" style={{ height: '100%', boxSizing: 'border-box' }}>
                     <div>
                       <h4 style={{ fontSize: '16px', marginBottom: '8px', fontWeight: 'bold' }}>{contact.name}</h4>
                       {contact.address && (
@@ -81,6 +83,18 @@ export default function ContactList({ contacts }) {
                         </a>
                       )}
                     </div>
+                  </div>
+                );
+
+                return (
+                  <div key={idx} style={{ height: '100%' }}>
+                    {isElectrical ? (
+                      <ElectricBorder color="#eab308" speed={1.5} chaos={0.15} borderRadius={16} style={{ height: '100%' }}>
+                        {content}
+                      </ElectricBorder>
+                    ) : (
+                      content
+                    )}
                   </div>
                 );
               })}

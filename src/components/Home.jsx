@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../utils/supabaseClient';
 import Typewriter from './Typewriter';
 import BorderGlow from './BorderGlow';
+import CountUp from './CountUp';
 import MagicBento from './MagicBento';
 import Stack from './Stack';
 import Marquee from './Marquee';
@@ -190,27 +191,27 @@ export default function Home({
         <div className="quick-stats">
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-calendar-event"></i></div>
-            <div className="stat-val">{academicEvents.length}</div>
+            <div className="stat-val"><CountUp to={academicEvents.length} /></div>
             <div className="stat-lbl">EVENTS</div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-bed"></i></div>
-            <div className="stat-val">{boysPgs.length + girlsPgs.length}</div>
+            <div className="stat-val"><CountUp to={boysPgs.length + girlsPgs.length} /></div>
             <div className="stat-lbl">PG ACCOMMODATIONS</div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-coffee"></i></div>
-            <div className="stat-val">{foodSpots.length + restaurants.length}</div>
+            <div className="stat-val"><CountUp to={foodSpots.length + restaurants.length} /></div>
             <div className="stat-lbl">DINING</div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-shopping-cart"></i></div>
-            <div className="stat-val">{amenities.length}</div>
+            <div className="stat-val"><CountUp to={amenities.length} /></div>
             <div className="stat-lbl">AMENITIES</div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
             <div className="stat-icon"><i className="ti ti-users-group"></i></div>
-            <div className="stat-val">{clubs.length}</div>
+            <div className="stat-val"><CountUp to={clubs.length} /></div>
             <div className="stat-lbl">CLUBS</div>
           </BorderGlow>
         </div>
