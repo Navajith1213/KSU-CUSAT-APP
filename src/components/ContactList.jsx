@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { sanitizeUrl } from '../utils/helpers';
 import BorderGlow from './BorderGlow';
-import ElectricBorder from './ElectricBorder';
 
 export default function ContactList({ contacts }) {
   const [contactSearch, setContactSearch] = useState('');
@@ -88,13 +87,7 @@ export default function ContactList({ contacts }) {
 
                 return (
                   <div key={idx} style={{ height: '100%' }}>
-                    {isElectrical ? (
-                      <ElectricBorder color="#eab308" speed={1.5} chaos={0.15} borderRadius={16} style={{ height: '100%' }}>
-                        {content}
-                      </ElectricBorder>
-                    ) : (
-                      content
-                    )}
+                    {content}
                   </div>
                 );
               })}
