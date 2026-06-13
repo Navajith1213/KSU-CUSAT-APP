@@ -533,7 +533,7 @@ export default function App() {
 
       {isLoading ? (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-main)', backdropFilter: 'blur(10px)' }}>
-          <img src="/logo.png" alt="Loading" style={{ height: '80px', objectFit: 'contain', marginBottom: '20px', animation: 'pulse 1.5s infinite' }} />
+          <img src="/logo.png" alt="Loading" style={{ height: '140px', objectFit: 'contain', marginBottom: '20px', animation: 'pulse 1.5s infinite' }} />
           <div style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: '600' }}>Fetching Dashboard...</div>
         </div>
       ) : null}
