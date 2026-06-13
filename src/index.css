@@ -11,6 +11,7 @@
   --navbar-bg: #ffffff;
   --border-strong: rgba(255, 255, 255, 0.8);
   --shadow-color: rgba(0, 0, 0, 0.08);
+  --primary-color: #2563eb;
   --primary-gradient: linear-gradient(135deg, #2563eb, #06b6d4);
   --primary-glow: rgba(37, 99, 235, 0.25);
 }
@@ -28,6 +29,7 @@ body.dark {
   --border-strong: rgba(255, 255, 255, 0.15);
   --navbar-bg: #0f172a;
   --shadow-color: rgba(0, 0, 0, 0.4);
+  --primary-color: #3b82f6;
   --primary-gradient: linear-gradient(135deg, #3b82f6, #22d3ee);
   --primary-glow: rgba(59, 130, 246, 0.35);
 }

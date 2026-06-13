@@ -183,13 +183,14 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                         padding: '8px 16px',
                         borderRadius: '8px',
                         border: '1px solid',
-                        borderColor: activeCourse === course ? 'var(--primary-color)' : 'var(--border-color)',
-                        background: activeCourse === course ? 'var(--primary-color)' : 'transparent',
+                        borderColor: activeCourse === course ? 'var(--primary-color)' : 'var(--border-strong)',
+                        background: activeCourse === course ? 'var(--primary-color)' : 'var(--bg-hover)',
                         color: activeCourse === course ? '#fff' : 'var(--text-primary)',
                         fontWeight: '600',
                         fontSize: '14px',
                         cursor: 'pointer',
-                        transition: 'all 0.2s'
+                        transition: 'all 0.2s',
+                        boxShadow: activeCourse !== course ? '0 2px 8px var(--shadow-color)' : 'none'
                       }}
                     >
                       {course}
