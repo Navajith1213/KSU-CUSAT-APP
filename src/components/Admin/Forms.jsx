@@ -1,9 +1,8 @@
 import React from 'react';
-import BorderGlow from '../BorderGlow';
 
 export function CalendarForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Academic Event' : 'Add Academic Event'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -34,13 +33,13 @@ export function CalendarForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Department Contact' : 'Add Department Contact'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -111,13 +110,13 @@ export function ContactForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Hostel' : 'Add Hostel'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -171,7 +170,7 @@ export function HostelForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
@@ -202,7 +201,7 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   };
 
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit PG' : 'Add PG'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -319,13 +318,13 @@ export function PGForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function FoodSpotForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Tea Spot' : 'Add Tea Spot'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -363,13 +362,13 @@ export function FoodSpotForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function RestaurantForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Restaurant' : 'Add Restaurant'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -403,13 +402,13 @@ export function RestaurantForm({ value, onChange, onSubmit, onCancel, isEdit }) 
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function AmenityForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Amenity' : 'Add Amenity'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -448,13 +447,13 @@ export function AmenityForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function ClubForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Club' : 'Add Club'}</h3>
       <div className="form-grid">
         <div className="form-group">
@@ -488,13 +487,13 @@ export function ClubForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
 
 export function TurfForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <h3 style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>
         {isEdit ? 'Edit Turf/Arena' : 'Add New Turf/Arena'}
       </h3>
@@ -538,6 +537,7 @@ export function TurfForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
         </div>
       </div>
-    </BorderGlow>
+    </div>
   );
 }
+

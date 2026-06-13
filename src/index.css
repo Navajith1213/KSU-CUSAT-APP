@@ -1769,3 +1769,12 @@ body::before {
 body.dark .speed-dial-btn {
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
+
+.admin-flat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 6px var(--shadow-color);
+}

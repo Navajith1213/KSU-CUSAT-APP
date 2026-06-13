@@ -11,7 +11,6 @@ import {
   TurfForm
 } from './Forms';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
-import BorderGlow from '../BorderGlow';
 
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
@@ -298,7 +297,7 @@ export default function AdminDashboard({
   };
 
   return (
-    <BorderGlow className="card">
+    <div className="admin-flat-card">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
         <h2>Admin Control Dashboard</h2>
       </div>
@@ -632,6 +631,6 @@ export default function AdminDashboard({
         </div>
       )}
 
-    </BorderGlow>
+    </div>
   );
 }
