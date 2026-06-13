@@ -306,7 +306,8 @@ export default function Home({
           <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
             <DomeGallery
               images={galleryImages}
-              fit={1.1}
+              fit={0.8}
+              fitBasis="width"
               minRadius={350}
               maxVerticalRotationDeg={8}
               segments={22}

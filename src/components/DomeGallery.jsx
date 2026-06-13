@@ -195,7 +195,8 @@ export default function DomeGallery({
           basis = aspect >= 1.3 ? w : minDim;
       }
       let radius = basis * fit;
-      const heightGuard = h * 1.35;
+      // Relax the heightGuard so it doesn't heavily restrict wide screens
+      const heightGuard = Math.max(h * 2, w * 0.8);
       radius = Math.min(radius, heightGuard);
       radius = clamp(radius, minRadius, maxRadius);
       lockedRadiusRef.current = Math.round(radius);
