@@ -341,10 +341,6 @@ export default function Home({
               ))}
             />
           </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', color: '#10b981', fontWeight: '600', fontSize: '14.5px', cursor: 'pointer', zIndex: 10, width: '100%' }} onClick={() => setActiveModule('gallery')}>
-            Open Gallery <i className="ti ti-arrow-right" style={{ marginLeft: '6px' }}></i>
-          </div>
         </BorderGlow>
 
       </div>
