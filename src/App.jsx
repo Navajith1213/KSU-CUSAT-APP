@@ -18,7 +18,6 @@ import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
 import ColorBends from './components/ColorBends';
 import BorderGlow from './components/BorderGlow';
-import TargetCursor from './components/TargetCursor';
 
 
 
@@ -505,7 +504,6 @@ export default function App() {
 
   return (
     <>
-      <TargetCursor targetSelector="button, a, .nav-card, .stat-item, .magic-bento-card, .slide-in-btn, .btn-primary, .btn-secondary, .card" />
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
         <ColorBends
           colors={["#e0f2fe", "#93c5fd", "#3b82f6"]}
