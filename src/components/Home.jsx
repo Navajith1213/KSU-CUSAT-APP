@@ -7,9 +7,21 @@ import MagicBento from './MagicBento';
 import DomeGallery from './DomeGallery';
 import Marquee from './Marquee';
 
-const galleryImages = [
-  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+// Dynamically import all images placed in src/assets/gallery/
+const galleryModules = import.meta.glob('../assets/gallery/*.{png,jpg,jpeg,webp}', { eager: true });
+const uploadedImages = Object.values(galleryModules).map(module => module.default);
+
+// If the folder is empty, use some beautiful CUSAT/Campus themed fallbacks so the dome is visible
+const fallbackImages = [
+  "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1519452314545-57cb024c0df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
 ];
+
+const galleryImages = uploadedImages.length > 0 ? uploadedImages : fallbackImages;
 
 export default function Home({
   academicEvents,
