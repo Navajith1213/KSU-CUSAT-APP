@@ -271,8 +271,12 @@ export default function App() {
         {activeModule === 'academic_resources' && <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />}
         {activeModule === 'contacts' && <ContactList contacts={contacts} />}
 
-        {activeModule === 'calendar' && (
-          <CampusInfo academicEvents={academicEvents} helpdeskContacts={helpdeskContacts} />
+        {(activeModule === 'calendar' || activeModule === 'helpdesk') && (
+          <CampusInfo 
+            academicEvents={academicEvents} 
+            helpdeskContacts={helpdeskContacts} 
+            initialTab={activeModule === 'helpdesk' ? 'helpdesk' : 'calendar'}
+          />
         )}
 
         {activeModule === 'boysPgs' && (

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BorderGlow from './BorderGlow';
 import { formatDate } from '../utils/helpers';
 
-export default function CampusInfo({ academicEvents, helpdeskContacts }) {
-  const [activeTab, setActiveTab] = useState('calendar'); // 'calendar' or 'helpdesk'
+export default function CampusInfo({ academicEvents, helpdeskContacts, initialTab = 'calendar' }) {
+  const [activeTab, setActiveTab] = useState(initialTab); // 'calendar' or 'helpdesk'
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   // Process helpdesk contacts
   const processedContacts = helpdeskContacts || [];

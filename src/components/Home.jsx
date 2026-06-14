@@ -100,6 +100,14 @@ export default function Home({
       description: 'Find administrative department details, university office locations, and google map directions instantly.'
     },
     {
+      id: 'helpdesk',
+      category: 'info',
+      title: 'Helpdesk Directory',
+      icon: 'ti-headset',
+      key: 'H',
+      description: 'Reach out to our dedicated KSU representatives and department helpdesk teams for assistance.'
+    },
+    {
       id: 'boysPgs',
       category: 'accommodations',
       title: "Boys PG's",

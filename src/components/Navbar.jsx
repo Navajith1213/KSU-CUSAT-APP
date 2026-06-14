@@ -53,6 +53,7 @@ export default function Navbar({
       icon: 'ti-info-circle',
       items: [
         { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
+        { id: 'helpdesk', label: 'Helpdesk', icon: 'ti-headset' },
         { id: 'contacts', label: 'Departments', icon: 'ti-building' }
       ]
     },
@@ -322,6 +323,22 @@ export default function Navbar({
         </div>
 
         <div style={{ marginTop: 'auto', borderTop: '1px solid var(--border-color)', paddingTop: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          
+          {/* Theme Toggle in Mobile Menu */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', background: 'var(--bg-hover)', borderRadius: '8px', marginBottom: '6px' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14.5px', fontWeight: '600', color: 'var(--text-primary)' }}>
+              <i className="ti ti-palette" style={{ fontSize: '16px' }}></i>
+              Theme Mode
+            </span>
+            <button 
+              className="theme-toggle" 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              title="Toggle Dark Mode"
+            >
+              <i className="ti ti-sun icon-sun"></i>
+              <i className="ti ti-moon icon-moon"></i>
+            </button>
+          </div>
           {userRole === 'student' && loggedStudent && (
             <div style={{ padding: '8px 12px', fontSize: '13px', color: 'var(--text-muted)' }}>
               Logged in as: <strong>{loggedStudent.full_name}</strong>
