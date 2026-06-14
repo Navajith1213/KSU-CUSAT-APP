@@ -608,6 +608,7 @@ export default function AdminDashboard({
             onSubmit={() => addOrUpdateItem('helpdesk')}
             onCancel={() => cancelEdit('helpdesk')}
             isEdit={editId !== null}
+            contacts={contacts}
           />
           <br />
           {helpdeskContacts.map((item) => (
@@ -639,14 +640,18 @@ export default function AdminDashboard({
                 required 
                 style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
               />
-              <input 
-                type="text" 
-                placeholder="Department Name" 
+              <select 
                 value={newAdminDept} 
                 onChange={e => setNewAdminDept(e.target.value)} 
                 required 
-                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)' }}
-              />
+                style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              >
+                <option value="" disabled>Select Department</option>
+                {(contacts || []).map(c => c.name).sort((a, b) => a.localeCompare(b)).map((deptName, idx) => (
+                  <option key={idx} value={deptName}>{deptName}</option>
+                ))}
+                <option value="Other">Other / Not Listed</option>
+              </select>
               <button type="submit" className="btn-primary">Add Admin</button>
             </form>
           </div>

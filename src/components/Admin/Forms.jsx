@@ -1,6 +1,11 @@
 import React from 'react';
 
-export function HelpdeskForm({ value, onChange, onSubmit, onCancel, isEdit }) {
+export function HelpdeskForm({ value, onChange, onSubmit, onCancel, isEdit, contacts = [] }) {
+  // Sort department list alphabetically
+  const departments = [...contacts]
+    .map(c => c.name)
+    .sort((a, b) => a.localeCompare(b));
+
   return (
     <div className="admin-flat-card">
       <h3>{isEdit ? 'Edit Helpdesk Contact' : 'Add Helpdesk Contact'}</h3>
@@ -17,10 +22,32 @@ export function HelpdeskForm({ value, onChange, onSubmit, onCancel, isEdit }) {
           <label>Name *</label>
           <input value={value.name || ''} onChange={(e) => onChange({ ...value, name: e.target.value })} placeholder="John Doe or Helpdesk Team A" />
         </div>
-        <div className="form-group">
-          <label>Role or Department *</label>
-          <input value={value.role_or_dept || ''} onChange={(e) => onChange({ ...value, role_or_dept: e.target.value })} placeholder="Unit President or Computer Science" />
-        </div>
+        
+        {value.category === 'unit_member' ? (
+          <div className="form-group">
+            <label>Role *</label>
+            <input 
+              value={value.role_or_dept || ''} 
+              onChange={(e) => onChange({ ...value, role_or_dept: e.target.value })} 
+              placeholder="Unit President or Vice President" 
+            />
+          </div>
+        ) : (
+          <div className="form-group">
+            <label>Department *</label>
+            <select 
+              value={value.role_or_dept || ''} 
+              onChange={(e) => onChange({ ...value, role_or_dept: e.target.value })}
+            >
+              <option value="" disabled>Select Department</option>
+              {departments.map((deptName, idx) => (
+                <option key={idx} value={deptName}>{deptName}</option>
+              ))}
+              <option value="Other">Other / Not Listed</option>
+            </select>
+          </div>
+        )}
+
         <div className="form-group">
           <label>Phone Number *</label>
           <input value={value.phone || ''} onChange={(e) => onChange({ ...value, phone: e.target.value })} placeholder="+91 9876543210" />
