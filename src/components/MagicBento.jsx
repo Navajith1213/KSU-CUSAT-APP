@@ -41,7 +41,7 @@ const cardData = [
   {
     color: '#172554',
     title: 'Grievance Redressal',
-    description: 'File complaints and track issues directly through the union desk.',
+    description: 'File complaints and track issues directly through the KSU helpdesk.',
     label: 'Helpdesk',
     moduleId: 'queries'
   },
