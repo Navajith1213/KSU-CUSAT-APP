@@ -1,15 +1,10 @@
 .scroll-stack-scroller {
   position: relative;
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: visible;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+  height: auto; /* changed from 100% so it expands naturally */
+  overflow: visible; /* changed from auto to let window scroll handle it */
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-  will-change: scroll-position;
 }
 
 .scroll-stack-inner {
