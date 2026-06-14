@@ -902,6 +902,7 @@ h1, h2, h3, .hero-title, .brand-box h2 {
   gap: 6px;
   list-style: none;
   white-space: nowrap;
+  flex-wrap: wrap;
 }
 
 .navbar-link {

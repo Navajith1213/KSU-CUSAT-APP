@@ -242,7 +242,7 @@ export default function App() {
     return (
       <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', padding: '100px 0', color: 'var(--text-muted)' }}>Loading...</div>}>
       <div key={activeModule} className="fade-in-section">
-        {['calendar', 'contacts', 'boysPgs', 'girlsPgs', 'hostels', 'food', 'restaurants', 'amenities', 'clubs', 'turfs', 'queries'].includes(activeModule) && (
+        {['calendar', 'contacts', 'boysPgs', 'girlsPgs', 'hostels', 'food', 'restaurants', 'amenities', 'clubs', 'turfs', 'queries', 'helpdesk'].includes(activeModule) && (
           <button
             onClick={() => setActiveModule('home')}
             className="back-btn"
