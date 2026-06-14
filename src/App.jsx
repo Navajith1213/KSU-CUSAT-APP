@@ -9,7 +9,7 @@ import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
 import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
-import Beams from './components/Beams';
+const Beams = lazy(() => import('./components/Beams'));
 import BorderGlow from './components/BorderGlow';
 
 const ListingGrid = lazy(() => import('./components/ListingGrid'));
@@ -514,18 +514,20 @@ export default function App() {
   return (
     <>
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
-        <Beams
-          beamWidth={2}
-          beamHeight={15}
-          beamNumber={12}
-          lightColor="#ffffff"
-          beamColor="#ffffff"
-          backgroundColor="#e0f2fe"
-          speed={2}
-          noiseIntensity={1.75}
-          scale={0.2}
-          rotation={0}
-        />
+        <Suspense fallback={null}>
+          <Beams
+            beamWidth={2}
+            beamHeight={15}
+            beamNumber={6}
+            lightColor="#ffffff"
+            beamColor="#ffffff"
+            backgroundColor="#e0f2fe"
+            speed={1.5}
+            noiseIntensity={1.2}
+            scale={0.2}
+            rotation={0}
+          />
+        </Suspense>
       </div>
 
       {isLoading ? (
