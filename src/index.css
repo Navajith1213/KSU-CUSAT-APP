@@ -35,9 +35,11 @@ body.dark {
 }
 
 /* Ensure background applies immediately */
-body {
+html, body, #root {
   position: relative;
   min-height: 100vh;
+  max-width: 100vw;
+  overflow-x: hidden;
   background: var(--bg-main) !important;
   background-size: 400% 400% !important;
   animation: gradientBG 15s ease infinite !important;
