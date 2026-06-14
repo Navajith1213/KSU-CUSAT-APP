@@ -79,7 +79,15 @@ const ScrollStack = ({
       const triggerStart = cardTop - stackPositionPx - itemStackDistance * i;
       const triggerEnd = cardTop - scaleEndPositionPx;
       const pinStart = cardTop - stackPositionPx - itemStackDistance * i;
-      const pinEnd = endElementTop - containerHeight / 2;
+      let pinEnd = endElementTop - containerHeight / 2;
+
+      const lastCardIndex = cardsRef.current.length - 1;
+      const lastCardTop = cardOffsetsRef.current[lastCardIndex] || 0;
+      const lastCardPinStart = lastCardTop - stackPositionPx - itemStackDistance * lastCardIndex;
+      
+      if (pinEnd < lastCardPinStart + 150) {
+        pinEnd = lastCardPinStart + 150;
+      }
 
       const scaleProgress = calculateProgress(scrollTop, triggerStart, triggerEnd);
       const targetScale = baseScale + i * itemScale;
