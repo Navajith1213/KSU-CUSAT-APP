@@ -52,7 +52,8 @@ const CardNav = ({
       textColor: theme === 'dark' ? '#e2e8f0' : '#0f172a',
       links: [
         { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
-        { id: 'contacts', label: 'Departments', icon: 'ti-building' }
+        { id: 'contacts', label: 'Departments', icon: 'ti-building' },
+        { id: 'helpdesk', label: 'Helpdesk Directory', icon: 'ti-headset' }
       ]
     },
     {
@@ -65,10 +66,11 @@ const CardNav = ({
         { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
         { id: 'clubs', label: 'Clubs', icon: 'ti-users' },
         { id: 'turfs', label: 'Turfs & Arenas', icon: 'ti-ball-football' },
-        { id: 'academic_resources', label: 'Academic Resources', icon: 'ti-books' }
+        { id: 'academic_resources', label: 'Academic Resources', icon: 'ti-books' },
+        ...(userRole === 'student' || userRole === 'dept_admin' ? [{ id: 'queries', label: 'My Queries', icon: 'ti-mail' }] : [])
       ]
     }
-  ], [theme]);
+  ], [theme, userRole]);
 
   const calculateHeight = () => {
     const navEl = navRef.current;
