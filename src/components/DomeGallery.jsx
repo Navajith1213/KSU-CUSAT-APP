@@ -32,7 +32,7 @@ const DEFAULT_IMAGES = [
 
 const DEFAULTS = {
   maxVerticalRotationDeg: 5,
-  dragSensitivity: 3,
+  dragSensitivity: 6,
   enlargeTransitionMs: 300,
   segments: 35
 };
@@ -139,6 +139,8 @@ export default function DomeGallery({
   const draggingRef = useRef(false);
   const movedRef = useRef(false);
   const inertiaRAF = useRef(null);
+  const autoRotateRAF = useRef(null);
+  const hoveredRef = useRef(false);
   const openingRef = useRef(false);
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
@@ -254,6 +256,37 @@ export default function DomeGallery({
 
   useEffect(() => {
     applyTransform(rotationRef.current.x, rotationRef.current.y);
+  }, []);
+
+  // Auto-rotation when idle
+  useEffect(() => {
+    const speed = 0.03;
+    const step = () => {
+      if (!draggingRef.current && !focusedElRef.current && !hoveredRef.current && !inertiaRAF.current) {
+        const nextY = wrapAngleSigned(rotationRef.current.y + speed);
+        rotationRef.current = { ...rotationRef.current, y: nextY };
+        applyTransform(rotationRef.current.x, nextY);
+      }
+      autoRotateRAF.current = requestAnimationFrame(step);
+    };
+    autoRotateRAF.current = requestAnimationFrame(step);
+    return () => {
+      if (autoRotateRAF.current) cancelAnimationFrame(autoRotateRAF.current);
+    };
+  }, []);
+
+  // Track hover state on the main dome area
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+    const onEnter = () => { hoveredRef.current = true; };
+    const onLeave = () => { hoveredRef.current = false; };
+    el.addEventListener('mouseenter', onEnter);
+    el.addEventListener('mouseleave', onLeave);
+    return () => {
+      el.removeEventListener('mouseenter', onEnter);
+      el.removeEventListener('mouseleave', onLeave);
+    };
   }, []);
 
   const stopInertia = useCallback(() => {
