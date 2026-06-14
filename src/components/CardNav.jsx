@@ -52,6 +52,7 @@ const CardNav = ({
       textColor: theme === 'dark' ? '#e2e8f0' : '#0f172a',
       links: [
         { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
+        { id: 'helpdesk', label: 'Helpdesk Directory', icon: 'ti-headset' },
         { id: 'contacts', label: 'Departments', icon: 'ti-building' }
       ]
     },
@@ -237,6 +238,16 @@ const CardNav = ({
             </button>
 
             <div className="nav-auth-desktop">
+              {(userRole === 'student' || userRole === 'dept_admin') && (
+                <button 
+                  className="navbar-btn" 
+                  onClick={() => handleNavClick('queries')} 
+                  style={{ background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-primary)', padding: '6px 14px', marginRight: '8px' }}
+                >
+                  <i className="ti ti-mail" style={{ marginRight: '6px' }}></i>
+                  My Queries
+                </button>
+              )}
               {userRole === 'student' && loggedStudent && (
                 <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>
                   <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
