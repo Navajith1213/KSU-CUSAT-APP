@@ -1,5 +1,41 @@
 import React from 'react';
 
+export function HelpdeskForm({ value, onChange, onSubmit, onCancel, isEdit }) {
+  return (
+    <div className="admin-flat-card">
+      <h3>{isEdit ? 'Edit Helpdesk Contact' : 'Add Helpdesk Contact'}</h3>
+      <div className="form-grid">
+        <div className="form-group">
+          <label>Category *</label>
+          <select value={value.category || 'unit_member'} onChange={(e) => onChange({ ...value, category: e.target.value })}>
+            <option value="unit_member">KSU Unit Member</option>
+            <option value="helpdesk_team">Department Helpdesk Team</option>
+            <option value="convenor">Department Convenor</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Name *</label>
+          <input value={value.name || ''} onChange={(e) => onChange({ ...value, name: e.target.value })} placeholder="John Doe or Helpdesk Team A" />
+        </div>
+        <div className="form-group">
+          <label>Role or Department *</label>
+          <input value={value.role_or_dept || ''} onChange={(e) => onChange({ ...value, role_or_dept: e.target.value })} placeholder="Unit President or Computer Science" />
+        </div>
+        <div className="form-group">
+          <label>Phone Number *</label>
+          <input value={value.phone || ''} onChange={(e) => onChange({ ...value, phone: e.target.value })} placeholder="+91 9876543210" />
+        </div>
+        <div className="form-group full-width row-actions">
+          <button className="btn-primary" onClick={onSubmit}>
+            {isEdit ? 'Update Contact' : 'Add Contact'}
+          </button>
+          {isEdit && <button className="btn-light" onClick={onCancel}>Cancel Edit</button>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function CalendarForm({ value, onChange, onSubmit, onCancel, isEdit }) {
   return (
     <div className="admin-flat-card">

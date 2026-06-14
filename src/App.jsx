@@ -19,19 +19,10 @@ const AdminQueries = lazy(() => import('./components/Admin/AdminQueries'));
 const QueryPanel = lazy(() => import('./components/QueryPanel'));
 const AcademicResources = lazy(() => import('./components/AcademicResources'));
 const DepartmentDashboard = lazy(() => import('./components/DepartmentDashboard'));
+const CampusInfo = lazy(() => import('./components/CampusInfo'));
 
 
 
-
-const formatDate = (dateStr) => {
-  if (!dateStr) return '';
-  const isoPattern = /^\d{4}-\d{2}-\d{2}$/;
-  if (isoPattern.test(dateStr)) {
-    const [year, month, day] = dateStr.split('-');
-    return `${day}/${month}/${year}`;
-  }
-  return dateStr;
-};
 
 export default function App() {
   const [userRole, setUserRole] = useState('user');
@@ -93,6 +84,7 @@ export default function App() {
   const [contacts, setContacts] = useState([]);
   const [turfs, setTurfs] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [helpdeskContacts, setHelpdeskContacts] = useState([]);
 
 
   // Search/Filter states
@@ -147,7 +139,8 @@ export default function App() {
         { name: 'clubs', setter: setClubs },
         { name: 'contacts', setter: setContacts },
         { name: 'turfs', setter: setTurfs },
-        { name: 'announcements', setter: setAnnouncements }
+        { name: 'announcements', setter: setAnnouncements },
+        { name: 'helpdesk_contacts', setter: setHelpdeskContacts }
       ];
 
       // Fetch all tables concurrently instead of sequentially
@@ -279,21 +272,7 @@ export default function App() {
         {activeModule === 'contacts' && <ContactList contacts={contacts} />}
 
         {activeModule === 'calendar' && (
-          <BorderGlow className="card">
-            <h2>Academic Calendar</h2>
-            {academicEvents.map((event, idx) => (
-              <div key={idx} className="event-item">
-                <div>
-                  <p>
-                    <strong>{event.title}</strong>
-                  </p>
-                  <p className="small-text">
-                    {formatDate(event.date)} | {event.type}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </BorderGlow>
+          <CampusInfo academicEvents={academicEvents} helpdeskContacts={helpdeskContacts} />
         )}
 
         {activeModule === 'boysPgs' && (
@@ -496,6 +475,8 @@ export default function App() {
             setTurfs={setTurfs}
             announcements={announcements}
             setAnnouncements={setAnnouncements}
+            helpdeskContacts={helpdeskContacts}
+            setHelpdeskContacts={setHelpdeskContacts}
             loggedStudent={loggedStudent}
           />
         )}
