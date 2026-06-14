@@ -32,7 +32,7 @@ const DEFAULT_IMAGES = [
 
 const DEFAULTS = {
   maxVerticalRotationDeg: 5,
-  dragSensitivity: 20,
+  dragSensitivity: 3,
   enlargeTransitionMs: 300,
   segments: 35
 };
@@ -347,8 +347,8 @@ export default function DomeGallery({
   );
 
   useEffect(() => {
-    const scrim = scrimRef.current;
-    if (!scrim) return;
+    const viewer = viewerRef.current;
+    if (!viewer) return;
     const close = () => {
       if (performance.now() - openStartedAtRef.current < 250) return;
       const el = focusedElRef.current;
@@ -436,13 +436,13 @@ export default function DomeGallery({
       };
       animatingOverlay.addEventListener('transitionend', cleanup, { once: true });
     };
-    scrim.addEventListener('click', close);
+    viewer.addEventListener('click', close);
     const onKey = e => {
       if (e.key === 'Escape') close();
     };
     window.addEventListener('keydown', onKey);
     return () => {
-      scrim.removeEventListener('click', close);
+      viewer.removeEventListener('click', close);
       window.removeEventListener('keydown', onKey);
     };
   }, [enlargeTransitionMs, unlockScroll]);
