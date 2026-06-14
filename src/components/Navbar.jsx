@@ -53,7 +53,6 @@ export default function Navbar({
       icon: 'ti-info-circle',
       items: [
         { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
-        { id: 'helpdesk', label: 'Helpdesk', icon: 'ti-headset' },
         { id: 'contacts', label: 'Departments', icon: 'ti-building' }
       ]
     },
@@ -185,6 +184,14 @@ export default function Navbar({
             );
           })}
 
+          <button
+            className={`navbar-link ${activeModule === 'helpdesk' ? 'active' : ''}`}
+            onClick={() => handleNavClick('helpdesk')}
+          >
+            <i className="ti ti-headset" style={{ fontSize: '15px' }}></i>
+            Helpdesk Directory
+          </button>
+
           {(userRole === 'student' || userRole === 'dept_admin') && (
             <button
               className={`navbar-link ${activeModule === 'queries' ? 'active' : ''}`}
@@ -246,6 +253,15 @@ export default function Navbar({
           >
             <i className="ti ti-home" style={{ fontSize: '16px' }}></i>
             Home
+          </button>
+
+          <button
+            className={`mobile-menu-link ${activeModule === 'helpdesk' ? 'active' : ''}`}
+            onClick={() => handleNavClick('helpdesk')}
+            style={{ fontWeight: '700' }}
+          >
+            <i className="ti ti-headset" style={{ fontSize: '16px' }}></i>
+            Helpdesk Directory
           </button>
 
           {/* External Link Mobile */}

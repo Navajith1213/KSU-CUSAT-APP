@@ -697,26 +697,9 @@ const MagicBento = ({
         />
       )}
 
-      {isMobile ? (
-        <ScrollStack
-          useWindowScroll={true}
-          itemDistance={60}
-          itemScale={0.05}
-          itemStackDistance={40}
-          stackPosition="15%"
-          baseScale={0.9}
-        >
-          {cardData.map((card, index) => (
-            <ScrollStackItem key={index}>
-              {renderCard(card, index)}
-            </ScrollStackItem>
-          ))}
-        </ScrollStack>
-      ) : (
-        <BentoCardGrid gridRef={gridRef}>
-          {cardData.map((card, index) => renderCard(card, index))}
-        </BentoCardGrid>
-      )}
+      <BentoCardGrid gridRef={gridRef}>
+        {cardData.map((card, index) => renderCard(card, index))}
+      </BentoCardGrid>
     </div>
   );
 };

@@ -20,6 +20,7 @@ const QueryPanel = lazy(() => import('./components/QueryPanel'));
 const AcademicResources = lazy(() => import('./components/AcademicResources'));
 const DepartmentDashboard = lazy(() => import('./components/DepartmentDashboard'));
 const CampusInfo = lazy(() => import('./components/CampusInfo'));
+const HelpdeskDirectory = lazy(() => import('./components/HelpdeskDirectory'));
 
 
 
@@ -271,12 +272,12 @@ export default function App() {
         {activeModule === 'academic_resources' && <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />}
         {activeModule === 'contacts' && <ContactList contacts={contacts} />}
 
-        {(activeModule === 'calendar' || activeModule === 'helpdesk') && (
-          <CampusInfo 
-            academicEvents={academicEvents} 
-            helpdeskContacts={helpdeskContacts} 
-            initialTab={activeModule === 'helpdesk' ? 'helpdesk' : 'calendar'}
-          />
+        {activeModule === 'calendar' && (
+          <CampusInfo academicEvents={academicEvents} />
+        )}
+
+        {activeModule === 'helpdesk' && (
+          <HelpdeskDirectory helpdeskContacts={helpdeskContacts} />
         )}
 
         {activeModule === 'boysPgs' && (
