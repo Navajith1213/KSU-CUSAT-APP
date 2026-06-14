@@ -51,6 +51,20 @@ const cardData = [
     description: 'Download study materials, notes, and previous year question papers.',
     label: 'Resources',
     moduleId: 'academic_resources'
+  },
+  {
+    color: '#0f766e',
+    title: 'Stay & PG',
+    description: 'Find verified boys and girls accommodations around the campus.',
+    label: 'Housing',
+    moduleId: 'boysPgs'
+  },
+  {
+    color: '#9f1239',
+    title: 'Helpdesk Directory',
+    description: 'Quickly access contact details for KSU representatives and departments.',
+    label: 'Support',
+    moduleId: 'helpdesk'
   }
 ];
 

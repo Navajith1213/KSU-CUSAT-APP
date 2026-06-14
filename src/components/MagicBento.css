@@ -150,6 +150,11 @@
     grid-column: 4;
     grid-row: 3;
   }
+
+  .magic-bento-card:nth-child(7),
+  .magic-bento-card:nth-child(8) {
+    grid-column: span 2;
+  }
 }
 
 /* Border glow effect */
