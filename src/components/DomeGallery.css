@@ -149,9 +149,12 @@ main.sphere-main {
   backdrop-filter: blur(3px);
 }
 
+.sphere-root[data-enlarging='true'] .viewer {
+  pointer-events: all;
+}
+
 .sphere-root[data-enlarging='true'] .viewer .scrim {
   opacity: 1;
-  pointer-events: all;
 }
 
 .viewer .enlarge {

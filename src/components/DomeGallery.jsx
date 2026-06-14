@@ -642,11 +642,12 @@ export default function DomeGallery({
         <div className="edge-fade edge-fade--top" />
         <div className="edge-fade edge-fade--bottom" />
 
-        <div className="viewer" ref={viewerRef}>
-          <div ref={scrimRef} className="scrim" />
-          <div ref={frameRef} className="frame" />
-        </div>
       </main>
+
+      <div className="viewer" ref={viewerRef}>
+        <div ref={scrimRef} className="scrim" />
+        <div ref={frameRef} className="frame" />
+      </div>
     </div>
   );
 }
