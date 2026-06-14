@@ -53,7 +53,8 @@ const CardNav = ({
       links: [
         { id: 'calendar', label: 'Calendar', icon: 'ti-calendar' },
         { id: 'contacts', label: 'Departments', icon: 'ti-building' },
-        { id: 'helpdesk', label: 'Helpdesk Directory', icon: 'ti-headset' }
+        { id: 'helpdesk', label: 'Helpdesk Directory', icon: 'ti-headset' },
+        { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' }
       ]
     },
     {
@@ -63,7 +64,6 @@ const CardNav = ({
       bgColor: theme === 'dark' ? '#3b2512' : '#fff7ed',
       textColor: theme === 'dark' ? '#e2e8f0' : '#0f172a',
       links: [
-        { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
         { id: 'clubs', label: 'Clubs', icon: 'ti-users' },
         { id: 'turfs', label: 'Turfs & Arenas', icon: 'ti-ball-football' },
         { id: 'academic_resources', label: 'Academic Resources', icon: 'ti-books' },
