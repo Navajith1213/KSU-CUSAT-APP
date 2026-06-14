@@ -343,7 +343,7 @@ export default function DomeGallery({
         }
       }
     },
-    { target: mainRef, eventOptions: { passive: true } }
+    { target: mainRef, drag: { preventScroll: true, filterTaps: true } }
   );
 
   useEffect(() => {
