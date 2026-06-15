@@ -167,7 +167,7 @@ export default function AdminDashboard({
   const [newGirlsPg, setNewGirlsPg] = useState({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
   const [newHostel, setNewHostel] = useState({ name: '', type: 'Mens', location: '', fees: '', food: '', contact: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
   const [newFoodSpot, setNewFoodSpot] = useState({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
-  const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
+  const [newRestaurant, setNewRestaurant] = useState({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '', priceRange: '', description: '' });
   const [newAmenity, setNewAmenity] = useState({ name: '', location: '', details: '', category: '', gmapsLink: '' });
   const [newClub, setNewClub] = useState({ name: '', location: '', contact: '', description: '', gmapsLink: '' });
   const [newContact, setNewContact] = useState({ name: '', phone: '', email: '', address: '', gmapsLink: '', section: 'Main Campus' });
@@ -181,7 +181,7 @@ export default function AdminDashboard({
     if (type === 'girlsPgs') setNewGirlsPg({ name: '', location: '', rent: '', food: '', contact: '', rooms: '', gmapsLink: '', rates: [] });
     if (type === 'hostels') setNewHostel({ name: '', type: 'Mens', location: '', fees: '', food: '', wardenContact: '', secretaryContact: '', rooms: '', gmapsLink: '' });
     if (type === 'food') setNewFoodSpot({ name: '', location: '', description: '', specialty: '', timing: '', gmapsLink: '' });
-    if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '' });
+    if (type === 'restaurants') setNewRestaurant({ name: '', location: '', cuisine: '', contact: '', gmapsLink: '', priceRange: '', description: '' });
     if (type === 'amenities') setNewAmenity({ name: '', location: '', details: '', category: '', gmapsLink: '' });
     if (type === 'clubs') setNewClub({ name: '', location: '', contact: '', description: '', gmapsLink: '' });
     if (type === 'contacts') setNewContact({ name: '', phone: '', email: '', address: '', gmapsLink: '', section: 'Main Campus' });

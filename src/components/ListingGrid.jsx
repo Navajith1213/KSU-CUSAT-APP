@@ -15,6 +15,7 @@ const FIELD_LABELS = {
   description: 'Description',
   timing: 'Timing',
   cuisine: 'Cuisine',
+  priceRange: 'Price Range',
   details: 'Details',
   services: 'Services Provided',
   facilities: 'Facilities / Amenities'

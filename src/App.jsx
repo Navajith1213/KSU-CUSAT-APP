@@ -390,7 +390,7 @@ export default function App() {
             </div>
             <ListingGrid
               items={filteredRestaurants}
-              fields={['location', 'cuisine', 'contact']}
+              fields={['location', 'cuisine', 'priceRange', 'description', 'contact']}
             />
           </BorderGlow>
         )}

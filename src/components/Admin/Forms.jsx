@@ -458,6 +458,22 @@ export function RestaurantForm({ value, onChange, onSubmit, onCancel, isEdit }) 
             placeholder="https://maps.app.goo.gl/..."
           />
         </div>
+        <div className="form-group">
+          <label>Price Range</label>
+          <input
+            value={value.priceRange || ''}
+            onChange={(e) => onChange({ ...value, priceRange: e.target.value })}
+            placeholder="e.g. ₹150 - ₹300, Moderate, Budget-friendly"
+          />
+        </div>
+        <div className="form-group full-width">
+          <label>Description</label>
+          <textarea
+            value={value.description || ''}
+            onChange={(e) => onChange({ ...value, description: e.target.value })}
+            placeholder="Describe the restaurant, specialties, seating, etc."
+          ></textarea>
+        </div>
         <div className="form-group full-width row-actions">
           <button className="btn-primary" onClick={onSubmit}>
             {isEdit ? 'Update Restaurant' : 'Add Restaurant'}
