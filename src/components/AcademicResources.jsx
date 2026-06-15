@@ -58,6 +58,8 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     }
   }, [activeDepartment, courses]);
 
+  const containsQuery = (text, query) => (text || '').toLowerCase().includes(query.toLowerCase());
+
   // Apply Search and Course filters
   const filteredResources = deptResources.filter(r => {
     if ((r.course || 'General') !== activeCourse) return false;
