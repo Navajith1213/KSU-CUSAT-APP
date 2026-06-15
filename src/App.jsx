@@ -448,7 +448,7 @@ export default function App() {
           </BorderGlow>
         )}
 
-        {activeModule === 'dept_dashboard' && userRole === 'dept_admin' && (
+        {activeModule === 'dept_dashboard' && (userRole === 'dept_admin' || userRole === 'admin') && (
           <DepartmentDashboard loggedStudent={loggedStudent} />
         )}
 

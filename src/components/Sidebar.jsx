@@ -19,6 +19,7 @@ export default function Sidebar({
     { id: 'amenities', label: 'Amenities', icon: 'ti-map-pin' },
     { id: 'clubs', label: 'Campus Clubs', icon: 'ti-users' },
     { id: 'turfs', label: 'Turfs & Arenas', icon: 'ti-ball-football' },
+    { id: 'dept_dashboard', label: 'Resource Manager', icon: 'ti-books' },
     { id: 'admin-queries', label: 'Student Queries', icon: 'ti-mail' },
     { id: 'admin', label: 'Admin Dashboard', icon: 'ti-settings' }
   ];
