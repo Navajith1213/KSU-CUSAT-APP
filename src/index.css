@@ -1699,6 +1699,7 @@ body::before {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  pointer-events: none;
 }
 
 .speed-dial-actions {
@@ -1754,6 +1755,7 @@ body::before {
   justify-content: center;
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+  pointer-events: auto;
 }
 
 .speed-dial-fab.active {
@@ -1795,7 +1797,7 @@ body.dark .speed-dial-btn {
   background: var(--bg-card, #ffffff);
   border: none;
   cursor: pointer;
-  z-index: 9997;
+  z-index: 10001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1861,6 +1863,10 @@ body.dark .scroll-progress-bg {
   align-items: center;
   justify-content: center;
   transition: transform 0.3s, color 0.3s;
+}
+
+body.dark .scroll-to-top-icon {
+  color: #ffffff;
 }
 
 .scroll-to-top:hover .scroll-to-top-icon {
