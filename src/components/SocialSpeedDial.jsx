@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-export default function SocialSpeedDial() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SocialSpeedDial({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
+  const [localIsOpen, setLocalIsOpen] = useState(false);
+  const isOpen = propIsOpen !== undefined ? propIsOpen : localIsOpen;
+  const setIsOpen = propSetIsOpen !== undefined ? propSetIsOpen : setLocalIsOpen;
 
   const socials = [
     { name: 'Instagram', icon: 'ti ti-brand-instagram', color: '#e1306c', link: 'https://www.instagram.com/ksu_cusat/' },

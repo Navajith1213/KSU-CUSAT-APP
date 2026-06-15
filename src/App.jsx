@@ -7,6 +7,7 @@ import Home from './components/Home';
 import CardNav from './components/CardNav';
 import Chatbot from './components/Chatbot';
 import SocialSpeedDial from './components/SocialSpeedDial';
+import ScrollToTop from './components/ScrollToTop';
 import { supabase } from './utils/supabaseClient';
 import JoinKSUForm from './components/JoinKSUForm';
 import ColorBends from './components/ColorBends';
@@ -31,6 +32,7 @@ export default function App() {
   const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   const [isLoading, setIsLoading] = useState(true);
+  const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -650,7 +652,8 @@ export default function App() {
         <PasswordResetModal onClose={() => setShowPasswordResetModal(false)} />
       )}
       {/* Always render chatbot globally */}
-      <SocialSpeedDial />
+      <ScrollToTop isSpeedDialOpen={isSpeedDialOpen} />
+      <SocialSpeedDial isOpen={isSpeedDialOpen} setIsOpen={setIsSpeedDialOpen} />
       <Chatbot onNavigate={(id) => setActiveModule(id)} />
     </>
   );
