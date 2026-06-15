@@ -275,6 +275,9 @@ export default function DepartmentDashboard({ loggedStudent }) {
         query = query.eq('department', loggedStudent.department);
       } else if (customDepartment) {
         query = query.eq('department', customDepartment);
+      } else {
+        // Master Admin deleting all resources: use a dummy filter to satisfy Supabase's safety check requiring a WHERE clause
+        query = query.neq('id', '00000000-0000-0000-0000-000000000000');
       }
       
       const { error } = await query;
