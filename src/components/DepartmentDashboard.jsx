@@ -345,7 +345,8 @@ export default function DepartmentDashboard({ loggedStudent }) {
                       )}
                       {resource.year_semester && <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{resource.year_semester}</span>}
                     </div>
-                    <h4 style={{ margin: '4px 0', fontSize: '15px' }}>{resource.subject}</h4>
+                    <h4 style={{ margin: '4px 0', fontSize: '15px' }}>{resource.topic || resource.subject}</h4>
+                    {resource.topic && <p style={{ margin: '2px 0 6px 0', fontSize: '12px', color: 'var(--text-muted)' }}>Subject: {resource.subject}</p>}
                     <a href={resource.drive_link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#0ea5e9', textDecoration: 'none' }}>
                       <i className="ti ti-external-link"></i> View File
                     </a>

@@ -14,6 +14,8 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
   
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDocument, setSelectedDocument] = useState(null);
+  const [activeFolderSubject, setActiveFolderSubject] = useState(null);
+  const [folderSearchQuery, setFolderSearchQuery] = useState('');
 
   const fetchResources = async () => {
     try {
@@ -275,9 +277,72 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                   </div>
                 )}
 
+                {/* Level 3A: Syllabuses (Special Highlighted Section) */}
+                {syllabusData && (
+                  <div className="syllabus-group" style={{ background: 'var(--primary-glow)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: '0 4px 20px var(--shadow-color)', marginBottom: '24px' }}>
+                    <h3 style={{ fontSize: '20px', color: 'var(--primary-color)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <i className="ti ti-book"></i> Course Syllabuses
+                    </h3>
+                    <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                      {Object.keys(syllabusData).sort((a,b) => b.localeCompare(a)).map(adYear => {
+                        const files = syllabusData[adYear] || [];
+                        return (
+                          <div 
+                            key={adYear} 
+                            className="item-card" 
+                            onClick={() => {
+                              setActiveFolderSubject(adYear);
+                              setFolderSearchQuery('');
+                            }}
+                            style={{ 
+                              display: 'flex', 
+                              flexDirection: 'column', 
+                              padding: '20px', 
+                              alignItems: 'center', 
+                              background: 'var(--bg-main)', 
+                              border: '1px solid var(--border-color)', 
+                              borderRadius: '16px', 
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                              cursor: 'pointer',
+                              transition: 'transform 0.2s, border-color 0.2s',
+                              minHeight: '140px',
+                              justifyContent: 'center',
+                              textAlign: 'center'
+                            }}
+                            onMouseOver={(e) => {
+                              e.currentTarget.style.transform = 'translateY(-4px)';
+                              e.currentTarget.style.borderColor = 'var(--primary-color)';
+                            }}
+                            onMouseOut={(e) => {
+                              e.currentTarget.style.transform = 'translateY(0)';
+                              e.currentTarget.style.borderColor = 'var(--border-color)';
+                            }}
+                          >
+                            <div style={{ 
+                              width: '40px', 
+                              height: '40px', 
+                              borderRadius: '10px', 
+                              background: 'rgba(16, 185, 129, 0.1)', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center', 
+                              marginBottom: '10px',
+                              border: '1px solid rgba(16, 185, 129, 0.2)'
+                            }}>
+                              <i className="ti ti-folder" style={{ fontSize: '20px', color: '#10b981' }}></i>
+                            </div>
+                            <h4 style={{ fontSize: '15px', margin: '0 0 4px 0', color: 'var(--text-primary)', fontWeight: '700' }}>{adYear}</h4>
+                            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{files.length} Syllabus Files</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 {/* Level 3B: Regular Semester Loop */}
                 {regularSemesters.map(sem => (
-                  <div key={sem} className="semester-group">
+                  <div key={sem} className="semester-group" style={{ marginBottom: '24px' }}>
                     <h3 style={{ 
                       fontSize: '18px', 
                       color: 'var(--text-primary)', 
@@ -294,62 +359,76 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                     
                     {/* Level 4: Subject Cards Grid */}
                     <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-                      {Object.keys(groupedData[sem]).sort().map(sub => (
-                        <div key={sub} className="item-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px 20px', alignItems: 'center', background: 'var(--bg-main)', border: '1px solid var(--border-color)', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
-                          
-                           <div style={{ 
-                            width: '56px', 
-                            height: '56px', 
-                            borderRadius: '16px', 
-                            background: `linear-gradient(135deg, ${getResourceColor(groupedData[sem][sub][0]?.resource_type || 'default')}22, ${getResourceColor(groupedData[sem][sub][0]?.resource_type || 'default')}44)`, 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center', 
-                            marginBottom: '16px',
-                            border: `1px solid ${getResourceColor(groupedData[sem][sub][0]?.resource_type || 'default')}33`
-                          }}>
-                            <i className={`ti ${getResourceIcon(groupedData[sem][sub][0]?.resource_type || 'default')}`} style={{ fontSize: '28px', color: getResourceColor(groupedData[sem][sub][0]?.resource_type || 'default') }}></i>
-                          </div>
+                      {Object.keys(groupedData[sem]).sort().map(sub => {
+                        const files = groupedData[sem][sub] || [];
+                        const notesCount = files.filter(f => f.resource_type.toLowerCase().includes('note')).length;
+                        const pyqsCount = files.filter(f => f.resource_type.toLowerCase().includes('pyq') || f.resource_type.toLowerCase().includes('question')).length;
+                        const syllabusCount = files.filter(f => f.resource_type.toLowerCase().includes('syllab')).length;
+                        const otherCount = files.length - (notesCount + pyqsCount + syllabusCount);
 
-                          <h4 style={{ fontSize: '18px', margin: '0 0 20px 0', color: 'var(--text-primary)', lineHeight: '1.4', textAlign: 'center', fontWeight: '700' }}>{sub}</h4>
-                          
-                          {/* Level 5: Categories / Topics inside the Subject */}
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto', width: '100%' }}>
-                            {groupedData[sem][sub].map(file => (
-                              <button 
-                                key={file.id}
-                                onClick={() => setSelectedDocument(file)}
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-between',
-                                  width: '100%',
-                                  padding: '10px 14px',
-                                  background: 'var(--bg-hover)',
-                                  border: '1px solid var(--border-color)',
-                                  borderRadius: '8px',
-                                  cursor: 'pointer',
-                                  transition: 'all 0.2s',
-                                  textAlign: 'left'
-                                }}
-                                onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor(file.resource_type), transform: 'translateX(4px)' })}
-                                onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
-                              >
-                                <span style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, overflow: 'hidden' }}>
-                                  <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ color: getResourceColor(file.resource_type), fontSize: '20px', flexShrink: 0 }}></i>
-                                  <span style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                                    <span style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: '700' }}>{file.resource_type}</span>
-                                    <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                      {file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}
-                                    </span>
-                                  </span>
-                                </span>
-                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)', flexShrink: 0, marginLeft: '8px' }}></i>
-                              </button>
-                            ))}
+                        const countParts = [];
+                        if (notesCount > 0) countParts.push(`${notesCount} Notes`);
+                        if (pyqsCount > 0) countParts.push(`${pyqsCount} PYQs`);
+                        if (syllabusCount > 0) countParts.push(`${syllabusCount} Syllabus`);
+                        if (otherCount > 0) countParts.push(`${otherCount} Other`);
+                        const summaryText = countParts.join(' • ') || 'Empty Folder';
+
+                        return (
+                          <div 
+                            key={sub} 
+                            className="item-card" 
+                            onClick={() => {
+                              setActiveFolderSubject(sub);
+                              setFolderSearchQuery('');
+                            }}
+                            style={{ 
+                              display: 'flex', 
+                              flexDirection: 'column', 
+                              padding: '20px', 
+                              alignItems: 'center', 
+                              background: 'var(--bg-main)', 
+                              border: '1px solid var(--border-color)', 
+                              borderRadius: '16px', 
+                              boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+                              cursor: 'pointer',
+                              transition: 'transform 0.2s, border-color 0.2s',
+                              minHeight: '160px',
+                              justifyContent: 'center',
+                              textAlign: 'center'
+                            }}
+                            onMouseOver={(e) => {
+                              e.currentTarget.style.transform = 'translateY(-4px)';
+                              e.currentTarget.style.borderColor = 'var(--primary-color)';
+                            }}
+                            onMouseOut={(e) => {
+                              e.currentTarget.style.transform = 'translateY(0)';
+                              e.currentTarget.style.borderColor = 'var(--border-color)';
+                            }}
+                          >
+                            <div style={{ 
+                              width: '48px', 
+                              height: '48px', 
+                              borderRadius: '12px', 
+                              background: 'rgba(2, 132, 199, 0.1)', 
+                              display: 'flex', 
+                              alignItems: 'center', 
+                              justifyContent: 'center', 
+                              marginBottom: '12px',
+                              border: '1px solid rgba(2, 132, 199, 0.2)'
+                            }}>
+                              <i className="ti ti-folder" style={{ fontSize: '24px', color: 'var(--primary-color)' }}></i>
+                            </div>
+
+                            <h4 style={{ fontSize: '16px', margin: '0 0 8px 0', color: 'var(--text-primary)', lineHeight: '1.4', fontWeight: '700' }}>
+                              {sub}
+                            </h4>
+                            
+                            <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: '500' }}>
+                              {summaryText}
+                            </span>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 ))}
@@ -378,7 +457,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
           >
             <div className="modal-header" style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
-                <h2 style={{ fontSize: '20px', margin: '0 0 4px 0', color: '#0f172a' }}>{selectedDocument.subject}</h2>
+                <h2 style={{ fontSize: '20px', margin: '0 0 4px 0', color: '#0f172a' }}>{selectedDocument.topic || selectedDocument.subject}</h2>
                 <p style={{ margin: 0, fontSize: '13px', color: '#64748b', fontWeight: '500' }}>
                   {selectedDocument.course} • {selectedDocument.year_semester} • {selectedDocument.resource_type}
                 </p>
@@ -391,7 +470,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                 src={getDriveEmbedUrl(selectedDocument.drive_link)} 
                 style={{ width: '100%', height: '100%', border: 'none' }}
                 allow="autoplay"
-                title={selectedDocument.subject}
+                title={selectedDocument.topic || selectedDocument.subject}
               ></iframe>
             </div>
 
@@ -409,6 +488,156 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
           </div>
         </div>
       )}
+
+      {/* Folder Contents Modal Overlay */}
+      {activeFolderSubject && (() => {
+        const folderFiles = deptResources.filter(r => r.subject === activeFolderSubject && (r.course || 'General') === activeCourse);
+        
+        const filteredFolderFiles = folderFiles.filter(f => 
+          containsQuery(f.topic, folderSearchQuery) || containsQuery(f.resource_type, folderSearchQuery)
+        );
+
+        const folderGroups = {};
+        filteredFolderFiles.forEach(file => {
+          const cat = file.resource_type || 'General';
+          if (!folderGroups[cat]) folderGroups[cat] = [];
+          folderGroups[cat].push(file);
+        });
+
+        return (
+          <div className="modal-overlay" onClick={() => setActiveFolderSubject(null)} style={{ zIndex: 9998 }}>
+            <div 
+              className="modal-content slide-up" 
+              onClick={(e) => e.stopPropagation()} 
+              style={{ 
+                width: '90%', 
+                maxWidth: '600px', 
+                height: '75vh', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                padding: '24px',
+                backgroundColor: 'var(--bg-card)',
+                borderRadius: '16px',
+                border: '1px solid var(--border-color)',
+                boxShadow: '0 10px 25px rgba(0,0,0,0.3)'
+              }}
+            >
+              <div className="modal-header" style={{ marginBottom: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <h2 style={{ fontSize: '20px', margin: '0 0 4px 0', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <i className="ti ti-folder" style={{ color: 'var(--primary-color)' }}></i>
+                    {activeFolderSubject}
+                  </h2>
+                  <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-muted)' }}>
+                    {activeCourse} • {folderFiles.length} files total
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setActiveFolderSubject(null)} 
+                  style={{ 
+                    background: 'var(--bg-hover)', 
+                    color: 'var(--text-primary)', 
+                    border: 'none',
+                    borderRadius: '50%', 
+                    width: '32px', 
+                    height: '32px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  &times;
+                </button>
+              </div>
+
+              {/* Folder Search Bar */}
+              <div style={{ position: 'relative', marginBottom: '20px' }}>
+                <i className="ti ti-search" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}></i>
+                <input 
+                  type="text" 
+                  placeholder="Search files/topics in this folder..."
+                  value={folderSearchQuery}
+                  onChange={(e) => setFolderSearchQuery(e.target.value)}
+                  style={{ 
+                    width: '100%', 
+                    padding: '10px 10px 10px 38px', 
+                    borderRadius: '8px', 
+                    border: '1px solid var(--border-color)', 
+                    fontSize: '14px',
+                    color: 'var(--text-primary)',
+                    backgroundColor: 'var(--bg-main)',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+
+              {/* Folder File List */}
+              <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', paddingRight: '4px' }}>
+                {Object.keys(folderGroups).length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '40px' }}>
+                    <i className="ti ti-folder-off" style={{ fontSize: '36px', color: 'var(--text-muted)', marginBottom: '8px' }}></i>
+                    <p style={{ color: 'var(--text-muted)', margin: 0 }}>No matching files found.</p>
+                  </div>
+                ) : (
+                  Object.keys(folderGroups).sort().map(catName => (
+                    <div key={catName}>
+                      <h5 style={{ 
+                        fontSize: '13px', 
+                        textTransform: 'uppercase', 
+                        color: getResourceColor(catName), 
+                        marginBottom: '10px', 
+                        fontWeight: 'bold',
+                        letterSpacing: '0.5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px'
+                      }}>
+                        <i className={`ti ${getResourceIcon(catName)}`}></i>
+                        {catName} ({folderGroups[catName].length})
+                      </h5>
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {folderGroups[catName].map(file => (
+                          <button 
+                            key={file.id}
+                            onClick={() => {
+                              setSelectedDocument(file);
+                            }}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                              padding: '10px 12px',
+                              background: 'var(--bg-hover)',
+                              border: '1px solid var(--border-color)',
+                              borderRadius: '8px',
+                              cursor: 'pointer',
+                              transition: 'all 0.2s',
+                              textAlign: 'left'
+                            }}
+                            onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor(catName), transform: 'translateX(4px)' })}
+                            onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
+                          >
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, overflow: 'hidden' }}>
+                              <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ color: getResourceColor(file.resource_type), fontSize: '18px', flexShrink: 0 }}></i>
+                              <span style={{ fontSize: '13.5px', color: 'var(--text-primary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {file.topic || file.subject}
+                              </span>
+                            </span>
+                            <i className="ti ti-external-link" style={{ color: 'var(--text-muted)', flexShrink: 0, marginLeft: '8px', fontSize: '14px' }}></i>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
