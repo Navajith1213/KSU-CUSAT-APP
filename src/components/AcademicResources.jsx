@@ -297,7 +297,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                       {Object.keys(groupedData[sem]).sort().map(sub => (
                         <div key={sub} className="item-card" style={{ display: 'flex', flexDirection: 'column', padding: '24px 20px', alignItems: 'center', background: 'var(--bg-main)', border: '1px solid var(--border-color)', borderRadius: '16px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
                           
-                          <div style={{ height: '140px', position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                          <div style={{ height: '140px', position: 'relative', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', marginBottom: '8px' }}>
                             <Folder 
                               color={getResourceColor(groupedData[sem][sub][0]?.resource_type || 'default')} 
                               size={1.1} 
