@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
 
 export default function AuthModal({
@@ -30,6 +30,14 @@ export default function AuthModal({
   // OTP Verification state
   const [verificationMode, setVerificationMode] = useState(false);
   const [otpCode, setOtpCode] = useState('');
+
+  // Lock background body scroll when AuthModal is mounted
+  useEffect(() => {
+    document.body.classList.add('modal-open');
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, []);
 
   // Rate limiting: lock login after 5 failed attempts within 60 seconds
   const loginAttempts = useRef([]);

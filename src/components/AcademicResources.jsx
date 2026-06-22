@@ -128,6 +128,19 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     }
   }, [activeDepartment, courses]);
 
+  // Lock body scroll when popup is active
+  useEffect(() => {
+    if (selectedDocument || activeFolderSubject) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [selectedDocument, activeFolderSubject]);
+
+
   const containsQuery = (text, query) => (text || '').toLowerCase().includes(query.toLowerCase());
 
   // Apply Search and Course filters
@@ -649,7 +662,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
               </div>
 
               {/* Folder File List */}
-              <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', paddingRight: '4px' }}>
+              <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '20px', paddingRight: '4px', overscrollBehavior: 'contain' }}>
                 {Object.keys(folderGroups).length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '40px' }}>
                     <i className="ti ti-folder-off" style={{ fontSize: '36px', color: 'var(--text-muted)', marginBottom: '8px' }}></i>

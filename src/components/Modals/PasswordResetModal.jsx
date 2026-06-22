@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { supabase } from '../../utils/supabaseClient';
 
 export default function PasswordResetModal({ onClose }) {
@@ -6,6 +6,14 @@ export default function PasswordResetModal({ onClose }) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Lock background body scroll when PasswordResetModal is mounted
+  useEffect(() => {
+    document.body.classList.add('modal-open');
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, []);
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
