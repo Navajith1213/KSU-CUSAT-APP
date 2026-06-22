@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabaseClient';
-import BorderGlow from './BorderGlow';
 
 
 export default function AcademicResources({ userRole, setShowAuthModal }) {
@@ -121,7 +120,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
   if (userRole === 'user') {
     return (
       <div className="fade-in-section" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-        <BorderGlow className="card" style={{ textAlign: 'center', maxWidth: '420px', padding: '48px 32px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
+        <div className="card" style={{ textAlign: 'center', maxWidth: '420px', padding: '48px 32px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.05)' }}>
           <div style={{ width: '80px', height: '80px', background: 'var(--bg-hover)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px auto' }}>
             <i className="ti ti-lock" style={{ fontSize: '36px', color: '#f59e0b' }}></i>
           </div>
@@ -133,7 +132,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
             <i className="ti ti-user-plus" style={{ marginRight: '8px' }}></i>
             Register / Log In
           </button>
-        </BorderGlow>
+        </div>
       </div>
     );
   }
@@ -151,11 +150,11 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
           <p style={{ marginTop: '10px', color: 'var(--text-muted)' }}>Loading resources...</p>
         </div>
       ) : departments.length === 0 ? (
-        <BorderGlow className="card" style={{ textAlign: 'center', padding: '40px' }}>
+        <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
           <i className="ti ti-books" style={{ fontSize: '48px', color: '#cbd5e1', marginBottom: '16px' }}></i>
           <h3>No Resources Available</h3>
           <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>No academic resources have been synced yet.</p>
-        </BorderGlow>
+        </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
@@ -173,7 +172,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
             ))}
           </div>
 
-          <BorderGlow className="card">
+          <div className="card">
             {/* Level 2: Course Selection */}
             {courses.length > 0 && (
               <div style={{ marginBottom: '24px' }}>
@@ -436,7 +435,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                 ))}
               </div>
             )}
-          </BorderGlow>
+          </div>
         </div>
       )}
 
