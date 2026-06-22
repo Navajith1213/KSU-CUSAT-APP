@@ -238,6 +238,16 @@ const CardNav = ({
               {theme === 'dark' ? <i className="ti ti-sun" style={{fontSize: '20px'}}></i> : <i className="ti ti-moon" style={{fontSize: '20px'}}></i>}
             </button>
 
+            {/* Mobile Dashboard Button for Dept Admin / Admin */}
+            {(userRole === 'dept_admin' || userRole === 'admin') && (
+              <button 
+                className="nav-dashboard-mobile-btn" 
+                onClick={() => handleNavClick('dept_dashboard')}
+              >
+                <i className="ti ti-books"></i> Dashboard
+              </button>
+            )}
+
             <div className="nav-auth-desktop">
               {userRole === 'student' && loggedStudent && (
                 <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>

@@ -12,12 +12,10 @@
   display: block;
   height: 64px;
   padding: 0;
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background-color: var(--bg-card, #ffffff);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   position: relative;
   overflow: hidden;
   will-change: height;
@@ -25,7 +23,7 @@
 }
 
 [data-theme="dark"] .card-nav {
-  background-color: rgba(15, 23, 42, 0.6);
+  background-color: var(--bg-card, #1e293b);
 }
 
 .card-nav-top {
@@ -114,6 +112,10 @@
 
 .nav-auth-mobile {
   display: none !important;
+}
+
+.nav-dashboard-mobile-btn {
+  display: none;
 }
 
 .card-nav-content {
@@ -216,11 +218,30 @@
     border-right: none;
     border-top: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    overflow: visible;
+    overflow: hidden;
   }
 
   .nav-auth-desktop {
     display: none;
+  }
+
+  .nav-dashboard-mobile-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px var(--primary-glow);
+  }
+  
+  .nav-dashboard-mobile-btn i {
+    font-size: 14px;
   }
 
   .nav-auth-mobile {

@@ -158,7 +158,14 @@ export default function DomeGallery({
     document.body.classList.remove('dg-scroll-lock');
   }, []);
 
-  const items = useMemo(() => buildItems(images, segments), [images, segments]);
+  const activeSegments = useMemo(() => {
+    if (typeof window !== 'undefined' && window.innerWidth <= 768) {
+      return 16; // 80 slots instead of 175, much better performance on mobile
+    }
+    return segments;
+  }, [segments]);
+
+  const items = useMemo(() => buildItems(images, activeSegments), [images, activeSegments]);
 
   const applyTransform = (xDeg, yDeg) => {
     const el = sphereRef.current;
@@ -376,7 +383,7 @@ export default function DomeGallery({
         }
       }
     },
-    { target: mainRef, drag: { preventScroll: true, filterTaps: true } }
+    { target: mainRef, drag: { preventScroll: true, filterTaps: true, axis: (typeof window !== 'undefined' && window.innerWidth <= 768) ? 'x' : undefined } }
   );
 
   useEffect(() => {
@@ -493,7 +500,7 @@ export default function DomeGallery({
       const offsetY = getDataNumber(parent, 'offsetY', 0);
       const sizeX = getDataNumber(parent, 'sizeX', 2);
       const sizeY = getDataNumber(parent, 'sizeY', 2);
-      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments);
+      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, activeSegments);
       const parentY = normalizeAngle(parentRot.rotateY);
       const globalY = normalizeAngle(rotationRef.current.y);
       let rotY = -(parentY + globalY) % 360;
@@ -591,7 +598,7 @@ export default function DomeGallery({
         overlay.addEventListener('transitionend', onFirstEnd);
       }
     },
-    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, segments, unlockScroll]
+    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, activeSegments, unlockScroll]
   );
 
   const onTileClick = useCallback(
@@ -628,8 +635,8 @@ export default function DomeGallery({
       ref={rootRef}
       className="sphere-root"
       style={{
-        ['--segments-x']: segments,
-        ['--segments-y']: segments,
+        ['--segments-x']: activeSegments,
+        ['--segments-y']: activeSegments,
         ['--overlay-blur-color']: overlayBlurColor,
         ['--tile-radius']: imageBorderRadius,
         ['--enlarge-radius']: openedImageBorderRadius,
