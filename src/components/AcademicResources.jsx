@@ -1,5 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../utils/supabaseClient';
+
+function AutoScrollText({ text, speed = 40, style, className }) {
+  const containerRef = useRef(null);
+  const textRef = useRef(null);
+  const [scrollDistance, setScrollDistance] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const checkOverflow = () => {
+    if (containerRef.current && textRef.current) {
+      const containerWidth = containerRef.current.offsetWidth;
+      const textWidth = textRef.current.scrollWidth;
+      if (textWidth > containerWidth) {
+        const dist = textWidth - containerWidth;
+        setScrollDistance(dist);
+        setDuration(dist / speed + 2.5);
+      } else {
+        setScrollDistance(0);
+        setDuration(0);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [text]);
+
+  const hasOverflow = scrollDistance > 0;
+
+  const inlineStyles = {
+    display: 'block',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    position: 'relative',
+    width: '100%',
+    ...style
+  };
+
+  const textStyles = hasOverflow ? {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    transform: 'translateX(0)',
+    '--scroll-dist': `-${scrollDistance}px`,
+    '--scroll-duration': `${duration}s`
+  } : {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    width: '100%'
+  };
+
+  return (
+    <span 
+      ref={containerRef} 
+      style={inlineStyles}
+      className={`scroll-text-container ${className || ''}`}
+      onMouseEnter={checkOverflow}
+    >
+      <span 
+        ref={textRef} 
+        className={hasOverflow ? "marquee-scroll-text" : ""} 
+        style={textStyles}
+      >
+        {text}
+      </span>
+    </span>
+  );
+}
+
 
 
 export default function AcademicResources({ userRole, setShowAuthModal }) {
@@ -248,6 +319,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                               <button 
                                 key={file.id}
                                 onClick={() => setSelectedDocument(file)}
+                                className="scroll-container-hover-trigger"
                                 style={{
                                   display: 'flex',
                                   alignItems: 'center',
@@ -264,11 +336,14 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                                 onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor('Syllabus'), transform: 'translateX(4px)' })}
                                 onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
                               >
-                                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
-                                  <i className="ti ti-file-text" style={{ color: getResourceColor('Syllabus'), fontSize: '18px' }}></i>
-                                  <span style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}>{file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}</span>
+                                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
+                                  <i className="ti ti-file-text" style={{ color: getResourceColor('Syllabus'), fontSize: '18px', flexShrink: 0 }}></i>
+                                  <AutoScrollText 
+                                    text={file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}
+                                    style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}
+                                  />
                                 </span>
-                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)' }}></i>
+                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)', flexShrink: 0, marginLeft: '8px' }}></i>
                               </button>
                             ))}
                           </div>
@@ -605,6 +680,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                             onClick={() => {
                               setSelectedDocument(file);
                             }}
+                            className="scroll-container-hover-trigger"
                             style={{
                               display: 'flex',
                               alignItems: 'center',
@@ -621,11 +697,12 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
                             onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor(catName), transform: 'translateX(4px)' })}
                             onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
                           >
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, overflow: 'hidden' }}>
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
                               <i className={`ti ${getResourceIcon(file.resource_type)}`} style={{ color: getResourceColor(file.resource_type), fontSize: '18px', flexShrink: 0 }}></i>
-                              <span style={{ fontSize: '13.5px', color: 'var(--text-primary)', fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {file.topic || file.subject}
-                              </span>
+                              <AutoScrollText 
+                                text={file.topic || file.subject}
+                                style={{ fontSize: '13.5px', color: 'var(--text-primary)', fontWeight: '600' }}
+                              />
                             </span>
                             <i className="ti ti-external-link" style={{ color: 'var(--text-muted)', flexShrink: 0, marginLeft: '8px', fontSize: '14px' }}></i>
                           </button>

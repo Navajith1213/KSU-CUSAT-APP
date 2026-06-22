@@ -1873,4 +1873,40 @@ body.dark .scroll-to-top-icon {
   transform: translateY(-2px);
 }
 
+/* Auto-scroll Marquee Text Styles */
+.scroll-text-container {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+}
+
+.marquee-scroll-text {
+  display: inline-block;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  transition: transform 0.3s ease-out;
+}
+
+.scroll-container-hover-trigger:hover .marquee-scroll-text {
+  max-width: none;
+  overflow: visible;
+  text-overflow: clip;
+  animation: marquee-scroll-animation var(--scroll-duration, 5s) linear infinite alternate;
+  animation-delay: 0.5s;
+}
+
+@keyframes marquee-scroll-animation {
+  0%, 15% {
+    transform: translateX(0);
+  }
+  85%, 100% {
+    transform: translateX(var(--scroll-dist, 0));
+  }
+}
+
 
