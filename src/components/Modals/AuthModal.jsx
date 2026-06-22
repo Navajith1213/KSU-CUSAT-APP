@@ -30,6 +30,8 @@ export default function AuthModal({
   // OTP Verification state
   const [verificationMode, setVerificationMode] = useState(false);
   const [otpCode, setOtpCode] = useState('');
+  const [verificationType, setVerificationType] = useState('email'); // 'email' or 'phone'
+
 
   // Lock background body scroll when AuthModal is mounted
   useEffect(() => {
@@ -113,13 +115,20 @@ export default function AuthModal({
       });
       if (error) throw error;
       
-      // If session exists, email confirmation is disabled in Supabase, so log them in instantly!
       if (data.session) {
-        setLoggedStudent(data.user);
-        setShowAuthModal(false);
-        alert('Account created successfully! You are now logged in.');
+        // Email confirmation is disabled, so we can verify their phone number immediately via SMS OTP!
+        const { error: phoneError } = await supabase.auth.updateUser({
+          phone: `+91${trimmedPhone}`
+        });
+        if (phoneError) throw phoneError;
+
+        setVerificationType('phone');
+        setVerificationMode(true);
+        setErrorMsg('');
+        alert('Verification code sent! Please check your mobile phone for the SMS.');
       } else {
-        // Otherwise, enter OTP verification mode.
+        // Otherwise, fall back to email verification.
+        setVerificationType('email');
         setVerificationMode(true);
         setErrorMsg('');
         alert('Verification code sent! Please check your email inbox (and spam folder).');
@@ -140,19 +149,34 @@ export default function AuthModal({
     setIsLoading(true);
     setErrorMsg('');
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token: otpCode,
-        type: 'signup'
-      });
-      if (error) throw error;
+      if (verificationType === 'phone') {
+        const trimmedPhone = phone.trim();
+        const { data, error } = await supabase.auth.verifyOtp({
+          phone: `+91${trimmedPhone}`,
+          token: otpCode,
+          type: 'phone_change'
+        });
+        if (error) throw error;
 
-      alert('Email verified successfully! You can now log in.');
-      setVerificationMode(false);
-      setIsSignUp(false);
-      setPassword('');
-      setPhone('');
-      setOtpCode('');
+        // Since phone confirmation is verified, log them in!
+        setLoggedStudent(data.user);
+        setShowAuthModal(false);
+        alert('Account created and mobile number verified successfully! You are now logged in.');
+      } else {
+        const { data, error } = await supabase.auth.verifyOtp({
+          email,
+          token: otpCode,
+          type: 'signup'
+        });
+        if (error) throw error;
+
+        alert('Email verified successfully! You can now log in.');
+        setVerificationMode(false);
+        setIsSignUp(false);
+        setPassword('');
+        setPhone('');
+        setOtpCode('');
+      }
     } catch (err) {
       setErrorMsg(err.message);
     } finally {
@@ -315,9 +339,17 @@ export default function AuthModal({
               verificationMode ? (
                 <form onSubmit={handleVerifySignUp}>
                   <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                    <i className="ti ti-mail-opened" style={{ fontSize: '48px', color: '#0284c7', marginBottom: '12px' }}></i>
-                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '8px' }}>Verify Your Email</h3>
-                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>We just sent a 6-digit code to <strong>{email}</strong>.</p>
+                    <i className={verificationType === 'phone' ? "ti ti-device-mobile-message" : "ti ti-mail-opened"} style={{ fontSize: '48px', color: '#0284c7', marginBottom: '12px' }}></i>
+                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                      {verificationType === 'phone' ? 'Verify Your Mobile Number' : 'Verify Your Email'}
+                    </h3>
+                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
+                      {verificationType === 'phone' ? (
+                        <>We just sent a 6-digit SMS code to your phone number <strong>{phone}</strong>.</>
+                      ) : (
+                        <>We just sent a 6-digit code to <strong>{email}</strong>.</>
+                      )}
+                    </p>
                   </div>
                   <div className="form-group">
                     <label>6-Digit Code *</label>
