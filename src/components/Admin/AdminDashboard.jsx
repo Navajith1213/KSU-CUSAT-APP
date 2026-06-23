@@ -13,16 +13,7 @@ import {
   HelpdeskForm
 } from './Forms';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
-
-const formatDate = (dateStr) => {
-  if (!dateStr) return '';
-  const isoPattern = /^\d{4}-\d{2}-\d{2}$/;
-  if (isoPattern.test(dateStr)) {
-    const [year, month, day] = dateStr.split('-');
-    return `${day}/${month}/${year}`;
-  }
-  return dateStr;
-};
+import { formatDate } from '../../utils/helpers';
 
 export default function AdminDashboard({
   academicEvents,
