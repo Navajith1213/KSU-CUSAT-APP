@@ -33,6 +33,17 @@ export default function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   const [isLoading, setIsLoading] = useState(true);
   const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -501,23 +512,26 @@ export default function App() {
 
   return (
     <>
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }}>
-        <ColorBends
-          colors={["#e0f2fe", "#93c5fd", "#3b82f6"]}
-          rotation={45}
-          speed={0.15}
-          scale={1.2}
-          frequency={0.8}
-          warpStrength={1.5}
-          mouseInfluence={1}
-          noise={0.05}
-          parallax={0.2}
-          iterations={2}
-          intensity={1.2}
-          bandWidth={4}
-          transparent={true}
-        />
-      </div>
+      {/* Background WebGL canvas rendered only on the Home page for desktop screens to maximize CPU/GPU speed */}
+      {activeModule === 'home' && !isMobile && (
+        <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0, pointerEvents: 'none' }}>
+          <ColorBends
+            colors={["#e0f2fe", "#93c5fd", "#3b82f6"]}
+            rotation={45}
+            speed={0.15}
+            scale={1.2}
+            frequency={0.8}
+            warpStrength={1.5}
+            mouseInfluence={1}
+            noise={0.05}
+            parallax={0.2}
+            iterations={2}
+            intensity={1.2}
+            bandWidth={4}
+            transparent={true}
+          />
+        </div>
+      )}
 
       {isLoading ? (
         <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-main)', backdropFilter: 'blur(10px)' }}>
