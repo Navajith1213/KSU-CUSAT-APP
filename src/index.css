@@ -1479,14 +1479,14 @@ body.dark .theme-toggle .icon-moon {
 }
 
 .chatbot-fab {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: linear-gradient(135deg, #0284c7, #0284c7);
   color: white;
   border: none;
   box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
-  font-size: 28px;
+  font-size: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1713,7 +1713,7 @@ body::before {
 /* --- Social Speed Dial Styles --- */
 .speed-dial-wrapper {
   position: fixed;
-  bottom: 96px; /* Positioned above the Chatbot FAB (bottom 24px + height 60px + 12px gap) */
+  bottom: 84px; /* Positioned above the Chatbot FAB (bottom 24px + height 48px + 12px gap) */
   right: 24px;
   z-index: 9998;
   display: flex;
@@ -1762,14 +1762,14 @@ body::before {
 }
 
 .speed-dial-fab {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: linear-gradient(135deg, #10b981, #059669); /* Beautiful Emerald Green */
   color: white;
   border: none;
   box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
-  font-size: 24px;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1809,8 +1809,8 @@ body.dark .speed-dial-btn {
 /* --- Scroll to Top Button --- */
 .scroll-to-top {
   position: fixed;
-  bottom: 168px; /* Positioned above the Social Speed Dial (96px + 56px + 16px gap) */
-  right: 28px; /* Offset to align center: (56px speed dial FAB - 48px scroll-to-top button)/2 + 24px right position = 28px */
+  bottom: 148px; /* Positioned above the Social Speed Dial (84px + 48px + 16px gap) */
+  right: 24px; /* Centered with speed dial FAB since both are 48px */
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -1840,7 +1840,7 @@ body.dark .scroll-to-top {
 }
 
 .scroll-to-top.speed-dial-open {
-  bottom: 276px; /* Dynamic shift when speed dial is open (96px + 180px height of expanded speed dial) */
+  bottom: 268px; /* Dynamic shift when speed dial is open (84px + 184px height of expanded speed dial) */
 }
 
 .scroll-to-top:hover {
@@ -1932,15 +1932,15 @@ body.dark .scroll-to-top-icon {
 /* Stacking overrides for mobile navigation context, placed at the end to guarantee priority over base styles */
 @media (max-width: 900px) {
   .speed-dial-wrapper {
-    bottom: 156px !important;
+    bottom: 140px !important;
     right: 16px !important;
   }
   .scroll-to-top {
-    bottom: 228px !important;
-    right: 20px !important;
+    bottom: 204px !important;
+    right: 16px !important;
   }
   .scroll-to-top.speed-dial-open {
-    bottom: 336px !important;
+    bottom: 324px !important;
   }
 }
 
