@@ -1476,6 +1476,7 @@ body.dark .theme-toggle .icon-moon {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  transition: opacity 0.25s ease;
 }
 
 .chatbot-fab {
@@ -1720,6 +1721,7 @@ body::before {
   flex-direction: column;
   align-items: flex-end;
   pointer-events: none;
+  transition: opacity 0.25s ease, bottom 0.3s ease;
 }
 
 .speed-dial-actions {
@@ -1942,6 +1944,14 @@ body.dark .scroll-to-top-icon {
   .scroll-to-top.speed-dial-open {
     bottom: 324px !important;
   }
+}
+
+/* Fade out floating actions when mobile bottom navigation sheet is active */
+body.mobile-menu-open .chatbot-wrapper,
+body.mobile-menu-open .speed-dial-wrapper,
+body.mobile-menu-open .scroll-to-top {
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 

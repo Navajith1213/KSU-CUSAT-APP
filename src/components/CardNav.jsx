@@ -208,12 +208,12 @@ const CardNav = ({
 
   useEffect(() => {
     if (isSheetOpen && window.innerWidth <= 900) {
-      document.body.classList.add('modal-open');
+      document.body.classList.add('modal-open', 'mobile-menu-open');
     } else {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove('modal-open', 'mobile-menu-open');
     }
     return () => {
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove('modal-open', 'mobile-menu-open');
     };
   }, [isSheetOpen]);
 
