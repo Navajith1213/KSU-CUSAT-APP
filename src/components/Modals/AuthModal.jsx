@@ -103,43 +103,6 @@ export default function AuthModal({
       return;
     }
 
-    // Use Firebase Phone Auth for OTP verification if configured
-    if (isFirebaseConfigured && firebaseAuth) {
-      setIsLoading(true);
-      setErrorMsg('');
-      try {
-        // Initialize invisible reCAPTCHA (only once)
-        if (!recaptchaVerifierRef.current) {
-          recaptchaVerifierRef.current = new RecaptchaVerifier(firebaseAuth, 'recaptcha-container', {
-            size: 'invisible'
-          });
-        }
-
-        // Send SMS OTP via Firebase
-        const confirmationResult = await signInWithPhoneNumber(
-          firebaseAuth,
-          `+91${trimmedPhone}`,
-          recaptchaVerifierRef.current
-        );
-        confirmationResultRef.current = confirmationResult;
-
-        setVerificationType('phone');
-        setVerificationMode(true);
-        setErrorMsg('');
-        alert('Verification code sent! Please check your mobile phone for the SMS.');
-      } catch (err) {
-        // Reset reCAPTCHA on failure so it can be re-initialized on retry
-        recaptchaVerifierRef.current = null;
-        setErrorMsg(err.code === 'auth/too-many-requests'
-          ? 'Too many attempts. Please wait a few minutes before trying again.'
-          : 'Failed to send verification code. Please try again.');
-      } finally {
-        setIsLoading(false);
-      }
-      return;
-    }
-
-    // Fallback: Supabase-native signup (if Firebase is not configured)
     setIsLoading(true);
     setErrorMsg('');
     try {
@@ -150,29 +113,28 @@ export default function AuthModal({
           data: {
             full_name: fullName,
             phone_number: trimmedPhone,
-            department: department
+            department: department,
+            phone_verified: true
           }
         }
       });
       if (error) throw error;
 
       if (data.session) {
-        // Email confirmation is disabled, so we can verify their phone number immediately via SMS OTP!
-        const { error: phoneError } = await supabase.auth.updateUser({
-          phone: `+91${trimmedPhone}`
-        });
-        if (phoneError) throw phoneError;
-
-        setVerificationType('phone');
-        setVerificationMode(true);
-        setErrorMsg('');
-        alert('Verification code sent! Please check your mobile phone for the SMS.');
+        const studentData = {
+          email: data.user.email,
+          fullName: data.user.user_metadata?.full_name || fullName,
+          phone_number: data.user.user_metadata?.phone_number || trimmedPhone,
+          id: data.user.id,
+          department: data.user.user_metadata?.department || department
+        };
+        setLoggedStudent(studentData);
+        setShowAuthModal(false);
+        alert('Account created successfully! You are now logged in.');
       } else {
-        // Otherwise, fall back to email verification.
-        setVerificationType('email');
-        setVerificationMode(true);
-        setErrorMsg('');
-        alert('Verification code sent! Please check your email inbox (and spam folder).');
+        alert('Account created! Please check your email inbox to confirm your account.');
+        setIsSignUp(false);
+        setPassword('');
       }
     } catch (err) {
       setErrorMsg(err.message);
