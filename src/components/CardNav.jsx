@@ -241,8 +241,12 @@ const CardNav = ({
       setIsSheetOpen(false);
       handleNavClick('home');
     } else {
-      setSelectedSheetTab(tabId);
-      setIsSheetOpen(true);
+      if (isSheetOpen && selectedSheetTab === tabId) {
+        setIsSheetOpen(false);
+      } else {
+        setSelectedSheetTab(tabId);
+        setIsSheetOpen(true);
+      }
     }
   };
 
