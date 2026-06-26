@@ -195,6 +195,17 @@ const CardNav = ({
     return () => window.removeEventListener('resize', handleResize);
   }, [isExpanded]);
 
+  useEffect(() => {
+    if (isExpanded && window.innerWidth <= 900) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isExpanded]);
+
   const toggleMenu = () => {
     const tl = tlRef.current;
     if (!tl) return;
