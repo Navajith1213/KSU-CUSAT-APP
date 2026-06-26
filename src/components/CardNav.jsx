@@ -15,9 +15,20 @@ const CardNav = ({
 }) => {
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [selectedSheetTab, setSelectedSheetTab] = useState('stay');
   const navRef = useRef(null);
   const cardsRef = useRef([]);
   const tlRef = useRef(null);
+
+  // Compute active tab dynamically based on activeModule
+  const currentTab = React.useMemo(() => {
+    if (activeModule === 'home') return 'home';
+    if (['boysPgs', 'girlsPgs', 'hostels'].includes(activeModule)) return 'stay';
+    if (['food', 'restaurants'].includes(activeModule)) return 'food';
+    if (['calendar', 'contacts', 'helpdesk', 'amenities'].includes(activeModule)) return 'info';
+    return 'menu';
+  }, [activeModule]);
 
   // Define nav items mapping, wrapped in useMemo to prevent GSAP timeline re-creation on every render
   const items = React.useMemo(() => [
@@ -196,7 +207,7 @@ const CardNav = ({
   }, [isExpanded]);
 
   useEffect(() => {
-    if (isExpanded && window.innerWidth <= 900) {
+    if (isSheetOpen && window.innerWidth <= 900) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
@@ -204,7 +215,7 @@ const CardNav = ({
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, [isExpanded]);
+  }, [isSheetOpen]);
 
   const toggleMenu = () => {
     const tl = tlRef.current;
@@ -225,147 +236,373 @@ const CardNav = ({
     window.scrollTo(0, 0);
   };
 
+  const handleTabClick = (tabId) => {
+    if (tabId === 'home') {
+      setIsSheetOpen(false);
+      handleNavClick('home');
+    } else {
+      setSelectedSheetTab(tabId);
+      setIsSheetOpen(true);
+    }
+  };
+
+  const handleLinkClick = (moduleId) => {
+    setIsSheetOpen(false);
+    handleNavClick(moduleId);
+  };
+
   const setCardRef = i => el => {
     if (el) cardsRef.current[i] = el;
   };
 
   return (
-    <div className="card-nav-container">
-      <nav ref={navRef} className={`card-nav ${isExpanded ? 'open' : ''}`}>
-        <div className="card-nav-top">
-          
-          <div className="logo-container" onClick={() => handleNavClick('home')} style={{ cursor: 'pointer' }}>
-            <img 
-              src="/logo.png" 
-              alt="KSU CUSAT Logo" 
-              className="logo" 
-              style={{ 
-                filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'brightness(0)', 
-                opacity: 0.9 
-              }}
-            />
-          </div>
-
-          <div className="nav-actions-right">
+    <>
+      <div className="card-nav-container">
+        <nav ref={navRef} className={`card-nav ${isExpanded ? 'open' : ''}`}>
+          <div className="card-nav-top">
             
-            <button 
-              className="theme-toggle" 
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', borderRadius: '50%', color: 'var(--text-primary)' }}
-            >
-              {theme === 'dark' ? <i className="ti ti-sun" style={{fontSize: '20px'}}></i> : <i className="ti ti-moon" style={{fontSize: '20px'}}></i>}
-            </button>
+            <div className="logo-container" onClick={() => handleNavClick('home')} style={{ cursor: 'pointer' }}>
+              <img 
+                src="/logo.png" 
+                alt="KSU CUSAT Logo" 
+                className="logo" 
+                style={{ 
+                  filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'brightness(0)', 
+                  opacity: 0.9 
+                }}
+              />
+            </div>
 
-            {/* Mobile Dashboard Button for Dept Admin / Admin */}
-            {(userRole === 'dept_admin' || userRole === 'admin') && (
+            <div className="nav-actions-right">
+              
               <button 
-                className="nav-dashboard-mobile-btn" 
-                onClick={() => handleNavClick('dept_dashboard')}
+                className="theme-toggle" 
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', borderRadius: '50%', color: 'var(--text-primary)' }}
               >
-                <i className="ti ti-books"></i> Dashboard
+                {theme === 'dark' ? <i className="ti ti-sun" style={{fontSize: '20px'}}></i> : <i className="ti ti-moon" style={{fontSize: '20px'}}></i>}
               </button>
-            )}
 
-            <div className="nav-auth-desktop">
-              {userRole === 'student' && loggedStudent && (
-                <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>
-                  <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
-                  {loggedStudent.full_name.split(' ')[0]}
-                </span>
-              )}
-              {userRole === 'dept_admin' && (
-                <button className="navbar-btn" onClick={() => handleNavClick('dept_dashboard')} style={{ background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-primary)', padding: '6px 14px' }}>
-                   Dashboard
+              {/* Mobile Dashboard Button for Dept Admin / Admin */}
+              {(userRole === 'dept_admin' || userRole === 'admin') && (
+                <button 
+                  className="nav-dashboard-mobile-btn" 
+                  onClick={() => handleNavClick('dept_dashboard')}
+                >
+                  <i className="ti ti-books"></i> Dashboard
                 </button>
               )}
-              {userRole === 'user' ? (
-                <button className="navbar-btn slide-in-btn" onClick={() => setShowAuthModal(true)}>
-                  <i className="ti ti-login"></i> <span className="btn-text">Log In</span>
-                </button>
-              ) : (
-                <button className="navbar-btn logout" onClick={logout}>
-                  <i className="ti ti-logout"></i> Logout
-                </button>
-              )}
-            </div>
 
-            <div
-              className={`hamburger-menu ${isHamburgerOpen ? 'open' : ''}`}
-              onClick={toggleMenu}
-              role="button"
-              aria-label={isExpanded ? 'Close menu' : 'Open menu'}
-              tabIndex={0}
-            >
-              <div className="hamburger-line" />
-              <div className="hamburger-line" />
-            </div>
-          </div>
-        </div>
-
-        <div className="card-nav-content" aria-hidden={!isExpanded}>
-          {items.map((item, idx) => (
-            <BorderGlow
-              key={`${item.label}-${idx}`}
-              className="nav-card"
-              backgroundColor={item.bgColor}
-              style={{ color: item.textColor }}
-              borderRadius={16}
-              glowRadius={30}
-            >
-              <div ref={setCardRef(idx)} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <div className="nav-card-label">
-                  <i className={`ti ${item.icon}`} style={{ fontSize: '22px' }}></i>
-                  {item.label}
-                </div>
-                <div className="nav-card-links">
-                  {item.links?.map((lnk, i) => (
-                    <a 
-                      key={`${lnk.label}-${i}`} 
-                      className="nav-card-link" 
-                      onClick={(e) => { e.preventDefault(); handleNavClick(lnk.id); }}
-                    >
-                      <i className={`ti ${lnk.icon} nav-card-link-icon`}></i>
-                      {lnk.label}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </BorderGlow>
-          ))}
-
-          {/* Mobile specific auth panel inside the GSAP animated menu */}
-          <div className="nav-auth-mobile nav-card" ref={setCardRef(items.length)} style={{ backgroundColor: 'var(--bg-hover)', border: '1px solid var(--border-color)' }}>
-             {userRole === 'user' ? (
-                <button className="navbar-btn slide-in-btn" onClick={() => { setShowAuthModal(true); toggleMenu(); }} style={{ width: '100%', justifyContent: 'center' }}>
-                  <i className="ti ti-login"></i> Log In
-                </button>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
-                  {loggedStudent && (
-                    <span style={{ fontSize: '14px', color: 'var(--text-muted)', textAlign: 'center' }}>
-                      Logged in as <b>{loggedStudent.full_name}</b>
-                    </span>
-                  )}
-                  {userRole === 'dept_admin' && (
-                    <button className="navbar-btn" onClick={() => handleNavClick('dept_dashboard')} style={{ width: '100%', justifyContent: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
-                      <i className="ti ti-books"></i> Dept Dashboard
-                    </button>
-                  )}
-                  {(userRole === 'student' || userRole === 'dept_admin') && (
-                    <button className="navbar-btn" onClick={() => handleNavClick('queries')} style={{ width: '100%', justifyContent: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
-                      <i className="ti ti-mail"></i> My Queries
-                    </button>
-                  )}
-                  <button className="navbar-btn logout" onClick={() => { logout(); toggleMenu(); }} style={{ width: '100%', justifyContent: 'center' }}>
+              <div className="nav-auth-desktop">
+                {userRole === 'student' && loggedStudent && (
+                  <span className="status-badge student" style={{ padding: '6px 14px', fontSize: '13px' }}>
+                    <i className="ti ti-user-check" style={{ marginRight: '4px' }}></i>
+                    {loggedStudent.full_name.split(' ')[0]}
+                  </span>
+                )}
+                {userRole === 'dept_admin' && (
+                  <button className="navbar-btn" onClick={() => handleNavClick('dept_dashboard')} style={{ background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-primary)', padding: '6px 14px' }}>
+                     Dashboard
+                  </button>
+                )}
+                {userRole === 'user' ? (
+                  <button className="navbar-btn slide-in-btn" onClick={() => setShowAuthModal(true)}>
+                    <i className="ti ti-login"></i> <span className="btn-text">Log In</span>
+                  </button>
+                ) : (
+                  <button className="navbar-btn logout" onClick={logout}>
                     <i className="ti ti-logout"></i> Logout
                   </button>
-                </div>
-              )}
+                )}
+              </div>
+
+              <div
+                className={`hamburger-menu ${isHamburgerOpen ? 'open' : ''}`}
+                onClick={toggleMenu}
+                role="button"
+                aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+                tabIndex={0}
+              >
+                <div className="hamburger-line" />
+                <div className="hamburger-line" />
+              </div>
+            </div>
           </div>
 
+          <div className="card-nav-content" aria-hidden={!isExpanded}>
+            {items.map((item, idx) => (
+              <BorderGlow
+                key={`${item.label}-${idx}`}
+                className="nav-card"
+                backgroundColor={item.bgColor}
+                style={{ color: item.textColor }}
+                borderRadius={16}
+                glowRadius={30}
+              >
+                <div ref={setCardRef(idx)} style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <div className="nav-card-label">
+                    <i className={`ti ${item.icon}`} style={{ fontSize: '22px' }}></i>
+                    {item.label}
+                  </div>
+                  <div className="nav-card-links">
+                    {item.links?.map((lnk, i) => (
+                      <a 
+                        key={`${lnk.label}-${i}`} 
+                        className="nav-card-link" 
+                        onClick={(e) => { e.preventDefault(); handleNavClick(lnk.id); }}
+                      >
+                        <i className={`ti ${lnk.icon} nav-card-link-icon`}></i>
+                        {lnk.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </BorderGlow>
+            ))}
+
+            {/* Mobile specific auth panel inside the GSAP animated menu */}
+            <div className="nav-auth-mobile nav-card" ref={setCardRef(items.length)} style={{ backgroundColor: 'var(--bg-hover)', border: '1px solid var(--border-color)' }}>
+               {userRole === 'user' ? (
+                  <button className="navbar-btn slide-in-btn" onClick={() => { setShowAuthModal(true); toggleMenu(); }} style={{ width: '100%', justifyContent: 'center' }}>
+                    <i className="ti ti-login"></i> Log In
+                  </button>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', width: '100%' }}>
+                    {loggedStudent && (
+                      <span style={{ fontSize: '14px', color: 'var(--text-muted)', textAlign: 'center' }}>
+                        Logged in as <b>{loggedStudent.full_name}</b>
+                      </span>
+                    )}
+                    {userRole === 'dept_admin' && (
+                      <button className="navbar-btn" onClick={() => handleNavClick('dept_dashboard')} style={{ width: '100%', justifyContent: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                        <i className="ti ti-books"></i> Dept Dashboard
+                      </button>
+                    )}
+                    {(userRole === 'student' || userRole === 'dept_admin') && (
+                      <button className="navbar-btn" onClick={() => handleNavClick('queries')} style={{ width: '100%', justifyContent: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                        <i className="ti ti-mail"></i> My Queries
+                      </button>
+                    )}
+                    <button className="navbar-btn logout" onClick={() => { logout(); toggleMenu(); }} style={{ width: '100%', justifyContent: 'center' }}>
+                      <i className="ti ti-logout"></i> Logout
+                    </button>
+                  </div>
+                )}
+            </div>
+
+          </div>
+        </nav>
+      </div>
+
+      {/* Mobile Bottom Tab Bar */}
+      <div className="mobile-bottom-bar">
+        <button 
+          className={`mobile-tab-item ${currentTab === 'home' && !isSheetOpen ? 'active' : ''}`} 
+          onClick={() => handleTabClick('home')}
+        >
+          <i className="ti ti-home-2"></i>
+          <span>Home</span>
+        </button>
+        <button 
+          className={`mobile-tab-item ${isSheetOpen && selectedSheetTab === 'stay' ? 'active' : (currentTab === 'stay' && !isSheetOpen ? 'active' : '')}`} 
+          onClick={() => handleTabClick('stay')}
+        >
+          <i className="ti ti-building-community"></i>
+          <span>Stay & PG</span>
+        </button>
+        <button 
+          className={`mobile-tab-item ${isSheetOpen && selectedSheetTab === 'food' ? 'active' : (currentTab === 'food' && !isSheetOpen ? 'active' : '')}`} 
+          onClick={() => handleTabClick('food')}
+        >
+          <i className="ti ti-tools-kitchen-2"></i>
+          <span>Food</span>
+        </button>
+        <button 
+          className={`mobile-tab-item ${isSheetOpen && selectedSheetTab === 'info' ? 'active' : (currentTab === 'info' && !isSheetOpen ? 'active' : '')}`} 
+          onClick={() => handleTabClick('info')}
+        >
+          <i className="ti ti-info-circle"></i>
+          <span>Info</span>
+        </button>
+        <button 
+          className={`mobile-tab-item ${isSheetOpen && selectedSheetTab === 'menu' ? 'active' : (currentTab === 'menu' && !isSheetOpen ? 'active' : '')}`} 
+          onClick={() => handleTabClick('menu')}
+        >
+          <i className="ti ti-menu-2"></i>
+          <span>Menu</span>
+        </button>
+      </div>
+
+      {/* Mobile Bottom Sheet Backdrop & Drawer */}
+      <div className={`mobile-sheet-backdrop ${isSheetOpen ? 'open' : ''}`} onClick={() => setIsSheetOpen(false)} />
+      <div className={`mobile-bottom-sheet ${isSheetOpen ? 'open' : ''}`}>
+        <div className="sheet-handle" onClick={() => setIsSheetOpen(false)} />
+        
+        <div className="sheet-content">
+          {selectedSheetTab === 'stay' && (
+            <div className="sheet-section">
+              <h3 className="sheet-section-title"><i className="ti ti-building-community"></i> Accommodations</h3>
+              <div className="sheet-grid">
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('boysPgs')}>
+                  <i className="ti ti-building-community"></i>
+                  <span>Boys PG's</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('girlsPgs')}>
+                  <i className="ti ti-home-2"></i>
+                  <span>Girls PG's</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('hostels')}>
+                  <i className="ti ti-building"></i>
+                  <span>College Hostels</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {selectedSheetTab === 'food' && (
+            <div className="sheet-section">
+              <h3 className="sheet-section-title"><i className="ti ti-tools-kitchen-2"></i> Food & Dining</h3>
+              <div className="sheet-grid">
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('food')}>
+                  <i className="ti ti-coffee"></i>
+                  <span>Tea Spots</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('restaurants')}>
+                  <i className="ti ti-tools-kitchen-2"></i>
+                  <span>Restaurants</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {selectedSheetTab === 'info' && (
+            <div className="sheet-section">
+              <h3 className="sheet-section-title"><i className="ti ti-info-circle"></i> Campus Info</h3>
+              <div className="sheet-grid">
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('calendar')}>
+                  <i className="ti ti-calendar"></i>
+                  <span>Calendar</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('contacts')}>
+                  <i className="ti ti-building"></i>
+                  <span>Departments</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('helpdesk')}>
+                  <i className="ti ti-headset"></i>
+                  <span>Helpdesk Directory</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('amenities')}>
+                  <i className="ti ti-map-pin"></i>
+                  <span>Amenities</span>
+                </a>
+              </div>
+            </div>
+          )}
+
+          {selectedSheetTab === 'menu' && (
+            <div className="sheet-section full-menu">
+              <h3 className="sheet-section-title"><i className="ti ti-menu-2"></i> Main Menu</h3>
+              
+              {userRole === 'student' && loggedStudent ? (
+                <div className="sheet-profile-card">
+                  <div className="profile-info">
+                    <i className="ti ti-user-check" style={{ fontSize: '24px', color: 'var(--primary-color)' }}></i>
+                    <div>
+                      <div className="profile-name">{loggedStudent.full_name}</div>
+                      <div className="profile-role">Student Portal</div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="sheet-grid">
+                {/* Stay Links */}
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('boysPgs')}>
+                  <i className="ti ti-building-community"></i>
+                  <span>Boys PG's</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('girlsPgs')}>
+                  <i className="ti ti-home-2"></i>
+                  <span>Girls PG's</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('hostels')}>
+                  <i className="ti ti-building"></i>
+                  <span>College Hostels</span>
+                </a>
+
+                {/* Food Links */}
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('food')}>
+                  <i className="ti ti-coffee"></i>
+                  <span>Tea Spots</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('restaurants')}>
+                  <i className="ti ti-tools-kitchen-2"></i>
+                  <span>Restaurants</span>
+                </a>
+
+                {/* Info Links */}
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('calendar')}>
+                  <i className="ti ti-calendar"></i>
+                  <span>Calendar</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('contacts')}>
+                  <i className="ti ti-building"></i>
+                  <span>Departments</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('helpdesk')}>
+                  <i className="ti ti-headset"></i>
+                  <span>Helpdesk Directory</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('amenities')}>
+                  <i className="ti ti-map-pin"></i>
+                  <span>Amenities</span>
+                </a>
+
+                {/* Campus Life Links */}
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('clubs')}>
+                  <i className="ti ti-users"></i>
+                  <span>Clubs</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('turfs')}>
+                  <i className="ti ti-ball-football"></i>
+                  <span>Turfs & Arenas</span>
+                </a>
+                <a className="sheet-grid-item" onClick={() => handleLinkClick('academic_resources')}>
+                  <i className="ti ti-books"></i>
+                  <span>Academics</span>
+                </a>
+
+                {/* Conditional queries/dashboard links */}
+                {(userRole === 'student' || userRole === 'dept_admin') && (
+                  <a className="sheet-grid-item" onClick={() => handleLinkClick('queries')}>
+                    <i className="ti ti-mail"></i>
+                    <span>My Queries</span>
+                  </a>
+                )}
+                {(userRole === 'dept_admin' || userRole === 'admin') && (
+                  <a className="sheet-grid-item" onClick={() => handleLinkClick('dept_dashboard')}>
+                    <i className="ti ti-books"></i>
+                    <span>Dashboard</span>
+                  </a>
+                )}
+              </div>
+
+              <div className="sheet-actions">
+                {userRole === 'user' ? (
+                  <button className="navbar-btn slide-in-btn" onClick={() => { setShowAuthModal(true); setIsSheetOpen(false); }} style={{ width: '100%', justifyContent: 'center' }}>
+                    <i className="ti ti-login"></i> Log In
+                  </button>
+                ) : (
+                  <button className="navbar-btn logout" onClick={() => { logout(); setIsSheetOpen(false); }} style={{ width: '100%', justifyContent: 'center' }}>
+                    <i className="ti ti-logout"></i> Logout
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      </nav>
-    </div>
+      </div>
+    </>
   );
 };
 
