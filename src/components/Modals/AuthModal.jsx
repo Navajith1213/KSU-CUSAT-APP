@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
+import { firebaseAuth, isFirebaseConfigured } from '../../utils/firebaseClient';
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
 export default function AuthModal({
   gitOwner,
@@ -31,6 +33,8 @@ export default function AuthModal({
   const [verificationMode, setVerificationMode] = useState(false);
   const [otpCode, setOtpCode] = useState('');
   const [verificationType, setVerificationType] = useState('email'); // 'email' or 'phone'
+  const confirmationResultRef = useRef(null);
+  const recaptchaVerifierRef = useRef(null);
 
 
   // Lock background body scroll when AuthModal is mounted
@@ -99,6 +103,43 @@ export default function AuthModal({
       return;
     }
 
+    // Use Firebase Phone Auth for OTP verification if configured
+    if (isFirebaseConfigured && firebaseAuth) {
+      setIsLoading(true);
+      setErrorMsg('');
+      try {
+        // Initialize invisible reCAPTCHA (only once)
+        if (!recaptchaVerifierRef.current) {
+          recaptchaVerifierRef.current = new RecaptchaVerifier(firebaseAuth, 'recaptcha-container', {
+            size: 'invisible'
+          });
+        }
+
+        // Send SMS OTP via Firebase
+        const confirmationResult = await signInWithPhoneNumber(
+          firebaseAuth,
+          `+91${trimmedPhone}`,
+          recaptchaVerifierRef.current
+        );
+        confirmationResultRef.current = confirmationResult;
+
+        setVerificationType('phone');
+        setVerificationMode(true);
+        setErrorMsg('');
+        alert('Verification code sent! Please check your mobile phone for the SMS.');
+      } catch (err) {
+        // Reset reCAPTCHA on failure so it can be re-initialized on retry
+        recaptchaVerifierRef.current = null;
+        setErrorMsg(err.code === 'auth/too-many-requests'
+          ? 'Too many attempts. Please wait a few minutes before trying again.'
+          : 'Failed to send verification code. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+      return;
+    }
+
+    // Fallback: Supabase-native signup (if Firebase is not configured)
     setIsLoading(true);
     setErrorMsg('');
     try {
@@ -114,7 +155,7 @@ export default function AuthModal({
         }
       });
       if (error) throw error;
-      
+
       if (data.session) {
         // Email confirmation is disabled, so we can verify their phone number immediately via SMS OTP!
         const { error: phoneError } = await supabase.auth.updateUser({
@@ -149,7 +190,63 @@ export default function AuthModal({
     setIsLoading(true);
     setErrorMsg('');
     try {
-      if (verificationType === 'phone') {
+      // Firebase Phone OTP path
+      if (verificationType === 'phone' && confirmationResultRef.current) {
+        // Verify the 6-digit code via Firebase
+        const result = await confirmationResultRef.current.confirm(otpCode);
+
+        // Get the cryptographically signed Firebase ID Token
+        const firebaseToken = await result.user.getIdToken();
+
+        // Sign out of the temporary Firebase session immediately
+        await firebaseAuth.signOut();
+        confirmationResultRef.current = null;
+
+        // Register the user securely via the Supabase Edge Function
+        const trimmedPhone = phone.trim();
+        const response = await fetch(
+          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/firebase-otp-signup`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY
+            },
+            body: JSON.stringify({
+              email,
+              password,
+              fullName,
+              department,
+              phone: trimmedPhone,
+              firebaseToken
+            })
+          }
+        );
+        const responseData = await response.json();
+        if (!responseData.success) {
+          throw new Error(responseData.error || 'Registration failed. Please try again.');
+        }
+
+        // Account created server-side. Now log in via standard Supabase email/password.
+        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+        if (loginError) throw loginError;
+
+        const studentData = {
+          email: loginData.user.email,
+          full_name: loginData.user.user_metadata?.full_name || fullName,
+          phone_number: loginData.user.user_metadata?.phone_number || trimmedPhone,
+          id: loginData.user.id,
+          department: ''
+        };
+        setLoggedStudent(studentData);
+        setShowAuthModal(false);
+        alert('Account created and mobile number verified successfully! You are now logged in.');
+
+      } else if (verificationType === 'phone') {
+        // Supabase-native phone OTP fallback
         const trimmedPhone = phone.trim();
         const { data, error } = await supabase.auth.verifyOtp({
           phone: `+91${trimmedPhone}`,
@@ -158,11 +255,11 @@ export default function AuthModal({
         });
         if (error) throw error;
 
-        // Since phone confirmation is verified, log them in!
         setLoggedStudent(data.user);
         setShowAuthModal(false);
         alert('Account created and mobile number verified successfully! You are now logged in.');
       } else {
+        // Email OTP verification
         const { data, error } = await supabase.auth.verifyOtp({
           email,
           token: otpCode,
@@ -178,7 +275,11 @@ export default function AuthModal({
         setOtpCode('');
       }
     } catch (err) {
-      setErrorMsg(err.message);
+      setErrorMsg(
+        err.code === 'auth/invalid-verification-code'
+          ? 'Invalid verification code. Please check and try again.'
+          : err.message
+      );
     } finally {
       setIsLoading(false);
     }
@@ -309,6 +410,7 @@ export default function AuthModal({
 
   return (
     <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
+      <div id="recaptcha-container"></div>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Portal Login</h2>
