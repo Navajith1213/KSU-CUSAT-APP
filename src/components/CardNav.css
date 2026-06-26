@@ -209,7 +209,8 @@
     top: 0;
     border-radius: 0;
     margin-bottom: 0;
-    position: relative; /* Let it sit naturally in normal flow on mobile so it pushes content properly */
+    position: sticky;
+    z-index: 1000;
   }
 
   .card-nav {
