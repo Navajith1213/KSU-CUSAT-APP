@@ -1520,6 +1520,16 @@ body.dark .theme-toggle .icon-moon {
   }
 }
 
+@media (max-width: 900px) {
+  .chatbot-wrapper {
+    bottom: 80px;
+    right: 16px;
+  }
+  .chatbot-window {
+    max-height: calc(100vh - 180px);
+  }
+}
+
 .chatbot-header {
   background: linear-gradient(135deg, #0369a1, #0369a1);
   padding: 16px;
