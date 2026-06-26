@@ -170,16 +170,18 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
   const getDriveEmbedUrl = (url) => {
     if (!url) return '';
     try {
-      if (url.includes('drive.google.com/file/d/')) {
-        return url.replace(/\/view.*$/, '/preview');
-      }
-      if (url.includes('drive.google.com/drive/folders/')) {
-        const folderIdMatch = url.match(/folders\/([a-zA-Z0-9-_]+)/);
+      let embedUrl = url;
+      if (embedUrl.includes('drive.google.com/file/d/')) {
+        embedUrl = embedUrl.replace(/\/view.*$/, '/preview');
+      } else if (embedUrl.includes('drive.google.com/drive/folders/')) {
+        const folderIdMatch = embedUrl.match(/folders\/([a-zA-Z0-9-_]+)/);
         if (folderIdMatch && folderIdMatch[1]) {
-          return `https://drive.google.com/embeddedfolderview?id=${folderIdMatch[1]}#grid`;
+          embedUrl = `https://drive.google.com/embeddedfolderview?id=${folderIdMatch[1]}#grid`;
         }
+      } else if (embedUrl.includes('docs.google.com/')) {
+        embedUrl = embedUrl.replace(/\/edit.*$/, '/preview');
       }
-      return url;
+      return embedUrl;
     } catch (e) {
       return url;
     }
