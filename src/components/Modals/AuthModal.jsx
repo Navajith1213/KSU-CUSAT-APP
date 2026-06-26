@@ -3,8 +3,6 @@ import { supabase, hasSupabaseConfig } from '../../utils/supabaseClient';
 import { firebaseAuth, isFirebaseConfigured } from '../../utils/firebaseClient';
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 
-const useMockOtp = import.meta.env.VITE_USE_MOCK_OTP === 'true';
-
 export default function AuthModal({
   gitOwner,
   setGitOwner,
@@ -105,41 +103,17 @@ export default function AuthModal({
       return;
     }
 
-    // Use Mock Phone Auth if configured
-    if (useMockOtp) {
-      setIsLoading(true);
-      setErrorMsg('');
-      try {
-        await new Promise(resolve => setTimeout(resolve, 800));
-        setVerificationType('phone');
-        setVerificationMode(true);
-        setErrorMsg('');
-        alert('DEMO MODE: Verification code sent! Use 123456 (or any code) to confirm.');
-      } catch (err) {
-        setErrorMsg(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-      return;
-    }
-
     // Use Firebase Phone Auth for OTP verification if configured
     if (isFirebaseConfigured && firebaseAuth) {
       setIsLoading(true);
       setErrorMsg('');
       try {
-        // Clear any previous reCAPTCHA widget before creating a new one
-        if (recaptchaVerifierRef.current) {
-          try { recaptchaVerifierRef.current.clear(); } catch (_) {}
-          recaptchaVerifierRef.current = null;
+        // Initialize invisible reCAPTCHA (only once)
+        if (!recaptchaVerifierRef.current) {
+          recaptchaVerifierRef.current = new RecaptchaVerifier(firebaseAuth, 'recaptcha-container', {
+            size: 'invisible'
+          });
         }
-        // Also clear the container DOM to prevent "already rendered" errors
-        const recaptchaContainer = document.getElementById('recaptcha-container');
-        if (recaptchaContainer) recaptchaContainer.innerHTML = '';
-
-        recaptchaVerifierRef.current = new RecaptchaVerifier(firebaseAuth, 'recaptcha-container', {
-          size: 'invisible'
-        });
 
         // Send SMS OTP via Firebase
         const confirmationResult = await signInWithPhoneNumber(
@@ -154,17 +128,11 @@ export default function AuthModal({
         setErrorMsg('');
         alert('Verification code sent! Please check your mobile phone for the SMS.');
       } catch (err) {
-        // Clean up reCAPTCHA on failure
-        if (recaptchaVerifierRef.current) {
-          try { recaptchaVerifierRef.current.clear(); } catch (_) {}
-          recaptchaVerifierRef.current = null;
-        }
-        const recaptchaContainer = document.getElementById('recaptcha-container');
-        if (recaptchaContainer) recaptchaContainer.innerHTML = '';
-
+        // Reset reCAPTCHA on failure so it can be re-initialized on retry
+        recaptchaVerifierRef.current = null;
         setErrorMsg(err.code === 'auth/too-many-requests'
           ? 'Too many attempts. Please wait a few minutes before trying again.'
-          : `Firebase Error [${err.code}]: ${err.message}`);
+          : 'Failed to send verification code. Please try again.');
       } finally {
         setIsLoading(false);
       }
@@ -223,20 +191,16 @@ export default function AuthModal({
     setErrorMsg('');
     try {
       // Firebase Phone OTP path
-      if (verificationType === 'phone' && (confirmationResultRef.current || useMockOtp)) {
-        let firebaseToken = 'mock-token-123456';
+      if (verificationType === 'phone' && confirmationResultRef.current) {
+        // Verify the 6-digit code via Firebase
+        const result = await confirmationResultRef.current.confirm(otpCode);
 
-        if (!useMockOtp) {
-          // Verify the 6-digit code via Firebase
-          const result = await confirmationResultRef.current.confirm(otpCode);
+        // Get the cryptographically signed Firebase ID Token
+        const firebaseToken = await result.user.getIdToken();
 
-          // Get the cryptographically signed Firebase ID Token
-          firebaseToken = await result.user.getIdToken();
-
-          // Sign out of the temporary Firebase session immediately
-          await firebaseAuth.signOut();
-          confirmationResultRef.current = null;
-        }
+        // Sign out of the temporary Firebase session immediately
+        await firebaseAuth.signOut();
+        confirmationResultRef.current = null;
 
         // Register the user securely via the Supabase Edge Function
         const trimmedPhone = phone.trim();
