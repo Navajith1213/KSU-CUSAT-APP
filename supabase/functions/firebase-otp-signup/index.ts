@@ -22,31 +22,37 @@ serve(async (req) => {
       throw new Error("Missing Firebase verification token.");
     }
 
-    // 1. Decode the Firebase ID Token (RS256 JWT signed by Google)
-    const [_header, payload, _signature] = decode(firebaseToken);
+    const useMockOtp = Deno.env.get("USE_MOCK_OTP") === "true";
 
-    // Verify issuer matches the Firebase project
-    const firebaseProjectId = Deno.env.get("FIREBASE_PROJECT_ID");
-    if (
-      payload.iss !==
-      `https://securetoken.google.com/${firebaseProjectId}`
-    ) {
-      throw new Error("Invalid token issuer.");
-    }
+    if (useMockOtp && firebaseToken === "mock-token-123456") {
+      console.log("Mock OTP verification active. Bypassing Firebase validation.");
+    } else {
+      // 1. Decode the Firebase ID Token (RS256 JWT signed by Google)
+      const [_header, payload, _signature] = decode(firebaseToken);
 
-    // Verify the token has not expired
-    const now = Math.floor(Date.now() / 1000);
-    if (payload.exp && payload.exp < now) {
-      throw new Error("Firebase token has expired.");
-    }
+      // Verify issuer matches the Firebase project
+      const firebaseProjectId = Deno.env.get("FIREBASE_PROJECT_ID");
+      if (
+        payload.iss !==
+        `https://securetoken.google.com/${firebaseProjectId}`
+      ) {
+        throw new Error("Invalid token issuer.");
+      }
 
-    // Verify the verified phone number matches the registration phone number
-    const verifiedPhone = payload.phone_number; // e.g. "+919876543210"
-    const expectedPhone = phone.startsWith("+91") ? phone : `+91${phone}`;
-    if (verifiedPhone !== expectedPhone) {
-      throw new Error(
-        "Token phone number does not match registration phone number."
-      );
+      // Verify the token has not expired
+      const now = Math.floor(Date.now() / 1000);
+      if (payload.exp && payload.exp < now) {
+        throw new Error("Firebase token has expired.");
+      }
+
+      // Verify the verified phone number matches the registration phone number
+      const verifiedPhone = payload.phone_number; // e.g. "+919876543210"
+      const expectedPhone = phone.startsWith("+91") ? phone : `+91${phone}`;
+      if (verifiedPhone !== expectedPhone) {
+        throw new Error(
+          "Token phone number does not match registration phone number."
+        );
+      }
     }
 
     // 2. Initialize Supabase Admin Client (service role bypasses RLS)
