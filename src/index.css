@@ -1528,17 +1528,6 @@ body.dark .theme-toggle .icon-moon {
   .chatbot-window {
     max-height: calc(100vh - 180px);
   }
-  .speed-dial-wrapper {
-    bottom: 156px;
-    right: 16px;
-  }
-  .scroll-to-top {
-    bottom: 228px;
-    right: 20px;
-  }
-  .scroll-to-top.speed-dial-open {
-    bottom: 336px;
-  }
 }
 
 .chatbot-header {
@@ -1937,6 +1926,21 @@ body.dark .scroll-to-top-icon {
   }
   85%, 100% {
     transform: translateX(var(--scroll-dist, 0));
+  }
+}
+
+/* Stacking overrides for mobile navigation context, placed at the end to guarantee priority over base styles */
+@media (max-width: 900px) {
+  .speed-dial-wrapper {
+    bottom: 156px !important;
+    right: 16px !important;
+  }
+  .scroll-to-top {
+    bottom: 228px !important;
+    right: 20px !important;
+  }
+  .scroll-to-top.speed-dial-open {
+    bottom: 336px !important;
   }
 }
 
