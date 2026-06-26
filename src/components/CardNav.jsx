@@ -141,15 +141,22 @@ const CardNav = ({
     return tl;
   };
 
+  // Only recreate timeline if the structural layout of the menu items or user role changes.
+  // This prevents resetting/recreating the timeline when only the theme is toggled.
+  const itemsStructureKey = items.map(item => `${item.id}-${item.links.length}`).join(',') + `-${userRole}`;
+
   useLayoutEffect(() => {
     const tl = createTimeline();
+    if (tl && isExpanded) {
+      tl.progress(1);
+    }
     tlRef.current = tl;
 
     return () => {
       tl?.kill();
       tlRef.current = null;
     };
-  }, [items]);
+  }, [itemsStructureKey]);
 
   useLayoutEffect(() => {
     let lastWidth = window.innerWidth;
@@ -316,7 +323,7 @@ const CardNav = ({
           ))}
 
           {/* Mobile specific auth panel inside the GSAP animated menu */}
-          <div className="nav-auth-mobile nav-card" ref={setCardRef(items.length)} style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--border-color)' }}>
+          <div className="nav-auth-mobile nav-card" ref={setCardRef(items.length)} style={{ backgroundColor: 'var(--bg-hover)', border: '1px solid var(--border-color)' }}>
              {userRole === 'user' ? (
                 <button className="navbar-btn slide-in-btn" onClick={() => { setShowAuthModal(true); toggleMenu(); }} style={{ width: '100%', justifyContent: 'center' }}>
                   <i className="ti ti-login"></i> Log In
@@ -329,12 +336,12 @@ const CardNav = ({
                     </span>
                   )}
                   {userRole === 'dept_admin' && (
-                    <button className="navbar-btn" onClick={() => handleNavClick('dept_dashboard')} style={{ width: '100%', justifyContent: 'center', background: 'var(--card-bg)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                    <button className="navbar-btn" onClick={() => handleNavClick('dept_dashboard')} style={{ width: '100%', justifyContent: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
                       <i className="ti ti-books"></i> Dept Dashboard
                     </button>
                   )}
                   {(userRole === 'student' || userRole === 'dept_admin') && (
-                    <button className="navbar-btn" onClick={() => handleNavClick('queries')} style={{ width: '100%', justifyContent: 'center', background: 'var(--card-bg)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
+                    <button className="navbar-btn" onClick={() => handleNavClick('queries')} style={{ width: '100%', justifyContent: 'center', background: 'var(--bg-hover)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}>
                       <i className="ti ti-mail"></i> My Queries
                     </button>
                   )}
