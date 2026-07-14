@@ -130,6 +130,15 @@ export default function App() {
     }
   }, []);
 
+  // Intercept unauthorized access to queries page and trigger login modal
+  useEffect(() => {
+    if (activeModule === 'queries' && userRole !== 'student' && userRole !== 'dept_admin') {
+      setActiveModule('home');
+      setShowAuthModal(true);
+      alert('Please log in or register to your student account to file a grievance.');
+    }
+  }, [activeModule, userRole]);
+
 
 
   const logout = () => {
