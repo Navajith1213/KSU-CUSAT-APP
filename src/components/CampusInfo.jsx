@@ -5,6 +5,7 @@ import { formatDate } from '../utils/helpers';
 export default function CampusInfo({ academicEvents }) {
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date-asc'); // 'date-asc', 'date-desc', 'title-asc'
+  const [showPast, setShowPast] = useState(false);
 
   const categories = [
     { id: 'all', label: 'All', icon: 'ti-calendar' },
@@ -16,9 +17,8 @@ export default function CampusInfo({ academicEvents }) {
     { id: 'nss', label: 'NSS', icon: 'ti-users' }
   ];
 
-  const filteredEvents = selectedFilter === 'all'
-    ? academicEvents
-    : academicEvents.filter(event => (event.type || 'academic').toLowerCase() === selectedFilter);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Start of today at 00:00:00
 
   const parseDate = (dateStr) => {
     if (!dateStr) return new Date(0);
@@ -32,7 +32,19 @@ export default function CampusInfo({ academicEvents }) {
     return new Date(dateStr); // Fallback
   };
 
-  const sortedEvents = [...filteredEvents].sort((a, b) => {
+  const filteredEvents = selectedFilter === 'all'
+    ? academicEvents
+    : academicEvents.filter(event => (event.type || 'academic').toLowerCase() === selectedFilter);
+
+  // Filter out past events if sorting by upcoming first and "Include past events" is unchecked
+  const activeEvents = filteredEvents.filter(event => {
+    if (sortBy === 'date-asc' && !showPast) {
+      return parseDate(event.date).getTime() >= today.getTime();
+    }
+    return true;
+  });
+
+  const sortedEvents = [...activeEvents].sort((a, b) => {
     if (sortBy === 'date-asc') {
       return parseDate(a.date).getTime() - parseDate(b.date).getTime();
     } else if (sortBy === 'date-desc') {
@@ -118,38 +130,53 @@ export default function CampusInfo({ academicEvents }) {
             </div>
 
             {/* Dedicated Sort Control Row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '12px' }}>
-              <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>
-                <i className="ti ti-arrows-sort" style={{ marginRight: '4px', verticalAlign: 'middle' }}></i>
-                Sort events:
-              </span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                style={{
-                  padding: '6px 16px',
-                  paddingRight: '32px',
-                  borderRadius: '20px',
-                  border: '1px solid var(--border-color)',
-                  background: 'var(--bg-card, #ffffff)',
-                  color: 'var(--text-primary, #0f172a)',
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  outline: 'none',
-                  cursor: 'pointer',
-                  WebkitAppearance: 'none',
-                  MozAppearance: 'none',
-                  appearance: 'none',
-                  backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpath d=\'m6 9 6 6 6-6\'/%3e%3c/svg%3e")',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 12px center',
-                  backgroundSize: '16px'
-                }}
-              >
-                <option value="date-asc">Date (Upcoming First)</option>
-                <option value="date-desc">Date (Latest First)</option>
-                <option value="title-asc">Title (A-Z)</option>
-              </select>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '12px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>
+                  <i className="ti ti-arrows-sort" style={{ marginRight: '4px', verticalAlign: 'middle' }}></i>
+                  Sort events:
+                </span>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  style={{
+                    padding: '6px 16px',
+                    paddingRight: '32px',
+                    borderRadius: '20px',
+                    border: '1px solid var(--border-color)',
+                    background: 'var(--bg-card, #ffffff)',
+                    color: 'var(--text-primary, #0f172a)',
+                    fontSize: '13px',
+                    fontWeight: '500',
+                    outline: 'none',
+                    cursor: 'pointer',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none',
+                    appearance: 'none',
+                    backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpath d=\'m6 9 6 6 6-6\'/%3e%3c/svg%3e")',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 12px center',
+                    backgroundSize: '16px'
+                  }}
+                >
+                  <option value="date-asc">Date (Upcoming First)</option>
+                  <option value="date-desc">Date (Latest First)</option>
+                  <option value="title-asc">Title (A-Z)</option>
+                </select>
+              </div>
+
+              {/* Include Past Events checkbox */}
+              {sortBy === 'date-asc' && (
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', color: 'var(--text-muted)', userSelect: 'none' }}>
+                  <input
+                    type="checkbox"
+                    checked={showPast}
+                    onChange={(e) => setShowPast(e.target.checked)}
+                    style={{ cursor: 'pointer', width: '15px', height: '15px' }}
+                  />
+                  Include past events
+                </label>
+              )}
             </div>
           </div>
 
