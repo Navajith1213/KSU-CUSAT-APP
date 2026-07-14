@@ -110,6 +110,7 @@ export default function App() {
   const [restaurantSearch, setRestaurantSearch] = useState('');
   const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
   const [amenitySearch, setAmenitySearch] = useState('');
+  const [amenitySortBy, setAmenitySortBy] = useState('name-asc');
   const [clubSearch, setClubSearch] = useState('');
   const [turfSearch, setTurfSearch] = useState('');
 
@@ -238,13 +239,24 @@ export default function App() {
     return textMatch && cuisineMatch;
   });
 
-  const filteredAmenities = amenities.filter(
-    (item) =>
-      contains(item.name, amenitySearch) ||
-      contains(item.location, amenitySearch) ||
-      contains(item.details, amenitySearch) ||
-      contains(item.category, amenitySearch)
-  );
+  const filteredAmenities = amenities
+    .filter(
+      (item) =>
+        contains(item.name, amenitySearch) ||
+        contains(item.location, amenitySearch) ||
+        contains(item.details, amenitySearch) ||
+        contains(item.category, amenitySearch)
+    )
+    .sort((a, b) => {
+      if (amenitySortBy === 'name-asc') {
+        return (a.name || '').localeCompare(b.name || '');
+      } else if (amenitySortBy === 'name-desc') {
+        return (b.name || '').localeCompare(a.name || '');
+      } else if (amenitySortBy === 'category-asc') {
+        return (a.category || '').localeCompare(b.category || '');
+      }
+      return 0;
+    });
 
   const filteredClubs = clubs.filter(
     (item) =>
@@ -423,10 +435,19 @@ export default function App() {
             <div className="filter-bar">
               <input
                 type="text"
-                placeholder="Search amenities by name, category, location, or details"
+                placeholder="Search amenities by name, category, location, or details..."
                 value={amenitySearch}
                 onChange={(e) => setAmenitySearch(e.target.value)}
               />
+              <select
+                value={amenitySortBy}
+                onChange={(e) => setAmenitySortBy(e.target.value)}
+                style={{ cursor: 'pointer' }}
+              >
+                <option value="name-asc">Sort: Name (A-Z)</option>
+                <option value="name-desc">Sort: Name (Z-A)</option>
+                <option value="category-asc">Sort: Category (A-Z)</option>
+              </select>
             </div>
             <ListingGrid items={filteredAmenities} fields={['category', 'location', 'details']} />
           </BorderGlow>
