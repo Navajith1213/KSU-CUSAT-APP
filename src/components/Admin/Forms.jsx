@@ -89,6 +89,7 @@ export function CalendarForm({ value, onChange, onSubmit, onCancel, isEdit }) {
             <option value="holiday">Holiday</option>
             <option value="arts">Arts</option>
             <option value="sports">Sports</option>
+            <option value="nss">NSS</option>
           </select>
         </div>
         <div className="form-group full-width row-actions">

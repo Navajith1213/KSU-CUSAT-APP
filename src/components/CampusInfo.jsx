@@ -12,7 +12,8 @@ export default function CampusInfo({ academicEvents }) {
     { id: 'exam', label: 'Exams', icon: 'ti-school' },
     { id: 'holiday', label: 'Holidays', icon: 'ti-beach' },
     { id: 'arts', label: 'Arts', icon: 'ti-palette' },
-    { id: 'sports', label: 'Sports', icon: 'ti-trophy' }
+    { id: 'sports', label: 'Sports', icon: 'ti-trophy' },
+    { id: 'nss', label: 'NSS', icon: 'ti-users' }
   ];
 
   const filteredEvents = selectedFilter === 'all'
@@ -50,6 +51,7 @@ export default function CampusInfo({ academicEvents }) {
       case 'holiday': return '#10b981'; // Green
       case 'arts': return '#a855f7'; // Purple
       case 'sports': return '#f59e0b'; // Amber
+      case 'nss': return '#06b6d4'; // Cyan
       default: return '#64748b'; // Slate
     }
   };
@@ -62,6 +64,7 @@ export default function CampusInfo({ academicEvents }) {
       case 'holiday': return 'ti-beach';
       case 'arts': return 'ti-palette';
       case 'sports': return 'ti-trophy';
+      case 'nss': return 'ti-users';
       default: return 'ti-calendar-event';
     }
   };
@@ -70,6 +73,7 @@ export default function CampusInfo({ academicEvents }) {
     const t = (type || 'academic').toLowerCase();
     if (t === 'arts') return 'Arts';
     if (t === 'sports') return 'Sports';
+    if (t === 'nss') return 'NSS';
     return t.charAt(0).toUpperCase() + t.slice(1);
   };
 
