@@ -111,6 +111,7 @@ export default function App() {
   const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
   const [amenitySearch, setAmenitySearch] = useState('');
   const [amenitySortBy, setAmenitySortBy] = useState('name-asc');
+  const [selectedAmenityCategory, setSelectedAmenityCategory] = useState('all');
   const [clubSearch, setClubSearch] = useState('');
   const [turfSearch, setTurfSearch] = useState('');
 
@@ -239,6 +240,49 @@ export default function App() {
     return textMatch && cuisineMatch;
   });
 
+  const matchesAmenityCategory = (item, cat) => {
+    if (cat === 'all') return true;
+    const categoryLower = (item.category || '').toLowerCase();
+    
+    if (cat === 'stationery') {
+      return (
+        categoryLower.includes('station') || 
+        categoryLower.includes('print') || 
+        categoryLower.includes('xerox') || 
+        categoryLower.includes('photostat') || 
+        categoryLower.includes('binding') ||
+        categoryLower.includes('common service')
+      );
+    }
+    if (cat === 'medical') {
+      return (
+        categoryLower.includes('pharmac') || 
+        categoryLower.includes('clinic') || 
+        categoryLower.includes('medical') || 
+        categoryLower.includes('hospital') || 
+        categoryLower.includes('gym') ||
+        categoryLower.includes('fitness')
+      );
+    }
+    if (cat === 'banking') {
+      return (
+        categoryLower.includes('bank') || 
+        categoryLower.includes('atm')
+      );
+    }
+    if (cat === 'services') {
+      return (
+        (categoryLower.includes('post') || 
+        categoryLower.includes('workshop') || 
+        categoryLower.includes('utility') || 
+        categoryLower.includes('service') ||
+        categoryLower.includes('amenity')) && 
+        !categoryLower.includes('common service')
+      );
+    }
+    return false;
+  };
+
   const filteredAmenities = amenities
     .filter(
       (item) =>
@@ -247,6 +291,7 @@ export default function App() {
         contains(item.details, amenitySearch) ||
         contains(item.category, amenitySearch)
     )
+    .filter((item) => matchesAmenityCategory(item, selectedAmenityCategory))
     .sort((a, b) => {
       if (amenitySortBy === 'name-asc') {
         return (a.name || '').localeCompare(b.name || '');
@@ -431,25 +476,114 @@ export default function App() {
 
         {activeModule === 'amenities' && (
           <BorderGlow className="card">
-            <h2>Amenities</h2>
-            <div className="filter-bar">
-              <input
-                type="text"
-                placeholder="Search amenities by name, category, location, or details..."
-                value={amenitySearch}
-                onChange={(e) => setAmenitySearch(e.target.value)}
-              />
-              <select
-                value={amenitySortBy}
-                onChange={(e) => setAmenitySortBy(e.target.value)}
-                style={{ cursor: 'pointer' }}
-              >
-                <option value="name-asc">Sort: Name (A-Z)</option>
-                <option value="name-desc">Sort: Name (Z-A)</option>
-                <option value="category-asc">Sort: Category (A-Z)</option>
-              </select>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
+                <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <i className="ti ti-map-pin" style={{ color: '#0284c7' }}></i>
+                  Campus Amenities & Shops
+                </h2>
+                
+                {/* Category Pill Tab Buttons */}
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  {[
+                    { id: 'all', label: 'All', icon: 'ti-map-pin' },
+                    { id: 'stationery', label: 'Stationery & Xerox', icon: 'ti-file-text' },
+                    { id: 'medical', label: 'Medical & Health', icon: 'ti-heart-medical' },
+                    { id: 'banking', label: 'Banking & ATM', icon: 'ti-building-bank' },
+                    { id: 'services', label: 'Services & Utility', icon: 'ti-settings' }
+                  ].map(cat => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedAmenityCategory(cat.id)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        borderRadius: '20px',
+                        border: '1px solid',
+                        borderColor: selectedAmenityCategory === cat.id ? '#0284c7' : 'var(--border-color)',
+                        background: selectedAmenityCategory === cat.id ? '#0284c7' : 'transparent',
+                        color: selectedAmenityCategory === cat.id ? '#ffffff' : 'var(--text-muted)',
+                        fontSize: '13px',
+                        fontWeight: '500',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        outline: 'none'
+                      }}
+                    >
+                      <i className={`ti ${cat.icon}`}></i>
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Search & Sort Controls Row */}
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                <input
+                  type="text"
+                  placeholder="Search amenities by name, category, location, or details..."
+                  value={amenitySearch}
+                  onChange={(e) => setAmenitySearch(e.target.value)}
+                  style={{
+                    flex: 1,
+                    padding: '10px 16px',
+                    borderRadius: '12px',
+                    border: '1px solid var(--border-color)',
+                    background: 'var(--bg-card, #ffffff)',
+                    color: 'var(--text-primary, #0f172a)',
+                    fontSize: '14.5px',
+                    fontWeight: '600',
+                    outline: 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                />
+                
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500', whiteSpace: 'nowrap' }}>
+                    <i className="ti ti-arrows-sort" style={{ marginRight: '4px', verticalAlign: 'middle' }}></i>
+                    Sort:
+                  </span>
+                  <select
+                    value={amenitySortBy}
+                    onChange={(e) => setAmenitySortBy(e.target.value)}
+                    style={{
+                      padding: '10px 16px',
+                      paddingRight: '32px',
+                      borderRadius: '12px',
+                      border: '1px solid var(--border-color)',
+                      background: 'var(--bg-card, #ffffff)',
+                      color: 'var(--text-primary, #0f172a)',
+                      fontSize: '14.5px',
+                      fontWeight: '600',
+                      outline: 'none',
+                      cursor: 'pointer',
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'none',
+                      appearance: 'none',
+                      backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpath d=\'m6 9 6 6 6-6\'/%3e%3c/svg%3e")',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'right 12px center',
+                      backgroundSize: '16px'
+                    }}
+                  >
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="category-asc">Category (A-Z)</option>
+                  </select>
+                </div>
+              </div>
+
+              {filteredAmenities.length > 0 ? (
+                <ListingGrid items={filteredAmenities} fields={['category', 'location', 'details']} />
+              ) : (
+                <div style={{ textAlign: 'center', padding: '36px 0', color: 'var(--text-muted)' }}>
+                  <i className="ti ti-map-pin" style={{ fontSize: '48px', opacity: 0.5, marginBottom: '8px', display: 'block' }}></i>
+                  <p style={{ margin: 0 }}>No amenities found in this category.</p>
+                </div>
+              )}
             </div>
-            <ListingGrid items={filteredAmenities} fields={['category', 'location', 'details']} />
           </BorderGlow>
         )}
 
