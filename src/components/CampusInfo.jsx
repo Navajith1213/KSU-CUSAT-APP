@@ -82,66 +82,74 @@ export default function CampusInfo({ academicEvents }) {
       <BorderGlow className="card">
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
-            <h2 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '16px' }}>
+            <h2 style={{ margin: '0 0 16px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
               <i className="ti ti-calendar-event" style={{ color: '#0284c7' }}></i>
               Academic & Event Calendar
             </h2>
             
-            {/* Filter and Sort Controls */}
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-              {/* Filter Pill Tab Buttons */}
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                {categories.map(cat => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setSelectedFilter(cat.id)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      padding: '6px 12px',
-                      borderRadius: '20px',
-                      border: '1px solid',
-                      borderColor: selectedFilter === cat.id ? '#0284c7' : 'var(--border-color)',
-                      background: selectedFilter === cat.id ? '#0284c7' : 'transparent',
-                      color: selectedFilter === cat.id ? '#ffffff' : 'var(--text-muted)',
-                      fontSize: '13px',
-                      fontWeight: '500',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      outline: 'none'
-                    }}
-                  >
-                    <i className={`ti ${cat.icon}`}></i>
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Sort Order Selector */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '13px', color: 'var(--text-muted)' }}>Sort:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+            {/* Filter Pill Tab Buttons Row */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedFilter(cat.id)}
                   style={{
-                    padding: '6px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '6px 14px',
                     borderRadius: '20px',
-                    border: '1px solid var(--border-color)',
-                    background: 'var(--bg-secondary, #f8fafc)',
-                    color: 'var(--text-primary)',
+                    border: '1px solid',
+                    borderColor: selectedFilter === cat.id ? '#0284c7' : 'var(--border-color)',
+                    background: selectedFilter === cat.id ? '#0284c7' : 'transparent',
+                    color: selectedFilter === cat.id ? '#ffffff' : 'var(--text-muted)',
                     fontSize: '13px',
                     fontWeight: '500',
-                    outline: 'none',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    outline: 'none'
                   }}
                 >
-                  <option value="date-asc">Date (Upcoming First)</option>
-                  <option value="date-desc">Date (Latest First)</option>
-                  <option value="title-asc">Title (A-Z)</option>
-                </select>
-              </div>
+                  <i className={`ti ${cat.icon}`}></i>
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Dedicated Sort Control Row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '12px' }}>
+              <span style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>
+                <i className="ti ti-arrows-sort" style={{ marginRight: '4px', verticalAlign: 'middle' }}></i>
+                Sort events:
+              </span>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                style={{
+                  padding: '6px 16px',
+                  paddingRight: '32px',
+                  borderRadius: '20px',
+                  border: '1px solid var(--border-color)',
+                  background: 'var(--bg-card, #ffffff)',
+                  color: 'var(--text-primary, #0f172a)',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  outline: 'none',
+                  cursor: 'pointer',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  appearance: 'none',
+                  backgroundImage: 'url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3e%3cpath d=\'m6 9 6 6 6-6\'/%3e%3c/svg%3e")',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 12px center',
+                  backgroundSize: '16px'
+                }}
+              >
+                <option value="date-asc">Date (Upcoming First)</option>
+                <option value="date-desc">Date (Latest First)</option>
+                <option value="title-asc">Title (A-Z)</option>
+              </select>
             </div>
           </div>
 
