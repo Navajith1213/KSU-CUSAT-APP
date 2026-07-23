@@ -35,7 +35,8 @@ export default function Home({
   setActiveModule,
   setShowAuthModal,
   loggedStudent,
-  announcements
+  announcements,
+  userRole
 }) {
   const [queryCount, setQueryCount] = useState(0);
 
