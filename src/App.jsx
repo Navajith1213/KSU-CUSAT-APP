@@ -364,6 +364,13 @@ export default function App() {
             <div className="module-header">
               <h2>Boys PG's</h2>
             </div>
+            <div style={{ padding: '12px 16px', backgroundColor: 'rgba(2, 132, 199, 0.1)', border: '1px solid rgba(2, 132, 199, 0.2)', borderRadius: '12px', marginBottom: '16px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+              <i className="ti ti-clock" style={{ fontSize: '20px', color: '#0284c7', marginTop: '2px' }}></i>
+              <div>
+                <h4 style={{ margin: 0, fontSize: '14px', color: 'var(--text-primary)' }}>Curfew Time Information</h4>
+                <p style={{ margin: '2px 0 0', fontSize: '13px', color: 'var(--text-secondary)' }}>Standard curfew is usually around <strong>9:30 PM</strong> for most PG accommodations. Please verify exact timings with the respective owners.</p>
+              </div>
+            </div>
             <div className="filter-bar">
               <input
                 type="text"
@@ -383,6 +390,13 @@ export default function App() {
           <BorderGlow className="card">
             <div className="module-header">
               <h2>Girls PG's</h2>
+            </div>
+            <div style={{ padding: '12px 16px', backgroundColor: 'rgba(236, 72, 153, 0.1)', border: '1px solid rgba(236, 72, 153, 0.2)', borderRadius: '12px', marginBottom: '16px', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+              <i className="ti ti-clock" style={{ fontSize: '20px', color: '#ec4899', marginTop: '2px' }}></i>
+              <div>
+                <h4 style={{ margin: 0, fontSize: '14px', color: 'var(--text-primary)' }}>Curfew Time Information</h4>
+                <p style={{ margin: '2px 0 0', fontSize: '13px', color: 'var(--text-secondary)' }}>Standard curfew is usually <strong>6:30 PM</strong> for most PG accommodations (As per general rules). Please verify exact timings with the respective owners.</p>
+              </div>
             </div>
             <div className="filter-bar">
               <input
