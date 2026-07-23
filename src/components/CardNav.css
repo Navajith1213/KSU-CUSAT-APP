@@ -382,7 +382,7 @@
     left: 0;
     right: 0;
     height: 64px;
-    background-color: var(--bg-card, #ffffff);
+    background-color: rgba(255, 255, 255, 0.85);
     border-top: 1px solid var(--border-color);
     justify-content: space-around;
     align-items: center;
@@ -394,7 +394,7 @@
   }
 
   [data-theme="dark"] .mobile-bottom-bar {
-    background-color: var(--bg-card, #1e293b);
+    background-color: rgba(30, 41, 59, 0.85);
   }
 
   .mobile-tab-item {
