@@ -173,20 +173,25 @@ export default function Home({
     }
   ];
 
+  const handleStatClick = (moduleName, mobileTabId) => {
+    if (window.innerWidth <= 768 && mobileTabId) {
+      window.dispatchEvent(new CustomEvent('open-mobile-sheet', { detail: { tabId: mobileTabId } }));
+    } else {
+      setActiveModule(moduleName);
+    }
+  };
+
   return (
-    <div>
+    <div className="home-container">
       <Marquee announcements={announcements} />
 
-      {/* Hero Welcome banner */}
+      {/* Hero Section */}
       <div className="hero-section">
-        {loggedStudent ? (
+        {userRole === 'student' && loggedStudent ? (
           <div className="hero-content">
-            <h2 className="hero-title">
-              Welcome back, {loggedStudent.full_name}!
-            </h2>
-            <p className="hero-subtitle">
-              Your student dashboard is active. You have submitted{' '}
-              <strong>{queryCount} support ticket(s)</strong>. Use the
+            <h2 className="hero-title">Welcome back, {loggedStudent.full_name.split(' ')[0]}!</h2>
+            <p className="hero-subtitle" style={{ minHeight: '60px' }}>
+              Your campus assistant is ready. Use the quick links below or 
               navbar tabs to search accommodations, check holidays, or file new inquiries.
             </p>
           </div>
@@ -207,35 +212,35 @@ export default function Home({
       <div className="quick-stats-container">
         <div className="quick-stats">
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
-            <div onClick={() => setActiveModule('calendar')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div onClick={() => handleStatClick('calendar', 'info')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div className="stat-icon"><i className="ti ti-calendar-event"></i></div>
               <div className="stat-val"><CountUp to={academicEvents.length} /></div>
               <div className="stat-lbl">EVENTS</div>
             </div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
-            <div onClick={() => setActiveModule('boysPgs')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div onClick={() => handleStatClick('boysPgs', 'stay')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div className="stat-icon"><i className="ti ti-bed"></i></div>
               <div className="stat-val"><CountUp to={boysPgs.length + girlsPgs.length} /></div>
               <div className="stat-lbl">PG ACCOMMODATIONS</div>
             </div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
-            <div onClick={() => setActiveModule('food')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div onClick={() => handleStatClick('food', 'food')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div className="stat-icon"><i className="ti ti-coffee"></i></div>
               <div className="stat-val"><CountUp to={foodSpots.length + restaurants.length} /></div>
               <div className="stat-lbl">DINING</div>
             </div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
-            <div onClick={() => setActiveModule('amenities')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div onClick={() => handleStatClick('amenities', 'info')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div className="stat-icon"><i className="ti ti-shopping-cart"></i></div>
               <div className="stat-val"><CountUp to={amenities.length} /></div>
               <div className="stat-lbl">AMENITIES</div>
             </div>
           </BorderGlow>
           <BorderGlow className="stat-item" borderRadius={16} glowRadius={20}>
-            <div onClick={() => setActiveModule('clubs')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div onClick={() => handleStatClick('clubs', 'menu')} style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div className="stat-icon"><i className="ti ti-users-group"></i></div>
               <div className="stat-val"><CountUp to={clubs.length} /></div>
               <div className="stat-lbl">CLUBS</div>

@@ -255,6 +255,17 @@ const CardNav = ({
     handleNavClick(moduleId);
   };
 
+  useEffect(() => {
+    const handleOpenMobileSheet = (e) => {
+      if (window.innerWidth <= 768 && e.detail && e.detail.tabId) {
+        setSelectedSheetTab(e.detail.tabId);
+        setIsSheetOpen(true);
+      }
+    };
+    window.addEventListener('open-mobile-sheet', handleOpenMobileSheet);
+    return () => window.removeEventListener('open-mobile-sheet', handleOpenMobileSheet);
+  }, []);
+
   const setCardRef = i => el => {
     if (el) cardsRef.current[i] = el;
   };
