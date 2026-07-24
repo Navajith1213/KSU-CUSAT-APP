@@ -184,7 +184,16 @@ export default function Home({
 
   return (
     <div className="home-container">
-      <Marquee announcements={announcements} onNavigate={setActiveModule} />
+      <Marquee 
+        announcements={announcements} 
+        onNavigate={(route) => {
+          if (route === 'register') {
+            setShowAuthModal(true);
+          } else {
+            setActiveModule(route);
+          }
+        }} 
+      />
 
       {/* Hero Section */}
       <div className="hero-section">
