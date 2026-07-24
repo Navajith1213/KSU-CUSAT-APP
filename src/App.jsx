@@ -108,7 +108,6 @@ export default function App() {
   const [hostelTypeFilter, setHostelTypeFilter] = useState('all');
   const [foodSearch, setFoodSearch] = useState('');
   const [restaurantSearch, setRestaurantSearch] = useState('');
-  const [restaurantCuisineFilter, setRestaurantCuisineFilter] = useState('all');
   const [amenitySearch, setAmenitySearch] = useState('');
   const [amenitySortBy, setAmenitySortBy] = useState('name-asc');
   const [selectedAmenityCategory, setSelectedAmenityCategory] = useState('all');
@@ -226,19 +225,12 @@ export default function App() {
       contains(item.description || item.specialty, foodSearch)
   );
 
-  const filteredRestaurants = restaurants.filter((item) => {
-    const textMatch =
+  const filteredRestaurants = restaurants.filter(
+    (item) =>
       contains(item.name, restaurantSearch) ||
       contains(item.location, restaurantSearch) ||
-      contains(item.cuisine, restaurantSearch);
-
-    const cuisineMatch =
-      restaurantCuisineFilter === 'all'
-        ? true
-        : contains(item.cuisine, restaurantCuisineFilter);
-
-    return textMatch && cuisineMatch;
-  });
+      contains(item.cuisine, restaurantSearch)
+  );
 
   const matchesAmenityCategory = (item, cat) => {
     if (cat === 'all') return true;
@@ -469,17 +461,6 @@ export default function App() {
                 value={restaurantSearch}
                 onChange={(e) => setRestaurantSearch(e.target.value)}
               />
-              <select
-                value={restaurantCuisineFilter}
-                onChange={(e) => setRestaurantCuisineFilter(e.target.value)}
-              >
-                <option value="all">All cuisines</option>
-                <option value="kerala">Kerala</option>
-                <option value="fast food">Fast food</option>
-                <option value="arabic">Arabic</option>
-                <option value="chinese">Chinese</option>
-                <option value="veg">Veg</option>
-              </select>
             </div>
             <ListingGrid
               items={filteredRestaurants}
