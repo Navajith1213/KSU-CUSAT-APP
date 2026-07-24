@@ -184,7 +184,7 @@ export default function Home({
 
   return (
     <div className="home-container">
-      <Marquee announcements={announcements} />
+      <Marquee announcements={announcements} onNavigate={setActiveModule} />
 
       {/* Hero Section */}
       <div className="hero-section">
