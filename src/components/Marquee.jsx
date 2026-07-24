@@ -11,9 +11,11 @@ export default function Marquee({ announcements, onNavigate }) {
     }
   };
 
+  const dynamicDuration = Math.max(20, announcements.length * 15);
+
   return (
     <div className="marquee-container">
-      <div className="marquee-content">
+      <div className="marquee-content" style={{ animationDuration: `${dynamicDuration}s` }}>
         {/* Render the items multiple times for seamless infinite scrolling */}
         {[...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements, ...announcements].map((announcement, idx) => {
           const isInternal = announcement.link && announcement.link.startsWith('#');
