@@ -475,7 +475,7 @@ export default function App() {
               >
                 <option value="all">All cuisines</option>
                 <option value="kerala">Kerala</option>
-                <option value="fast">Fast food</option>
+                <option value="fast food">Fast food</option>
                 <option value="arabic">Arabic</option>
                 <option value="chinese">Chinese</option>
                 <option value="veg">Veg</option>
