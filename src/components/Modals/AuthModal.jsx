@@ -15,10 +15,11 @@ export default function AuthModal({
   setUserRole,
   setLoggedStudent,
   setShowAuthModal,
+  initialMode = 'login',
   contacts = []
 }) {
   const [activeTab, setActiveTab] = useState('student'); // 'student' or 'admin'
-  const [isSignUp, setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(initialMode === 'register');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 

@@ -815,6 +815,7 @@ export default function App() {
 
       {showAuthModal && (
         <AuthModal
+          initialMode={showAuthModal === 'register' ? 'register' : 'login'}
           contacts={contacts}
           setUserRole={setUserRole}
           setLoggedStudent={setLoggedStudent}

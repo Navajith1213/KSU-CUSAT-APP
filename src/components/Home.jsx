@@ -188,7 +188,7 @@ export default function Home({
         announcements={announcements} 
         onNavigate={(route) => {
           if (route === 'register') {
-            setShowAuthModal(true);
+            setShowAuthModal('register');
           } else {
             setActiveModule(route);
           }
