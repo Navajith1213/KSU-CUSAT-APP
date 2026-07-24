@@ -615,6 +615,7 @@ export default function App() {
             <ListingGrid
               items={filteredClubs}
               fields={['location', 'contact', 'description']}
+              requireGmapsForNavigation={true}
             />
           </BorderGlow>
         )}

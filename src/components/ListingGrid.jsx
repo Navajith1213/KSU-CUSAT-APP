@@ -21,12 +21,15 @@ const FIELD_LABELS = {
   facilities: 'Facilities / Amenities'
 };
 
-export default function ListingGrid({ items, fields }) {
+export default function ListingGrid({ items, fields, requireGmapsForNavigation = false }) {
   return (
     <div className="grid">
       {items.length ? items.map((item, idx) => {
         const mapsQuery = encodeURIComponent(`${item.name || item.title} ${item.location || ''} CUSAT Kalamassery Kochi`);
-        const mapsUrl = item.gmapsLink && item.gmapsLink.trim() !== '' ? sanitizeUrl(item.gmapsLink) : `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+        const hasGmaps = item.gmapsLink && item.gmapsLink.trim() !== '';
+        const mapsUrl = hasGmaps ? sanitizeUrl(item.gmapsLink) : `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+        
+        const shouldShowNavigate = item.location && (!requireGmapsForNavigation || hasGmaps);
         
         const hasRates = item.rates && Array.isArray(item.rates) && item.rates.length > 0;
 
@@ -34,6 +37,7 @@ export default function ListingGrid({ items, fields }) {
           <div className="item-card" key={idx}>
             <div>
               <h3>{item.name || item.title}</h3>
+              <div className="card-details">
               {fields.map((field, i) => {
                 // Skip rooms field if we already have structured rates
                 if (field === 'rooms' && hasRates) {
@@ -67,8 +71,9 @@ export default function ListingGrid({ items, fields }) {
                   <p key={i}><strong>{FIELD_LABELS[field] || (field.charAt(0).toUpperCase() + field.slice(1))}:</strong> {displayVal}</p>
                 ) : null;
               })}
+              </div>
             </div>
-            {item.location && (
+            {shouldShowNavigate && (
               <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className="maps-btn slide-in-btn">
                 <i className="ti ti-map-2"></i> <span className="btn-text">Navigate on Maps</span>
               </a>
