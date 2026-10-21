@@ -628,7 +628,7 @@ export default function App() {
         )}
 
         {activeModule === 'dept_dashboard' && (userRole === 'dept_admin' || userRole === 'admin') && (
-          <DepartmentDashboard loggedStudent={loggedStudent} />
+          <DepartmentDashboard loggedStudent={loggedStudent} userRole={userRole} />
         )}
 
         {activeModule === 'queries' && (userRole === 'student' || userRole === 'dept_admin') && (
