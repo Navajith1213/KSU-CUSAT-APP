@@ -340,7 +340,13 @@ export default function App() {
           />
         )}
         {activeModule === 'join_ksu' && <JoinKSUForm setActiveModule={setActiveModule} />}
-        {activeModule === 'academic_resources' && <AcademicResources userRole={userRole} setShowAuthModal={setShowAuthModal} />}
+        {activeModule === 'academic_resources' && (
+          <AcademicResources 
+            userRole={userRole} 
+            setShowAuthModal={setShowAuthModal} 
+            loggedStudent={loggedStudent} 
+          />
+        )}
         {activeModule === 'contacts' && <ContactList contacts={contacts} />}
 
         {activeModule === 'calendar' && (

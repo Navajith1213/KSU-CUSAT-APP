@@ -73,7 +73,7 @@ function AutoScrollText({ text, speed = 40, style, className }) {
 
 
 
-export default function AcademicResources({ userRole, setShowAuthModal }) {
+export default function AcademicResources({ userRole, setShowAuthModal, loggedStudent }) {
   const [resources, setResources] = useState([]);
   const [departments, setDepartments] = useState([]);
   
@@ -82,10 +82,53 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
   const [activeCourse, setActiveCourse] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   
+  // Department Selector Modal State
+  const [isDeptModalOpen, setIsDeptModalOpen] = useState(false);
+  const [deptSearchQuery, setDeptSearchQuery] = useState('');
+  const [selectedFacultyFilter, setSelectedFacultyFilter] = useState('all');
+
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [activeFolderSubject, setActiveFolderSubject] = useState(null);
   const [folderSearchQuery, setFolderSearchQuery] = useState('');
+
+  // Faculty and Cluster Grouping metadata
+  const FACULTY_FILTERS = [
+    { id: 'all', label: 'All Schools', icon: 'ti-apps' },
+    { id: 'marine', label: 'Marine Sciences', icon: 'ti-droplet' },
+    { id: 'law', label: 'Law & Legal Studies', icon: 'ti-scale' },
+    { id: 'engineering', label: 'Engineering & Tech', icon: 'ti-cpu' },
+    { id: 'management', label: 'Management & Economics', icon: 'ti-briefcase' },
+    { id: 'science', label: 'Basic Sciences', icon: 'ti-atom' },
+    { id: 'centres', label: 'Centres & Interdisciplinary', icon: 'ti-building-bank' }
+  ];
+
+  const getFacultyMeta = (deptName) => {
+    const n = (deptName || '').toLowerCase();
+    if (n.includes('ocean') || n.includes('marine') || n.includes('atmospher') || n.includes('aquatic') || n.includes('fisher')) {
+      return { id: 'marine', label: 'Marine Sciences', icon: 'ti-droplet', color: '#0284c7', bg: 'rgba(2, 132, 199, 0.12)' };
+    }
+    if (n.includes('legal') || n.includes('law')) {
+      return { id: 'law', label: 'Law & Legal Studies', icon: 'ti-scale', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.12)' };
+    }
+    if (n.includes('engineer') || n.includes('soe') || n.includes('cucek') || n.includes('ship') || n.includes('polymer')) {
+      return { id: 'engineering', label: 'Engineering & Tech', icon: 'ti-cpu', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.12)' };
+    }
+    if (n.includes('management') || n.includes('sms') || n.includes('economic') || n.includes('commerce')) {
+      return { id: 'management', label: 'Management & Economics', icon: 'ti-briefcase', color: '#10b981', bg: 'rgba(16, 185, 129, 0.12)' };
+    }
+    if (n.includes('physics') || n.includes('chemistry') || n.includes('math') || n.includes('statistic') || n.includes('biotech')) {
+      return { id: 'science', label: 'Basic Sciences', icon: 'ti-atom', color: '#ec4899', bg: 'rgba(236, 72, 153, 0.12)' };
+    }
+    return { id: 'centres', label: 'Centres & Interdisciplinary', icon: 'ti-building-bank', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.12)' };
+  };
+
+  const isMatchingStudentDept = (deptName, studentDept) => {
+    if (!deptName || !studentDept) return false;
+    const d1 = deptName.trim().toLowerCase();
+    const d2 = studentDept.trim().toLowerCase();
+    return d1 === d2 || d1.includes(d2) || d2.includes(d1);
+  };
 
   const fetchResources = async () => {
     try {
@@ -96,12 +139,36 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
 
       if (error) throw error;
       
-      setResources(data || []);
+      const cleaned = (data || []).map(r => ({
+        ...r,
+        department: (r.department || 'General').trim()
+      }));
+      setResources(cleaned);
       
-      const deps = [...new Set((data || []).map(r => r.department))].sort();
+      const deps = [...new Set(cleaned.map(r => r.department))].filter(Boolean).sort();
       setDepartments(deps);
       
-      if (deps.length > 0) setActiveDepartment(deps[0]);
+      // Auto-detect department:
+      let initialDept = '';
+      if (loggedStudent?.department) {
+        const found = deps.find(d => isMatchingStudentDept(d, loggedStudent.department));
+        if (found) initialDept = found;
+      }
+      
+      if (!initialDept) {
+        const saved = localStorage.getItem('preferred_academic_dept');
+        if (saved && deps.includes(saved)) {
+          initialDept = saved;
+        }
+      }
+      
+      if (!initialDept && deps.length > 0) {
+        initialDept = deps[0];
+      }
+      
+      if (initialDept) {
+        setActiveDepartment(initialDept);
+      }
     } catch (error) {
       console.error('Error fetching academic resources:', error.message);
     } finally {
@@ -113,7 +180,7 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     if (userRole !== 'user') {
       fetchResources();
     }
-  }, [userRole]);
+  }, [userRole, loggedStudent?.department]);
 
   // Derived State for Drill Down
   const deptResources = resources.filter(r => r.department === activeDepartment);
@@ -128,9 +195,9 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     }
   }, [activeDepartment, courses]);
 
-  // Lock body scroll when popup is active
+  // Lock body scroll when popup/modal is active
   useEffect(() => {
-    if (selectedDocument || activeFolderSubject) {
+    if (selectedDocument || activeFolderSubject || isDeptModalOpen) {
       document.body.classList.add('modal-open');
     } else {
       document.body.classList.remove('modal-open');
@@ -138,7 +205,29 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, [selectedDocument, activeFolderSubject]);
+  }, [selectedDocument, activeFolderSubject, isDeptModalOpen]);
+
+  const handleSelectDepartment = (dep) => {
+    setActiveDepartment(dep);
+    localStorage.setItem('preferred_academic_dept', dep);
+    setIsDeptModalOpen(false);
+    setDeptSearchQuery('');
+  };
+
+  // Precomputed stats per department
+  const deptStats = React.useMemo(() => {
+    const stats = {};
+    departments.forEach(dep => {
+      const depItems = resources.filter(r => r.department === dep);
+      const uniqueCourses = [...new Set(depItems.map(r => r.course || 'General'))];
+      stats[dep] = {
+        totalFiles: depItems.length,
+        coursesCount: uniqueCourses.length,
+        courses: uniqueCourses
+      };
+    });
+    return stats;
+  }, [departments, resources]);
 
 
   const containsQuery = (text, query) => (text || '').toLowerCase().includes(query.toLowerCase());
@@ -244,18 +333,203 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
-          {/* Level 1: Department Tabs */}
-          <div className="filter-bar" style={{ gap: '8px', overflowX: 'auto', flexWrap: 'nowrap', paddingBottom: '4px' }}>
-            {departments.map(dep => (
+          {/* Level 1: Enhanced Department Navigation & Breadcrumbs Bar */}
+          <div 
+            style={{ 
+              background: 'var(--bg-main)', 
+              borderRadius: '16px', 
+              padding: '16px 20px', 
+              border: '1px solid var(--border-color)',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}
+          >
+            {/* Top Row: Breadcrumbs & Auto-Detect Status */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '13px', color: 'var(--text-muted)', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <i className="ti ti-books"></i> Academics
+                </span>
+                <i className="ti ti-chevron-right" style={{ fontSize: '12px', color: 'var(--text-muted)' }}></i>
+                
+                {/* Faculty Tag */}
+                <span 
+                  style={{ 
+                    fontSize: '11px', 
+                    fontWeight: '700', 
+                    textTransform: 'uppercase', 
+                    letterSpacing: '0.5px',
+                    color: getFacultyMeta(activeDepartment).color, 
+                    background: getFacultyMeta(activeDepartment).bg, 
+                    padding: '3px 8px', 
+                    borderRadius: '6px',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <i className={`ti ${getFacultyMeta(activeDepartment).icon}`}></i>
+                  {getFacultyMeta(activeDepartment).label}
+                </span>
+
+                <i className="ti ti-chevron-right" style={{ fontSize: '12px', color: 'var(--text-muted)' }}></i>
+
+                {/* Active Department Name */}
+                <button
+                  type="button"
+                  onClick={() => setIsDeptModalOpen(true)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    margin: 0,
+                    fontSize: '14px',
+                    fontWeight: '700',
+                    color: 'var(--text-primary)',
+                    cursor: 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    textDecoration: 'underline',
+                    textDecorationColor: 'transparent',
+                    transition: 'text-decoration-color 0.2s'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.textDecorationColor = 'var(--text-primary)'}
+                  onMouseOut={(e) => e.currentTarget.style.textDecorationColor = 'transparent'}
+                  title="Click to change department"
+                >
+                  {activeDepartment}
+                  <i className="ti ti-chevron-down" style={{ fontSize: '12px', color: 'var(--text-muted)' }}></i>
+                </button>
+
+                {activeCourse && (
+                  <>
+                    <i className="ti ti-chevron-right" style={{ fontSize: '12px', color: 'var(--text-muted)' }}></i>
+                    <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--primary-color)' }}>
+                      {activeCourse}
+                    </span>
+                  </>
+                )}
+              </div>
+
+              {/* Status Badges & Quick Action */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {isMatchingStudentDept(activeDepartment, loggedStudent?.department) && (
+                  <span 
+                    style={{ 
+                      fontSize: '12px', 
+                      color: '#10b981', 
+                      background: 'rgba(16, 185, 129, 0.12)', 
+                      padding: '4px 10px', 
+                      borderRadius: '12px',
+                      fontWeight: '600',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    <i className="ti ti-sparkles"></i> Your Department
+                  </span>
+                )}
+                
+                {loggedStudent?.department && !isMatchingStudentDept(activeDepartment, loggedStudent?.department) && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const userDept = departments.find(d => isMatchingStudentDept(d, loggedStudent.department));
+                      if (userDept) handleSelectDepartment(userDept);
+                    }}
+                    style={{
+                      fontSize: '12px',
+                      color: 'var(--primary-color)',
+                      background: 'var(--bg-hover)',
+                      border: '1px solid var(--border-color)',
+                      padding: '4px 10px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px'
+                    }}
+                  >
+                    <i className="ti ti-arrow-back-up"></i> My Dept
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom Row: Quick Dropdown & "Browse All / Search" Button */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ position: 'relative', flex: '1', minWidth: '220px' }}>
+                <select
+                  value={activeDepartment}
+                  onChange={(e) => handleSelectDepartment(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    borderRadius: '10px',
+                    border: '1px solid var(--border-color)',
+                    background: 'var(--bg-hover)',
+                    color: 'var(--text-primary)',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    outline: 'none'
+                  }}
+                >
+                  {FACULTY_FILTERS.filter(f => f.id !== 'all').map(faculty => {
+                    const deptsInFaculty = departments.filter(d => getFacultyMeta(d).id === faculty.id);
+                    if (deptsInFaculty.length === 0) return null;
+                    return (
+                      <optgroup key={faculty.id} label={faculty.label}>
+                        {deptsInFaculty.map(dept => (
+                          <option key={dept} value={dept}>
+                            {dept} {deptStats[dept]?.totalFiles ? `(${deptStats[dept].totalFiles} files)` : ''}
+                          </option>
+                        ))}
+                      </optgroup>
+                    );
+                  })}
+                </select>
+              </div>
+
+              {/* Browse All / Search Button */}
               <button
-                key={dep}
-                className={`admin-tab-btn ${activeDepartment === dep ? 'active' : ''}`}
-                onClick={() => setActiveDepartment(dep)}
-                style={{ borderRadius: '20px', padding: '8px 16px', whiteSpace: 'nowrap' }}
+                type="button"
+                className="btn-primary"
+                onClick={() => {
+                  setDeptSearchQuery('');
+                  setSelectedFacultyFilter('all');
+                  setIsDeptModalOpen(true);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 18px',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  whiteSpace: 'nowrap'
+                }}
               >
-                {dep}
+                <i className="ti ti-search"></i>
+                Browse Departments
+                <span 
+                  style={{ 
+                    background: 'rgba(255,255,255,0.25)', 
+                    padding: '2px 8px', 
+                    borderRadius: '10px', 
+                    fontSize: '11px',
+                    fontWeight: '700' 
+                  }}
+                >
+                  {departments.length}
+                </span>
               </button>
-            ))}
+            </div>
           </div>
 
           <div className="card">
@@ -319,54 +593,6 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
                 
-                {/* Level 3A: Syllabuses (Special Highlighted Section) */}
-                {syllabusData && (
-                  <div className="syllabus-group" style={{ background: 'var(--primary-glow)', padding: '24px', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: '0 4px 20px var(--shadow-color)' }}>
-                    <h3 style={{ fontSize: '20px', color: 'var(--primary-color)', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <i className="ti ti-book"></i> Course Syllabuses
-                    </h3>
-                    <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
-                      {Object.keys(syllabusData).sort((a,b) => b.localeCompare(a)).map(adYear => (
-                        <div key={adYear} className="item-card" style={{ padding: '16px', background: 'var(--bg-main)' }}>
-                          <h4 style={{ fontSize: '16px', marginBottom: '12px', color: 'var(--text-primary)' }}>{adYear}</h4>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            {syllabusData[adYear].map(file => (
-                              <button 
-                                key={file.id}
-                                onClick={() => setSelectedDocument(file)}
-                                className="scroll-container-hover-trigger"
-                                style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-between',
-                                  width: '100%',
-                                  padding: '10px 14px',
-                                  background: 'var(--bg-hover)',
-                                  border: '1px solid var(--border-color)',
-                                  borderRadius: '8px',
-                                  cursor: 'pointer',
-                                  transition: 'all 0.2s',
-                                  textAlign: 'left'
-                                }}
-                                onMouseOver={(e) => Object.assign(e.currentTarget.style, { borderColor: getResourceColor('Syllabus'), transform: 'translateX(4px)' })}
-                                onMouseOut={(e) => Object.assign(e.currentTarget.style, { borderColor: 'var(--border-color)', transform: 'translateX(0)' })}
-                              >
-                                <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, minWidth: 0 }}>
-                                  <i className="ti ti-file-text" style={{ color: getResourceColor('Syllabus'), fontSize: '18px', flexShrink: 0 }}></i>
-                                  <AutoScrollText 
-                                    text={file.topic && file.topic.toLowerCase() !== file.resource_type.toLowerCase() ? file.topic : `View ${file.resource_type}`}
-                                    style={{ fontSize: '14px', color: 'var(--text-primary)', fontWeight: '600' }}
-                                  />
-                                </span>
-                                <i className="ti ti-external-link" style={{ color: 'var(--text-muted)', flexShrink: 0, marginLeft: '8px' }}></i>
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
 
                 {/* Level 3A: Syllabuses (Special Highlighted Section) */}
                 {syllabusData && (
@@ -731,6 +957,281 @@ export default function AcademicResources({ userRole, setShowAuthModal }) {
           </div>
         );
       })()}
+
+      {/* Searchable Department Directory Modal */}
+      {isDeptModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsDeptModalOpen(false)}>
+          <div 
+            className="modal-content" 
+            onClick={(e) => e.stopPropagation()}
+            style={{ 
+              maxWidth: '750px', 
+              width: '94%', 
+              maxHeight: '85vh', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              borderRadius: '20px', 
+              padding: '24px' 
+            }}
+          >
+            {/* Header */}
+            <div className="modal-header" style={{ marginBottom: '16px' }}>
+              <div>
+                <h2 style={{ fontSize: '20px', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <i className="ti ti-building-bank" style={{ color: 'var(--primary-color)' }}></i>
+                  Select Department
+                </h2>
+                <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: 'var(--text-muted)' }}>
+                  Browse course materials across all {departments.length} schools and departments
+                </p>
+              </div>
+              <button className="close-btn" onClick={() => setIsDeptModalOpen(false)}>&times;</button>
+            </div>
+
+            {/* Department Search Bar */}
+            <div style={{ position: 'relative', marginBottom: '14px' }}>
+              <i 
+                className="ti ti-search" 
+                style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', fontSize: '18px' }}
+              ></i>
+              <input
+                type="text"
+                placeholder="Search department (e.g. Legal, Ocean, SLS, Science)..."
+                value={deptSearchQuery}
+                onChange={(e) => setDeptSearchQuery(e.target.value)}
+                autoFocus
+                style={{
+                  width: '100%',
+                  padding: '12px 14px 12px 42px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--border-color)',
+                  backgroundColor: 'var(--bg-main)',
+                  color: 'var(--text-primary)',
+                  fontSize: '15px',
+                  outline: 'none'
+                }}
+              />
+              {deptSearchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setDeptSearchQuery('')}
+                  style={{
+                    position: 'absolute',
+                    right: '12px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--text-muted)',
+                    cursor: 'pointer',
+                    fontSize: '16px'
+                  }}
+                >
+                  <i className="ti ti-x"></i>
+                </button>
+              )}
+            </div>
+
+            {/* Faculty Filter Pills */}
+            <div 
+              style={{ 
+                display: 'flex', 
+                gap: '6px', 
+                overflowX: 'auto', 
+                paddingBottom: '8px', 
+                marginBottom: '16px',
+                flexShrink: 0 
+              }}
+            >
+              {FACULTY_FILTERS.map(f => {
+                const count = f.id === 'all' 
+                  ? departments.length 
+                  : departments.filter(d => getFacultyMeta(d).id === f.id).length;
+                if (f.id !== 'all' && count === 0) return null;
+                const isActive = selectedFacultyFilter === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setSelectedFacultyFilter(f.id)}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '20px',
+                      border: '1px solid',
+                      borderColor: isActive ? 'var(--primary-color)' : 'var(--border-color)',
+                      background: isActive ? 'var(--primary-color)' : 'var(--bg-hover)',
+                      color: isActive ? '#fff' : 'var(--text-primary)',
+                      fontSize: '12px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '5px'
+                    }}
+                  >
+                    <i className={`ti ${f.icon}`}></i>
+                    {f.label} ({count})
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Department Grid List */}
+            <div 
+              style={{ 
+                flex: 1, 
+                overflowY: 'auto', 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
+                gap: '12px', 
+                paddingRight: '4px' 
+              }}
+            >
+              {(() => {
+                const filteredDepts = departments.filter(dep => {
+                  const meta = getFacultyMeta(dep);
+                  if (selectedFacultyFilter !== 'all' && meta.id !== selectedFacultyFilter) return false;
+                  if (deptSearchQuery) {
+                    const q = deptSearchQuery.toLowerCase();
+                    const matchesName = dep.toLowerCase().includes(q);
+                    const matchesFaculty = meta.label.toLowerCase().includes(q);
+                    const matchesCourses = (deptStats[dep]?.courses || []).some(c => c.toLowerCase().includes(q));
+                    if (!matchesName && !matchesFaculty && !matchesCourses) return false;
+                  }
+                  return true;
+                });
+
+                if (filteredDepts.length === 0) {
+                  return (
+                    <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '40px 20px' }}>
+                      <i className="ti ti-search-off" style={{ fontSize: '40px', color: 'var(--text-muted)', marginBottom: '8px' }}></i>
+                      <p style={{ color: 'var(--text-muted)', margin: 0 }}>No departments found matching "{deptSearchQuery}".</p>
+                    </div>
+                  );
+                }
+
+                return filteredDepts.map(dep => {
+                  const meta = getFacultyMeta(dep);
+                  const stats = deptStats[dep] || { totalFiles: 0, coursesCount: 0 };
+                  const isCurrent = activeDepartment === dep;
+                  const isMyDept = isMatchingStudentDept(dep, loggedStudent?.department);
+
+                  return (
+                    <div
+                      key={dep}
+                      onClick={() => handleSelectDepartment(dep)}
+                      style={{
+                        padding: '16px',
+                        borderRadius: '14px',
+                        border: '1.5px solid',
+                        borderColor: isCurrent ? 'var(--primary-color)' : 'var(--border-color)',
+                        background: isCurrent ? 'var(--primary-glow)' : 'var(--bg-main)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        gap: '12px',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isCurrent ? '0 4px 14px var(--shadow-color)' : '0 2px 6px rgba(0,0,0,0.02)'
+                      }}
+                      onMouseOver={(e) => {
+                        if (!isCurrent) {
+                          e.currentTarget.style.borderColor = meta.color;
+                          e.currentTarget.style.transform = 'translateY(-2px)';
+                        }
+                      }}
+                      onMouseOut={(e) => {
+                        if (!isCurrent) {
+                          e.currentTarget.style.borderColor = 'var(--border-color)';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }
+                      }}
+                    >
+                      {/* Top Tag & Badges */}
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px' }}>
+                        <span 
+                          style={{ 
+                            fontSize: '11px', 
+                            fontWeight: '700', 
+                            color: meta.color, 
+                            background: meta.bg, 
+                            padding: '3px 8px', 
+                            borderRadius: '6px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}
+                        >
+                          <i className={`ti ${meta.icon}`}></i>
+                          {meta.label}
+                        </span>
+
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          {isMyDept && (
+                            <span 
+                              style={{ 
+                                fontSize: '11px', 
+                                color: '#10b981', 
+                                background: 'rgba(16, 185, 129, 0.12)', 
+                                padding: '2px 6px', 
+                                borderRadius: '6px',
+                                fontWeight: '700'
+                              }}
+                              title="Your registered department"
+                            >
+                              ⭐ My Dept
+                            </span>
+                          )}
+                          {isCurrent && (
+                            <span 
+                              style={{ 
+                                fontSize: '11px', 
+                                color: '#fff', 
+                                background: 'var(--primary-color)', 
+                                padding: '2px 6px', 
+                                borderRadius: '6px',
+                                fontWeight: '700'
+                              }}
+                            >
+                              ✓ Selected
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Department Title */}
+                      <h4 
+                        style={{ 
+                          fontSize: '14.5px', 
+                          fontWeight: '700', 
+                          margin: 0, 
+                          color: 'var(--text-primary)',
+                          lineHeight: '1.4'
+                        }}
+                      >
+                        {dep}
+                      </h4>
+
+                      {/* Footer: Stats */}
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', color: 'var(--text-muted)', borderTop: '1px solid var(--border-color)', paddingTop: '8px' }}>
+                        <span>
+                          <i className="ti ti-file-text" style={{ marginRight: '4px' }}></i>
+                          {stats.totalFiles} files
+                        </span>
+                        <span>
+                          <i className="ti ti-certificate" style={{ marginRight: '4px' }}></i>
+                          {stats.coursesCount} course{stats.coursesCount === 1 ? '' : 's'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
